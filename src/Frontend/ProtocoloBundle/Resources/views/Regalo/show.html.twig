@@ -1,0 +1,40 @@
+{% extends '::protocolo.html.twig' %}
+
+{% block title %}Protocolo{% endblock %}
+
+{% block titulo %}
+    REGALO CORPORATIVO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">Protocolo</li>
+</ol>
+{% endblock %}
+
+{% block body %}
+{{parent()}}
+<div class="formShow">
+        <div class="contenedorform">
+            <div class="labelform">Fecha:</div>
+                <div class="widgetform">{{ entity.fecha |date('d-m-Y')}}</div>
+            </div>
+        <div class="contenedorform">
+            <div class="labelform">Nro Regalos:</div>
+                <div class="widgetform">{{ entity.nroRegalos }}</div>
+            </div>
+        <div class="contenedorform">
+            <div class="labelform">Tipo de Regalo:</div>
+                <div class="widgetform">{{ entity.tipoRegalo}}</div>
+            </div>
+        <div class="contenedorform">
+            <div class="labelform">Dirigido:</div>
+             <div class="widgetform">{{ entity.dirigido }}</div>
+            </div>
+    </div>
+       <a class="btn btn-default" href="{{ path('regalo') }}">VOLVER A LA LISTA</a> 
+       |
+       <a class="btn btn-primary" href="{{ path('regalo_edit', { 'id': entity.id }) }}">EDITAR</a>
+        <br><br>
+{% endblock %}

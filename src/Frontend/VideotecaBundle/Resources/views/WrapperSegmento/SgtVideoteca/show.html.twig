@@ -1,0 +1,227 @@
+{% extends 'VideotecaBundle:WrapperSegmento:Segmento/show.html.twig' %}
+
+{% block tituloSegmento %}VIDEOTECA{% endblock %}
+
+{% block dataSegmento %}
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+             <!-- tabs left -->
+            <div class="tabbable">
+                <ul class="nav nav-pills nav-stacked col-md-2">
+                    <li class="active"><a href="#basicos" data-toggle="tab">Datos Basicos</a></li>
+                    <li><a href="#origen" data-toggle="tab">Origen Material</a></li>
+                    <li><a href="#evaluacion" data-toggle="tab">Evaluacion Material</a></li>
+                </ul>
+                <div class="tab-content col-md-10">
+                    <div class="tab-pane active" id="basicos">
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Titulo:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.titulo }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Titulo Original:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.tituloOriginal }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Titulo Alterno:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.tituloAlterno }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Sinopsis:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <p>{{ segmento.sinopsis }}</p>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Duracion:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.duracion|date('h:m:s') }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Inicio:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.inicio|date('h:m:s') }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Fin:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.fin|date('h:m:s') }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Observaciones:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <p>{{ segmento.observaciones }}</p>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Pais:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.pais }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Idioma:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.idioma.nombre }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Fecha Evento:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.fechaEvento|date('d/m/Y') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="origen">
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Pais Productor:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.paisProductor }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Año Realizado:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.anioRealizado }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Productor:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.productor }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Director:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.director }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Proveedor:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.proveedor }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Autoridad:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.autoridad }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="evaluacion">
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Fecha Ingreso:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.fechaIngreso|date('d/m/Y') }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>genero:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.genero }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>franja:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <p>{{ segmento.franja }}</p>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>norma:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.norma }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>clasificacion:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.clasificacion }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>elemento:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.elemento }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>tqc:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.tqc }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>evaluador:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <p>{{ segmento.evaluador }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /tabs -->
+        </div>
+    </div>
+{% endblock %}

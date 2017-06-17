@@ -1,0 +1,253 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block title %} Consultar Empleado Telesur {% endblock %}
+
+{% block titulo %}
+    <h3>Datos del Empleado</h3>
+{% endblock %}
+
+{% block ubicacion %}
+        <ol class="breadcrumb">
+            <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+            <li><a href="{{ path('equipoexterno_search_empleado') }}">BUSCAR EMPLEADO</a></li>
+            <li class="active">CONSULTAR EMPLEADO</li>
+        </ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+
+<div class="formShow" >
+    <div class="row">
+        <div class="col-md-12">
+                <a href="#" class="pull-right" data-toggle="modal" data-target="#myModalEquipos"><span class="glyphicon glyphicon-list-alt"></span></a>
+                <div class="contenedorform">
+                    <div class="labelform">NOMBRES:</div>
+                    <div class="widgetform">{{ entity.primerNombre|upper }} {{ entity.segundoNombre | upper }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="labelform">APELLIDOS:</div>
+                    <div class="widgetform">{{ entity.primerApellido | upper }} {{ entity.segundoApellido | upper }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="labelform">CEDULA:</div>
+                    <div class="widgetform">{{ entity.cedula }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="labelform">UNIDAD:</div>
+                    <div class="widgetform">{{ entity.nivelorganizacional | upper }}</div>
+                </div>
+        </div>
+
+    </div>
+        <div class="row">
+
+            <table class="table table-striped table-bordered table-condensed table-responsive" style="max-width: 800px;margin-top:10px;">
+                        <tbody>
+                            <td>
+                    {% if equipos is not empty %}
+                            <table class="table table-striped table-bordered table-condensed" id="list_equipos_visita" style="max-width: 800px;margin-bottom:0;">
+                            <thead>
+                                <tr>
+                                    <th colspan="6" style="text-align: center;">Registros de Equipos</th>
+                                </tr>
+                                <tr>
+                                    <th>Descripción</th>
+                                    <th>Serial</th>
+                                    <th>Marca</th>
+                                    <th>Ubicación</th>
+                                    <th>Fecha/Hora Entrada</th>
+                                    <th>Fecha/Hora Salida</th>
+                                    {#<th>Opciones</th>#}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    {% for equipo in equipos %}
+                                        <tr>
+
+                                            <td>{{ equipo.equipo.descripcionEquipo }}</td>
+                                            <td>{{ equipo.equipo.serial }}</td>
+                                            <td>{{ equipo.equipo.equipoMarca }}</td>
+                                            <td>{{ equipo.dependencia }}</td>
+                                            <td>{{ equipo.fechaEntrada|date('d/m/Y H:i:s') }}</td>
+                                            <td>
+                                                {% if equipo.fechaSalida is not null %}
+                                                    {{ equipo.fechaSalida|date('d/m/Y H:i:s') }}
+                                                {% endif %}
+                                            </td>
+                                            {#<td>
+                                                <center>
+                                                    <a onclick="return confirm('Va a registrar la salida de este Equipo, ¿Desea continuar?')" class="btn btn-info" href="{{ path('registroexterno_salida', { 'id': equipo.id,'propietario':entity.id,'visita':0 }) }}">
+                                                    <span class="glyphicon glyphicon-log-out"></span></a>
+                                                </center>
+                                            </td>#}
+                                        </tr>
+                                    {% endfor %}
+                            </tbody>
+                            </table>
+            {% else %}
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-condensed" style="margin-bottom:0;">
+                    <thead>
+                        <tr>
+                            <th colspan="6" style="text-align: center;">Registros de Equipos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="alert alert-info" id="list_equipovacia" style="margin-bottom:0;"><center>Ningun Registro de Equipo.</center></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+                                        </td>
+                                    </tr>
+
+                        </tbody>
+                        </table>
+
+            <br>
+            <button class="btn btn-primary registroequipoexterno" id="entrada" data-toggle="modal" data-target="#myModalEquipo">
+                    <span class="glyphicon glyphicon-log-in"></span> Registrar Entrada de Equipo
+                </button> |
+                <button class="btn btn-danger registroequipoexterno" id="salida" data-toggle="modal" data-target="#myModalEquipo">
+                    <span class="glyphicon glyphicon-log-out"></span> Registrar Salida de Equipo
+                </button>
+        </div>
+      </div>
+        <a class="btn btn-default" href="{{ path('equipoexterno_search_empleado') }}">
+            IR A LA BÚSQUEDA
+        </a>
+            <br><br>
+
+            <div class="modal fade" id="myModalEquipos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="width: 1000px;">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                  <h4 class="modal-title" id="myModalLabel">EQUIPOS REGISTRADOS</h4>
+                </div>
+                <div class="modal-body">
+                      <table class="table table-bordered table-condensed">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Descripción</th>
+                            <th>Marca</th>
+                            <th>Serial</th>
+                            <th>Registros</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% if yourequipos is not empty %}
+                          {% for equipo in yourequipos %}
+                            <tr>
+                              <th scope="row"><a href="{{ path('equipoexterno_show', { 'id': equipo.id }) }}" target="_blank">{{ equipo.id }}</a></th>
+                              <td>{{ equipo.descripcionEquipo }}</td>
+                              <td>{{ equipo.equipoMarca }}</td>
+                              <td>{{ equipo.serial }}</td>
+                              <td><center><a href="{{ path('equipoexterno_rastreo', { 'id': equipo.id }) }}" target="_blank"><span class="glyphicon glyphicon-eye-open"></span></a></center></td>
+                            </tr>
+                          {% endfor %}
+                        {% else %}
+                            <tr>
+                              <td colspan="5"><center>Ningún Equipo Registrado.</center></td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                      </table>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">CERRAR</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      <div class="modal fade" id="myModalEquipo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="width: 1000px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+            <h4 class="modal-title" id="myModalLabel">REGISTRAR ENTRADA/SALIDA DE EQUIPO</h4>
+          </div>
+          <div class="modal-body">
+                <form action="{{ path('equipoexterno_new', { 'id': entity.id,'tipo':1 }) }}" method="post" class="form-inline" id="buscar_equipoexterno">
+                    <input type="text" class="form-control input-large" name="codigoBarra" id="codigoBarra" autocomplete="off" placeholder="Codigo Barra del Equipo" autofocus />
+                    <input type="hidden" name="propietario" id="propietario" value="{{ entity.id }}">
+                    <input type="hidden" name="tipo" id="tipo" value="1">
+                    <input class="btn btn-primary" type="submit" value="BUSCAR">
+                </form>
+                <div id="resultado_equipoexterno"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">CERRAR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+        $(function(){
+            $('#myModalEquipo').on('hidden.bs.modal', function () {
+                 $('#resultado_equipoexterno').html('');
+                //window.alert('hidden event fired!');
+        });
+
+        $('#myModalEquipo').on('shown.bs.modal', function () {
+            $('#codigoBarra').focus();
+        });
+        $(".registroequipoexterno").click(function(){
+            var selector = $(this).attr("id");
+                if (selector == "salida"){
+                    var $attr = $("#buscar_equipoexterno").attr("action",'{{ path("equipoexterno_salida", { 'id': entity.id,'tipo':1 }) }}');
+                } else {
+                    var $attr = $("#buscar_equipoexterno").attr("action",'{{ path("equipoexterno_new", { 'id': entity.id,'tipo':1 }) }}');
+                }
+            });
+            //evento al hacer clic en el boton agregar
+            $('#buscar_equipoexterno').on('submit',function(e){
+                // Aqui hago la peticion ajax, captura los datos y verifico en base de datos
+                e.preventDefault();
+                //obtenemos el nombre digitado por el usuario
+                //con la funcion parseInt() convertimos de texto a numero
+                var $codigoBarra=$('#codigoBarra'),$propietario=$('#propietario'),$tipo=$('#tipo');
+                if($.trim($codigoBarra.val())!==''){
+                        $.ajax({
+                            type: 'POST',
+                            url: $(this).attr('action'),
+                            data: { codigoBarra: $codigoBarra.val(),propietario: $propietario.val(),tipo:$tipo.val() },
+                            dataType: 'html',
+                            success: function(response) {
+                                $('#resultado_equipoexterno').html(response);
+                                $codigoBarra.val('').focus();
+                            },
+                            complete: function(response) {
+                                $('input[type=submit]').removeAttr('disabled');
+                                $('button[type=submit]').removeAttr('disabled');
+                            }
+                        });
+                } else {
+			               alert('Por favor, digite el código del equipo que desea buscar.');
+                     $('input[type=submit]').removeAttr('disabled');
+                     $('button[type=submit]').removeAttr('disabled');
+		            }
+                return false;
+
+            });
+
+            //al presionar <ENTER> sobre el campo txtNombre llamamos al boton (usabilidad otra vez)
+            /*$('#codigoBarra').on('keypress',function(eEvento){
+                  if(eEvento.which===13) $('#buscar_equipoexterno').trigger('submit');
+            });*/
+
+            $('#add_equipoexterno').on('click',function() {
+                $('#codigoBarra').focus();
+            });
+
+         });
+    </script>
+
+{% endblock %}

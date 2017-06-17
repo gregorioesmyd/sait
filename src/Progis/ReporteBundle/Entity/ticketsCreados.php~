@@ -1,0 +1,67 @@
+<?php
+
+namespace Progis\ReporteBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Objetivo
+ *
+ * @ORM\Table(name="progis.objetivo")
+ * @ORM\Entity
+ */
+class ticketsCreados
+{
+    
+     /**
+     * @var \Frontend\ProyectoBundle\Entity\Actividad
+     *
+     * @ORM\ManyToOne(targetEntity="Administracion\UsuarioBundle\Entity\Perfil")
+     * @Assert\NotBlank(message="Debe seleccionar un usuario.")
+     */
+    private $usuario;
+    
+    /**
+     * @Assert\NotBlank(message="La fecha de inicio estimada no puede estar en blanco.")
+  
+     * @var integer
+     * @ORM\Column(name="estsatus", type="integer", nullable=false)
+     */
+    private $desde;
+    
+    /**
+     * @Assert\NotBlank(message="La fecha de inicio estimada no puede estar en blanco.")
+
+     * @var integer
+     * @ORM\Column(name="estatus", type="integer", nullable=false)
+     */
+    private $hasta;
+
+
+    
+    
+
+    /**
+     * Set usuario
+     *
+     * @param \Administracion\UsuarioBundle\Entity\Perfil $usuario
+     * @return ticketsCreados
+     */
+    public function setUsuario(\Administracion\UsuarioBundle\Entity\Perfil $usuario = null)
+    {
+        $this->usuario = $usuario;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return \Administracion\UsuarioBundle\Entity\Perfil 
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
+}

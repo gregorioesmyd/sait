@@ -1,0 +1,296 @@
+{% extends '::estudioCabina.html.twig' %}
+{% block ubicacion %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('estudio_cabina_homepage',{'tipo':tipo}) }}">CALENDARIO</a></li>
+        <li class="active">SOLICITUD DE {% if tipo==1 %}ESTUDIO{% elseif tipo == 2 %}CABINA{% else %}SALA{% endif %}</li>
+    </ol>
+{% endblock %}
+{% block menu %}
+    {% include 'EstudioCabinaBundle:Default:includes/menu.html.twig' %}
+{% endblock %}
+
+{% block title %}Consultar Solicitud{% endblock %}
+
+{% block titulo %}
+    CONSULTA DE SOLICITUD
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('libs/calendar/css/estiloreservaciones.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+{% block body -%}
+    {{ parent() }}
+
+    <div class="formShow">
+        <div class="contenedorform">
+            <div class="labelform">Reservaci&oacute;n:</div>
+            <div class="widgetform">{{ entity.estudioCabina }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Responsable:</div>
+            <div class="widgetform">{% for p in perfil %}{{ p.primerApellido | capitalize }} {{ p.primerNombre | capitalize}}{% endfor %}</div>
+        </div>
+
+        <div class="contenedorform">
+            <div class="labelform">Dependencia:</div>
+            <div class="widgetform">{% for p in perfil %}{% if p.nivelorganizacional!=null %}
+                {{ p.nivelorganizacional.descripcion }}
+                {% endif %}{% endfor %}</div>
+                </div>
+
+                <div class="contenedorform">
+                    <div class="labelform">Extensi&oacute;n:</div>
+                    <div class="widgetform">{% for p in perfil %}{{ p.Extension}}{% endfor %}</div>
+                </div>
+
+                <div class="contenedorform">
+                    <div class="labelform">Pauta:</div>
+                    <div class="widgetform">{{ entity.pauta }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="labelform">Fecha estimada:</div>
+                    <div class="widgetform">{{ entity.fecha |date('d-m-Y')}}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="labelform">Hora programada:</div>
+                    <div class="widgetform">Inicio: {{ entity.horaInicio|date('H:i:s')  }}   |   Fin: {{ entity.horaFin|date('H:i:s')  }}</div>
+                </div>
+                {% if tipo == 3 %}
+                    <div class="contenedorform">
+                        <div class="labelform">N&uacute;mero de personas que asistir&aacute;:</div>
+                        <div class="widgetform">{{ entity.protocolo.nropersonas}}</div>
+                    </div>
+                    <div class="contenedorform">
+                        <div class="labelform">Refrigerio:</div>
+                        <div class="widgetform">{{ entity.protocolo.refrigerio}}</div>
+                    </div>
+                {% endif %}
+                {% if entity.observacion%}
+                    <div class="contenedorform">
+                        <div class="labelform">Observaci&oacute;n:</div>
+                        <div class="widgetform">{{ entity.observacion}}</div>
+                    </div>
+                {% endif %}
+                <div class="contenedorform">
+                    <div class="labelform">Estatus:</div> 
+                    <div class="widgetform">
+                        {% if entity.estatus==1 %}<span class="label label-warning"> En Espera</span>
+                        {% elseif entity.estatus==2 %}<span class="label label-success"> Aprobado</span>
+                        {% elseif entity.estatus==3 %} <span class="label label-danger">Rechazado</span>
+                        {% elseif entity.estatus==4 %}<span class="label label-default"> Culminado</span>
+                        {% elseif entity.estatus==5 %}<span class="label label-primary"> Caducado</span>
+                        {% endif %}
+                    </div><br> 
+                    {% if entity.estatus==3 %}
+                        <div class="contenedorform">
+                            <div class="labelform">Observaci&oacute;n:</div>
+                            <div class="widgetform">{{ entity.observacionEstatus }}</div>
+                        </div>
+                    {% endif %}
+                </div>
+                {% if entity.estatus==2 and entity.PostProductor%}
+                    <div class="contenedorform">
+                        <div class="labelform">Post-Productor:</div>
+                        <div class="widgetform">{{ entity.PostProductor}}</div>
+                    </div>
+                {% endif %}
+            </div> 
+{% if entity.estatus == 1%}
+    {% if tipo== 1 %}
+        {% if is_granted('ROLE_ESTUDIO_ADMIN')%}
+             <a onclick="return confirm('¿Esta seguro que desea Aprobar la solicitud?')" class="btn btn-success" href="{{ path('reservaciones_actualizarestatus',{'tipoestatus':1,'id':entity.id}) }}"><span class="glyphicon glyphicon-ok"></span> APROBAR SOLICITUD</a>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rechazo" data-whatever="@mdo"><span class="glyphicon glyphicon-ban-circle"></span> RECHAZAR SOLICITUD</button>
+            <div class="modal fade" id="rechazo">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title">Justifique su Rechazo</h4>
+                        </div>
+                        <div class="modal-body">
+                            <textarea id="observacion" name="observacion" required="required"class="form-control" rows="3"></textarea>
+                           </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                           <a onclick="return rechazar();" class="btn btn-danger" href="#"><span class="glyphicon glyphicon-ban-circle"></span> Rechazar y Guardar</a>
+                         </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+            <br><br>
+            <a class="btn btn-default" href="{{ path('reservaciones',{'tipo':tipo,'ubicacion':ubicacion}) }}">VOLVER A LA LISTA</a> 
+            <br><br>
+        {% else %} 
+            {% if ubicacion == 0%}
+               <a class="btn btn-default" href="{{ path('reservaciones_lista',{'tipo':tipo,'ubicacion':ubicacion}) }}">VOLVER A LA LISTA</a> 
+                <br><br>
+            {% else %}
+                <a class="btn btn-default" href="{{ path('protocolo_homepage') }}">
+                             VOLVER AL APLICATIVO PROTOCOLO
+                </a> <br><br>
+            {% endif %}
+            
+        {% endif %}
+    {% elseif tipo==2 %}
+        {% if is_granted('ROLE_CABINA_ADMIN')%}
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#aprobarCabina" data-whatever="@mdo"><span class="glyphicon glyphicon-ok"></span>APROBAR SOLICITUD</button>
+                <div class="modal fade" id="aprobarCabina">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title">Asignar Post-Productor</h4>
+                            </div>
+                            <div class="modal-body">
+                                <select id="postproductor" name="postproductor" required="required" class="chosen-select" style="width:220px;">
+                                  <option value="0"  selected="selected">Seleccione</option>
+                                    {% for p in postproductor %}
+                                      <option value="{{ p.id}}">{{ p.primerApellido | capitalize }} {{ p.primerNombre}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                               <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                               <a onclick="return aprobar();" class="btn btn-success" href="#"><span class="glyphicon glyphicon-ok"></span>APROBAR y Guardar</a>
+                             </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rechazo" data-whatever="@mdo"><span class="glyphicon glyphicon-ban-circle"></span> RECHAZAR SOLICITUD</button><br><br>
+                <div class="modal fade" id="rechazo">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title">Justifique su Rechazo</h4>
+                            </div>
+                            <div class="modal-body">
+                                <textarea id="observacion" name="observacion" required="required"class="form-control" rows="3"></textarea>
+                               </div>
+                            <div class="modal-footer">
+                               <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                               <a onclick="return rechazar();" class="btn btn-danger" href="#"><span class="glyphicon glyphicon-ban-circle"></span> Rechazar y Guardar</a>
+                             </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div>
+            <a class="btn btn-default" href="{{ path('reservaciones',{'tipo':tipo,'ubicacion':ubicacion}) }}">VOLVER A LA LISTA</a> 
+            <br><br>
+        {% else %}
+            <a class="btn btn-default" href="{{ path('reservaciones_lista',{'tipo':tipo,'ubicacion':ubicacion}) }}">VOLVER A LA LISTA</a> 
+            <br><br>
+        {% endif %}
+    {% elseif tipo==3 %}
+        {% if is_granted('ROLE_SALA_ADMIN')%}
+             <a onclick="return confirm('¿Esta seguro que desea Aprobar la solicitud?')" class="btn btn-success" href="{{ path('reservaciones_actualizarestatus',{'tipoestatus':1,'id':entity.id}) }}"><span class="glyphicon glyphicon-ok"></span> APROBAR SOLICITUD</a>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rechazo" data-whatever="@mdo"><span class="glyphicon glyphicon-ban-circle"></span> RECHAZAR SOLICITUD</button><br><br>
+            <div class="modal fade" id="rechazo">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title">Justifique su Rechazo</h4>
+                        </div>
+                        <div class="modal-body">
+                            <textarea id="observacion" name="observacion" required="required"class="form-control" rows="3"></textarea>
+                           </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                           <a onclick="return rechazar();" class="btn btn-danger" href="#"><span class="glyphicon glyphicon-ban-circle"></span> Rechazar y Guardar</a>
+                         </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+            <a class="btn btn-default" href="{{ path('reservaciones',{'tipo':tipo,'ubicacion':ubicacion}) }}">VOLVER A LA LISTA</a> 
+            <br><br>
+        {% else %}
+            {% if ubicacion == 0%}
+                   <a class="btn btn-default" href="{{ path('reservaciones_lista',{'tipo':tipo,'ubicacion':ubicacion}) }}">VOLVER A LA LISTA</a> 
+                    <br><br>
+                {% else %}
+                    <a class="btn btn-default" href="{{ path('protocolo_homepage') }}">
+                                 VOLVER AL APLICATIVO PROTOCOLO
+                    </a> <br><br>
+                {% endif %}
+            {% endif %}
+    {% endif %}
+{% else %}
+    {% if is_granted('ROLE_ESTUDIO_ADMIN')%}
+        <a class="btn btn-default" href="{{ path('reservaciones',{'tipo':tipo,'ubicacion':ubicacion}) }}">VOLVER A LA LISTA</a> 
+        <br><br>
+    {% elseif is_granted('ROLE_CABINA_ADMIN')%}
+        <a class="btn btn-default" href="{{ path('reservaciones',{'tipo':tipo,'ubicacion':ubicacion}) }}">VOLVER A LA LISTA</a> 
+        <br><br>
+    {% elseif is_granted('ROLE_SALA_ADMIN')%}
+        <a class="btn btn-default" href="{{ path('reservaciones',{'tipo':tipo,'ubicacion':ubicacion}) }}">VOLVER A LA LISTA</a> 
+        <br><br>
+    {% else %}
+        <a class="btn btn-default" href="{{ path('reservaciones_lista',{'tipo':tipo,'ubicacion':ubicacion}) }}">VOLVER A LA LISTA</a>
+         <br><br>
+    {% endif %}
+{% endif %}
+ <script>
+        function rechazar() {
+
+            if (confirm('¿Esta seguro que desea Rechazar la solicitud?')) {
+                var observacion = $('#observacion').val();
+                if (observacion !='') {
+                    $.ajax({
+                        type: "POST",
+                        url: '{{ path('reservaciones_actualizarestatus',{'tipoestatus':2,'id':entity.id}) }}',
+                        data: {observacionEstatus: observacion},
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.valid == "si") {
+
+                                $(location).attr('href', '{{ path('reservaciones_show',{'id':entity.id,'ubicacion':ubicacion}) }}');
+                            }
+
+                        }
+                    });
+                } else {
+                    alert('Indique una observacion.');
+                }
+
+            }
+            return false;
+
+        }
+
+        $(document).ready(function () {
+            $(".chosen-select").chosen({
+                    no_results_text: 'No encontrado!',
+                     width: '220px'
+                });
+        });
+
+        function aprobar() {
+
+            if (confirm('¿Esta seguro que desea Aprobar la solicitud?')) {
+                    var postproductor = $('#postproductor').val();
+                if (postproductor != 0) {
+                    $.ajax({
+                        type: "POST",
+                        url: '{{ path('reservaciones_actualizarestatus',{'tipoestatus':1,'id':entity.id}) }}',
+                        data: {postProductor: postproductor},
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.valid == "si") {
+
+                                $(location).attr('href', '{{ path('reservaciones_show',{'id':entity.id,'ubicacion':ubicacion}) }}');
+                            }
+
+                        }
+                    });
+                } else {
+                    alert('Indique un post-productor.');
+                }
+
+            }
+            return false;
+
+        }
+    </script>
+{% endblock %}
+

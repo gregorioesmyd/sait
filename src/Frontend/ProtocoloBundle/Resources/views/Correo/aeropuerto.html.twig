@@ -1,0 +1,103 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css">
+          th{
+            text-align: right;
+            margin-right: 20px;
+          }
+
+          .solicitud{
+            text-align: justify;
+          }
+
+          table{
+            width: 600px;
+
+          }
+
+          table td{
+            padding: 10px;
+            border:1px solid gray;
+          }
+
+          table th{
+            border:1px solid gray;
+            background-color: #F8F8F8;
+            padding-right: 10px;
+            width: 40%;
+          }
+        </style>
+    </head>
+
+    <body>
+      <div align="center">
+      <div><h3>SOLICITUD DE PROTOCOLO AEROPUERTO</h3></div>
+      <div>
+          <h4>Usted ha realizado una petición al departamento de protocolo, las especificaciones son las siguientes:</h4>
+        </div>
+      <table cellspacing=0>
+        <tr>
+            <th>Solicitante:</th>
+            <td>{% for p in perfil %}{{ p.primerApellido | capitalize }} {{ p.primerNombre | capitalize}}{% endfor %}</td>
+        </tr>
+        <tr>
+           <th>Dependencia:</th>
+           <td>{% for p in perfil %}{{ p.nivelorganizacional}}{% endfor %}</td> 
+        </tr>
+        <tr>
+           <th>Extensi&oacute;n:</th>
+           <td>{% for p in perfil %}{{ p.extension}}{% endfor %}</td>    
+        </tr>
+        <tr>
+          <th>Fecha Y Hora de llegada:</th>
+          <td>{{ aeropuerto.fecha|date("d-m-Y") }}/{{ aeropuerto.hora|date("H:i:s") }}</td>
+        </tr>
+        <tr>
+          <th>Aeropuerto:</th>
+          <td>{{ aeropuerto.aeropuerto|title }}</td>
+        </tr>
+        <tr>
+          <th>Linea &Aacute;erea:</th>
+          <td>{{ aeropuerto.lineaAerea|title }}</td>
+        </tr>
+        <tr>
+          <th>Nombre del Invitado:</th>
+          <td class="solicitud">{{ aeropuerto.nombreInvitado|title }}</td>
+        </tr>
+        <tr>
+          <th>N&uacute;mero de Vuelo:</th>
+          <td class="solicitud">{{ aeropuerto.numeroVuelo|title }}</td>
+        </tr>
+        <tr>
+          <th>Localizador:</th>
+          <td class="solicitud">{{ aeropuerto.localizador|title }}</td>
+        </tr>
+        <tr>
+          <th>Pa&iacute;s de Procedencia:</th>
+          <td class="solicitud">{{ aeropuerto.paisProcedencia|title }}</td>
+        </tr>
+        <tr>
+          <th>Responsable del invitado:</th>
+          <td class="solicitud">{{ aeropuerto.responsable|title }}</td>
+        </tr>
+        <tr>
+          <th>Extensi&oacute;n del Responsable:</th>
+          <td class="solicitud">{{ aeropuerto.responsable.extension|title }}</td>
+        </tr>
+        <tr>
+          <th>Tel&eacute;fono del Responsable:</th>
+          <td class="solicitud">{{ aeropuerto.responsable.telefonoCelular|title }}</td>
+        </tr>
+        <tr>
+          <th>Lugar de Destino:</th>
+          <td class="solicitud">{{ aeropuerto.lugarDestino|title }}</td>
+        </tr>
+      </table>
+      <div>
+        <h4>Su solicitud será atendida y la respuesta se le hará llegar por esta misma via.</h4>
+      </div>
+      <br>
+    </div>
+  </body>
+</html>

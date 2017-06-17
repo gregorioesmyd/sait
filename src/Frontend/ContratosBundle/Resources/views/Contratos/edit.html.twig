@@ -1,0 +1,102 @@
+{% extends '::contratos.html.twig' %}
+
+{% block title %}Editar Contrato{% endblock %}
+
+{% block titulo %}
+    EDITAR CONTRATO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("contratos") }}">LISTA DE CONTRATOS</a></li>
+  <li class="active">EDITAR CONTRATO</li>
+</ol>
+{% endblock %}
+{% block body -%}
+ {{ parent() }}
+
+   <form novalidate="novalidate" action="{{ path('contratos_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>{{ form_widget(edit_form._token) }}
+        <input type="hidden" name="_method" value="PUT" />
+         <div class="formShow">  
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(edit_form.empresa) }}</div>                    
+                    <div class="labelform">Persona Natural o Juridica:</div>
+                    <div class="widgetform">{{ form_widget(edit_form.empresa) }}</div>
+                </div>  
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(edit_form.inactivo) }}</div>                    
+                    <div class="labelform">Seleccione si est&aacute; Anulado</div>
+                    <div class="widgetform">{{ form_widget(edit_form.inactivo) }}</div>
+                </div> 
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(edit_form.personal) }}</div>
+                    <div class="labelform">¿Personal de Corresponsal&iacute;a?</div>
+                    <div class="widgetform">{{ form_widget(edit_form.personal) }}</div>
+                </div><br>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(edit_form.obra) }}</div>
+                    <div class="labelform">Obra:</div>
+                    <div class="widgetform">{{ form_widget(edit_form.obra) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(edit_form.fechaInicio) }}</div>
+                    <div class="labelform">Fecha de Inicio:</div>
+                    <div class="widgetform">{{ form_widget(edit_form.fechaInicio) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(edit_form.fechaFin) }}</div>
+                    <div class="labelform">Fecha de Fin:</div>
+                    <div class="widgetform">{{ form_widget(edit_form.fechaFin) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(edit_form.duracion) }}</div>
+                    <div class="labelform">Duraci&oacute;n:</div>
+                    <div class="widgetform">{{ form_widget(edit_form.duracion) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(edit_form.montoBs) }}</div>
+                    <div class="labelform">Monto en Bs:</div>
+                    <div class="widgetform">{{ form_widget(edit_form.montoBs) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(edit_form.montoDolares) }}</div>
+                    <div class="labelform">Monto en Dolares:</div>
+                    <div class="widgetform">{{ form_widget(edit_form.montoDolares) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(edit_form.montoEuros) }}</div>
+                    <div class="labelform">Monto en Euros:</div>
+                    <div class="widgetform">{{ form_widget(edit_form.montoEuros) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(edit_form.idDireccion) }}</div>
+                    <div class="labelform">Direcci&oacute;n Solicitante:</div>
+                    <div class="widgetform">{{ form_widget(edit_form.idDireccion) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(edit_form.idAbogado) }}</div>
+                    <div class="labelform">Abogado:</div>
+                    <div class="widgetform">{{ form_widget(edit_form.idAbogado) }}</div>
+                </div>
+        </div>
+        <BR><button class="btn btn-primary" type="submit">EDITAR</button> | 
+            <a class="btn btn-default" href="{{ path('contratos') }}">IR A LA LISTA</a> | 
+            <a class="btn btn-default" href="{{ path('contratos_show', { 'id': entity.id }) }}">IR A CONSULTAR</a>
+    </form>
+
+    <script>
+      $(function() {
+        $( "#frontend_contratosbundle_contratostype_fechaInicio" ).datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: "dd-mm-yy",
+        });
+        $( "#frontend_contratosbundle_contratostype_fechaFin" ).datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: "dd-mm-yy",
+        });
+      });
+  </script>
+{% endblock %}

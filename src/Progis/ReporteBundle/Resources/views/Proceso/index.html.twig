@@ -1,0 +1,204 @@
+{# empty Twig template #}
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>EN PROCESO</h2>
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li class="active">EN PROCESO</li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+    
+    <p><b>Eficaz:</b> Es la capacidad de lograr un efecto deseado, esperado o anhelado</p>
+    <p><b>Eficiente:</b> Se refiere al uso racional de los medios para alcanzar un objetivo predeterminado (es decir, cumplir un objetivo con el mínimo de recursos disponibles y tiempo).</p>
+    
+    <b>Como interpretar los resultados mostrados a continuación:</b>
+    
+    <div>Las tarjetas válidas son aquellas cuyo tiempo real no superan el tiempo estimado ni el tiempo mínimo establecido en sistema.</div>
+    <div>Las tarjetas inválidas son aquellas cuyo tiempo real es menor a la cantidad mínima de tiempo que se debe cumplir y cuyo valor es establecido en el sistema.</div>
+    <div>Las tarjetas retrasadas son aquellas cuyo tiempo real supera al estimado.</div>
+    
+    <br>
+    <div></div>
+    <br>
+    <table class="table table-bordered">
+    {% set cont=0%}
+    {% for mp in productividad['mejorPeorConTarjeta'] %}
+        {% for me in miembroespacio if me.usuario.jefe==false and mp['idMe']==me.id %}
+            {% set cont=cont+1%}
+            <tr >
+                <td style="width: 20%;text-align: center;">
+                    {% if me.usuario.foto is null %}
+                        <img src="/uploads/personalTelesur/no.png" style="height: 150px" class="img-thumbnail">
+                    {% else %}
+                        <img src="{{me.usuario.foto}}" style="height:  150px" class="img-thumbnail">
+                    {% endif %}
+
+                    <p><b>{{ me.usuario.primerNombre }} {{ me.usuario.primerApellido }}</b></p>
+                    <div style="font-size: 10px;font-weight: bold;">
+                        {% set dia=me.jornadalaboral.dias|split("-") %}
+                        {% for d in dia %}
+                            {% if d==1 %}  Lun
+                            {% elseif d==2 %}  Ma
+                            {% elseif d==3 %}  Mi
+                            {% elseif d==4 %}  Ju
+                            {% elseif d==5 %}  Vi
+                            {% elseif d==6 %}  Sá
+                            {% elseif d==7 %}  Do
+                            {% endif %}
+                        {% endfor %}
+                        de {{me.jornadalaboral.horadesde|date("G:i:s")}} a {{me.jornadalaboral.horahasta|date("G:i:s")}}
+                    </div>
+                    <br>
+                    <span style="color:green;font-size: 20px;">{{ cont }}</span>
+                    {% if cont==1 %}
+                        <p style="color:green;font-size: 20px;">¡EFICIENTE!</p>
+                    {% elseif cont==2 %}
+                        <p style="color:green;font-size: 20px;">¡EFICAZ!</p>
+                    {% endif %}
+                </td>
+
+                <td>
+                    <div>
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Medidas</th>
+                                <th>Tarjetas válidas</th>
+                                <th>Tarjetas inválidas o descartadas</th>
+                                <th>Tarjetas retardadas</th>
+                            </tr>
+                            <tr>
+                                <th>Centidad</th>
+                                <td>{{productividad[me.id]['tarjetasValidas']}}</td>
+                                <td>{{productividad[me.id]['tarjetasInvalidas']}}</td>
+                                <td>{{productividad[me.id]['tarjetasRetardadas']}}</td>
+                            </tr>
+                            <tr>
+                                <th>Tiempo estimado</th>
+                                <td>{{productividad[me.id]['tiempoEstimadoTV']|number_format(4,",")}} Hora(s)</td>
+                                <td>{{productividad[me.id]['tiempoEstimadoTI']|number_format(4)}} Hora(s)</td>
+                                <td>{{productividad[me.id]['tiempoEstimadoTR']|number_format(4)}} Hora(s)</td>
+                            </tr>
+                            <tr>
+                                <th>Tiempo real</th>
+                                <td>{{productividad[me.id]['tiempoRealTV']|number_format(4)}} Hora(s)</td>
+                                <td>{{productividad[me.id]['tiempoRealTI']|number_format(4)}} Hora(s)</td>
+                                <td>{{productividad[me.id]['tiempoRealTR']|number_format(4)}} Hora(s)</td>
+                            </tr>
+                        </table>
+
+                    <div>
+                        <b>Tiempo general estimado:</b>
+                            {{productividad[me.id]['tiempoEstimado']|number_format(0,'','')}} Hora(s)
+                    </div>
+                    <div>
+                        <b>Tiempo general real:</b>
+                            {{productividad[me.id]['tiempoReal']|number_format(0,'','')}} Hora(s)
+                    </div>
+                    <br>
+                    <div>
+                        <b>Tarjetas válidas:</b>
+                        <span style="color: red;font-size: 20px;">{{productividad[me.id]['tarjetasValidas']|number_format(0)}}</span>
+                        con un tiempo ahorrado de <span style="color: red;font-size: 20px;">{{productividad[me.id]['tiempoAhorrado']|number_format(2)}} Hora(s).</span>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    {% endfor %}
+        
+        
+        
+        
+       {% for mp in productividad['mejorPeorSinTarjeta'] %}
+           {% for me in miembroespacio if me.usuario.jefe==false and mp['idMe']==me.id %}
+               {% set cont=cont+1%}
+               <tr >
+                   <td style="width: 20%;text-align: center;">
+                       {% if me.usuario.foto is null %}
+                           <img src="/uploads/personalTelesur/no.png" style="height: 150px" class="img-thumbnail">
+                       {% else %}
+                           <img src="/uploads/personalTelesur/{{me.usuario.foto}}" style="height:  150px" class="img-thumbnail">
+                       {% endif %}
+
+                       <p><b>{{ me.usuario.primerNombre }} {{ me.usuario.primerApellido }}</b></p>
+                       <div style="font-size: 10px;font-weight: bold;">
+                           {% set dia=me.jornadalaboral.dias|split("-") %}
+                           {% for d in dia %}
+                               {% if d==1 %}  Lun
+                               {% elseif d==2 %}  Ma
+                               {% elseif d==3 %}  Mi
+                               {% elseif d==4 %}  Ju
+                               {% elseif d==5 %}  Vi
+                               {% elseif d==6 %}  Sá
+                               {% elseif d==7 %}  Do
+                               {% endif %}
+                           {% endfor %}
+                           de {{me.jornadalaboral.horadesde|date("G:i:s")}} a {{me.jornadalaboral.horahasta|date("G:i:s")}}
+                       </div>
+                       <br>
+                       <span style="color:green;font-size: 20px;">N/A</span>
+                   </td>
+
+                   <td>
+                       <div>
+                           <table class="table table-bordered">
+                               <tr>
+                                   <th>Medidas</th>
+                                   <th>Tarjetas válidas</th>
+                                   <th>Tarjetas inválidas o descartadas</th>
+                                   <th>Tarjetas retardadas</th>
+                               </tr>
+                               <tr>
+                                   <th>Centidad</th>
+                                   <td>{{productividad[me.id]['tarjetasValidas']}}</td>
+                                   <td>{{productividad[me.id]['tarjetasInvalidas']}}</td>
+                                   <td>{{productividad[me.id]['tarjetasRetardadas']}}</td>
+                               </tr>
+                               <tr>
+                                   <th>Tiempo estimado</th>
+                                   <td>{{productividad[me.id]['tiempoEstimadoTV']|number_format(4,",")}} Hora(s)</td>
+                                   <td>{{productividad[me.id]['tiempoEstimadoTI']|number_format(4)}} Hora(s)</td>
+                                   <td>{{productividad[me.id]['tiempoEstimadoTR']|number_format(4)}} Hora(s)</td>
+                               </tr>
+                               <tr>
+                                   <th>Tiempo real</th>
+                                   <td>{{productividad[me.id]['tiempoRealTV']|number_format(4)}} Hora(s)</td>
+                                   <td>{{productividad[me.id]['tiempoRealTI']|number_format(4)}} Hora(s)</td>
+                                   <td>{{productividad[me.id]['tiempoRealTR']|number_format(4)}} Hora(s)</td>
+                               </tr>
+                           </table>
+
+                       <div>
+                           <b>Tiempo general estimado:</b>
+                               {{productividad[me.id]['tiempoEstimado']|number_format(0,'','')}} Hora(s)
+                       </div>
+                       <div>
+                           <b>Tiempo general real:</b>
+                               {{productividad[me.id]['tiempoReal']|number_format(0,'','')}} Hora(s)
+                       </div>
+                       <br>
+                       <div>
+                           <b>Tarjetas válidas:</b>
+                           <span style="color: red;font-size: 20px;">{{productividad[me.id]['tarjetasValidas']|number_format(0)}}</span>
+                           con un tiempo ahorrado de <span style="color: red;font-size: 20px;">{{productividad[me.id]['tiempoAhorrado']|number_format(2)}} Hora(s).</span>
+                       </div>
+                   </td>
+               </tr>
+           {% endfor %}
+       {% endfor %}
+    </table>
+    
+{% endblock %}
+
+    
+
+    
+    

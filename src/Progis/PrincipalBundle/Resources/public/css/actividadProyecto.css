@@ -1,0 +1,78 @@
+#nuevo, #proceso, #revision, #culminado, #dependencia{ 
+    list-style-type: none; 
+    margin: 0; 
+    padding: 0; 
+    padding: 5px; 
+    overflow-y: scroll;
+    height: 80%;
+    background-color: #F5F5F5;
+    text-align: center;
+    border-right: 5px solid #F8F8F8;
+    position: static;
+    
+}
+.panel-heading{
+    height: 20px !important;
+    padding-top: 3;
+    cursor: pointer;
+}
+
+
+.nuevo, .proceso, .revision, .culminado, .dependencia{ 
+    margin: 0; 
+    padding: 0; 
+    padding: 5px; 
+    border-right: 5px solid #F8F8F8;
+}
+
+#nuevo li, #proceso li, #revision li, #culminado li, #dependencia li {
+    margin: 5px; 
+    padding: 5px; 
+    font-size: 1.2em; 
+    width: 97%; 
+}
+
+.solicitud{
+    text-align: justify;
+    margin-top: 10px;
+    word-break: break-word;
+}
+
+.datos-solicitud th{
+    text-align: left;
+}
+
+.bloqueContador{
+    text-align: center;
+    padding: 2px;
+}
+
+#iconos a{
+    color: black;
+    margin-right: 5px;
+}
+
+#iconos{
+    margin-bottom: 10px;
+    margin-top: -10;
+}
+
+      br { clear: both; }
+      .cntSeparator {
+        font-size: 5px;
+        margin: 5px 2px;
+        color: #000;
+      }
+      .desc div {
+        float: left;
+        font-family: Arial;
+        width: 10px;
+        margin-right: 20px;
+        
+        font-size: 5px;
+        font-weight: bold;
+        color: #000;
+      }
+      .desc{
+          padding-left: 5px;
+      }

@@ -1,0 +1,30 @@
+pautafijas:
+    path: /listar/{tipo}
+    defaults: { _controller: "EstudioCabinaBundle:Pautafijas:index" }
+
+pautafijas_show:
+    path:     /show/{id}
+    defaults: { _controller: "EstudioCabinaBundle:Pautafijas:show" }
+
+pautafijas_new:
+    path:     /new/{tipo}
+    defaults: { _controller: "EstudioCabinaBundle:Pautafijas:new" }
+
+pautafijas_create:
+    path:     /create/{tipo}
+    defaults: { _controller: "EstudioCabinaBundle:Pautafijas:create" }
+    requirements: { _method: post }
+
+pautafijas_edit:
+    path:     /edit/{id}
+    defaults: { _controller: "EstudioCabinaBundle:Pautafijas:edit" }
+
+pautafijas_update:
+    path:     /{id}/update
+    defaults: { _controller: "EstudioCabinaBundle:Pautafijas:update" }
+    requirements: { _method: post|put }
+
+pautafijas_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "EstudioCabinaBundle:Pautafijas:delete" }
+    requirements: { _method: post|delete }

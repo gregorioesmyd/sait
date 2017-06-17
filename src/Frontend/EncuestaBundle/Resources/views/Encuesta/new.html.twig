@@ -1,0 +1,86 @@
+{% extends '::encuesta.html.twig' %}
+
+{% block title %}Encuesta-crear{% endblock %}
+
+{% block titulo %}
+    CREAR ENCUESTA
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("encuesta_index") }}">LISTA DE ENCUESTAS</a></li>
+  <li class="active">CREAR ENCUESTA</li>
+</ol>
+{% endblock %}
+
+
+{% block body -%}
+    {{ parent() }}
+
+    <form novalidate="novalidate" action="{{ path('encuesta_create') }}" method="post" {{ form_enctype(form) }}>{{ form_widget(form._token) }}
+      <div class="formShow">
+          <br>
+          <div class="contenedorform">
+              <div class="text-error">{{ form_errors(form.nombre) }}</div>
+              <div class="labelform">Nombre de la encuesta:</div>
+              <div class="widgetform">{{ form_widget(form.nombre) }}</div>
+          </div>
+          <div class="contenedorform">
+              <div class="text-error">{{ form_errors(form.tema) }}</div>
+              <div class="labelform">Tema:</div>
+              <div class="widgetform">{{ form_widget(form.tema) }}</div>
+          </div>
+          <div class="contenedorform">
+              <div class="text-error">{{ form_errors(form.tipoencuesta) }}</div>
+              <div class="labelform">Tipo de encuesta:</div>
+              <div class="widgetform">{{ form_widget(form.tipoencuesta) }}</div>
+          </div>
+          <div class="contenedorform">
+              <div class="text-error">{{ form_errors(form.fechainicioencuesta) }}</div>
+              <div class="labelform">Fecha de inicio:</div>
+              <div class="widgetform">{{ form_widget(form.fechainicioencuesta) }}</div>
+          </div>
+          <div class="contenedorform">
+              <div class="text-error">{{ form_errors(form.horainicio) }}</div>
+              <div class="labelform">Hora de inicio:</div>
+              <div class="widgetform">{{ form_widget(form.horainicio) }}</div>
+          </div>
+          <div class="contenedorform">
+              <div class="text-error">{{ form_errors(form.fechafinencuesta) }}</div>
+              <div class="labelform">Fecha de fin:</div>
+              <div class="widgetform">{{ form_widget(form.fechafinencuesta) }}</div>
+          </div>
+          <div class="contenedorform">
+              <div class="text-error">{{ form_errors(form.horafin) }}</div>
+              <div class="labelform">Hora de fin:</div>
+              <div class="widgetform">{{ form_widget(form.horafin) }}</div>
+          </div>
+          <div class="contenedorform">
+              <div class="text-error">{{ form_errors(form.numeropregunta) }}</div>
+              <div class="labelform">Número de preguntas que responderá el usuario:</div>
+              <div class="widgetform">{{ form_widget(form.numeropregunta) }}</div>
+          </div>
+        </div>
+      <br><br>
+      <button class="btn btn-primary" type="submit">CREAR</button> |
+      <a class="btn btn-default" href="{{ path('encuesta_index') }}">IR AL LISTADO</a>
+
+      <br>
+    </form>
+
+  <script>
+    $(function() {
+      $( "#frontend_encuestabundle_encuesta_fechainicioencuesta" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "dd-mm-yy",
+      });
+      $( "#frontend_encuestabundle_encuesta_fechafinencuesta" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "dd-mm-yy",
+      });
+    });
+  </script>
+{% endblock %}

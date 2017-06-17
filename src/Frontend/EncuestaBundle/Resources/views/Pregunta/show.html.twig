@@ -1,0 +1,55 @@
+{% extends '::encuesta.html.twig' %}
+
+{% block title %}Preguntas-detalle{% endblock %}
+
+{% block titulo %}
+    Pregunta "{{ entity.pregunta }}" <br> Encuesta "{{encuesta}}"
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("encuesta_index") }}">Lista de encuestas</a></li>
+  <li><a href="{{ path("pregunta_index", {'idencuesta':encuesta.id }) }}">Lista de preguntas </a></li>
+  <li class="active">Detalle de pregunta</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+
+    <div class="formShow">
+      <div class="contenedorform">
+          <div class="labelform">Pregunta:</div>
+          <div class="widgetform">{{ entity.pregunta }}</div>
+      </div>
+      <div class="contenedorform">
+          <div class="labelform">Tiempo de la Pregunta:</div>
+          <div class="widgetform">{{ entity.tiempopregunta }}
+            {% if entity.tiempopregunta == "1" %}segundo{% else %}segundos{% endif %}
+          </div>
+      </div>
+      {% if entity.archivo %}
+          <div class="contenedorform">
+              <div class="labelform">Archivo:</div>
+              <div class="widgetform">
+
+                  {% set extension =  entity.archivo|split(".") %}
+
+                  {% if extension[1]=='jpg' or extension[1]=='jpeg' or extension[1]=='png' or extension[1]=='gif'  %}
+                      <a data-toggle="modal" href="#myModal">
+                          <img class="img-rounded" src="/uploads/encuestas/{{ entity.archivo }}" width="150px">
+                      </a>
+                  {% else %}
+                      <a href="/uploads/contratos/{{ entity.archivo }}">DESCARGA ARCHIVO {{ extension[1]|upper }}</a>
+                  {% endif %}
+              </div>
+          </div>
+      {% endif %}
+    </div>
+    <br><br>
+    <a class="btn btn-default" href="{{ path('pregunta_index', {'idencuesta':encuesta.id }) }}">IR A LA LISTA</a> |
+    <a class="btn btn-default" href="{{ path('pregunta_edit', { 'id': entity.id, 'idencuesta':encuesta.id }) }}">IR A EDITAR</a> |
+    <a class="btn btn-default" href="{{ path('respuesta_index', { 'idpregunta': entity.id }) }}"> VER RESPUESTAS</a>
+    <br><br>
+{% endblock %}

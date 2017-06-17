@@ -1,0 +1,31 @@
+<form novalidate action="{{ path('progis_ticket_procesaReasignar',{'idticket':ticket.id}) }}" method="post">
+    <!-- Modal -->
+    <div class="modal fade" id="myModalReasig" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="width: 50%;">
+          <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">SELECCIONE LOS PARÁMETROS</h4>
+          </div>
+          <div class="modal-body">
+              <table>
+                    {% for uni in unidadesDireccion %}
+                        <tr>
+                            <td>
+                                <input type="radio" value="{{ uni.id }}" name="idNivel">&nbsp;&nbsp;
+                            </td>
+                            <th>
+                                {{ uni.descripcion }}
+                            </th>
+                        </tr>
+                    {% endfor %}
+                </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">CERRAR</button>
+            <button type="submit" class="btn btn-danger">REASIGNAR</button>
+          </div>
+        </div>
+      </div>
+    </div>  
+</form>  

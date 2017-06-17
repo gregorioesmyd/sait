@@ -1,0 +1,45 @@
+<!-- Modal Culminado -->
+<form id="formCulminado" action="" method="post">
+<div data-backdrop="static" class="modal fade" id="myModalCulminado" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog"  style="width: 60%;">
+      <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">ESPECIFIQUE LA SOLUCIÓN DEL TICKET A CERRAR</h4>
+      </div>
+      <div class="modal-body">
+          {% if smsModal is not null %}<div class="alert alert-danger">{{ smsModal|raw}}</div>{% endif %}
+          <div id="modalCulminadoCuerpo"></div>
+          <div class="alert alert-info" align="center">ESCRIBA LA SOLUCIÓN A CONTINUACIÓN</div>
+          <textarea name="solucion" style="width: 100%;height:20%;"></textarea>
+      </div>
+      <div class="modal-footer">
+        {#<button type="button" class="btn btn-default" data-dismiss="modal">CERRAR PARA MOVER TARJETA DE CULMINADO</button>#}
+        <input type="submit" class="btn btn-danger" value="CERRAR TICKET">
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+          
+<!-- Modal Dependencia -->
+<form id="formDependencia" action="" method="post">
+<div data-backdrop="static" class="modal fade" id="myModalDependencia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog"  style="width: 60%;">
+      <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">JUSTIFIQUE PORQUE SE ENCUENTRA EN DEPENDECIA</h4>
+      </div>
+      <div class="modal-body">
+          {% if smsModal is not null %}<div class="alert alert-danger">{{ smsModal|raw}}</div>{% endif %}
+          <div id="modalDependenciaCuerpo"></div>
+          <div class="alert alert-info" align="center">ESCRIBA LA JUSTIFICACIÓN</div>
+          <textarea name="justificacion" style="width: 100%;height:20%;"></textarea>
+      </div>
+      <div class="modal-footer">
+        {#<button type="button" class="btn btn-default" data-dismiss="modal">CERRAR PARA MOVER TARJETA DE DEPENDENCIA</button>#}
+        <input type="submit" class="btn btn-danger" value="JUSTIFICAR">
+      </div>
+    </div>
+  </div>
+</div>
+</form>

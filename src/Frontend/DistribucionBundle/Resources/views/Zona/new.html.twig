@@ -1,0 +1,42 @@
+{% extends '::distribucion.html.twig' %}
+ 
+{% block title %}Nueva Zona{% endblock %}
+
+{% block titulo %}
+    NUEVA ZONA
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("distribucion_homepage") }}">DISTRIBUCIÓN INICIO</a></li>
+  <li><a href="{{ path("zona") }}">LISTA DE ZONAS</a></li>
+  <li class="active">NUEVA ZONA</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    
+    <form novalidate class="formNewEditOperador" action="{{ path('zona_create') }}" method="post" {{ form_enctype(form) }}>
+
+        {{ form_widget(form._token) }}
+        <div class="formShow" style="width:500px;">
+            <div class="contenedorform">
+                <div class="text-danger">{{ form_errors(form.zona) }}</div>
+                <div class="labelform">Zona:</div>
+                <div class="widgetform">{{ form_widget(form.zona) }}</div>
+            </div>
+        </div>
+
+<br>
+        <button class="btn btn-primary" type="submit">CREAR</button> | 
+
+        <a class="btn btn-default" href="{{ path('zona') }}">
+                IR A LA LISTA
+        </a>
+    </form>
+
+
+
+{% endblock %}

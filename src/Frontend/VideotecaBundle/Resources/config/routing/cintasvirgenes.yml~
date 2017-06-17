@@ -1,0 +1,34 @@
+cintasvirgenes:
+    path:     /
+    defaults: { _controller: "VideotecaBundle:CintasVirgenes:index" }
+
+cintasvirgenes_show:
+    path:     /{id}/show
+    defaults: { _controller: "VideotecaBundle:CintasVirgenes:show" }
+
+cintasvirgenes_new:
+    path:     /new
+    defaults: { _controller: "VideotecaBundle:CintasVirgenes:new" }
+
+cintasvirgenes_create:
+    path:     /create
+    defaults: { _controller: "VideotecaBundle:CintasVirgenes:create" }
+    requirements: { _method: post }
+
+cintasvirgenes_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "VideotecaBundle:CintasVirgenes:edit" }
+
+cintasvirgenes_update:
+    path:     /{id}/update
+    defaults: { _controller: "VideotecaBundle:CintasVirgenes:update" }
+    requirements: { _method: post|put }
+
+cintasvirgenes_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "VideotecaBundle:CintasVirgenes:delete" }
+    requirements: { _method: post|delete }
+
+cintasvirgenes_asignarCV:
+    path:     /{id}/asignarCV
+    defaults: { _controller: "VideotecaBundle:CintasVirgenes:asignarCV" }

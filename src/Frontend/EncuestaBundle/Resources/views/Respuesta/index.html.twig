@@ -1,0 +1,67 @@
+{% extends '::encuesta.html.twig' %}
+
+{% block title %}Respuestas{% endblock %}
+
+{% block titulo %}
+    RESPUESTAS PARA PREGUNTA "{{pregunta.pregunta}}"
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("encuesta_index") }}">Lista de encuestas</a></li>
+  <li><a href="{{ path("pregunta_index",{'idencuesta':pregunta.idencuesta.id}) }}">Lista de preguntas</a></li>
+  <li class="active">Lista de Respuestas</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+
+    <table id="tabladatatable">
+        <thead>
+            <tr>
+                <th style="width:70%; text-align: center;">Respuesta</th>
+                <th style="width:15%; text-align: center;">Correcta / Incorrecta</th>
+                <th style="width:15%; text-align: center;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td style="text-align: center;"><a href="{{ path('respuesta_show', { 'id': entity.id, 'idpregunta':pregunta.id }) }}">{{ entity.respuesta }}</a></td>
+                <td style="text-align: center;">
+                  {% if entity.correcta == '1' %}
+                    Correcta
+                  {% else %}
+                    Incorrecta
+                  {% endif %}
+                </td>
+                <td style="text-align: center;">
+                  <a href="{{ path('respuesta_show', { 'id': entity.id, 'idpregunta':pregunta.id }) }}" data-toggle="tooltip" data-placement="top" title="Detalle"><span class="glyphicon glyphicon-search"></a>
+                  <a href="{{ path('respuesta_edit', { 'id': entity.id, 'idpregunta':pregunta.id }) }}" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-pencil"></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table><br><br><br>
+
+    <a class="btn btn-default" href="{{ path( 'pregunta_index',{'idencuesta':pregunta.idencuesta.id}) }}">Volver a preguntas</a> |
+    <a class="btn btn-default" href="{{ path( 'respuesta_new',{'idpregunta': pregunta.id,'idpregunta':pregunta.id }) }}">Registrar Respuesta</a>
+    <br><br>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+          $('span').tooltip()
+
+          $('#tabladatatable').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                "aaSorting": [[0,'asc']],
+            } );
+        })
+    </script>
+
+
+
+
+    {% endblock %}

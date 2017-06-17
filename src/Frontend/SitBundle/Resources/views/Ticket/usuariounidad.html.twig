@@ -1,0 +1,44 @@
+{% extends '::sit.html.twig' %}
+ 
+{% block title %}Usuario Unidad{% endblock %}
+
+{% block titulo %}
+    ASIGNAR UNIDAD A USUARIO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("ticket_listausuariounidad") }}">LISTA DE USUARIOS</a></li>
+  <li class="active">UNIDAD USUARIO</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    
+    <form action="{{ path('ticket_asignarusuariounidad',{'id': entity.id }) }}" method="post">
+        <div class="formShow">
+            <div class="contenedorform">
+                <div class="labelform">Nombres:</div>
+                <div class="widgetform">{{ entity.primernombre }} {{ entity.segundonombre }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Apellidos:</div>
+                <div class="widgetform">{{ entity.primerapellido}} {{ entity.segundoapellido }}</div>
+            </div>
+            {% if usuariounidad %}
+            <div class="contenedorform">
+                <div class="labelform">Unidad actual:</div>
+                <div class="widgetform">{{ usuariounidad[0].descripcion|upper}}</div>
+            </div>
+            {% endif %}
+            <div class="contenedorform">
+                <div class="labelform">Unidad:</div>
+                <div class="widgetform">{{ form_widget(form.unidad) }}</div>
+            </div>
+        </div>
+        <input type="submit" value="GUARDAR ASOCIACIÓN" class="btn btn-primary">
+    </form>
+
+{% endblock %}

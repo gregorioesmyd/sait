@@ -1,0 +1,86 @@
+.panelProyecto .miembros{
+    margin-top: 10px;
+}
+
+.panelProyecto .descripcion{
+    margin-top: 10px;
+}
+
+.panelProyecto .progress{
+    padding: 0;
+    margin: 0;
+}
+
+.panelProyecto .porcentaje{
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+
+.panelProyecto .panel-body{
+    height: 25%;
+    overflow-y: auto;
+}
+
+.panelProyecto .objetivo{
+    margin-top: 20px;
+}
+
+
+.panel-footer{
+    height: 40px;
+}
+
+.panelProyecto{
+    line-height: 23px;
+}
+
+#panelProyecto{
+    margin-bottom: 20px;
+}
+
+#panelProyecto .Panel:hover{
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+}
+/*
+
+
+
+
+/* BORRARRRRRRRRRRRRRRRRRRRRRRR */
+
+#frontend_proyectobundle_proyecto_responsable label{
+	display: block;
+}
+
+#frontend_proyectobundle_proyecto_responsable input{
+	float: left;
+	text-align: left;
+	padding: 0px;
+	margin: 0px;
+}
+
+#frontend_proyectobundle_actividad_responsable label{
+	display: block;
+}
+
+#frontend_proyectobundle_actividad_responsable input{
+	float: left;
+	text-align: left;
+	padding: 0px;
+	margin: 0px;
+}
+
+#frontend_proyectobundle_proyecto_nivelorganizacional label{
+	display: block;
+}
+
+#frontend_proyectobundle_proyecto_nivelorganizacional input{
+	float: left;
+	text-align: left;
+	padding: 0px;
+	margin: 0px;
+}
+

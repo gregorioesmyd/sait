@@ -1,0 +1,100 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>NUEVO COMENTARIO O ARCHIVO</h2>
+    {% if (desde=='Ticket' or desde=='TicketOtros' or desde=='TicketLista') %}
+        {% include 'PrincipalBundle:comentarioarchivo:__infoBasicTicket.html.twig' %}
+    {% elseif desde=='Proyecto' %}
+        <h4>PROYECTO: "{{ info.nombre|upper }}"</h4>
+
+
+
+    {% elseif desde=='3' %}
+        <h4>PROYECTO: "{{ desdeInfo.objetivo.proyecto.nombre|upper }}"</h4>
+        <h4>OBJETIVO: "{{ desdeInfo.objetivo.nombre|upper }}"</h4>
+        <h4>ACTIVIDAD: "{{ desdeInfo.descripcion|upper }}"</h4>
+    {% endif %}
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  {% if desde=='Ticket' %}
+    <li><a href="{{ path("progis_ticket_lista") }}">LISTA DE TICKETS</a></li>
+    <li><a href="{{ path("progis_ticket_procesarTicket") }}">PROCESAR TICKET</a></li>
+  {% elseif desde=='TicketOtros' %}
+    <li><a href="{{ path("progis_ticket_lista") }}">LISTA DE TICKETS</a></li>
+    <li><a href="{{ path("progis_ticket_procesarTicketOtros") }}">OTROS TICKETS</a></li>
+  {% elseif desde=='TicketLista' %}
+    <li><a href="{{ path("progis_ticket_lista") }}">LISTA DE TICKETS</a></li>
+    <li><a href="{{ path("progis_ticket_asignar",{'idticket':id}) }}">CONSULTAR - GESTIONAR TICKETS</a></li>
+  {% elseif desde=='Proyecto' %}
+    <li><a href="{{ path("proyecto") }}">LISTA DE PROYECTOS</a></li>
+
+
+
+  {% elseif desde=='3' %}
+    <li><a href="{{ path("proyecto")}}">LISTA DE PROYECTOS</a></li>
+    <li><a href="{{ path("objetivo",{'idproyecto':desdeInfo.objetivo.proyecto.id}) }}">LISTA DE OBJETIVOS</a></li>
+    <li class="active"><a href="{{ path("proyecto_procesarActividad",{'idobjetivo':desdeInfo.objetivo.id}) }}">LISTA DE ACTIVIDADES</a></li>
+  {% endif %}
+    <li><a href="{{ path("progis_comentarioarchivo_lista",{'id':id,'entidad':entidad,'desde':desde}) }}">LISTA DE COMENTARIOS</a></li>
+    <li class="active">NUEVO COMENTARIO O ARCHIVO</li>
+  
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent()}}
+
+    <script src="{{ asset('libs/tinymce/jscripts/tiny_mce/tiny_mce.js') }}"></script>
+    <script type="text/javascript">
+        tinyMCE.init({
+                // General options
+                mode : "exact",
+                elements : "frontend_principalbundle_comentarioarchivo_comentario",
+                theme : "advanced",
+                plugins : "autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,inlinepopups,autosave",
+
+                // Theme options
+                theme_advanced_buttons1 : "save,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
+                theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,insertdate,inserttime,preview,|,forecolor,backcolor|tablecontrols,|,hr,removeformat,visualaid,|,charmap,emotions,iespell,advhr,print",
+                theme_advanced_toolbar_location : "top",
+                theme_advanced_toolbar_align : "left",
+                theme_advanced_statusbar_location : "bottom",
+                theme_advanced_resizing : true,
+
+                // Example content CSS (should be your site CSS)
+                content_css : "css/content.css",
+
+                // Drop lists for link/image/media/template dialogs
+                template_external_list_url : "lists/template_list.js",
+                external_link_list_url : "lists/link_list.js",
+                external_image_list_url : "lists/image_list.js",
+                media_external_list_url : "lists/media_list.js",
+
+                // Replace values for the template plugin
+                template_replace_values : {
+                        username : "Some User",
+                        staffid : "991234"
+                }
+        });
+    </script>
+            
+            
+    
+    {{ form_start(form, { 'attr': {'novalidate':null} }) }}
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">INGRESE LOS PARÁMETROS</div>
+            <div class="panel-body" style="margin-left:-300px;">
+                    <div id="formulario">{{ form_widget(form) }}</div>
+            </div>
+        </div>
+
+        <div align="center"><input type="submit" class="btn btn-primary" value="ENVIAR">
+    {{ form_end(form) }}   
+    
+{% endblock %}

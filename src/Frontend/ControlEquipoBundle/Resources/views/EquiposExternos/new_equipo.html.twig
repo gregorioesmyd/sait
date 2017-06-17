@@ -1,0 +1,92 @@
+<div id="registroequipoexterno" style="max-height: 400px;"></div>
+<form novalidate action="{{ path('equipoexterno_create',{ 'visita':visita }) }}" {{ form_enctype(form) }} method="post" class="form-horizontal" role="form" style="border-top: 1px solid #e5e5e5;" id="form_add_equipo_new">
+            {{ form_widget(form._token) }}
+
+            <div class="form-group" style="margin-top: 20px;">
+                <label for="propietarioId" class="col-sm-4 control-label">Propietario</label>
+                <div class="col-sm-3">
+                    <p class="form-control-static" id="nombre_apellido_propietario" style="width:220px;">{{ propietario['nombres'] }}</p>
+
+                        <div style="display: none">
+                            {{ form_widget(form.propietarioId,{'attr':{'value': propietario['id']} }) }}
+                            {{ form_widget(form.tipoPropietario,{'attr':{'value': propietario['tipo']} }) }}
+                        </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="cedula_propietario" class="col-sm-4 control-label">Cédula</label>
+                <div class="col-sm-3">
+                    <p class="form-control-static" id="cedula_propietario" style="width:220px;">{{ propietario['cedula'] }}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="codigoBarra" class="col-sm-4 control-label">Código de Barra *</label>
+                <div class="col-sm-3">
+                  {{ form_widget(form.codigoBarra,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                </div>
+                <div class="col-sm-4">
+                  <span id="helpBlock" class="help-block" style="color:#045FB4;">Sólo puede contener números, letras y guión (-).</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="serial" class="col-sm-4 control-label">Serial *</label>
+                <div class="col-sm-3">
+                    {{ form_widget(form.serial,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                </div>
+                <div class="col-sm-4">
+                  <span id="helpBlock" class="help-block" style="color:#045FB4;">Serial del Equipo, mínimo 6.</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descripcionEquipo" class="col-sm-4 control-label">Descripcion del Equipo *</label>
+                <div class="col-sm-3">
+                    {{ form_widget(form.descripcionEquipo,{ 'attr': {'class': 'form-control input-sm','rows':'4','style':'width:220px;'} }) }}
+                </div>
+                <div class="col-sm-4">
+                  <span id="helpBlock" class="help-block" style="color:#045FB4;">Breve descripción o detalles del Equipo.</span>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="codigoBarra" class="col-sm-4 control-label">Marca *</label>
+                <div class="col-sm-3">
+                    {{ form_widget(form.equipoMarca,{ 'attr': {'class': 'form-control input-sm chosen-select','style': 'width:220px;'} }) }}
+
+                </div>
+            </div>
+
+            <br>
+
+            <input type="submit" class="btn btn-primary" value="REGISTRAR EQUIPO">
+
+     </form>
+
+    <script>
+        $(function() {
+            $(".chosen-select").chosen({no_results_text: "No encontrado!"});
+            $(":file").filestyle({iconName: "glyphicon-picture",buttonBefore: true,buttonText: "Cargar Fotografía",input: false});
+
+            $(document).on('submit','#form_add_equipo_new',function(e){
+                e.preventDefault();
+
+                var $data = $('#form_add_equipo_new').serialize();
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ path("equipoexterno_create",{ 'visita': visita }) }}',
+                            data: $data,
+                            dataType: 'json',
+                            success: function(response) {
+                                if(response.status == 'error') {
+                                    $('#registroequipoexterno').html(response.info);
+                                } else {
+                                    $('#resultado_equipoexterno').html(response.info);
+                                }
+                            }
+                        });
+                return false;
+            });
+        });
+    </script>

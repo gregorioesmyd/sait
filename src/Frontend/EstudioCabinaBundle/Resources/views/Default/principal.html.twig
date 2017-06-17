@@ -1,0 +1,50 @@
+{% extends '::base.html.twig' %}
+{% block title %}Estudios - Cabinas{% endblock %}
+{% block titulo %}
+    BIENVENIDO AL SISTEMA DE RESERVACIONES
+{% endblock %}
+{% block menu %}
+<div class="menubootstrap">
+  <div align="left">
+    <nav id="custom-bootstrap-menu" class="navbar navbar-default" role="navigation">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+          <a class="navbar-brand" href="{{ path('usuario_homepage') }}"><span class="glyphicon glyphicon-home"></span></a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="{{ path('contacto') }}">CONTACTO</a></li>
+          <li><a href="{{ path('usuario_logout') }}">SALIR</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </nav>
+  </div>
+</div>
+{% endblock %}
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">RESERVACIONES INICIO</li>
+</ol>
+{% endblock %}
+{% block body %}
+    {{ parent() }}
+  
+    <div class="col-img-apliinicio col-md-12" style="padding-right:10px;">
+        <div class="row">
+            <div class="col-sm-6 col-md-4">
+                 <a href="{{ path('estudio_cabina_homepage', {'tipo':'estudios'})}}">ESTUDIOS<br><img src="{{ asset("images/estudio.jpg") }}" data-placement="bottom" title="SOLICITUDES" data-trigger="hover" style="width: 170px; height: 120px;"></a>
+            </div>
+            <div class="col-sm-6 col-md-4">
+               <a href="{{ path('estudio_cabina_homepage', {'tipo':'cabinas'})}}">CABINAS<br><img src="{{ asset("images/cabinas.jpg") }}" data-placement="bottom" title="SOLICITUDES" data-trigger="hover" style="width: 170px; height: 120px;"></a>
+            </div>
+            <div class="col-sm-6 col-md-4">
+               <a href="{{ path('estudio_cabina_homepage', {'tipo':'salas'})}}">SALAS<br><img src="{{ asset("images/sala.gif") }}" data-placement="bottom" title="SOLICITUDES" data-trigger="hover" style="width: 170px; height: 120px;"></a>
+            </div>
+        </div>
+
+    </div><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR>
+{% endblock %}
+ 

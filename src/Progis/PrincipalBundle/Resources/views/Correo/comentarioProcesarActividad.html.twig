@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css">
+        	th{
+        		text-align: right;
+        		margin-right: 20px;
+        	}
+
+        	table{
+        		width: 600px;
+
+        	}
+
+        	table td{
+        		padding: 10px;
+        		border:1px solid gray;
+        	}
+
+        	table th{
+        		border:1px solid gray;
+        		background-color: #F8F8F8;
+        		padding-right: 10px;
+        		width: 25%;
+        	}
+        </style>
+    </head>
+
+    <body>
+    	<div align="center">
+			<div><h3>NUEVO COMENTARIO Y/O ARCHIVO EN UNA ACTIVIDAD</h3></div>
+
+			<table cellspacing=0>
+				<tr>
+                                    <th>ACTIVIDAD:</th>
+                                    <td>{{ entity.procesaractividad.descripcion|capitalize }}</td>
+				</tr>
+				<tr>
+                                    <th>RESPONSABLE:</th>
+                                    <td>{{ entity.procesaractividad.responsable.miembroespacio.usuario.primerNombre|capitalize }} {{ entity.procesaractividad.responsable.miembroespacio.usuario.primerApellido|capitalize }}</td>
+				</tr>
+				<tr>
+                                    <th>PROYECTO:</th>
+                                    <td>{{ entity.procesaractividad.objetivo.proyecto.nombre|capitalize }}</td>
+				</tr>
+				<tr>
+                                    <th>OBJETIVO:</th>
+                                    <td>{{ entity.procesaractividad.objetivo.nombre|capitalize }}</td>
+				</tr>
+				<tr>
+                                    <th>COMENTARIO:</th>
+                                    <td>{{ entity.comentarioarchivo.comentario|raw }}</td>
+				</tr>
+				<tr>
+                                    <th>¿ARCHIVO?:</th>
+                                    <td>{% if entity.comentarioarchivo.archivo is not null %}Sí posee{% else %}No posee{% endif %}</td>
+				</tr>
+   
+
+			</table>
+                        <div align="center" style="font-size: 10;">Este correo se envia porque eres miembro del proyecto o responsable de la actividad</div>
+			<br>
+		</div>
+	</body>
+	
+</html>

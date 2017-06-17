@@ -1,0 +1,30 @@
+{% extends '::contratos.html.twig' %}
+
+{% block title %}Detalle de Abogado{% endblock %}
+
+{% block titulo %}
+    DETALLES DEL ABOGADO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("abogados") }}">LISTADO DE ABOGADOS</a></li>
+  <li class="active">DETALLES DEL ABOGADO</li>
+</ol>
+{% endblock %}
+    
+{% block body -%}
+    {{ parent() }}
+    <div class="formShow">       
+        <div class="contenedorform">
+            <div class="labelform">Nombre:</div>
+            <div class="widgetform">{{ entity.nombre }}</div>
+        </div>
+    </div>
+
+    <br><br>
+    <a class="btn btn-default" href="{{ path('abogados') }}">IR A LA LISTA</a> |
+    <a class="btn btn-default" href="{{ path('abogados_edit', { 'id': entity.id }) }}">IR A EDITAR</a><br><br>
+
+{% endblock %}

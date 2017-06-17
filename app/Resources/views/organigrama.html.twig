@@ -1,0 +1,21 @@
+{% extends '::base.html.twig' %}
+
+    {% block menu %}
+        {% include 'UsuarioBundle:Default:includes/menu.html.twig' %}
+    {% endblock %}
+
+    {% block stylesheets %}
+        {{ parent() }}
+
+        <link rel="stylesheet" href="{{ asset('libs/bootstrap3/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('libs/jstree/dist/themes/default/style.css')}}" />
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ parent() }}
+
+        <script src="{{ asset('js/jquery.js') }}"></script>
+        <script src="{{ asset('libs/datepiker/js/jquery-ui-1.10.4.custom.min.js') }}"></script>
+        <script src="{{ asset('libs/jstree/dist/jstree.min.js')}}"></script>
+    {% endblock %}
+

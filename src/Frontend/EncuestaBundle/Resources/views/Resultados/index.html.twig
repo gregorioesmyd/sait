@@ -1,0 +1,103 @@
+{% extends '::encuesta.html.twig' %}
+
+{% block title %}Resultados {% endblock %}
+
+{% block titulo %}
+    LOS 5 MEJORES RESULTADOS <br>
+    <div style="color:#E80401;font-size:18px;">{% if encuesta.tipoencuesta.id == '1' %} TRIVIA {% else %} ENCUESTA {% endif %} "{{encuesta.nombre}}"</div>
+{% endblock %}
+
+
+{% block ubicacion %}
+  <ol class="breadcrumb">
+    <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+    <li><a href="{{ path("encuesta_index") }}">Lista de encuestas</a></li>
+    <li class="active">Resultados de {% if encuesta.tipoencuesta.id == '1' %} trivia {% else %} encuesta {% endif %} </li>
+  </ol>
+{% endblock %}
+
+
+{% block body -%}
+    {{ parent() }}
+    <div class="container">
+    <table id="tabladatatable">
+        <thead>
+            <tr class="info">
+                <th style="width:15%; text-align: center;">Puntaje</th>
+                <th style="width:15%; text-align: center;">Segundos</th>
+                <th style="width:20%; text-align: center;">Nombres</th>
+                <th style="width:20%; text-align: center;">Apellidos</th>
+                <th style="width:30%; text-align: center;">Dirección</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in resultados %}
+                <tr>
+                    <td style="text-align: center; font-weight:bold;">{{ result.puntos|round }}</td>
+                    <td style="text-align: center; font-weight:bold;">{{ result.segundos }}</td>
+                    <td style="text-align: center;">{{ result.primerNombre }} {{ result.segundoNombre }}</td>
+                    <td style="text-align: center;">{{ result.primerApellido }} {{ result.segundoApellido }}</td>
+                    <td style="text-align: center;">{{ result.descripcion}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br><br>
+
+    <h3>Relación Usarios totales vs usuario votantes </h3>
+    <div id="grafico"></div>
+  </div>
+    <script type="text/javascript">
+      $(function () {
+          $('#grafico').highcharts({
+              chart: {
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  height: 300,
+              },
+              title: {
+                  text: ''
+              },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.y}</b><br/>'
+              },
+              plotOptions: {
+                  pie: {
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: true,
+                          color: '#000000',
+                          connectorColor: '#000000',
+                          format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                      }
+                  }
+              },
+              series: [{
+                  type: 'bar',
+                  name: 'Usuarios Totales',
+                  data: [ {{ datosgrafico1|raw }} ]
+              },{
+                  type: 'bar',
+                  name: 'Usuarios Votantes',
+                  data: [ {{ datosgrafico2|raw }} ]
+              }]
+          });
+      });
+
+      $(document).ready(function(){
+           $('#tabladatatable').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                "aaSorting": [[0,'desc'],[1,'asc']],
+            } );
+        })
+    </script>
+    <script src='/sait/web/libs/highcharts/js/highcharts.js'></script>
+ 
+
+
+
+
+{% endblock %}

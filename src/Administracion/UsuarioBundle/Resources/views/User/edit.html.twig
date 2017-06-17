@@ -1,0 +1,282 @@
+{% extends '::administracion.html.twig' %}
+
+{% block title %}Editar usuario{% endblock %}
+
+{% block titulo %}
+    EDITAR USUARIO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+    <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+    <li><a href="{{ path("user") }}">LISTA DE USUARIOS</a></li>
+    <li class="active">EDITAR USUARIO</li>
+</ol>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/principal/libs/chosen_v1.4.2/chosen.css') }}" rel="stylesheet">
+{% endblock %}
+    
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script src="{{ asset('bundles/principal/libs/chosen_v1.4.2/chosen.jquery.js') }}" type="text/javascript"></script>
+    
+
+{% endblock %}
+
+{% block body %}
+{{ parent() }}
+
+<form novalidate class="formulario" action="{{ path('user_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} {{ form_enctype(edit_form_perfil) }}>
+
+    {{ form_widget(edit_form._token) }}
+    {{ form_widget(edit_form_perfil._token) }}
+ 
+    
+    <div>
+        {% if perfil.foto is null %}
+            <img src="/uploads/personalTelesur/no.png" style="height: 13%" class="img-thumbnail">
+        {% else %}
+            <img src="{{perfil.foto}}" style="height: 13%" class="img-thumbnail">
+        {% endif %}
+    </div>
+    <br>
+    <table class="table table-bordered tablaUsuarios" style="width: 90%;">
+        <tr>
+            <th>Usuario:</th>
+            <td>
+                {{ form_widget(edit_form.username) }}
+                <span class="smsError">{{ form_errors(edit_form.username) }}</span>
+            </td>
+            <th>Clave:</th>
+            <td>
+                {{ form_widget(edit_form.password) }}
+                {{ form_errors(edit_form.password) }}
+            </td>
+        </tr>
+        <tr>
+            <th>Activo:</th>
+            <td>
+                {{ form_widget(edit_form.isActive) }}
+                {{ form_errors(edit_form.isActive) }}
+            </td>
+            <th>Fuera de Nomina</th>
+            <td>
+                {{ form_widget(edit_form.fueradenomina) }}
+                {{ form_errors(edit_form.fueradenomina) }}
+            </td>
+        </tr>
+        <tr>
+            <th>Primer nombre:</th>
+            <td>
+                {{ form_widget(edit_form_perfil.primerNombre) }}
+                {{ form_errors(edit_form_perfil.primerNombre) }}
+            </td>
+            <th>Segundo nombre</th>
+            <td>
+                {{ form_widget(edit_form_perfil.segundoNombre) }}
+                {{ form_errors(edit_form_perfil.segundoNombre) }}
+            </td>
+        </tr>
+        <tr>
+            <th>Primer apellido:</th>
+            <td>
+                {{ form_widget(edit_form_perfil.primerApellido) }}
+                {{ form_errors(edit_form_perfil.primerApellido) }}
+            </td>
+            <th>Segundo apellido</th>
+            <td>
+                {{ form_widget(edit_form_perfil.segundoApellido) }}
+                {{ form_errors(edit_form_perfil.segundoApellido) }}
+            </td>
+        </tr>
+        <tr>
+            <th>Cédula:</th>
+            <td>
+                {{ form_widget(edit_form_perfil.cedula) }}
+                {{ form_errors(edit_form_perfil.cedula) }}
+            </td>
+            <th>Fecha nacimiento</th>
+            <td>
+                {{ form_widget(edit_form_perfil.fechanacimiento) }}
+                {{ form_errors(edit_form_perfil.fechanacimiento) }}
+            </td>
+        </tr>
+        <tr>
+            <th>Nacionalidad:</th>
+            <td>
+                {{ form_widget(edit_form_perfil.nacionalidad) }}
+                {{ form_errors(edit_form_perfil.nacionalidad) }}
+            </td>
+            <th>Correo Opciona:</th>
+            <td>
+                {{ form_widget(edit_form_perfil.correoOpcional) }}
+                {{ form_errors(edit_form_perfil.correoOpcional) }}
+            </td>
+        </tr>
+        <tr>
+            <th>Estado:</th>
+            <td>
+                {{ form_widget(edit_form_perfil.estado) }}
+                {{ form_errors(edit_form_perfil.estado) }}
+            </td>
+            <th>Ciudad:</th>
+            <td>
+                {{ form_widget(edit_form_perfil.ciudad) }}
+                {{ form_errors(edit_form_perfil.ciudad) }}
+            </td>
+        </tr>
+        <tr>
+            <th>Abreviado:</th>
+            <td>
+                {{ form_widget(edit_form_perfil.abreviado) }}
+                {{ form_errors(edit_form_perfil.abreviado) }}
+            </td>
+            <th>Extensión:</th>
+            <td>
+                {{ form_widget(edit_form_perfil.extension) }}
+                {{ form_errors(edit_form_perfil.extension) }}
+            </td>
+        </tr>
+        <tr>
+            <th>Direccion Habitacion:</th>
+            <td colspan="3">
+                {{ form_widget(edit_form_perfil.direccionHabitacion,{'attr':{'style':'width:100%;height:80px;'}}) }}
+                {{ form_errors(edit_form_perfil.direccionHabitacion) }}
+            </td>
+        </tr>
+        <tr>
+            <th>Telefono Celular:</th>
+            <td>
+                {{ form_widget(edit_form_perfil.telefonoCelular) }}
+                {{ form_errors(edit_form_perfil.telefonoCelular) }}
+            </td>
+            <th>Telefono Local:</th>
+            <td>
+                {{ form_widget(edit_form_perfil.telefonoLocal) }}
+                {{ form_errors(edit_form_perfil.telefonoLocal) }}
+            </td>
+        </tr>
+        <tr>
+            <th>Dependencia:</th>
+            <td>
+                {{ form_widget(edit_form_perfil.nivelorganizacional) }}
+                {{ form_errors(edit_form_perfil.nivelorganizacional) }}
+            </td>
+            <th>Jefe:</th>
+            <td>
+                {{ form_widget(edit_form_perfil.jefe) }}
+                {{ form_errors(edit_form_perfil.jefe) }}
+            </td>
+        </tr>
+        <tr>
+            <th>Foto</th>
+            <td colspan="3">
+                {{ form_widget(edit_form_perfil.file) }}
+                {{ form_errors(edit_form_perfil.file) }}
+            </td>
+        </tr>
+    </table>
+     
+        <div style="width: 90%;" align="left">
+            {{ form_widget(edit_form.rol) }}
+            {{ form_errors(edit_form.rol) }}
+        </div>
+
+
+<br>
+
+<button class="btn btn-primary" type="submit">EDITAR</button> | 
+
+        <a class="btn btn-default" href="{{ path('user') }}">
+            IR A LA LISTA
+        </a> | 
+        <a class="btn btn-default" href="{{ path('rol_new') }}">
+            IR A NUEVO ROL
+        </a>
+
+</form>
+
+<form action="{{ path('rol_delete', { 'id': entity.id }) }}" method="post" onsubmit="return confirm('Seguro que desea eliminar')">
+    {{ form_widget(delete_form) }}
+    <button class="btn btn-danger" type="submit">BORRAR</button>
+</form>
+<br>
+
+
+    <script type="text/javascript">
+        
+        $( "#administracion_usuariobundle_perfiltype_fechanacimiento" ).datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: "dd-mm-yy",
+          yearRange: "-100:+0"
+        });
+        
+        if($( "#administracion_usuariobundle_perfiltype_estado").val()!="")
+            muestraCiudad($( "#administracion_usuariobundle_perfiltype_estado").val())
+        
+        
+        $( "#administracion_usuariobundle_perfiltype_estado" ).change(function() {
+            muestraCiudad($(this).val())
+        });
+
+        function muestraCiudad(id){
+            var valCiudad=null;
+            if($( "#administracion_usuariobundle_perfiltype_ciudad").val()!=""){
+               valCiudad=$( "#administracion_usuariobundle_perfiltype_ciudad").val()
+               
+            }
+            
+                
+            var url='{{ path('user_ajaxActualizarDatos',{'id':'dato1'})}}';
+            url=url.replace("dato1",id)
+            
+            $('#administracion_usuariobundle_perfiltype_ciudad').html('<option value="" selected="selected">Cargando...</option>');
+            
+            $.ajax({
+                url: url,
+                //type: 'POST',
+                dataType: 'json',
+                success: function(respuesta){
+                    
+                    var options='<option value selected="selected">Seleccione...</option>';
+                    for(var i=1;i<respuesta.options.length;i++){
+                        var data=respuesta.options[i].split("-");
+                        
+                        if(data[1]==valCiudad)
+                            options +='<option selected="selected" value="'+data[1]+'">'+data[0]+'</option>';
+                        else
+                            options +='<option value="'+data[1]+'">'+data[0]+'</option>';
+                    }
+                    $('#administracion_usuariobundle_perfiltype_ciudad').html(options);
+                        
+                    $("#administracion_usuariobundle_perfiltype_ciudad").trigger("chosen:updated");
+                    $('#administracion_usuariobundle_perfiltype_ciudad').removeAttr("disabled")
+                }
+            });
+            
+            
+
+        }
+        
+
+</script>
+
+  <script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+  </script>
+  
+{% endblock %}

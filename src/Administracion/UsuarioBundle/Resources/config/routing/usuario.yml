@@ -1,0 +1,59 @@
+user:
+    pattern:  /lista
+    defaults: { _controller: "UsuarioBundle:User:index" }
+
+user_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "UsuarioBundle:User:show" }
+
+user_new:
+    pattern:  /new
+    defaults: { _controller: "UsuarioBundle:User:new" }
+
+user_create:
+    pattern:  /create
+    defaults: { _controller: "UsuarioBundle:User:create" }
+    requirements: { _method: post }
+
+user_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "UsuarioBundle:User:edit" }
+
+user_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "UsuarioBundle:User:update" }
+    requirements: { _method: post }
+
+user_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "UsuarioBundle:User:delete" }
+    requirements: { _method: post }
+    
+    
+user_actualizarDatos:
+    pattern:  /actualizar/datos
+    defaults: { _controller: "UsuarioBundle:User:actualizarDatos" }
+    
+user_procesarActualizarDatos:
+    pattern:  /actualizar/procesar
+    defaults: { _controller: "UsuarioBundle:User:procesarActualizarDatos" }
+    requirements: { _method: post }
+    
+user_ajaxActualizarDatos:
+    pattern:  /actualizar/ajaxActualizarDatos/{id}
+    defaults: { _controller: "UsuarioBundle:User:ajaxActualizarDatos" }
+    
+    
+user_actualizarFoto:
+    pattern:  /actualizarfoto/{id}
+    defaults: { _controller: "UsuarioBundle:User:actualizarFoto" }
+    
+user_procesarActualizarFoto:
+    pattern:  /actualizarfoto/procesar/{id}
+    defaults: { _controller: "UsuarioBundle:User:procesarActualizarFoto" }
+    requirements: { _method: post }
+
+
+user_respuesta_encuesta:
+    pattern:  /encuesta/respuesta/{respuesta}
+    defaults: { _controller: "UsuarioBundle:User:Respuestaencuesta" }

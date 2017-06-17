@@ -1,0 +1,78 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>GESTIÓN DE TICKET</h2>
+    <i data-toggle="tooltip" data-placement="top" title="Comentarios y archivos" class="fa fa-comments-o"></i> <a href="{{ path('progis_comentarioarchivo_lista', { 'id': ticket.id,'entidad':'Ticket','desde':'TicketLista' }) }}">COMENTARIOS</a>&nbsp;&nbsp;
+
+    {% if rolGeneral["ROLE_PROGIS_TICKET_ADMIN"]==true or rolGeneral["ROLE_PROGIS_TICKET_TECNICO"]==true or is_granted('ROLE_PROGIS_ADMIN') %}
+    <i class="fa fa-eye"><a href="{{ path('progis_ticket_procesarTicket') }}"> IR A MIS TICKETS</a></i>&nbsp;&nbsp;
+    {% endif %}
+    
+    <i class="fa fa-users"><a href="{{ path('progis_ticket_procesarTicketOtros') }}"> IR A OTROS TICKETS</a></i>
+    
+    <br><br>
+
+{% endblock %}
+
+{% block ubicacion %}
+    <br><br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("progis_ticket_lista") }}">LISTA DE TICKETS</a></li>
+  <li class="active">GESTIONAR TICKET</li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+
+    {% include 'TicketBundle:Gestion:__ticketInfo.html.twig' %}
+    {% include 'TicketBundle:Gestion:__ticketAsignar.html.twig' %}
+    {% include 'TicketBundle:Gestion:__ticketReasignar.html.twig' %}
+
+    
+    {% if 
+           rolGeneralNivel[ticket.nivelorganizacional.id]['ROLE_PROGIS_TICKET_ADMIN']==true
+        or (rolGeneralNivel[ticket.nivelorganizacional.id]['ROLE_PROGIS_TICKET_TECNICO']==true)
+        or (is_granted('ROLE_PROGIS_ADMIN'))
+    %}
+    
+    <!--or (is_granted('ROLE_PROGIS_ADMIN') and app.session.get('idnivel')==ticket.nivelorganizacional.id)-->
+
+    <div class="botones">
+        {% if (procesarTicket is not empty and (procesarTicket.ubicacion!=2 and procesarTicket.ubicacion!=4)) or procesarTicket is null %}
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+          ASIGNAR TICKET
+        </button> |
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModalReasig">
+          REASIGNAR TICKET
+        </button>{% endif %}
+        
+        {% if ticket.estatus==1 and (is_granted('ROLE_PROGIS_ADMIN') or is_granted('ROLE_PROGIS_HELPDESK')) %}
+        <BR><BR><div align="center">{{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+            {{ form_errors(delete_form) }}
+            {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+        {{ form_end(delete_form) }}</div>
+        <br>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+    {# si hay un error al asignar muestro el modal nuevamente #}
+    {% if sms!=null %}
+        <script>
+        $(document).ready(function() {
+            $('#myModal').modal("show")
+        });
+        </script>
+    {% endif %}
+        
+{% endblock %}
+    
+
+
+
+
+
+

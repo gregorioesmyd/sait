@@ -1,0 +1,30 @@
+responsables:
+    path:     /
+    defaults: { _controller: "SolicitudesBundle:Responsables:index" }
+
+responsables_show:
+    path:     /{id}/show
+    defaults: { _controller: "SolicitudesBundle:Responsables:show" }
+
+responsables_new:
+    path:     /new
+    defaults: { _controller: "SolicitudesBundle:Responsables:new" }
+
+responsables_create:
+    path:     /create
+    defaults: { _controller: "SolicitudesBundle:Responsables:create" }
+    requirements: { _method: post }
+
+responsables_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "SolicitudesBundle:Responsables:edit" }
+
+responsables_update:
+    path:     /{id}/update
+    defaults: { _controller: "SolicitudesBundle:Responsables:update" }
+    requirements: { _method: post|put }
+
+responsables_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "SolicitudesBundle:Responsables:delete" }
+    requirements: { _method: post|delete }

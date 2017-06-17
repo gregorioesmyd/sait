@@ -1,0 +1,51 @@
+{% extends '::distribucion.html.twig' %}
+
+{% block title %}Reporte Informativo{% endblock %}
+
+{% block titulo %}
+    REPORTE INFORMATIVO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("distribucion_homepage") }}">DISTRIBUCIÓN INICIO</a></li>
+  <li class="active">REPORTE INFORMATIVO</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    
+    <form class="formNewEditOperador" novalidate action="{{ path('generar_reporte', { 'tipo': 'informativo','formato': 'xls'}) }}" method="post" {{ form_enctype(form) }}>
+
+        {{ form_widget(form._token) }}
+
+        <div class="formShow" style="width:700px;">
+            <div class="contenedorform">
+                    {{ form_errors(form.zona) }}
+                    <div class="labelform" style="width:30%;">Zona:</div>
+                    <div class="widgetform">{{ form_widget(form.zona) }}</div>
+                </div>
+
+                <div id="pais"></div>
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#form_zona').change(function(){
+                var dato = $("#form_zona").val();
+                var ruta = "{{ path('ajax', {'datos': 'variable','mostrar': 'pais'}) }}";
+                ruta = ruta.replace("variable", dato);
+                $('#pais').load(ruta);
+            });
+
+        });
+    </script>
+
+    <br>
+{% endblock %}
+
+
+    

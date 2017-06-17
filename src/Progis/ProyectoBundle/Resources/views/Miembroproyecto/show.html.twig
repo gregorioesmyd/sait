@@ -1,0 +1,66 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>CONSULTA MIEMBRO DE PROYECTO</h2>
+    <h4>Proyecto: "{{ entity.proyecto.nombre }}"</h4>
+    <a href="{{ path('miembroproyecto_new',{'idproyecto':proyecto.id}) }}"><i class="fa fa-plus"> Agregar miembro al proyecto</i></a>&nbsp;&nbsp;
+    <a href="{{ path('miembroproyecto_edit',{'id':entity.id}) }}"><i class="fa fa-edit"> Editar miembro de proyecto</i></a>&nbsp;&nbsp;
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("proyecto") }}">LISTA DE PROYECTOS</a></li>
+  <li><a href="{{ path("proyecto_show",{'id':proyecto.id}) }}">CONSULTAR PROYECTO</a></li>
+  <li><a href="{{ path("miembroproyecto",{'idproyecto':proyecto.id}) }}">LISTA DE MIEMBROS</a></li>
+  <li class="active">CONSULTAR MIEMBRO DEL PROYECTO</li>
+</ol>
+{% endblock %}
+
+{% block contenido -%}
+    {{ parent() }}
+
+    <table class="table table-hover table-bordered tablaShow">
+        <tr>
+            <th>Usuario:</th>
+            <td>{{ entity.miembroespacio.usuario.primerNombre|capitalize }} {{ entity.miembroespacio.usuario.primerApellido|capitalize }}</td>
+        </tr>
+        <tr>
+            <th>Jornada:</th>
+            <td>
+                    {% set dia=entity.miembroespacio.jornadalaboral.dias|split("-") %}
+                    {% for d in dia %}
+                        {% if d==1 %} | Lunes |
+                        {% elseif d==2 %} | Martes |
+                        {% elseif d==3 %} | Miercoles |
+                        {% elseif d==4 %} |Jueves |
+                        {% elseif d==5 %} | Viernes |
+                        {% elseif d==6 %} | Sábado |
+                        {% elseif d==7 %} | Domingo |
+                        {% endif %}
+                    {% endfor %}
+                    
+                    Desde las {{ entity.miembroespacio.jornadalaboral.horadesde|date('G:i:s') }} a {{ entity.miembroespacio.jornadalaboral.horahasta|date('G:i:s') }}
+            
+            </td>
+        </tr>
+        <tr>
+            <th>Rol:</th>
+            <td>
+                        {{ entity.rolproyecto.rol }} : {{ entity.rolproyecto.descripcion }}<br>
+                    
+            </td>
+        </tr>
+    </table>
+            
+    <div align="center">
+        {{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+            {{ form_errors(delete_form) }}
+            {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+        {{ form_end(delete_form) }}
+    </div> 
+{% endblock %}
+
+
+

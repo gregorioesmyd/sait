@@ -1,0 +1,30 @@
+unidades:
+    path:     /
+    defaults: { _controller: "SolicitudesBundle:Unidades:index" }
+
+unidades_show:
+    path:     /{id}/show
+    defaults: { _controller: "SolicitudesBundle:Unidades:show" }
+
+unidades_new:
+    path:     /new
+    defaults: { _controller: "SolicitudesBundle:Unidades:new" }
+
+unidades_create:
+    path:     /create
+    defaults: { _controller: "SolicitudesBundle:Unidades:create" }
+    requirements: { _method: post }
+
+unidades_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "SolicitudesBundle:Unidades:edit" }
+
+unidades_update:
+    path:     /{id}/update
+    defaults: { _controller: "SolicitudesBundle:Unidades:update" }
+    requirements: { _method: post|put }
+
+unidades_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "SolicitudesBundle:Unidades:delete" }
+    requirements: { _method: post|delete }

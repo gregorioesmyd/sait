@@ -1,0 +1,42 @@
+<?php
+
+namespace Frontend\VideotecaBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Categoria
+ *
+ * @ORM\Table(name="videoteca.categoria")
+ * @ORM\Entity
+ */
+class Categoria
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=50)
+     */
+    private $nombre;
+
+    /**
+     * @ORM\Column(name="correlativo", type="string", length=255)
+     */
+     private $correlativo;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="TipoCinta", inversedBy="categoria")
+     * @ORM\JoinColumn(name="tipocinta_id", referencedColumnName="id")
+     */
+    private $tipoCinta;
+
+}

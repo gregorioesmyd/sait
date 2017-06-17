@@ -1,0 +1,136 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% if entity.tipoPauta == 1 %}
+    {% set pauta = 'Pauta Programada' %}
+{% else %}
+    {% set pauta = 'Pauta No Programada' %}
+{% endif%}
+
+
+{% block title %} Editar {{ pauta | upper }}{% endblock %}
+
+{% block titulo %}
+    Editar {{ pauta }}
+{% endblock %}
+
+{% block ubicacion %}
+    
+<ol class="breadcrumb">
+  <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+    {% if is_granted('ROLE_EQUIPOS_SEGURIDAD') %}
+        <li><a href="{{ path("pautas_listar") }}">PAUTAS</a></li>
+    {% endif %}
+    {% if is_granted('ROLE_EQUIPOS_PAUTASPROGRAMADAS') %}
+        <li><a href="{{ path("pautas") }}">PAUTAS</a></li>
+    {% endif %}
+  <li class="active">EDITAR {{ pauta | upper }}</li>
+</ol>
+{% endblock %}
+    
+{% block body -%}
+    {{ parent() }}
+
+    {% if not form.vars.valid %}
+        <div class="alert alert-danger errores" style="width:70%;">
+            <div><b>Alerta! Ha ocurrido un error en el formulario:</b><br><br></div>
+            <div>{{ form_errors(form.tipoPauta) }}</div>
+            <div>{{ form_errors(form.fechaDesde) }}</div>
+            <div>{{ form_errors(form.fechaHasta) }}</div>
+            <div>{{ form_errors(form.responsable) }}</div>
+            <div>{{ form_errors(form.justificacion) }}</div>
+            <div>{{ form_errors(form.tipoPauta) }}</div>
+        </div>
+    {% endif %}
+
+    <center>
+    
+     <form novalidate action="{{ path('pauta_update',{'id':entity.id}) }}" method="post" {{ form_enctype(form) }} class="form-horizontal" role="form">
+        <input type="hidden" name="_method" value="PUT"> 
+        {{ form_widget(form._token) }}
+        {{ form_widget(form.tipoPauta) }}
+        <div class="formShow">
+            {% if pauta == 'Pauta Programada' %}
+                <div class="form-group">
+                    <label for="fechaPauta" class="col-sm-4 control-label">Fecha Desde *</label>
+                    <div class="col-sm-3">
+                        {{ form_widget(form.fechaDesde,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fechaPauta" class="col-sm-4 control-label">Fecha Hasta *</label>
+                    <div class="col-sm-3">
+                        {{ form_widget(form.fechaHasta,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                    </div>
+                </div>
+            {% else %}        
+                <div class="form-group">
+                        <label for="fechaHasta" class="col-sm-4 control-label">Fecha Desde *</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" >{{ entity.fechaDesde| date("d/m/Y") }}</p>
+                            {{ form_widget(form.fechaDesde,{ 'attr': {'class': 'form-control input-sm','style':'display:none;'} }) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fechaHasta" class="col-sm-4 control-label">Fecha Hasta *</label>
+                        <div class="col-sm-3">
+                            {{ form_widget(form.fechaHasta,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                        </div>
+                    </div>   
+            {% endif %}
+            <div class="form-group">
+                <label for="responsable" class="col-sm-4 control-label">Responsable de la Pauta:</label>
+                <div class="col-sm-3">
+                    {{ form_widget(form.responsable,{ 'attr': {'class': 'form-control input-sm chosen-select','style': 'width:220px;'} }) }}
+                </div>
+            </div>
+                
+            <div class="form-group">
+                <label for="justificacion" class="col-sm-4 control-label">Evento / Destino *</label>
+                <div class="col-sm-3">
+                    {{ form_widget(form.justificacion,{ 'attr': {'class': 'form-control input-sm','rows':'4','style':'width:220px;'} }) }}
+                </div>
+            </div>
+            {% if pauta == 'Pauta Programada' %}
+            <!--<div class="form-group">
+                <label for="aprobado" class="col-sm-4 control-label">Aprobado</label>
+                <div class="col-sm-3">
+                    {# form_widget(form.aprobado,{ 'attr': {'class': 'input-sm','style':'display:none;'} }) #}
+                </div>
+            </div>-->
+                    {{ form_widget(form.aprobado,{ 'attr': {'class': 'input-sm','style':'display:none;'} }) }}
+                {% else %}
+                    {{ form_widget(form.aprobado,{ 'attr': {'class': 'input-sm','style':'display:none;'} }) }}
+            {% endif %}
+            <br>
+            
+            <input type="submit" class="btn btn-primary" value="EDITAR PAUTA">
+        <br><br>
+        </div>
+        {% if is_granted('ROLE_EQUIPOS_PAUTASPROGRAMADAS') %}
+            <a href="{{ path('pautas') }}" class="btn btn-default">
+                Volver a la Lista de Pautas
+            </a>
+        {% else %} 
+            <a href="{{ path('pautas') }}" class="btn btn-default">
+                Mis Pautas
+            </a> |
+            <a href="{{ path('pautas_listar') }}" class="btn btn-default">
+                Volver a la Lista de Pautas
+            </a>
+        {% endif %}
+     </form>
+    </center>
+    <script>
+        $(function() {
+            $(".chosen-select").chosen({no_results_text: "No encontrado!"});
+            $(":file").filestyle({iconName: "glyphicon-picture",buttonBefore: true,buttonText: "Cargar Fotografía",input: false});
+            
+            $("#controlequipobundle_pautas_fechaDesde" ).datepicker({
+                dateFormat: "dd-mm-yy",
+            });
+            $("#controlequipobundle_pautas_fechaHasta" ).datepicker({
+                dateFormat: "dd-mm-yy",
+            });
+        });
+    </script>
+{% endblock %}

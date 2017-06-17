@@ -1,0 +1,39 @@
+<?php
+
+namespace Progis\PrincipalBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Documento
+ *
+ * @ORM\Table(name="progis.comentarioticket")
+ * @ORM\Entity
+ */
+class ComentarioTicket
+{
+    
+    /**
+     * @var \Frontend\ProyectoBundle\Entity\Ticket
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Progis\TicketBundle\Entity\Ticket")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ticket_id", referencedColumnName="id")
+     * })
+     */
+    private $ticket;
+    
+    /**
+     * @var \Frontend\PrincipalBundle\Entity\Comentarioarchivo
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Comentarioarchivo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="comentarioarchivo_id", referencedColumnName="id")
+     * })
+     */
+    private $comentarioarchivo;
+    
+
+     
+}

@@ -1,0 +1,30 @@
+{% extends '::cumpleanios.html.twig' %}
+
+
+{% block title %}Listado{% endblock %}
+
+{% block titulo %}
+    GESTION DE NOTIFICACIONES
+{% endblock %}
+
+{% block ubicacion %}
+    <ol class="breadcrumb">
+        <li><a href="{{path("usuario_homepage")}}">INICIO</a></li>
+        <li class="active">GESTION DE NOTIFICACIONES</li>
+    </ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+
+    <div class="row" style="margin-bottom:10px; padding: 40 0 200 0;">
+        <div class="col-sm-6 col-md-4 col-lg-6">
+            <a href="{{ path('cumpleanios_personal')}}">CUMPLEAÑOS<br><img width="150px" height="120px" src="{{ asset("images/cumpleanios.jpg") }}" data-placement="bottom"  data-trigger="hover"></a>
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <a href="{{ path('efemerides')}}">EFEMERIDES<br><img width="200px" height="120px" src="{{ asset("images/efemeride.png") }}" data-placement="bottom"  data-trigger="hover"></a>
+        </div>
+    </div>
+
+{% endblock %}

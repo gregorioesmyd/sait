@@ -1,0 +1,52 @@
+<div align="center">
+    <div style=" font-size: 20px;font-weight: bold;width: 600px;border: 1px solid gray;padding: 5px;background-color:#F0AD4E;color:black;">NUEVA SOLICITUD DE RESERVACIÓN</div>
+    <table style="width: 612px;border: 1px solid gray;" cellpadding="5px" class="tablacorreo">
+         <tr>
+            <th align="right">Reservaci&oacute;n:</th>
+            <td>{{ reservaciones.estudioCabina }}</td>
+        </tr>
+        <tr>
+            <th align="right">Pauta: </th>
+            <td>{{ reservaciones.pauta|capitalize }}</td>
+        </tr>
+        {% if reservaciones.observacion%}
+            <tr>
+                <th align="right">Observaci&oacute;n: </th>
+                <td class="solicitud">{{ reservaciones.observacion}}</td>
+            </tr>
+        {%endif%}
+        <tr>
+            <th align="right">Fecha Estimada: </th>
+           <td>{{ reservaciones.fecha |date('d-m-Y')}}</td>
+        </tr>
+        <tr>
+            <th align="right">Hora Programada:</th>
+           <td>Inicio: {{ reservaciones.horaInicio|date('H:i:s')  }}   |   Fin: {{ reservaciones.horaFin|date('H:i:s')  }}</td>
+        </tr>
+        <tr>
+            <th align="right">Responsable: </th>
+           <td>{{ perfil.primerApellido | capitalize }} {{ perfil.primerNombre}}</td>
+        </tr>
+        <tr>
+            <th align="right">Extensi&oacute;n: </th>
+            <td>{{ perfil.Extension}}</td>
+        </tr>
+        <tr>
+            <th align="right">Dependencia: </th>
+            <td>{% if perfil.nivelorganizacional!=null %}{{ perfil.nivelorganizacional.descripcion }}{% endif %}</td>
+        </tr>
+         <tr>
+            <th align="right">Estatus: </th>
+            <td>
+                {% if reservaciones.estatus==1 %}<span class="label label-warning" style="font-size: 85%;"> En Espera</span>
+                    {% elseif reservaciones.estatus==2 %}<span class="label label-success" style="font-size: 85%;"> Aprobado</span>
+                    {% elseif reservaciones.estatus==3 %} <span class="label label-danger"  style="font-size: 85%;">Rechazado</span>
+                    {% elseif reservaciones.estatus==4 %}<span class="label label-default" style="font-size: 85%;"> Culminado</span>
+                    {% elseif reservaciones.estatus==5 %}<span class="label label-primary" style="font-size: 85%;"> Caducado</span>
+                {% endif %}
+            </td>
+        </tr>
+      </table>
+       <br>
+         <div>PARA IR DIRECTAMENTE A LA SOLICITUD PRESIONE <a href="http://aplicaciones.telesurtv.net/sait/web/app.php/cabinaestudio/reservaciones/show/{{reservaciones.id}}/0">AQUÍ</a></div>
+</div>

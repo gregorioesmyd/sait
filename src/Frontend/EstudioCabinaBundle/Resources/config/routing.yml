@@ -1,0 +1,19 @@
+estudio_cabina_homepage:
+    path:     /index/{tipo}
+    defaults: { _controller: EstudioCabinaBundle:Default:index }
+    
+reservaciones_estudio_cabinaBundle:
+    resource: "@EstudioCabinaBundle/Resources/config/routing/reservaciones.yml"
+    prefix:   /reservaciones
+    
+pautafijas_estudio_cabinaBundle:
+    resource: "@EstudioCabinaBundle/Resources/config/routing/pautafijas.yml"
+    prefix:   /pautafijas
+    
+historialreservaciones_estudio_cabinaBundle:
+    resource: "@EstudioCabinaBundle/Resources/config/routing/historialreservaciones.yml"
+    prefix:   /historialreservaciones
+    
+estudio_cabina_principal:
+    path:     /principal
+    defaults: { _controller: EstudioCabinaBundle:Default:principal }

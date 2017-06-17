@@ -1,0 +1,71 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>EDITAR ACTIVIDAD</h2>
+    <h4>PROYECTO: "{{ entity.objetivo.proyecto.nombre|upper }}"</h4>
+    <h4>OBJETIVO: "{{ entity.objetivo.nombre|upper }}"</h4>
+{% endblock %}
+
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("proyecto_homepage") }}">LISTA DE PROYECTOS</a></li>
+  <li><a href="{{ path("objetivo",{'idproyecto':entity.objetivo.proyecto.id}) }}">LISTA DE OBJETIVOS</a></li>
+  <li><a href="{{ path("proyecto_procesarActividad",{'idobjetivo':entity.objetivo.id}) }}">LISTA DE ACTIVIDADES</a></li>
+  <li class="active">EDITAR ACTIVIDAD</li>
+</ol>
+{% endblock %}
+
+{% block contenido -%}
+    {{ parent() }}
+    
+    {% if entity.tiemporeal is not null %}
+        <div class="alert alert-danger">LA ACTIVIDAD FUE PUESTA EN PROCESO POR LO TANTO NO PUEDE MODIFICAR EL TIEMPO</div>
+    {% endif %}
+    
+    {{ form_start(edit_form, { 'attr': {'novalidate':null} }) }}
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">MODIFIQUE LOS PARÁMETROS</div>
+            <div class="panel-body">
+                    <div id="formulario">{{ form_widget(edit_form) }}</div>
+            </div>
+        </div>
+
+        <div align="center"><input type="submit" class="btn btn-primary" value="EDITAR ACTIVIDAD">
+    {{ form_end(edit_form) }} 
+        
+     {% if is_granted('ROLE_PROGIS_ADMIN') or (entity.tiemporeal==null and( app.user.id==entity.responsable.miembroespacio.usuario.id )) %}{% if entity.ubicacion!=4 and entity.ubicacion!=3 and entity.ubicacion!=2 %}
+             <br><br><div align="center">{{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+        {{ form_errors(delete_form) }}
+        {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+    {{ form_end(delete_form) }}</div>
+    <br>{% endif %}{% endif %}
+    
+    {% if entity.tiemporeal is not null %}
+        <script type="text/javascript">
+            $(document).ready(function(){
+
+                $('#frontend_proyectobundle_procesaractividad_tipotiempo').prop('disabled', true);
+                $('#frontend_proyectobundle_procesaractividad_tiempoestimado').prop('readonly', true);
+
+            })
+        </script>
+    {% endif %}
+    
+    
+    {% if 
+        rolGeneralNivel[entity.objetivo.proyecto.nivelorganizacional.getId()]['ROLE_PROGIS_PROYECTO_TECNICO']==true 
+            or(rolProyecto[entity.objetivo.proyecto.id] is defined and(
+            rolProyecto[entity.objetivo.proyecto.id]['ROLE_PROGIS_PROYECTO_ESP_TECNICO']==true))
+    %}
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#Responsable').hide()
+            })
+        </script>
+    {% endif %}
+    
+{% endblock %}

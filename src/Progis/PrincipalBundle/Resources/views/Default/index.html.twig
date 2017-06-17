@@ -1,0 +1,20 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>BITÁCORA GENERAL</h2>
+{% endblock %}
+
+{% block ubicacion %}
+    <br><br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li class="active">PRINCIPAL PROGIS</li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+
+    <div align="center"><img src="{{ asset('images/EnConstruccion.gif') }}"></div>
+    
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends '::distribucion.html.twig' %}
+
+{% block title %}Zonas{% endblock %}
+
+{% block titulo %}
+    LISTA DE ZONAS
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("distribucion_homepage") }}">DISTRIBUCIÓN INICIO</a></li>
+  <li class="active">LISTA DE ZONAS</li>
+</ol>
+{% endblock %}
+   
+{% block body -%}
+    {{ parent() }}
+    <table ID="tabladatatable">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Zona</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('zona_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.zona }}</td>
+                <td>
+                    <a href="{{ path('zona_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></a>
+         
+                    {% if is_granted('ROLE_DISTRIBUCION_ADMINISTRADOR') %}
+                    <a href="{{ path('zona_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-pencil"></a>
+                    {% endif %}
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    {% if is_granted('ROLE_DISTRIBUCION_ADMINISTRADOR') %}
+    <br><br><a class="btn btn-default" href="{{ path('zona_new') }}">
+        NUEVA ZONA
+    </a>
+    <br><br>
+    {% endif %}
+        <script type="text/javascript">
+        $(document).ready(function(){
+           $('#tabladatatable').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                "aaSorting": [[0,'asc'],[1,'asc']],
+            } );
+        })
+    </script>
+
+    {% endblock %}

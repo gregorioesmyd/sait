@@ -1,0 +1,149 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>MI TRABAJO REALIZADO DESDE: {{ data['fd']|date("d-m-Y")}} - HASTA: {{ data['fh']|date("d-m-Y")}}</h2><br>
+    <a href="{{ path('progis_principal_trabajo_realizado_filtro') }}" class="btn btn-default">VOLVER</a><br><br>
+    
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+    
+{% for u in usuarios %}
+    {% set totalHoras=0 %}
+    <a target="__blank" onclick="$('#form{{u['usuario'].id}}').submit()" style="cursor: pointer">
+    <form action="{{ path('progis_principal_mi_trabajo_realizado',{'pdf':'true','id':u['usuario'].id}) }}" method="post" id="form{{u['usuario'].id}}">
+    <table width="150px;">
+        <tr>
+            <td align="center">
+                {% if u['usuario'].foto is null %}
+                    <img src="/uploads/personalTelesur/no.png" height="150px;" class="img-thumbnail">
+                {% else %}
+                    <img src="{{u['usuario'].foto}}" style="height:100px;" class="img-thumbnail">
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td align="center">{{u['usuario'].primerNombre}} {{u['usuario'].primerApellido}}</td>
+        </tr>
+    </table>
+        <input type="hidden" name="fd" value="{{ data['fd']}}">
+        <input type="hidden" name="fh" value="{{ data['fh']}}">
+    </form>
+    </a>
+    <br>
+    <table class="table table-bordered">
+        <tr>
+            <th width="10%">Fecha</th>
+            {#<th width="10%">Tiempo en horas</th>#}
+            <th width="5%">Minutos</th>
+            {#<th width="10%">Tiempo en segundos</th>#}
+            <th width="10%">T.E</th>
+            <th width="10%">Solicitante</th>
+            <th width="25%">Descripcion</th>
+            <th width="25%">Solucion</th>
+            <th width="10%">Estado</th>
+            <th style="width: 5%;">Tipo</th>
+        </tr>
+    {% set contTicket=0 %}{% set contActividad=0 %}
+    {% for tr in trabajoRealizado if tr.responsable.usuario==u['usuario'] %}
+        <tr>
+            <td>{{ tr.fecha|date("d-m-Y") }}</td>
+            {#<td>{{ tr.horas|number_format(2) }}</td>#}
+            <td>{{ (tr.horas*60)|number_format(2) }}</td>
+            {#<td>{{ (tr.horas*3600)|number_format(0) }}</td>#}
+            
+        {% if tr.tipo=='t' %}
+            {% set contTicket=contTicket+1 %}
+            <td>{{ tr.ticket.tiempoestimado }} {% if tr.ticket.tipotiempo==2%}Hora(s){% else %}Minuto(s){% endif %}</td>
+            <td>{{ tr.ticket.ticket.solicitante.primerNombre|title }} {{ tr.ticket.ticket.solicitante.primerApellido|title }}</td>
+            <td>{{ tr.ticket.ticket.solicitud }}</td>
+            <td>{% if tr.ticket.ticket.solucion=='' %}N/A{% else %}{{tr.ticket.ticket.solucion}}{% endif %}</td>
+            <td>
+                {% if tr.ticket.ubicacion==1 %}
+                    <span class="label label-primary"><span style="display:none;">1-</span>Pausado</span>
+                {% elseif tr.ticket.ubicacion==2 %}
+                    <span class="label label-warning"><span style="display:none;">2-</span>Proceso</span>
+                {% elseif tr.ticket.ubicacion==3 %}
+                    <span class="label label-info"><span style="display:none;">3-</span>Revision</span>
+                {% elseif tr.ticket.ubicacion==4 %}
+                    <span class="label label-success"><span style="display:none;">4-</span>Culminado</span>
+                {% elseif tr.ticket.ubicacion==4 %}
+                    <span class="label label-danger"><span style="display:none;">5-</span>Dependencia</span>
+                {% endif %}
+            </td>
+            <td>Ticket</td>
+        {% elseif tr.tipo=='a'  %}
+            {% set contActividad=contActividad+1 %}
+            <td>{{ tr.actividad.tiempoestimado }} {% if tr.actividad.tipotiempo==2%}Hora(s){% else %}Minuto(s){% endif %}</td>
+            <td>N/A</td>
+            <td>{{ tr.actividad.descripcion }}</td>
+            <td>N/A</td>
+            <td>
+                {% if tr.actividad.ubicacion==1 %}
+                    <span class="label label-primary"><span style="display:none;">1-</span>Pausado</span>
+                {% elseif tr.actividad.ubicacion==2 %}
+                    <span class="label label-warning"><span style="display:none;">3-</span>Proceso</span>
+                {% elseif tr.actividad.ubicacion==3 %}
+                    <span class="label label-info"><span style="display:none;">4-</span>Revision</span>
+                {% elseif tr.actividad.ubicacion==4 %}
+                    <span class="label label-success"><span style="display:none;">5-</span>Culminado</span>
+                {% elseif tr.actividad.ubicacion==5 %}
+                    <span class="label label-danger"><span style="display:none;">5-</span>Dependencia</span>
+                {% endif %}
+            </td>
+            <td>Actividad</td>
+        {% endif %}
+        
+        {% set totalHoras=totalHoras+tr.horas %}
+    {% endfor %}    
+    
+    
+    
+    
+    </tr></table>
+    
+    {% set h=totalHoras|round(0, 'floor') %}
+    {% set m=((totalHoras*60)-(h*60))|round(0, 'floor') %}
+        
+        
+    <div>
+        <p style="font-size: 18px;">TOTAL TICKETS: {{ contTicket }} - TOTAL ACTIVIDADES: {{ contActividad }} </p>
+        <p style="font-size: 18px;">TOTAL HORAS LABORALES SEGÚN EL RANGO DE FECHAS: {{ u['horasLaborales']|number_format(0) }} Hora(s)</p>
+        <div class="progress">
+          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+            <span class="sr-only">100% Complete (success)</span>
+          </div>
+        </div>
+        
+        {% set porcentaje= (totalHoras*100)/u['horasLaborales'] %}
+        
+        <p style="font-size: 18px;">TOTAL HORAS TRABAJADAS: {{ h }} Hora(s) {{ m }} Minuto(s) </p>
+        <div class="progress">
+          <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: {{porcentaje}}%">
+            <span class="sr-only">{{porcentaje}}% Complete (danger)</span>
+          </div>
+        </div>
+          
+        {% set x= (u['horasLaborales']|number_format(0))- totalHoras  %}
+        {% set h=x|round(0, 'floor') %}
+        {% set m=((x*60)-(h*60))|round(0, 'floor') %}
+
+        <p style="font-size: 18px;color:red;">TOTAL HORAS NO REPORTADAS: {{ h }} Hora(s) {{ m }} Minuto(s) </p>
+        
+        {% set x= (totalHoras*100)/(u['horasLaborales']|number_format(0))  %}
+        <p style="font-size: 18px;">REPORTO EL {{ x|number_format(2) }}% DE SUS HORAS LABORALES</p>
+    </div><br><br>
+
+
+        
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,32 @@
+encuesta_activa:
+    path:     /activa
+    defaults: { _controller: "EncuestaBundle:Encuesta:activa" }
+encuesta_index:
+    path:     /admin/index
+    defaults: { _controller: "EncuestaBundle:Encuesta:index" }
+encuesta_show:
+    path:     /admin/{id}/show
+    defaults: { _controller: "EncuestaBundle:Encuesta:show" }
+
+encuesta_new:
+    path:     /admin/new
+    defaults: { _controller: "EncuestaBundle:Encuesta:new" }
+
+encuesta_create:
+    path:     /admin/create
+    defaults: { _controller: "EncuestaBundle:Encuesta:create" }
+    requirements: { _method: post }
+
+encuesta_edit:
+    path:     /admin/{id}/edit
+    defaults: { _controller: "EncuestaBundle:Encuesta:edit" }
+
+encuesta_update:
+    path:     /admin/{id}/update
+    defaults: { _controller: "EncuestaBundle:Encuesta:update" }
+    requirements: { _method: post|put }
+
+encuesta_delete:
+    path:     /admin/{id}/delete
+    defaults: { _controller: "EncuestaBundle:Encuesta:delete" }
+    requirements: { _method: post|delete }

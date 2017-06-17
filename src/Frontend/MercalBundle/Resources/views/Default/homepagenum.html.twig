@@ -1,0 +1,39 @@
+{% extends '::mercal.html.twig' %}
+ 
+{% block title %}Numeraci&oacute;n{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    
+    {#
+    <div class="titulojornada">JORNADA {{ jornada.nombrejornada|upper }}</div>
+    <div id="numeracion"> 
+        <div class="numero">{{ datos.numero }}</div>
+        <div class="nombre">SUSPENDIDA</div>
+        <div class="cedula">HASTA LA SEMANA DEL 05/05/2014</div>
+    </div>
+    #}
+    
+    <div class="titulojornada">JORNADA {{ jornada.nombrejornada|upper }}</div>
+    <div id="numeracion"> 
+        <div class="numero">{{ datos.numero }}</div>
+        <div class="nombre">{{ datos.nombre }}</div>
+        <div class="cedula">{{ datos.cedula }}</div>
+    </div>
+    
+
+    <input type="hidden" id="idjornada" value="{{ jornada.id }}">
+
+
+    
+    <script type="text/javascript">
+            function consultaAjax(){
+                var idjornada = $("#idjornada").val();
+                var ruta = "{{ path('ajaxmercal_siguienteautomatico', {'idjornada':'valoridjornada'}) }}";
+                ruta = ruta.replace("valoridjornada", idjornada);
+                $('#numeracion').load(ruta);
+            };
+            setInterval(consultaAjax, 10000 );
+    </script>
+
+{% endblock %}

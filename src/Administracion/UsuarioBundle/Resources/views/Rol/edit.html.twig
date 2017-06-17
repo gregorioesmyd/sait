@@ -1,0 +1,51 @@
+{% extends '::administracion.html.twig' %}
+
+{% block title %}Editar rol{% endblock %}
+
+{% block titulo %}
+    EDITAR ROL
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+    <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+    <li><a href="{{ path("rol") }}">LISTA DE ROLES</a></li>
+    <li class="active">EDITAR ROL</li>
+</ol>
+{% endblock %}
+
+{% block body %}
+{{ parent() }}
+
+<form novalidate action="{{ path('rol_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    
+    {{ form_widget(edit_form._token) }}
+
+     <div class="formShow">
+        <div class="contenedorform">
+            <div class="text-error">{{ form_errors(edit_form.rol) }}</div>
+            <div class="labelform">Rol:</div>
+            <div class="widgetform">{{ form_widget(edit_form.rol) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-error">{{ form_errors(edit_form.descripcion) }}</div>
+            <div class="labelform">Descripcion:</div>
+            <div class="widgetform">{{ form_widget(edit_form.descripcion) }}</div>
+        </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit">EDITAR</button> | 
+
+        <a class="btn btn-default" href="{{ path('rol') }}">
+            IR A LA LISTA
+        </a>
+</form>
+
+
+        <form action="{{ path('rol_delete', { 'id': entity.id }) }}" method="post" onsubmit="return confirm('Seguro que desea eliminar')">
+            {{ form_widget(delete_form) }}
+            <button class="btn btn-danger" type="submit">BORRAR</button>
+        </form>
+
+
+{% endblock %}

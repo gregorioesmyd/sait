@@ -1,0 +1,96 @@
+{% extends '::creatv.html.twig' %}
+
+{% block title %}Feria{% endblock %}
+
+{% block titulo %}
+    MI POSTULACIÓN
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">CONSULTA DE POSTULACIÓN</li>
+</ol>
+{% endblock %}
+
+
+{% block body %}
+    {{ parent() }}
+
+    <div class="panel panel-default" style="width: 80%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">DATOS DEL SOLICITANTE</div>
+        <div class="panel-body">
+            <table class="table table-bordered">
+                <tr>
+                    <th>Nombre y Apellido</th>
+                    <td>{{ perfil.primerNombre|capitalize }} {{ perfil.primerApellido|capitalize }}</td>
+                    <th>Cedula</th>
+                    <td>{{ perfil.cedula }}</td>
+                </tr>
+                <tr>
+                    <th>Cargo</th>
+                    <td>{{ perfil.cargo.descripcion|capitalize }}</td>
+                    <th>Nivel</th>
+                    <td>{{ perfil.nivelorganizacional.descripcion|capitalize }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+
+    <table class="table table-bordered" style="width: 80%;">
+        <tbody>
+            <tr>
+                <th>Tipo de producto:</th>
+                <td>{% if entity.tipoProducto=='g'%}Gastronomía{% else %}Manualidades y otros{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Productos Seleccionados:</th>
+                <td>
+                    <ul>
+                        {% for p in entity.producto %}
+                            <li style="list-style: decimal">{{ p.descripcion}}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Descripción producto:</th>
+                <td>{{ entity.descripcionProducto }}</td>
+            </tr>
+            <tr>
+                <th>Cantidad producto:</th>
+                <td>{{ entity.cantidadProducto }}</td>
+            </tr>
+            <tr>
+                <th>Vendedores:</th>
+                <td>{{ entity.vendedores }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion marca:</th>
+                <td>{{ entity.descripcionMarca }}</td>
+            </tr>
+            <tr>
+                <th>Posee punto:</th>
+                <td>{% if entity.poseePunto==true %}Sí{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <div align="center">
+        <a class="btn btn-default" href="{{ path('bazar_postular_edit', { 'id': entity.id }) }}">
+            IR A EDITAR MI POSTULACIÓN
+        </a>
+    </div>
+            <BR>
+    {#        
+    <div align="center">
+        {{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+            {{ form_errors(delete_form) }}
+            {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+        {{ form_end(delete_form) }}
+    </div>#}
+            
+            
+{% endblock %}

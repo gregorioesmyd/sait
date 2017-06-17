@@ -1,0 +1,105 @@
+{% extends '::protocolo.html.twig' %}
+
+{% block title %}Protocolo{% endblock %}
+
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">Protocolo</li>
+</ol>
+{% endblock %}
+
+{% block body %}
+{{parent()}}
+<form novalidate method="post" action="{{ path('aeropuerto_create') }}">
+      {{ form_widget(form._token) }}
+	  <div class="row" id="block-choice">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="btn-group" role="group" aria-label="...">
+						<div class="btn-group" role="group">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							Tipo de Solicitud
+						<span class="caret"></span>
+						</button>
+							<ul class="dropdown-menu" role="menu">
+								<li role="presentation" class="dropdown-header">Reuni&oacute;n</li>
+					            <li><a href="{{ path('reservaciones_new',{'tipo':'3','ubicacion':'1'}) }}">Sala</a></li>
+					            <li><a href="{{ path('reunion_new') }}">Oficina</a></li>
+					            <li role="presentation" class="divider"></li>
+					            <li><a href="{{ path('regalo_new') }}">Regalo Corporativo</a></li>
+					            <li><a href="{{ path('invitados_new') }}">Invitado</a></li>
+					            <li><a href="{{ path('salidacanal_new') }}">Salida del canal para recibir invitado</a></li>
+					            <li><a href="{{ path('aeropuerto_new') }}">Aeropuerto</a></li>
+					        </ul>
+						</div>
+					</div>
+				</div>
+			</div>
+	        <br><br>
+{% if form_errors(form.fecha) or form_errors(form.hora) or form_errors(form.aeropuerto) or form_errors(form.lineaAerea) or form_errors(form.nombreInvitado) or form_errors(form.numeroVuelo) or form_errors(form.localizador)
+		or form_errors(form.paisProcedencia) or form_errors(form.responsable) or form_errors(form.lugarDestino) %}
+		    <div class="alert alert-danger errores" style="width:70%;">
+		        <div><b>Alerta! Ha ocurrido un error en el formulario:</b><br><br></div>
+		        <div>{{ form_errors(form.fecha) }}</div>
+		        <div>{{ form_errors(form.hora) }}</div> 
+		        <div>{{ form_errors(form.aeropuerto) }}</div>
+		        <div>{{ form_errors(form.lineaAerea) }}</div>
+		        <div>{{ form_errors(form.nombreInvitado) }}</div>
+		        <div>{{ form_errors(form.numeroVuelo) }}</div>
+		        <div>{{ form_errors(form.localizador) }}</div>
+		        <div>{{ form_errors(form.paisProcedencia) }}</div>
+		        <div>{{ form_errors(form.responsable) }}</div>
+		        <div>{{ form_errors(form.lugarDestino) }}</div>
+		     </div>
+    	{% endif %}
+	        
+		<div class="panel panel-primary" style="width: 90%;">
+	        <div class="panel-heading">SOLICITUD DE PROTOCOLO DE AEROPUERTO</div>
+	        <div class="panel-body">
+	        <div class="table-responsive">
+	          <table class="table table-bordered tablaDatosProtocolo">
+				    <tr>
+				        <th>Fecha de llegada</th>
+				        <th>Hora de llegada</th>
+				        <th>Aeropuerto</th>
+				    </tr>
+				    <tr>
+				        <td>{{ form_widget(form.fecha) }}</td>
+				        <td>{{ form_widget(form.hora) }}</td>
+				        <td>{{ form_widget(form.aeropuerto) }}</td>
+				    </tr>
+				    <tr>
+				    	<th>Linea &Aacute;erea</th>
+				        <th>Nombre del Invitado</th>
+				        <th>Nro de vuelo</th>
+				    </tr>
+				    <tr>
+				    	<td>{{ form_widget(form.lineaAerea) }}</td>
+				        <td>{{ form_widget(form.nombreInvitado) }}</td>
+				        <td>{{ form_widget(form.numeroVuelo) }}</td>
+				    </tr>
+				    <tr>
+				    	<th>Localizador</th>
+				        <th>Pa&iacute;s de Procedencia</th>
+				    	<th>Responsable del invitado</th>
+				    </tr>
+				    <tr>
+				    	<td>{{ form_widget(form.localizador) }}</td>
+				        <td>{{ form_widget(form.paisProcedencia) }}</td>
+				        <td>{{ form_widget(form.responsable) }}</td>
+				    </tr>
+				    <tr>
+				    	<th colspan="3">Lugar de destino</th>
+				    </tr>
+				    <tr>
+				    	<td colspan="3">{{ form_widget(form.lugarDestino) }}</td>
+				    </tr>
+				</table>
+			  </div>
+	   		</div>
+		</div>
+		<br>
+		<button type="submit" class="btn btn-primary">PROCESAR SOLICITUD</button>
+ </form>
+{% endblock %}

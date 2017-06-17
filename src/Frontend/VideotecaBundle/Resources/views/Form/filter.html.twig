@@ -1,0 +1,101 @@
+{% form_theme form _self %}
+
+{% block form_row %}
+    <div class="row">
+        <div class="form-group">
+            <div class="col-xs-12">
+                {{ form_label(form) }}
+            </div>
+            <div class="col-xs-12">
+    			{{ form_widget(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock form_row %}
+
+{%- block form_widget_simple -%}
+    {%- set type = type|default('text') -%}
+    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %} value="{{ value }}" {% endif %}/>
+{%- endblock form_widget_simple -%}
+
+{%- block date_widget -%}
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            {%- if widget == 'single_text' -%}
+                {{ block('form_widget_simple') }}
+            {%- else -%}
+                <div {{ block('widget_container_attributes') }}>
+                    {{- date_pattern|replace({
+                        '{{ year }}':  form_widget(form.year),
+                        '{{ month }}': form_widget(form.month),
+                        '{{ day }}':   form_widget(form.day),
+                    })|raw -}}
+                </div>
+            {%- endif -%}
+        </div>
+    </div>
+{%- endblock date_widget -%}
+
+{%- block button_widget -%}
+        {%- if label is empty -%}
+            {% set label = name|humanize %}
+        {%- else -%}
+            {%- if label == "Buscar" -%}
+                {% set glyphicon = "glyphicon glyphicon-search" %}
+            {%- elseif label == "Limpiar" -%}
+                {% set glyphicon = "glyphicon glyphicon-trash" %}
+            {%- else -%}
+                {% set glyphicon = "" %}
+            {%- endif -%}
+        {%- endif -%}
+        <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+            <span class="{{ glyphicon }}"></span>
+            {{ label|trans({}, translation_domain) }}
+        </button>
+{%- endblock button_widget -%}
+
+{%- block number_widget -%}
+    <div class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            {# type="number" doesn't work with floats #}
+            {%- set type = type|default('text') -%}
+            {{ block('form_widget_simple') }}
+        </div>
+    </div>
+{%- endblock number_widget -%}
+
+{%- block integer_widget -%}
+    <div class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            {% set type = type|default('number') %}
+            {{- block('form_widget_simple') -}}
+        </div>
+    </div>
+{%- endblock integer_widget -%}
+
+{%- block choice_widget -%}
+    <div class="row">
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            {% if expanded %}
+                {{- block('choice_widget_expanded') -}}
+            {% else %}
+                {{- block('choice_widget_collapsed') -}}
+            {% endif %}
+         </div>
+    </div>
+{%- endblock choice_widget -%}
+
+{%- block time_widget -%}
+    <div class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            {%- if widget == 'single_text' -%}
+                {{ block('form_widget_simple') }}
+            {%- else -%}
+                {%- set vars = widget == 'text' ? { 'attr': { 'size': 1 }} : {} -%}
+                <div {{ block('widget_container_attributes') }}>
+                    {{ form_widget(form.hour, vars) }}{% if with_minutes %}:{{ form_widget(form.minute, vars) }}{% endif %}{% if with_seconds %}:{{ form_widget(form.second, vars) }}{% endif %}
+                </div>
+            {%- endif -%}
+        </div>
+    </div>
+{%- endblock time_widget -%}

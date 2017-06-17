@@ -1,0 +1,111 @@
+{% extends '::cumpleanios.html.twig' %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <style>
+        .oculto {
+            width: 0 !important;
+            height: 0 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}Nuevo{% endblock %}
+
+{% block titulo %}
+    NUEVA EFEMERIDE
+{% endblock %}
+
+{% block ubicacion %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+        <li><a href="{{ path("efemerides") }}">LISTADO DE EFEMERIDE</a></li>
+        <li class="active">NUEVO EFEMERIDE</li>
+    </ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+
+    {% if form_errors(form.nombre) or form_errors(form.anio) or form_errors(form.mes) or form_errors(form.dia) or form_errors(form.tipoId) or form_errors(form.paisId) %}
+        <div class="alert alert-danger errores" style="width:70%;">
+            <div><b>Alerta! Ha ocurrido un error en el formulario:</b><br><br></div>
+            <div>{{ form_errors(form.nombre) }}</div>     
+            <div>{{ form_errors(form.dia) }}</div>
+            <div>{{ form_errors(form.mes) }}</div>
+            <div>{{ form_errors(form.anio) }}</div>
+            <div>{{ form_errors(form.tipoId) }}</div>
+            <div>{{ form_errors(form.paisId) }}</div>
+        </div>
+    {% endif %}
+
+    <form novalidate action="{{ path('efemerides_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form._token) }}
+
+
+        <div class="formShow">
+
+            <div class="contenedorform">
+                <div class="labelform">Nombre:</div>
+                <div class="widgetform">{{ form_widget(form.nombre) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Dia:</div>
+                <div class="widgetform">{{ form_widget(form.dia) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Mes:</div>
+                <div class="widgetform">{{ form_widget(form.mes) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Posee Año:</div>
+                <div class="widgetform">{{ form_widget(form.isAnio) }}</div>
+            </div>
+            <div class="oculto" id="anio"></div>
+            <div class="contenedorform">
+                <div class="labelform">Tipo:</div>
+                <div class="widgetform">{{ form_widget(form.tipoId) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Pais:</div>
+                <div class="widgetform">{{ form_widget(form.paisId) }}</div>
+            </div>
+        </div>
+
+        <a class="btn btn-default" href="{{ path('efemerides') }}">
+            VOLVER A LA LISTA
+        </a> | 
+
+        <button class="btn btn-primary" type="submit">CREAR</button>
+
+    </form>
+
+{% endblock %}
+
+
+
+
+{% block javascripts %}
+    {{ parent()}}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var checkbox = '#frontend_cumpleaniosbundle_efemerides_efemerides_isAnio';
+            $(checkbox + "[type=checkbox]").on("click", function () {
+                var isChecked = $(checkbox).is(':checked');
+                if (isChecked) {
+                    $("#anio").html("<div class='labelform'>Año:</div>"
+                            + "<div class='widgetform'><input type='text' id='frontend_cumpleaniosbundle_efemerides_efemerides_anio'"
+                            + "name='frontend_cumpleaniosbundle_efemerides_efemerides[anio]'></div>");
+                    $("#anio").addClass('contenedorform');
+                    $("#anio").removeClass('oculto');
+                } else {
+                    $("#anio").removeClass('contenedorform');
+                    $("#anio").addClass('oculto');
+                    $("#anio").html("");
+                }
+            });
+        });
+    </script>
+
+{% endblock %}
+

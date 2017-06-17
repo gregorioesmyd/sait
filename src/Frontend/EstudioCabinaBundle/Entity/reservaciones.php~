@@ -1,0 +1,88 @@
+<?php
+
+namespace Frontend\EstudioCabinaBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Estudiocabina.reservaciones
+ *
+ * @ORM\Table(name="estudiocabina.reservaciones")
+ * @ORM\Entity
+ */
+class reservaciones
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="estudiocabina.reservaciones_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="perfil_id", type="integer", nullable=false)
+     */
+    private $perfilId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pauta", type="string", nullable=false)
+     */
+    private $pauta;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha", type="date", nullable=false)
+     */
+    private $fecha;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="hora_inicio", type="time", nullable=false)
+     */
+    private $horaInicio;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="hora_fin", type="time", nullable=false)
+     */
+    private $horaFin;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="observacion", type="string", nullable=false)
+     */
+    private $observacion;
+
+    /**
+     * @var \Estudiocabina.estatus
+     *
+     * @ORM\ManyToOne(targetEntity="Estudiocabina.estatus")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="estatus_id", referencedColumnName="id")
+     * })
+     */
+    private $estatus;
+
+    /**
+     * @var \Estudiocabina.estudiosCabinas
+     *
+     * @ORM\ManyToOne(targetEntity="Estudiocabina.estudiosCabinas")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="estudio_cabina_id", referencedColumnName="id")
+     * })
+     */
+    private $estudioCabina;
+
+
+}

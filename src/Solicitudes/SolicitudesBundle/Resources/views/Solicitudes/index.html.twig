@@ -1,0 +1,70 @@
+{% extends '::solicitudes.html.twig' %}
+
+{% block body %}
+{{ parent() }}
+    <h1> Solicitudes</h1> 
+    
+   <table id="tabladatatable">
+        <thead>
+            <tr>
+                <th width="30%">Nombre de la Aplicaci&oacute;n</th>
+                <th width="60%">Problema</th>
+                <th width="5%">Estatus</th>
+                <th width="5%">Acciones</th>               
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td width="30%"><a href="{{ path('solicitudesapp_show', { 'id': entity.id }) }}">{{ entity.nombre }}</a></td>
+                <td width="60%">{{ entity.problema }}</td>
+                <td width="5%">{{ entity.estatus }}</td>
+                <td width="5%">
+                    {% if is_granted('ROLE_ADMINISTRADOR') and entity.estatus.id != "3" and entity.estatus.id != "4" %}
+                        <a href="{{ path('solicitudesapp_edit', { 'id': entity.id  }) }}" data-toggle="tooltip" title="Editar">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>      
+                    {% endif %}
+
+
+                    {% if is_granted('ROLE_ADMINISTRADOR') %}             
+                        {% if entity.estatus.id == 1 %}
+                            <a href="{{ path('solicitudesapp_estatus', { 'id': entity.id, 'estatus':"2"  }) }}" data-toggle="tooltip" title="Estudiar">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                            </a>
+                        {% elseif entity.estatus.id == 2 %}
+                            <a href="{{ path('solicitudesapp_estatus', { 'id': entity.id, 'estatus':"3" }) }}" data-toggle="tooltip" title="Aprobar">
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </a>
+                        
+                            <a href="{{ path('solicitudesapp_estatus', { 'id': entity.id, 'estatus':"4"  }) }}" data-toggle="tooltip" title="Rechazar">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        {% endif %}                    
+                    {% endif %}
+                </td> 
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table><br><br>
+    <a class="btn btn-default" href="{{ path( 'solicitudesapp_new' ) }}">Nueva Solicitud de Aplicaci&oacute;n</a><br><br>
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function(){
+           $('#tabladatatable').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                "aaSorting": [[0,'asc'],[1,'asc']],
+            } );
+        })
+
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        })
+
+    </script>
+    
+{% endblock %} 

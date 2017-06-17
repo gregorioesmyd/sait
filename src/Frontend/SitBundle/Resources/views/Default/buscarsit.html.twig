@@ -1,0 +1,64 @@
+{% extends '::sit.html.twig' %}
+
+{% block title %}Busqueda{% endblock %}
+
+{% block titulo %}
+    <h3>RESULTADO DE BÚSQUEDA SIT</h3>
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li class="active">RESULTADO DE BÚSQUEDA</li>
+</ol>
+{% endblock %}
+    
+{% block body -%}
+    {{ parent() }}
+    
+    {% set total = 0 %}
+    {% set total = ticket|length %}
+        
+        
+        
+    <div style="width: 70%;text-align: left;">
+        <p style="padding-left: 20px;" class="bg-primary"><b>RESULTADOS DE BÚSQUEDA</b> "{% if palabra!="" %}{{ palabra }}{% else %}Muestra todos los elementos{% endif %}"</p>
+        <p style="padding-left: 20px;" class="text-muted"><b>{{ total }} Encontrados</b></p>
+    
+        <div style="padding-left: 20px;">
+            {% if ticket %}
+                <a class="label label-primary" name="proyecto">TICKETS</a><br><br>
+                <table class="table table-bordered">
+                    <tr class="bg-info">
+                        <th>SOLICITUD</th>
+                        <th>SOLUCION</th>
+                        <th>ARCHIVO</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                        {% for p in ticket %}
+                            <tr>
+                                <td>{{ p.solicitud|capitalize}}</td>
+                                <td>{{ p.solucion|capitalize}}</td>
+                                <td>
+                                    {% if p.archivo!='' %}
+                                        {% set extension =  p.archivo|split(".") %}
+
+                                        {% if extension[1]=='jpg' or extension[1]=='jpeg' or extension[1]=='png' or extension[1]=='gif'  %}
+                                            <a data-toggle="modal" href="#myModal">
+                                                <img class="img-rounded" src="/uploads/sit/{{ p.archivo }}" width="150px">
+                                            </a>
+                                        {% else %}
+                                            <a href="/uploads/sit/{{ p.archivo }}">DESCARGA ARCHIVO {{ extension[1]|upper }}</a>
+                                        {% endif %}
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </td>
+                                <td><a target="_blank" style="color:black;" href="{{ path('ticket_show', { 'id': p.id }) }}" data-toggle="tooltip" data-placement="top" title="Consultar Proyecto"><span class="glyphicon glyphicon-search"></span></a></td>
+                            </tr>
+                        {% endfor %}
+                </table>
+                <br><br>
+            {% endif %}
+{% endblock %}
+       

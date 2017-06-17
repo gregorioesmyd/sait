@@ -1,0 +1,48 @@
+{% extends '::protocolo.html.twig' %}
+
+{% block title %}Protocolo{% endblock %}
+
+{% block titulo %}
+    SALIDA DEL CANAL PARA RECIBIR UN INVITADO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">Protocolo</li>
+</ol>
+{% endblock %}
+
+{% block body %}
+{{parent()}}
+<div class="formShow">
+        <div class="contenedorform">
+            <div class="labelform">Fecha:</div>
+            <div class="widgetform">{{ entity.fecha |date('d-m-Y')}}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Hora:</div>
+            <div class="widgetform">{{ entity.hora |date('H:i:s')}}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Lugar:</div>
+             <div class="widgetform">{{ entity.lugar}}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Nombre del Invitado:</div>
+            <div class="widgetform">{{ entity.invitados }}</div>
+       </div>
+        <div class="contenedorform">
+            <div class="labelform">Tlf Del Invitado:</div>
+            <div class="widgetform">{{ entity.tlfInvitado }}</div>
+       </div>
+       <div class="contenedorform">
+            <div class="labelform">Observacion:</div>
+            <div class="widgetform">{{ entity.observacion }}</div>
+       </div>
+    </div>
+       <a class="btn btn-default" href="{{ path('salidacanal') }}">VOLVER A LA LISTA</a> 
+       |
+       <a class="btn btn-primary" href="{{ path('salidacanal_edit', { 'id': entity.id }) }}">EDITAR</a>
+        <br><br>
+{% endblock %}

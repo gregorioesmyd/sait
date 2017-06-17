@@ -1,0 +1,37 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>NUEVA JORNADA</h2>
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("jornadalaboral") }}">LISTA DE JORNADAS</a></li>
+  <li class="active">NUEVA JORNADA</li>
+</ol>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent()}}
+    <link href="{{ asset('bundles/principal/css/jornadalaboral.css') }}" rel="stylesheet">
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent()}}
+ 
+    {{ form_start(form, { 'attr': {'novalidate':null} }) }}
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">INGRESE LOS PARÁMETROS</div>
+            <div class="panel-body">
+                    <div id="formulario">{{ form_widget(form) }}</div>
+            </div>
+        </div>
+
+        <div align="center"><input type="submit" class="btn btn-primary" value="CREAR JORNADA">
+    {{ form_end(form) }}  
+        
+{% endblock %}
+

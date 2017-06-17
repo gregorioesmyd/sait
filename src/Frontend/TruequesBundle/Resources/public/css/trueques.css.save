@@ -1,0 +1,523 @@
+body {
+	background-color:#F2F2F2;
+}
+
+header {
+	margin-top: 200px;
+}
+
+
+
+.container-body {
+	margin-top: 200px;
+	background-color: white;
+.dataTables_wrapper {
+    margin: 0 auto;
+}	-webkit-border-radius: 10px 10px;  /* Safari  */
+	-moz-border-radius: 10px 10px;     /* Firefox */
+	border-radius: 10px 10px;
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.18);
+	-moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.18);
+	box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.18);
+
+}
+
+.logotelesur{
+	position: absolute;
+	margin-top: -137px;
+}
+
+/* BEGIN BREADCRUMBTRIVIAS */
+
+.breadcrumbtrivias{
+	position: absolute;
+	margin-left: 145px;
+	margin-top: 25px;
+}
+
+.breadcrumbtrivias .breadcrumbtriviasnombre{
+	position: absolute;
+	margin-left: 200px;
+}
+
+.table-breadcrumb tr {
+	background-color: #6685be;
+	color: white;
+}
+
+.table-breadcrumb th:first-child {
+	width: 20%;
+}
+
+.table-breadcrumb th:last-child {
+	width: 796px;
+	padding-left: 5px;
+}
+
+/* END BREADCRUMBTRIVIAS */
+
+.container-body > img {
+	margin-top: 80px;
+	width: 100%;
+}
+
+.wp-ppal {
+	background-image: url("../images/Trueque-Bannerprincipal-100x560.jpg");
+	width: 1140px;
+	height: 687px;
+	background-repeat: no-repeat;
+	margin: 0 auto;
+	background-size: 100%;
+	background-color: white;
+	margin-left: 0 !important;
+}
+
+.titulo{
+	padding-top: 40px;
+	padding-bottom: 15px;
+	font-weight: bold;
+	font-size: 18px;
+	background-color: white;
+}
+
+.pieintranet{
+	background-color: #F2F2F2;
+	font-size: 12px;
+	color: #696060;
+	text-align: center;
+	margin-top: 30px;
+}
+
+.menu-secundary {
+	float: right;
+	margin-right: 15px;
+}
+
+.menu-secundary .dropdown-menu {
+	min-width: 125px;
+}
+
+.menu-secundary .dropdown-menu > li {
+	margin-bottom: 5px;
+}
+
+.wp-input {
+	display: inline-block;
+}
+
+.remove-tag {
+	position: absolute;
+}
+
+
+
+
+/*HOme*/
+.wp-btn {
+	position: relative;
+    top: 500px;
+    left: 299px;
+    width: 795px;
+}
+
+.btn-gray-home {
+	width: 224px;
+    height: 31px;
+    border-radius: 0;
+    background-color: #efedee;
+    border: 0;
+    color: gray;
+    margin-right: 117px;
+}
+
+/*FORMULARIO DE CARGA*/
+
+.form-cargar-producto {
+	background-color: #f2f2f2;
+	width: 460px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.formularioNew{
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+.container-new-misproductos .formularioNew .panel {
+    min-height: 340px;
+
+}
+
+.container-new-misproductos .formularioNew .panel .panel-body{
+   border-top: 1px solid #FEFEFE;
+   background-color: #F2F2F2;
+   min-height: 340px;
+}
+
+.formularioNew .panel{
+    width: 440px;
+    -webkit-box-shadow: 0px 0px 5px 2px #f2f2f2;;
+    -moz-box-shadow: 0px 0px 5px 2px #f2f2f2;;
+    box-shadow: 0px 0px 5px 2px #f2f2f2;;
+}
+
+.formularioNew .panel .panel-heading{
+   background-color: #F2F2F2;
+   background-image:none;
+   font-weight: bold;
+   text-align: left;
+   border-bottom: 1.5px solid #D6D6D6;
+}
+
+.formularioNew .panel .panel-body{
+   border-top: 1px solid #FEFEFE;
+   background-color: #F2F2F2;
+}
+
+.formularioNew .panel .panel-body input[type="text"] {
+    height: 40px;
+    border: 1px solid #ccc;
+    padding-left: 5px;
+}
+
+.inputText {
+    width: 95%;
+}
+
+.formularioNew .panel .panel-body select{
+    height: 40px
+}
+
+.contenedorform select,
+.contenedorform .date {
+	width: 95%;
+}
+
+.formularioNew .panel .panel-body select[multiple] {
+    height: 200px;
+}
+
+.labelform{
+    text-align: left;
+    margin-left: 10px;
+}
+
+.labelform label{
+    font-weight: lighter;
+}
+.widgetform{
+    margin-bottom: 10px;
+}
+
+#DataTables_Table_0_wrapper{
+    width: 95% !important;
+    padding-bottom: 40px;
+}
+
+.body-content{
+    /*margin-left: 30px;*/
+}
+.show{
+    width: 70%;
+}
+
+
+.show th{
+    text-align: right;
+    padding-right: 10px;
+}
+
+.alert {
+	border-radius: 0;
+    text-align: center;
+}
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+    width: 95%;
+}
+.my-select-multiple button {
+	border-radius: 0;
+    height: 40px;
+    border: 1px solid #A6A6A6;
+}
+
+.content-tags {
+    width: 95%;
+    height: auto;
+    overflow: hidden;
+    margin: 4px 0;
+}
+
+.content-tags span.tags {
+    padding: 0.4em;
+    margin-right: 2px;
+    font-size: 13px;
+    float: left;
+    margin-bottom: 2px;
+
+    background-image: -webkit-linear-gradient(top, #fff 0, #e0e0e0 100%);
+    background-image: -o-linear-gradient(top, #fff 0, #e0e0e0 100%);
+    background-image: linear-gradient(to bottom, #fff 0, #e0e0e0 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    background-repeat: repeat-x;
+    border-color: #dbdbdb;
+    text-shadow: 0 1px 0 #fff;
+    border: 1px solid #A6A6A6;
+}
+
+.btn-nav {
+    padding-top: 40px;
+}
+
+.nav__categoria ul > li{
+    margin-right: 55px;
+}
+
+.nav__categoria ul > li > a > img {
+    width: 110px;
+    margin-bottom: 10px;
+}
+
+li.categoria__Higi > a {
+    background-color: transparent;
+    width: 138px;
+    margin-left: -19px;
+}
+
+.nav__categoria {
+    width: 775px;
+    margin: 18px auto;
+    text-align: center;
+    padding-left: 60px;
+}
+
+.nav__categoria>li>a:focus, 
+.nav__categoria>li>a:hover, 
+.nav__categoria>li>a:active {
+    text-decoration: none !important;
+    background-color: transparent !important;
+}
+
+.nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    background-color: transparent !important;
+    outline: none;
+}
+
+.categoria__Alim {
+    background-image: url("../images/Alim_hover.png");
+    background-image: url("../images/Alim.png");
+    width: 110px;
+    height: 110px;
+    background-color: none;
+    background-repeat: no-repeat;
+    position: relative;
+    background-size: 100%;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 117px;
+}
+.categoria__Alim span {
+    position: relative;
+    top: 110px;
+}
+
+.categoria__Alim:hover {
+    background-image: url("../images/Alim_hover.png");
+    width: 110px;
+    height: 110px;
+    background-color: none;
+    background-repeat: no-repeat;
+    position: relative;
+    background-size: 100%;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 117px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 117px;
+}
+
+.categoria__Aseo {
+    background-image: url("../images/Higi_hover.png");
+    background-image: url("../images/Higi.png");
+    width: 110px;
+    height: 110px;
+    background-color: none;
+    background-repeat: no-repeat;
+    position: relative;
+    background-size: 100%;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 117px;
+}
+.categoria__Aseo span {
+    position: relative;
+    top: 110px;
+}
+
+.categoria__Aseo > a {
+    width: 137px;
+    margin-left: -19px;
+}
+
+.categoria__Aseo:hover {
+    background-image: url("../images/Higi_hover.png");
+    width: 110px;
+    height: 110px;
+    background-color: none;
+    background-repeat: no-repeat;
+    position: relative;
+    background-size: 100%;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 117px;
+}
+
+.categoria__Limp {
+    background-image: url("../images/Limp_hover.png");
+    background-image: url("../images/Limp.png");
+    width: 110px;
+    height: 110px;
+    background-color: none;
+    background-repeat: no-repeat;
+    position: relative;
+    background-size: 100%;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 117px;
+}
+.categoria__Limp span {
+    position: relative;
+    top: 110px;
+}
+
+.categoria__Limp:hover {
+    background-image: url("../images/Limp_hover.png");
+    width: 110px;
+    height: 110px;
+    background-color: none;
+    background-repeat: no-repeat;
+    position: relative;
+    background-size: 100%;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 117px;
+}
+
+.categoria__Medi {
+    background-image: url("../images/Medi_hover.png");
+    background-image: url("../images/Medi.png");
+    width: 110px;
+    height: 110px;
+    background-color: none;
+    background-repeat: no-repeat;
+    position: relative;
+    background-size: 100%;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 117px;
+}
+.categoria__Medi span {
+    position: relative;
+    top: 110px;
+}
+
+.categoria__Medi:hover {
+    background-image: url("../images/Medi_hover.png");
+    width: 110px;
+    height: 110px;
+    background-color: none;
+    background-repeat: no-repeat;
+    position: relative;
+    background-size: 100%;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 117px;
+}
+
+.producto {
+    cursor: pointer;
+    list-style: none;
+    border: 1px solid #ccc;
+    padding: 6px;
+    background-color: white;
+    margin-bottom: 4px;
+    border-radius: 3px;
+    padding-left: 11px;
+}
+
+.panel-body ul {
+    padding-left: 0;
+}
+
+section.container__productos--search {
+    background-color: #f6f6f6;
+    width: 100%;
+    height: 260px;
+    border-radius: 4px;
+    border: 1px solid #b2b2b2;
+}
+
+section.container__productos--search form {
+    margin: 50px auto 0;
+    width: 84%;
+    right: -25px;
+}
+
+section.container__productos--search img {
+    width: 110px;
+    margin-top: 80px;
+    margin-left: 31px;
+}
+
+section.container__productos--search form legend{
+    color: #4c4b49;
+}
+
+.img-trueques {
+        width: 100px;
+    margin: 0 auto;
+}
+
+.container-search {
+    padding-bottom: 60px;
+}
+
+.container-body-search {
+    margin-top: 100px;
+}
+
+.container-search .container-new-misproductos .formularioNew{
+    padding-top: 0;
+}
+
+.container-search .container-new-misproductos .formularioNew .panel {
+    min-height: 619px;
+}
+
+.container-search .container-new-misproductos .formularioNew .panel .panel-body {
+    min-height: 576px;
+}
+
+span.productos-interes {
+    background-color: white;
+    margin-right: 8px;
+    display: block;
+    margin-bottom: 4px;
+    border: 1px solid #ccc;
+    padding: 3px;
+}
+
+p.interes {
+    overflow-y: auto;
+    height: 144px;
+}
+
+.radioCustom  {
+    margin-top: 0px;
+}
+
+.label-estatus span{
+    width: 200px !important;
+}

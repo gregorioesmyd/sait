@@ -1,0 +1,81 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }} 
+    
+    <table class="table table-bordered">
+        {% for u in usuarios if procesoTicket[u.id] is defined %}
+            <tr >
+                <td style="width: 20%;text-align: center;">
+                    {% if u.foto is null %}
+                        <img src="/uploads/personalTelesur/no.png" style="height: 150px" class="img-thumbnail">
+                    {% else %}
+                        <img src="{{u.foto}}" style="height:  150px" class="img-thumbnail">
+                    {% endif %}
+
+                    <p><b>{{ u.primerNombre }} {{ u.primerApellido }}</b></p>
+                </td>
+
+                <td>
+                    <h5>TICKET EN PROCESO</h5>
+                    <ul>
+                        <li>Solicitud: <a  href="{{ path("progis_ticket_asignar",{'idticket':procesoTicket[u.id].ticket.id}) }}">{{procesoTicket[u.id].ticket.solicitud}}</a></li>
+                        <li>Solicitante: {{procesoTicket[u.id].ticket.solicitante.primerNombre}} {{procesoTicket[u.id].ticket.solicitante.primerApellido}}</li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        
+        {% for u in usuarios if u.jefe==false and procesoActividad[u.id] is defined %}
+            <tr >
+                <td style="width: 20%;text-align: center;">
+                    {% if u.foto is null %}
+                        <img src="/uploads/personalTelesur/no.png" style="height: 150px" class="img-thumbnail">
+                    {% else %}
+                        <img src="{{u.foto}}" style="height:  150px" class="img-thumbnail">
+                    {% endif %}
+
+                    <p><b>{{ u.primerNombre }} {{ u.primerApellido }}</b></p>
+                </td>
+
+                <td>
+                    <h5>ACTIVIDAD EN PROCESO</h5>
+                    <ul>
+                        <li>Actividad: <a href="{{ path('proyecto_procesarActividad', { 'idobjetivo': procesoActividad[u.id].objetivo.id  }) }}">{{procesoActividad[u.id].descripcion}}</a></li>
+                        <li>Proyecto: <a href="{{ path('proyecto_show',{'id':procesoActividad[u.id].objetivo.proyecto.id}) }}">{{procesoActividad[u.id].objetivo.nombre}}</a></li>
+                        <li>Objetivo: </b> <a href="{{ path('objetivo_show',{'id':procesoActividad[u.id].objetivo.id}) }}">{{procesoActividad[u.id].objetivo.proyecto.nombre}}</a></li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        
+        {% for u in usuarios if u.jefe==false and procesoTicket[u.id] is not defined and procesoActividad[u.id] is not defined %}
+            <tr >
+                <td style="width: 20%;text-align: center;">
+                    {% if u.foto is null %}
+                        <img src="/uploads/personalTelesur/no.png" style="height: 150px" class="img-thumbnail">
+                    {% else %}
+                        <img src="{{u.foto}}" style="height:  150px" class="img-thumbnail">
+                    {% endif %}
+
+                    <p><b>{{ u.primerNombre }} {{ u.primerApellido }}</b></p>
+                </td>
+
+                <td>
+                    <div class="alert alert-danger">NADA EN PROCESO</div>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

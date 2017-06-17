@@ -1,0 +1,43 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block body -%}
+    <h1>EquiposPautas list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Chequeoentrada</th>
+                <th>Chequeosalida</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('equipopauta_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.chequeoEntrada }}</td>
+                <td>{{ entity.chequeoSalida }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('equipopauta_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('equipopauta_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('equipopauta_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

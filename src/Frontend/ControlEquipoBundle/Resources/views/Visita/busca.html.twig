@@ -1,0 +1,26 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block title %}Buscar Usuario{% endblock %}
+
+{% block titulo %}
+    <h3>BUSCAR USUARIO</h3>
+{% endblock %}
+
+{% block ubicacion %}
+        <ol class="breadcrumb">
+            <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+            <li><a href="{{ path("visita") }}">LISTADO DE VISITANTES</a></li>
+            <li class="active">BUSCAR USUARIO</li>
+
+        </ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    
+    <form action="{{ path('visita_new') }}" method="post" class="form-inline">
+        <input type="text" class="form-control input-large" name="cedula" id="cedula" autocomplete="off" placeholder="Ingrese la cédula del visitante" autofocus />
+        <input class="btn btn-primary" type="submit" value="BUSCAR">
+    </form>
+   <br><br><br>
+{% endblock %}

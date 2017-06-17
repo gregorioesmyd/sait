@@ -1,0 +1,205 @@
+{% extends '::estudioCabina.html.twig' %}
+{% block menu %}
+    {% include 'EstudioCabinaBundle:Default:includes/menu.html.twig' %}
+{% endblock %}
+
+{% block title %}ESTUDIOS-CABINAS{% endblock %}
+
+{% block titulo %}
+    SOLICITUD DE RESERVACIÓN DE {% if tipo == 1 %}ESTUDIOS{% elseif tipo == 2 %}CABINAS{% else %}SALAS{% endif%}
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path('estudio_cabina_homepage',{'tipo':tipo,'ubicacion':ubicacion}) }}">CALENDARIO</a></li>
+ {% if tipo== 1 %}
+    {% if is_granted('ROLE_ESTUDIO_ADMIN')%}
+         <li><a href="{{ path('reservaciones',{'tipo':tipo,'ubicacion':ubicacion}) }}">LISTA DE SOLICITUDES DE {% if tipo== 1 %}ESTUDIOS{%elseif tipo == 2 %}CABINAS{% else %}SALAS{% endif %}</a></li>
+    {% else %}
+     <li class="active">RESERVACIÓN DE {%if tipo == 1 %}ESTUDIO{% elseif tipo == 2 %}CABINA{% else %}SALA{% endif%}</li>
+    {% endif %} 
+{% elseif tipo== 2 %}
+    {% if is_granted('ROLE_CABINA_ADMIN')%}
+         <li><a href="{{ path('reservaciones',{'tipo':tipo,'ubicacion':ubicacion}) }}">LISTA DE SOLICITUDES DE {% if tipo== 1 %}ESTUDIOS{%elseif tipo == 2 %}CABINAS{% else %}SALAS{% endif %}</a></li>
+    {% else %}
+     <li class="active">RESERVACIÓN DE {%if tipo == 1 %}ESTUDIO{% elseif tipo == 2 %}CABINA{% else %}SALA{% endif%}</li>
+    {% endif %}
+{% elseif tipo== 3 %}
+    {% if is_granted('ROLE_SALA_ADMIN')%}
+         <li><a href="{{ path('reservaciones',{'tipo':tipo,'ubicacion':ubicacion}) }}">LISTA DE SOLICITUDES DE {% if tipo== 1 %}ESTUDIOS{%elseif tipo == 2 %}CABINAS{% else %}SALAS{% endif %}</a></li>
+    {% else %}
+     <li class="active">RESERVACIÓN DE {%if tipo == 1 %}ESTUDIO{% elseif tipo == 2 %}CABINA{% else %}SALA{% endif%}</li>
+    {% endif %} 
+{% endif %}  
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent()}}
+    
+    {% if tipo==3 and (form_errors(form2.nroPersonas) or form_errors(form2.refrigerio)) or form_errors(form.estudioCabina) or form_errors(form.pauta) or form_errors(form.observacion) or form_errors(form.horainicio) or form_errors(form.horafin) or form_errors(form.fecha)%}
+    <div class="alert alert-danger errores" style="width:70%;">
+        <div><b>Alerta! Ha ocurrido un error en el formulario:</b><br><br></div>
+        <div>{{ form_errors(form.estudioCabina) }}</div>
+        <div>{{ form_errors(form.pauta) }}</div> 
+        <div>{{ form_errors(form.observacion) }}</div>
+        <div>{{ form_errors(form.fecha) }}</div>
+        <div>{{ form_errors(form.horainicio) }}</div>
+        <div>{{ form_errors(form.horafin) }}</div>
+        {% if tipo==3 %}
+        <div>{{ form_errors(form2.nroPersonas) }}</div>
+        <div>{{ form_errors(form2.refrigerio) }}</div>
+        {% endif %}
+     </div>
+    {% endif %}
+    
+     <form novalidate action="{{ path('reservaciones_create',{'tipo':tipo,'ubicacion':ubicacion}) }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form._token) }} {% if tipo==3 %}{{ form_widget(form2._token) }}{% endif %}
+        
+         <div class="formShow">
+             <div style="text-align: center"><b>RESERVACIÓN</b></div><br>
+            <div class="contenedorform">
+                <div class="labelform">{% if tipo == 1 %}Estudios
+                                    {% elseif tipo == 2 %}Cabinas{% else %}Salas{% endif %}:</div>
+                <div class="widgetform">{{ form_widget(form.estudioCabina) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Fecha Estimada:</div>
+                 <div class="widgetform">{{ form_widget(form.fecha) }}</div>
+            </div>
+            
+            <div class="contenedorform">
+                <div class="labelform">Hora Inicio:</div>
+                 <div class="widgetform">{{ form_widget(form.horainicio) }}</div>
+            </div>
+            
+            <div class="contenedorform">
+                <div class="labelform">Hora Fin:</div>
+                <div class="widgetform">{{ form_widget(form.horafin) }}</div>
+            </div>
+            
+            <div class="contenedorform">
+                <div class="labelform">Pauta:</div>
+                <div class="widgetform">{{ form_widget(form.pauta) }}</div>
+            </div>
+            
+            <div class="contenedorform">
+                <div class="labelform">Responsable:</div>
+                <div class="widgetform">{{ perfil.primerApellido | capitalize }} {{ perfil.primerNombre}}</div>
+            </div>
+            
+            <div class="contenedorform">
+                <div class="labelform">Dependencia:</div>
+                <div class="widgetform">{% if perfil.nivelorganizacional!=null %}{{ perfil.nivelorganizacional.descripcion }}{% endif %}</div>
+            </div>
+            
+            <div class="contenedorform">
+                <div class="labelform">Extensión:</div>
+                <div class="widgetform">{{ perfil.Extension}}</div>
+            </div>
+            {% if tipo==3 %}
+            <div class="contenedorform">
+                <div class="labelform">Nro Personas que asistira:</div>
+                <div class="widgetform">{{ form_widget(form2.nroPersonas) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Refrigerio:</div>
+                <div class="widgetform">{{ form_widget(form2.refrigerio) }}</div>
+            </div>
+         {% endif %}
+            <div class="contenedorform">
+                <div class="labelform">Observación:</div>
+                <div class="widgetform">{{ form_widget(form.observacion) }}</div>
+            </div>
+            
+            
+            
+        </div>
+        {% if tipo== 1 %}
+    {% if is_granted('ROLE_ESTUDIO_ADMIN')%}
+        <a class="btn btn-default" href="{{ path('reservaciones',{tipo:tipo,ubicacion:ubicacion}) }}">VOLVER A LA LISTA</a> | 
+        <input type="submit" class="btn btn-primary" value="CREAR SOLICITUD"> 
+    {% else %}
+        <a class="btn btn-default" href="{{ path('reservaciones_lista',{tipo:tipo,ubicacion:ubicacion}) }}">
+                 VOLVER A LA LISTA
+            </a> | 
+            <input type="submit" class="btn btn-primary" value="CREAR SOLICITUD">
+    {% endif %} 
+{% elseif tipo== 2 %}
+    {% if is_granted('ROLE_CABINA_ADMIN')%}
+       <a class="btn btn-default" href="{{ path('reservaciones',{tipo:tipo,ubicacion:ubicacion}) }}">VOLVER A LA LISTA</a> | 
+        <input type="submit" class="btn btn-primary" value="CREAR SOLICITUD">
+    {% else %}
+        <a class="btn btn-default" href="{{ path('reservaciones_lista',{tipo:tipo,ubicacion:ubicacion}) }}">
+                 VOLVER A LA LISTA
+            </a> | 
+            <input type="submit" class="btn btn-primary" value="CREAR SOLICITUD">
+    {% endif %}
+{% elseif tipo== 3 %}
+    {% if ubicacion == 1%}
+            {% if is_granted('ROLE_SALA_ADMIN')%}
+                <a class="btn btn-default" href="{{ path('protocolo_homepage') }}">
+                         VOLVER AL APLICATIVO PROTOCOLO
+                    </a>|
+                    <a class="btn btn-default" href="{{ path('reservaciones_lista',{tipo:tipo,ubicacion:ubicacion}) }}">
+                         VOLVER A LA LISTA DE RESERVACION DE SALA
+                </a> 
+            {% else %}
+            <input type="submit" class="btn btn-primary" value="CREAR SOLICITUD"><br><br>
+                <a class="btn btn-default" href="{{ path('protocolo_homepage') }}">
+                         VOLVER AL APLICATIVO PROTOCOLO
+                    </a>|
+                    <a class="btn btn-default" href="{{ path('reservaciones_lista',{tipo:tipo,ubicacion:ubicacion}) }}">
+                         VOLVER A LA LISTA DE RESERVACION DE SALA
+                </a> 
+            {% endif %} 
+    {% else %}
+        {% if is_granted('ROLE_SALA_ADMIN')%}
+            <a class="btn btn-default" href="{{ path('reservaciones',{tipo:tipo,ubicacion:ubicacion}) }}">VOLVER A LA LISTA</a> 
+        {% else %}
+            <a class="btn btn-default" href="{{ path('reservaciones_lista',{tipo:tipo,ubicacion:ubicacion}) }}">
+                         VOLVER A LA LISTA
+            </a> | 
+            <input type="submit" class="btn btn-primary" value="CREAR SOLICITUD">
+        {% endif %} 
+    {% endif %}
+{% endif %}  
+            
+        
+        <br><br>
+     </form>
+        
+    <script>
+    $(function() {
+      $( "#frontend_estudiocabinabundle_reservaciones_fecha" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "dd-mm-yy",
+        minDate: 'today',
+        pickTime: false
+       
+      });
+      //timepicker del las horas
+     // $('#frontend_estudiocabinabundle_reservaciones_horafin').timepicker({ 'timeFormat': 'G:i' });
+    //  $('#frontend_estudiocabinabundle_reservaciones_horainicio').timepicker({ 'timeFormat': 'G:i' });    
+      //Fin
+    });
+ 
+        //si tengo admin no puedo tener consulta ni tecnico en ticket
+        $("#frontend_estudiocabinabundle_protocolo_refrigerio_2").click(function(){
+            $("#frontend_estudiocabinabundle_protocolo_refrigerio_0").prop("checked", false);
+            $("#frontend_estudiocabinabundle_protocolo_refrigerio_1").prop("checked", false);
+        });
+        
+        //si tengo admin no puedo tener consulta ni tecnico en ticket
+        $("#frontend_estudiocabinabundle_protocolo_refrigerio_0").click(function(){
+            $("#frontend_estudiocabinabundle_protocolo_refrigerio_2").prop("checked", false);
+        });
+        
+        //si tengo admin no puedo tener consulta ni tecnico en ticket
+        $("#frontend_estudiocabinabundle_protocolo_refrigerio_1").click(function(){
+            $("#frontend_estudiocabinabundle_protocolo_refrigerio_2").prop("checked", false);
+        });
+    </script>
+
+{% endblock %}

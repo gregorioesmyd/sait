@@ -1,0 +1,11 @@
+{% if not form.vars.valid %}
+        <div class="alert alert-danger errores" style="width:70%;">
+            <div><b>Alerta! Ha ocurrido un error en el formulario:</b><br><br></div>
+            <div>{{ form_errors(form.codigoBarra) }}</div>
+            <div>{{ form_errors(form.serial) }}</div>
+            <div>{{ form_errors(form.descripcionEquipo) }}</div>
+            <div>{{ form_errors(form.equipoMarca) }}</div>
+            <div>{{ form_errors(form.propietarioId) }}</div>
+            <div>{{ form_errors(form.tipoPropietario) }}</div>
+        </div>
+    {% endif %}

@@ -1,0 +1,30 @@
+admin_status:
+    path:     /
+    defaults: { _controller: "TruequesBundle:Status:index" }
+
+admin_status_show:
+    path:     /{id}/show
+    defaults: { _controller: "TruequesBundle:Status:show" }
+
+admin_status_new:
+    path:     /new
+    defaults: { _controller: "TruequesBundle:Status:new" }
+
+admin_status_create:
+    path:     /create
+    defaults: { _controller: "TruequesBundle:Status:create" }
+    requirements: { _method: post }
+
+admin_status_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "TruequesBundle:Status:edit" }
+
+admin_status_update:
+    path:     /{id}/update
+    defaults: { _controller: "TruequesBundle:Status:update" }
+    requirements: { _method: post|put }
+
+admin_status_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "TruequesBundle:Status:delete" }
+    requirements: { _method: post|delete }

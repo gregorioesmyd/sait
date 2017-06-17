@@ -1,0 +1,12 @@
+parameters:
+#    trueques.example.class: Frontend\TruequesBundle\Example
+
+services:
+#    trueques.example:
+#        class: %trueques.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+
+    TruequesModelo:
+        class: Frontend\TruequesBundle\Modelo\TruequesModelo
+        arguments: 
+            em: "@doctrine.orm.default_entity_manager"

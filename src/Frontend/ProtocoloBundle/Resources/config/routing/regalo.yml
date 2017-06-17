@@ -1,0 +1,30 @@
+regalo:
+    path:     /
+    defaults: { _controller: "ProtocoloBundle:Regalo:index" }
+
+regalo_show:
+    path:     /{id}/show
+    defaults: { _controller: "ProtocoloBundle:Regalo:show" }
+
+regalo_new:
+    path:     /new
+    defaults: { _controller: "ProtocoloBundle:Regalo:new" }
+
+regalo_create:
+    path:     /create
+    defaults: { _controller: "ProtocoloBundle:Regalo:create" }
+    requirements: { _method: post }
+
+regalo_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ProtocoloBundle:Regalo:edit" }
+
+regalo_update:
+    path:     /{id}/update
+    defaults: { _controller: "ProtocoloBundle:Regalo:update" }
+    requirements: { _method: post|put }
+
+regalo_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ProtocoloBundle:Regalo:delete" }
+    requirements: { _method: post|delete }

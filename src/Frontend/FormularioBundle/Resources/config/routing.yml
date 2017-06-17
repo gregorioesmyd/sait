@@ -1,0 +1,7 @@
+formulario_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: FormularioBundle:Default:index }
+
+FormularioBundle_bazar_postular:
+    resource: "@FormularioBundle/Resources/config/routing/bazar_postular.yml"
+    prefix:   /bazar

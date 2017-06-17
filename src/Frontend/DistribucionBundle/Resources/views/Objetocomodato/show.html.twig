@@ -1,0 +1,64 @@
+{% extends '::distribucion.html.twig' %}
+
+{% block title %}DISTRIBUCIÓN{% endblock %}
+
+{% block titulobanner %}
+    OBJETO COMODATO - CONSULTA
+{% endblock %}
+
+{% block body %}
+
+{{ parent() }}
+
+    <div class="titulo">CONSULTA OBJETO DE COMODATO</div>
+
+    {% if app.session.started %}
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="Greenflash-notice">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="formShow">
+
+        <div class="contenedorform">
+            <div class="labelform">Id:</div>
+            <div class="widgetform">{{ entity.id }}</div>
+        </div>
+
+        <div class="contenedorform">
+            <div class="labelform">Objeto:</div>
+            <div class="widgetform">{{ entity.objeto }}</div>
+        </div>
+
+        <div class="contenedorform">
+                <div class="labelform">Última Modificación:</div>
+                <div class="widgetform">{{ entity.user.primernombre | title
+ }} {{ entity.user.primerapellido | title
+ }}</div>
+        </div>
+
+    </div>
+
+    <br>
+
+    {% if is_granted('ROLE_DISTRIBUCION_ADMINISTRADOR') %}
+    <form action="{{ path('objetocomowidgetform_delete', { 'id': entity.id }) }}" method="post" onsubmit="return confirm('¿Seguro que desea borrar?')">
+        <input type="hidden" name="_method" value="DELETE" />
+        {{ form_widget(delete_form) }}
+        <button class="btn btn-danger" type="submit">Borrar</button>
+    </form>
+
+    <a class="btn" href="{{ path('objetocomowidgetform_edit', { 'id': entity.id }) }}">
+        Ir a editar
+    </a>
+    |{% endif %}
+    <a class="btn" href="{{ path('objetocomowidgetform') }}">
+        Ir a la lista
+    </a>
+    
+    <br><br>
+
+
+{% endblock %}

@@ -1,0 +1,13 @@
+parameters:
+#    sit.example.class: Frontend\SitBundle\Example
+
+services:
+#    sit.example:
+#        class: %sit.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+
+services:
+    Estadistica_Modelo:
+        class: Frontend\SitBundle\Modelo\Estadistica
+        arguments: 
+            em: "@doctrine.orm.entity_manager"

@@ -1,0 +1,7 @@
+parameters:
+#    control_equipo.example.class: Frontend\ControlEquipoBundle\Example
+
+services:
+#    control_equipo.example:
+#        class: %control_equipo.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

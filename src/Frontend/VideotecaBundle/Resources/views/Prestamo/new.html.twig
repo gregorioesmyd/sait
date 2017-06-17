@@ -1,0 +1,115 @@
+{% extends 'VideotecaBundle:Prestamo:default.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/chosen.css') }}" rel="stylesheet" type="text/css" >
+{% endblock %}
+
+{% block data %}
+{{ parent() }}
+    <div class="row">
+        <div class="text-center col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+            <h3 class="title-section">REGISTRAR PRESTAMO</h3>
+        </div>
+    </div>
+    <div class="row" id="block-choice">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="btn-group" role="group" aria-label="...">
+                   <form id="user_form" novalidate action="{{ path('prestamo_new') }}" method="post">
+        <div class="modal-body">
+            <select id="user_solicitante" name="user_solicitante" required="required" class="chosen-select" style="width:220px;">
+                <option value="0"  selected="selected">Seleccione</option>
+                {% for user in user %}
+                    <option value="{{ user.id}}">{{ user.primerApellido | capitalize }} {{user.primerNombre}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </form>
+                </div>
+            </div>
+        </div>
+    <div class="row">
+        <div id="panel-prestamo" class="col-xs-8 col-xs-offset-2">
+            <div class="panel panel-success">
+                <div class="panel-heading">PRESTAMO</div>
+                <div class="panel-body">
+    <form novalidate action="{{ path('prestamo_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form._token) }}
+            <div>
+                {% if datos is defined %}
+                    <div class="formShow">
+                        <div class="contenedorform">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Solicitante:</b></span>
+                            </div>
+                            <div class="widgetform"><input type="hidden" name ="id_user" value="{{datos.id}}" />{{datos.primerApellido}} {{datos.primerNombre}}</div>
+                        </div>
+                        <div class="modal-body">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Dependencia:</b></span>
+                            </div>
+                            <select  style="width:290px;" id="dependencia" name="dependencia" required="required" class="chosen-select">
+                                {% for dependencia in dependencias %}
+                                    <option value="{{ dependencia.id}}"{% if datos.nivelorganizacional.id == dependencia.id %}selected="selected"{% endif %}>{{ dependencia.descripcion}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="modal-body">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Extensión:</b></span>
+                            </div>
+                           <div class="widgetform"><input name ="extension" value="{{datos.Extension}}" /></div>
+                        </div>  
+                        <div class="modal-body">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>N° Factura:</b></span>
+                            </div>
+                            <div class="widgetform">{{ form_widget(form.factura) }}</div>
+                        </div> 
+                      <div class="contenedorform">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>CINTAS PARA EL PRESTAMO:</b></span>
+                            </div><br>
+                            <div class="widgetform"> 
+                                {% for entity in entities %}
+                                    <span><b>*</b>{{ entity.codigo }} / </span>
+                                {% endfor %}
+                            </div>
+                        </div> 
+                    </div>
+  <br><br>
+                    <div style="text-align: center">
+                    <input type="submit" class="btn btn-primary" value="PROCESAR PRESTAMO"></div>
+                {% endif %}
+            </div>
+    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-5 col-xs-offset-2 col-sm-5  col-sm-offset-2 col-md-5  col-md-offset-2 col-lg-5 col-lg-offset-2">
+            <a class="btn btn-default" href="{{ path('segmento') }}"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Volver</a>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+     <script src="{{ asset('js/chosen.jquery.js') }}"></script>
+     <script type="text/javascript">
+    $(document).ready(function () {
+        $(".chosen-select").chosen({
+            no_results_text: 'No encontrado!',
+            width: '220px'
+        });
+    });
+
+    $(document).ready(function () {
+
+        $("#user_solicitante").change(function () {
+            $("#user_form").submit();
+        });
+    });
+    </script>
+{% endblock %}

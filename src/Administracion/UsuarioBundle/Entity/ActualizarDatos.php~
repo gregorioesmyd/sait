@@ -1,0 +1,92 @@
+<?php
+
+namespace Administracion\UsuarioBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Perfil
+ *
+ * @ORM\Table(name="usuarios.actualizarDatos")
+ * @ORM\Entity
+ */
+class ActualizarDatos
+{
+   
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="extension", type="integer", nullable=true)
+     */
+    private $extension;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="abreviado", type="string", nullable=true)
+     */
+    private $abreviado;
+    
+
+     /**
+     * @Assert\File(
+     * maxSize="5M", 
+     * maxSizeMessage="El archivo que intenta subir debe ser menos 5Mb") 
+     *  
+     */
+    private $file;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="foto", type="string", length=500, nullable=true)
+     */
+    private $foto;
+
+    /**
+     * @var \Nivelorganizacional
+     *
+     * @ORM\ManyToOne(targetEntity="Nivelorganizacional")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="nivelorganizacional_id", referencedColumnName="id")
+     * })
+     */
+    private $nivelorganizacional;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="telefono_local", type="integer", length=12, nullable=true)
+     */
+    private $telefonoLocal;
+    
+        /**
+     * @var string
+     *
+     * @ORM\Column(name="telefono_celular", type="integer", length=12, nullable=true)
+     */
+    private $telefonoCelular;
+    
+        /**
+     * @var \Estado
+     *
+     * @ORM\ManyToOne(targetEntity="Estado")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="estado_id", referencedColumnName="id")
+     * })
+     */
+    private $estado;
+    
+        /**
+     * @var \Ciudad
+     *
+     * @ORM\ManyToOne(targetEntity="Ciudad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ciudad_id", referencedColumnName="id")
+     * })
+     */
+    private $ciudad;
+
+}

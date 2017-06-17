@@ -1,0 +1,149 @@
+{% extends '::login.html.twig' %}
+
+{% block title %}FORMULARIO DE ACCESO{% endblock %}
+
+{% block titulobanner %}
+    FORMULARIO DE ACCESO
+{% endblock %}
+
+{% block body %}
+<ol class="breadcrumb" style="text-align: left;font-weight: bold;">
+<li><a href="http://intranet.telesurtv.net">VOLVER A LA INTRANET</a></li>
+<li><a href="http://telesurtv.net">IR A LA WEB DE TELESUR</a></li>
+<li class="active">SAIT</li>
+<span class="text-danger" style="float: right;font-size: 13px;">SE RECOMIENDA EL USO DE FIREFOX O CHROME <a href="http://www.google.co.ve/intl/es-419/chrome/"><img width="20px" src="{{ asset('images/chrome.png') }}"></a>  <a href="https://www.mozilla.org/"><img width="20px" src="{{ asset('images/firefox.png') }}"></a></span>
+</ol>
+  
+<div align="left">
+<div class="row" align="left" style="width: 600px;">
+    <div align="center" class="col-sm-2"><a target="__blank" href="http://rel.telesurtv.net/"><img width="40px;" src="{{ asset('images/rel.png') }}"><br>Rel</a></div>
+    <div align="center" class="col-sm-2"><a target="__blank" href="http://aplicaciones.telesurtv.net/controldocumentos/web/app_dev.php/ingresar"><img width="40px;" src="{{ asset('images/doc.jpg') }}"><br>Documentos</a></div>
+    <div align="center" class="col-sm-2"><a target="__blank" href="http://creatv.telesurtv.net"><img width=52px;" src="{{ asset('images/creatv.png') }}"><br>Creatv</a></div>
+    <div align="center" class="col-sm-2"><a target="__blank" href="http://siga.telesurtv.net"><img width="52px;" src="{{ asset('images/siga.png') }}"><br>Siga</a></div>
+    <div align="center" class="col-sm-2"><a target="__blank" href="http://sigefirrhh.telesurtv.net/sigefirrhh"><img width="52px;" src="{{ asset('images/sige.png') }}"><br>Sigefirrhh</a></div>
+</div>
+</div>
+<br>
+  
+    <script type="text/javascript">
+        if(navigator.appVersion.indexOf("MSIE 7.")!=-1){
+
+        alert("Esta aplicación no funciona correctamente en internet explorer, por favor cambie a Chrome o Firefox.");
+
+        $("#botonsubmit").css("display", "none");
+    }
+    </script>
+
+    
+    
+    {% block mensaje %}
+        {% if error %}
+            <div class="alert alert-warning" style="text-align: center;"><strong>Alerta!</strong> {{ error.message|trans() }}</div>
+        {% endif %}
+    {% endblock %}
+
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="alert alert-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    
+    <div class="alert alert-danger">SI NO PUEDES INGRESAR AL SISTEMA ENVÍA UN CORREO a aplicaciones.telesurtv.net INDICANDO SI ACEPTAS O NO QUE RRHH DESCUENTE DE TU BENEFICIO DE ALIMENTACION EL COSTO DE LA BOLSA DE COMIDA.</div>
+    <h3>APLICACIONES TELESUR</h3>
+    
+
+      <form novalidate class="form-signin" action="{{ path('usuario_login_check') }}" method="post">
+        <h4 class="form-signin-heading">INGRESE SUS DATOS</h4>
+        <input required type="text" id="username" name="_username" class="input-block-level"placeholder="Ingrese usuario..." data-placement="right" data-content="Puede ingresar el mismo usuario y clave de su correo Zimbra. Ante cualquier inconveniente comunicarse con la extensión 264/339." title="USUARIO">
+        <input required type="password" name="_password" class="input-block-level" placeholder="Ingrese clave...">
+        <button class="btn btn-large btn-primary" type="submit" id="botonsubmit">INGRESAR</button>
+      </form>
+
+
+    <div class="text-danger" style="cursor:pointer" data-toggle="modal" href="#myModal"><b>¿OLVIDÓ SU CLAVE?</b></div>
+
+    <br>
+
+    <script>$('#username').popover();</script>
+
+    
+    
+    <!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">NOTIFICAR</h4>
+      </div>
+      <div class="modal-body">
+            <div class="alert alert-warning fade in" style="display:none;">
+                <strong>Alerta!!</strong> Todos los campos son obligatorios.
+              </div>
+
+            <form id="notif" action="{{ path('notificar') }}" method="post">
+              <table class="table table-striped">
+                <tr>
+                    <th>Nombres: </th>
+                    <td><input id="nombre" type="text" name="form[nombre]"></td>
+                </tr>
+                <tr>
+                    <th>Apellidos: </th>
+                    <td><input id="apellido" type="text" name="form[apellido]"></td>
+                </tr>
+                <tr>
+                    <th>Cedula: </th>
+                    <td><input id="cedula" type="text" name="form[cedula]"></td>
+                </tr>
+                <tr>
+                    <th>Extensión: </th>
+                    <td><input id="extension" type="text" name="form[extension]"></td>
+                </tr>
+                <tr>
+                    <th>Comentario: </th>
+                    <td><textarea id="comentario" name="form[comentario]"></textarea>
+                </tr>
+                <tr>
+                    
+                </tr>
+              </table>
+            </form>
+
+            <script type="text/javascript">
+                function validar() {
+                  if($("#nombre").val()=='' || $("#apellido").val()=='' || $("#cedula").val()=='' || $("#extension").val()=='' || $("#comentario").val()=='') $(".alert").show(); else $("#notif").submit()
+                };
+
+            </script>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <input type="button" onclick="validar()" class="btn btn-primary" value="Notificar">
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+    
+    
+    
+    
+    
+
+    {# modal #}
+    <div style="width:500px;left:52%;" id="myModal" class="modal hide fade" tabindex="5" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel">NOTIFICAR</h3>
+         </div>
+        <div class="modal-body">
+
+
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal">Cerrar</button>
+        </div>
+    </div>
+
+{% endblock %}

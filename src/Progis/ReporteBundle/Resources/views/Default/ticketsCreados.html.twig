@@ -1,0 +1,77 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h3>TICKETS CREADOS POR USUARIOS</h3>
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  
+  <li class="active">LISTA DE PARÁMETROS</li>
+  
+  
+</ol>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent()}}
+    <link href="{{ asset('bundles/principal/libs/chosen_v1.4.2/chosen.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent()}}
+    <script src="{{ asset('bundles/principal/libs/chosen_v1.4.2/chosen.jquery.js') }}" type="text/javascript"></script>
+{% endblock %}
+    
+
+{% block contenido -%}
+    {{ parent() }}
+ 
+    {{ form_start(form, { 'attr': {'novalidate':null} }) }}
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">INGRESE LOS PARÁMETROS</div>
+            <div class="panel-body">
+                    <div id="formulario">{{ form_widget(form) }}</div>
+            </div>
+        </div>
+        <input type="hidden" value="0" name="muestra">
+        <div align="center"><input type="submit" class="btn btn-primary" value="GENERAR">
+            
+    {{ form_end(form) }}  
+    
+    
+    {%if tickets is defined %}
+        
+    {% endif %}
+    
+    
+    
+    
+  <script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+    
+    $( "#progis_reportebundle_tc_desde" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: "dd-mm-yy",
+    });
+    $( "#progis_reportebundle_tc_hasta" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: "dd-mm-yy",
+    });
+  </script>
+{% endblock %}

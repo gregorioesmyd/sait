@@ -1,0 +1,36 @@
+{% extends '::base_trueques.html.twig' %}
+
+{% block body -%}
+{{ parent()}}
+
+<br><br>
+<h1>Lista de productos</h1>
+
+<a href="{{ path('admin_producto_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>  Nuevo</a>
+<br><br>
+<table class="dataTable table table-striped table-bordered" cellspacing="0">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Categoria</th>
+			<th>Nombre</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for entity in entities %}
+		<tr>
+			<td><a href="{{ path('admin_producto_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+			<td>{{ entity.categoria }}</td>
+			<td>{{ entity.nombre }}</td>
+			<td>
+				<a href="{{ path('admin_producto_edit', { 'id': entity.id }) }}" class="btn btn-default">
+					<span class="glyphicon glyphicon-edit"></span>    Editar
+				</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+{% endblock %}

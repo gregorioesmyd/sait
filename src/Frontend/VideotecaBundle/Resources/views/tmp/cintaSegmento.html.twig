@@ -1,0 +1,75 @@
+{% extends '::videoteca.html.twig' %}
+
+{% block body -%}
+    <h1>Cinta</h1>
+
+    <table class="record_properties table" style="width:60%">
+        <thead>
+            <th>Codigo</th>
+            <th>Tipo</th>
+            <th>Observaciones</th>
+            {% if cinta.propiedad is defined %}
+                <th>propiedad</th>
+            {% endif %}
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ cinta.codigo }}</td>
+                <td>{{ cinta.tipoCinta }}</td>
+                <td>{{ cinta.observaciones }}</td>
+                {% if cinta.propiedad is defined %}
+                    <td>{{ cinta.propiedad }}</td>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="btn-group" role="group" aria-label="...">
+        <a class="btn btn-default" role="button" href="{{ path('cinta_edit', { 'id': cinta.id, 'nombreClase': constant('CLASE', cinta) }) }}">Editar Cinta</a>
+        <a class="btn btn-default" role="button" href="{{ path('segmento_new', { 'idCinta':cinta.id, 'slug':cinta.tipoCinta.slug }) }}">Agregar Segmento</a>
+    </div>
+    
+    <div class="formShow" style="margin-top:6px; width: 80%;">
+        
+        <table class="records_list table">
+            <thead>
+                <tr>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Duracion</th>
+                    <th>Fechaevento</th>
+                    <th>Titulo</th>
+                    <th>Sinopsis</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for segmento in segmentos %}
+                <tr>
+                    <td>{{ segmento.inicio|date('H:i:s') }}</td>
+                    <td>{{ segmento.fin|date('H:i:s') }}</td>
+                    <td>{{ segmento.duracion|date('H:i:s') }}</td>
+                    <td>{% if segmento.fechaEvento %}{{ segmento.fechaEvento|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>{{ segmento.titulo | truncate(14) }}</td>
+                    <td>{{ segmento.sinopsis | truncate(20) }}</td>
+                    <td>
+                    <div class="btn-group" role="group" aria-label="..." style="margin-bottom:10px;">
+                        <a class="btn btn-default" role="button" href="{{ path('segmento_show', { 'id': segmento.id, 'nombreClase': constant('CLASE', segmento) }) }}">Detalle</a>
+                        <a class="btn btn-default" role="button" href="{{ path('segmento_edit', { 'id': segmento.id, 'nombreClase': constant('CLASE', segmento) }) }}">Editar</a>
+                    </div>
+                    </td>
+                </tr>
+            {% else %}
+                <p>Esta Cinta no tiene registrada ningun segmento..!</p>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="btn-group" role="group" aria-label="..." style="margin-bottom:10px;">
+        <a class="btn btn-default" role="button" href="{{ path('cintasegmento_home') }}">
+            IR A SEGMENTO
+        </a>
+    </div>
+{% endblock %}

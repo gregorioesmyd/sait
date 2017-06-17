@@ -1,0 +1,81 @@
+{% extends 'VideotecaBundle:WrapperCinta:Cinta/default.html.twig' %}
+
+{% block data %}
+	{% if visible %}
+		<div class="row">
+			<div class="text-center col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+				<h3 class="title-section">Registro de Cintas</h3>
+			</div>
+		</div>
+		<div class="row" id="block-choice">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="btn-group" role="group" aria-label="...">
+					<a class="btn btn-default" href="{{ path('cinta') }}">
+						<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+						IR A LISTADO
+					</a>
+
+					<div class="btn-group" role="group">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							Tipo de Cinta
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+				            <li><a href="{{ path('cinta_new', { 'slug': 'prensa' }) }}">Prensa</a></li>
+				            <li><a href="{{ path('cinta_new', { 'slug': 'satelite' }) }}">Satelite</a></li>
+				            <li><a href="{{ path('cinta_new', { 'slug': 'videoteca' }) }}">Videoteca</a></li>
+				            <li><a href="{{ path('cinta_new', { 'slug': 'deporte' }) }}">Deporte</a></li>
+				        </ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div id="panel-cinta" class="col-xs-8 col-xs-offset-2">
+				<div class="panel panel-success">
+					<div class="panel-heading">{% block panelTitulo %}{% endblock %}</div>
+					<div class="panel-body">
+						{% form_theme form 'VideotecaBundle:Form:bootstrap.html.twig' %}
+						{{ form(form, {'attr': {'novalidate': 'novalidate', 'class': 'form-horizontal'}}) }}
+					</div>
+				</div>
+			</div>
+		</div>
+	{% else %}
+		<div class="row" id="block-title-section">
+			<div class="text-center col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+				<h3 class="title-section">Registro de Cintas</h3>
+			</div>
+		</div>
+		<div class="row" id="block-choice">
+			<div class="text-center col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+				<div class="row">
+					<div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+						<span><i>Seleccione el tipo de cinta a registrar.</i></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+						<div class="btn-group well" role="group" aria-label="...">
+							<a class="btn btn-default" href="{{ path('cinta') }}"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>IR A LISTADO</a>
+
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+									Tipo de Cinta
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+						            <li><a href="{{ path('cinta_new', { 'slug': 'prensa' }) }}">Prensa</a></li>
+						            <li><a href="{{ path('cinta_new', { 'slug': 'satelite' }) }}">Satelite</a></li>
+						            <li><a href="{{ path('cinta_new', { 'slug': 'videoteca' }) }}">Videoteca</a></li>
+						            <li><a href="{{ path('cinta_new', { 'slug': 'deporte' }) }}">Deporte</a></li>
+						        </ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+
+{% endblock %}

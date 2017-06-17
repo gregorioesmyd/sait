@@ -1,0 +1,109 @@
+progis_tutorial:
+    path:     /tutorial
+    defaults: { _controller: PrincipalBundle:Default:tutorial }
+    
+progis_calendario:
+    path:     /calendario
+    defaults: { _controller: PrincipalBundle:Default:calendario }
+    
+progis_principal_homepage:
+    path:     /index
+    defaults: { _controller: PrincipalBundle:Default:tutorial }
+    #defaults: { _controller: PrincipalBundle:Default:index }
+
+#UBICACION PARA LAS ACTIVIDADES Y TICKETS EN GENERAL
+progis_principal_procesar_ubicacion:
+    path:     /procesar/ubicacion/{ubicacion}
+    defaults: { _controller: PrincipalBundle:Procesar:procesarUbicacion }
+    
+#UBICACION PARA PRIORIDADES Y METAS
+progis_principal_procesarPriometa_ubicacion:
+    path:     /procesar/ubicacion/priometa/{ubicacion}
+    defaults: { _controller: PrincipalBundle:Procesar:procesarUbicacionPriometa }
+    
+#ORDEN PARA LAS ACTIVIDADES DE CADA PERSONA
+progis_principal_procesar_orden:
+    path:     /procesar/orden
+    defaults: { _controller: PrincipalBundle:Procesar:procesarOrden }
+    
+#ORDEN PARA LAS PRIORIDADES Y METAS
+progis_principal_procesarPriometa_orden:
+    path:     /procesar/priometa/orden
+    defaults: { _controller: PrincipalBundle:Procesar:procesarOrdenPriometa }
+
+progis_principal_procesar_validar:
+    path:     /procesar/validar
+    defaults: { _controller: PrincipalBundle:Procesar:procesarValidar }
+    
+
+progis_comentarioarchivo_new:
+    path:     /new/{id}/{entidad}/{desde}
+    defaults: { _controller: "PrincipalBundle:Comentarioarchivo:new" }
+    
+progis_comentarioarchivo_create:
+    path:     /create/{id}/{entidad}/{desde}
+    defaults: { _controller: "PrincipalBundle:Comentarioarchivo:create" }
+    requirements: { _method: post }
+    
+progis_comentarioarchivo_lista:
+    path:     /comentarioarchivo/lista/{id}/{entidad}/{desde}
+    defaults: { _controller: "PrincipalBundle:Comentarioarchivo:lista" }
+    
+PrincipalBundle_jornadalaboral:
+    resource: "@PrincipalBundle/Resources/config/routing/jornadalaboral.yml"
+    prefix:   /jornadalaboral
+
+PrincipalBundle_miembroespacio:
+    resource: "@PrincipalBundle/Resources/config/routing/miembroespacio.yml"
+    prefix:   /miembroespacio
+    
+PrincipalBundle_prioridadmeta:
+    resource: "@PrincipalBundle/Resources/config/routing/prioridadmeta.yml"
+    prefix:   /prioridadmeta
+    
+PrincipalBundle_metas:
+    resource: "@PrincipalBundle/Resources/config/routing/metas.yml"
+    prefix:   /metas
+    
+    
+#RUTAS PARA LOS ESTATUS
+progis_principal_pendientes:
+    path:     /pendientes/lista/{idusuario}/{desde}
+    defaults: { _controller: PrincipalBundle:Estatus:pendientes }
+    
+progis_principal_revisar:
+    path:     /revisar/lista/{idusuario}
+    defaults: { _controller: PrincipalBundle:Estatus:revisar }
+    
+    
+progis_principal_verificaSession:
+    path:     /verificaSession
+    defaults: { _controller: PrincipalBundle:Procesar:verificaSession }
+    
+    
+#PRODUCTIVIDAD
+progis_principal_productividad:
+    path:     /productividad
+    defaults: { _controller: PrincipalBundle:Productividad:index }
+    
+    
+progis_principal_trabajo_realizado_filtro:
+    path:     /trabajoRealizado/filtro
+    defaults: { _controller: PrincipalBundle:TrabajoRealizado:trabajoRealizadoFiltro }
+    
+progis_principal_trabajo_realizado:
+    path:     /trabajoRealizado
+    defaults: { _controller: PrincipalBundle:TrabajoRealizado:index }
+    
+    
+    
+    
+    
+progis_principal_mi_trabajo_realizado:
+    path:     /{pdf}/{id}/miTrabajoRealizado
+    defaults: { _controller: PrincipalBundle:TrabajoRealizado:miTrabajoRealizado }
+    
+progis_principal_mi_trabajo_realizado_filtro:
+    path:     /miTrabajoRealizado/filtro
+    defaults: { _controller: PrincipalBundle:TrabajoRealizado:miTrabajoRealizadoFiltro }
+    

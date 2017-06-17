@@ -1,0 +1,62 @@
+{% extends '::administracion.html.twig' %}
+
+{% block title %}Niveles{% endblock %}
+
+{% block titulo %}
+    Niveles Organizacionales de teleSUR
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">NIveles Organizacionales teleSUR</li>
+</ol>
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+    <table class="records_list" id="tabladatatable">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Codigo</th>
+                <th>Descripcion</th>
+                <th>Correo</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('nivelorganizacional_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.codigo }}</td>
+                <td>{{ entity.descripcion }}</td>
+                <td>{{ entity.correo }}</td>
+                <td>
+                    <a class="btn btn-default" href="{{ path('nivelorganizacional_show', { 'id': entity.id }) }}">Ver</a>
+                    <a class="btn btn-default" href="{{ path('nivelorganizacional_edit', { 'id': entity.id }) }}">Editar</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <br>
+    <a class="btn btn-primary" href="{{ path('nivelorganizacional_new') }}">
+        CREAR NUEVO NIVEL
+    </a>
+        
+    <a href="{{ path('nivelorganizacional_reporte') }}">
+        <img src="{{ asset('images/pdf.gif') }}">
+    </a>
+                
+    <script type="text/javascript">
+        $(document).ready(function(){
+           $('#tabladatatable').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                "aaSorting": [[1,'asc']],
+            } );
+        })
+    </script>
+    {% endblock %}

@@ -1,0 +1,28 @@
+{% extends '::constancia.html.twig' %}
+ 
+{% block title %}Constancia{% endblock %}
+
+{% block titulo %}
+    CONSTANCIA DE TRABAJO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">CONSTANCIA INICIO</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    
+    <div class="alert alert-info">(TIENES {{ constancia[0]['cantidad'] }} CONSTANCIAS PENDIENTES POR TRAMITAR)</div>
+
+    {% if bloquea==false %}
+    <br><a href="{{ path('constancia_new') }}" class="btn btn-primary" type="button">SOLICITAR CONSTANCIA</a><br><br>
+    {% else %}
+    <div class="alert alert-danger">LAS SOLICITUDES DEBEN REALIZARSE LOS DÍAS LUNES, MARTES, VIERNES, SABADOS Y DOMINGOS</div>
+    {% endif %}
+
+
+{% endblock %}

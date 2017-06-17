@@ -1,0 +1,46 @@
+{% extends '::distribucion.html.twig' %}
+
+{% block title %}NUEVO TIPO DE OPERADOR{% endblock %}
+
+{% block titulo %}
+    NUEVO TIPO DE OPERADOR
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("distribucion_homepage") }}">DISTRIBUCIÓN INICIO</a></li>
+  <li><a href="{{ path("tipooperador") }}">LISTA DE TIPO DE OPERADORES</a></li>
+  <li class="active">NUEVO TIPO DE OPERADOR</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    
+    <form novalidate class="formNewEditOperador"  action="{{ path('tipooperador_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form._token) }}
+
+        <div class="formShow" style="width:500px;">
+            <div class="contenedorform">
+                <div class="text-danger">{{ form_errors(form.operador) }}</div>
+                <div class="labelform">Tipo:</div>
+                <div class="widgetform">{{ form_widget(form.operador) }}</div>
+            </div>
+
+            <div class="form-contenedor">
+                <div class="text-danger">{{ form_errors(form.codigo) }}</div>
+                <div class="labelform">Código:</div>
+                <div class="widgetform">{{ form_widget(form.codigo) }}</div>
+            </div>
+        </div>
+        <br>
+        <button class="btn btn-primary" type="submit">CREAR</button> | 
+        <a class="btn btn-default" href="{{ path('tipooperador') }}">IR A LA LISTA</a>
+
+    </form>
+
+    
+
+    <br><br>
+{% endblock %}

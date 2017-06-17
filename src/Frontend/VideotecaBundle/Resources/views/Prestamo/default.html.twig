@@ -1,0 +1,8 @@
+{% extends ':videoteca:base/base-no-segmento.html.twig' %}
+
+{% block title %}Prestamos{% endblock %}
+
+{% block contenido %}
+    {% set statusPrestamo = "active" %}
+    {{ parent() }}
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/chosen.css') }}">
+    <link href="{{ asset('bundles/controlequipo/css/tablapauta.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent()}}
+    <script src="{{ asset('js/chosen.jquery.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-filestyle.min.js') }}"></script>
+    <script src="{{ asset('bundles/controlequipo/js/jquery.number.js') }}"></script>
+    
+{% endblock %}
+
+{% block menu %}
+    {% include 'ControlEquipoBundle:Default:menu.html.twig' %}
+{% endblock %}

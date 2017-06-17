@@ -1,0 +1,30 @@
+equipointerno:
+    path:     /
+    defaults: { _controller: "ControlEquipoBundle:EquiposInternos:index" }
+
+equipointerno_show:
+    path:     /{id}/show
+    defaults: { _controller: "ControlEquipoBundle:EquiposInternos:show" }
+
+equipointerno_new:
+    path:     /nuevo
+    defaults: { _controller: "ControlEquipoBundle:EquiposInternos:new" }
+
+equipointerno_create:
+    path:     /create
+    defaults: { _controller: "ControlEquipoBundle:EquiposInternos:create" }
+    requirements: { _method: post }
+
+equipointerno_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ControlEquipoBundle:EquiposInternos:edit" }
+
+equipointerno_update:
+    path:     /{id}/update
+    defaults: { _controller: "ControlEquipoBundle:EquiposInternos:update" }
+    requirements: { _method: post|put }
+
+equipointerno_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ControlEquipoBundle:EquiposInternos:delete" }
+    requirements: { _method: post|delete }

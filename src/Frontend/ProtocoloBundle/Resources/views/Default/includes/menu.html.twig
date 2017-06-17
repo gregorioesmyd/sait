@@ -1,0 +1,38 @@
+<div class="menubootstrap">
+  <div align="left">
+    <nav id="custom-bootstrap-menu" class="navbar navbar-default" role="navigation">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+          <a class="navbar-brand" href="{{ path('usuario_homepage') }}"><span style="color:white;" class="glyphicon glyphicon-home"></span></a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> 
+                  <ul class="nav navbar-nav">
+                      <li class="dropdown">
+                          {% if is_granted('ROLE_ADMINISTRADOR')%}
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">ADMINISTRACIÓN <b class="caret"></b></a>
+                          <ul class="dropdown-menu" role="menu">
+                                <li role="presentation" class="dropdown-header">Reuni&oacute;n</li>
+                                <li><a href="{{ path('reunion') }}">Oficina</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li><a href="{{ path('regalo') }}">Regalo Corporativo</a></li>
+                                <li><a href="{{ path('invitados') }}">Invitado</a></li>
+                                <li><a href="{{ path('salidacanal') }}">Salida del canal para recibir invitado</a></li>
+                                <li><a href="{{ path('aeropuerto') }}">Aeropuerto</a></li>
+                            </ul>
+                          {% endif %}
+                      </li>
+                      </li>
+                  </ul> 
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="{{ path('contacto') }}">CONTACTO</a></li>
+          <li><a href="{{ path('usuario_logout') }}">SALIR</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </nav>
+  </div>
+</div>
+
+
+  
+

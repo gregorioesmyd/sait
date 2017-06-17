@@ -1,0 +1,30 @@
+miembroespacio:
+    path:     /
+    defaults: { _controller: "PrincipalBundle:Miembroespacio:index" }
+
+miembroespacio_show:
+    path:     /{id}/show
+    defaults: { _controller: "PrincipalBundle:Miembroespacio:show" }
+
+miembroespacio_new:
+    path:     /new
+    defaults: { _controller: "PrincipalBundle:Miembroespacio:new" }
+
+miembroespacio_create:
+    path:     /create
+    defaults: { _controller: "PrincipalBundle:Miembroespacio:create" }
+    requirements: { _method: post }
+
+miembroespacio_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "PrincipalBundle:Miembroespacio:edit" }
+
+miembroespacio_update:
+    path:     /{id}/update
+    defaults: { _controller: "PrincipalBundle:Miembroespacio:update" }
+    requirements: { _method: post|put }
+
+miembroespacio_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "PrincipalBundle:Miembroespacio:delete" }
+    requirements: { _method: post|delete }

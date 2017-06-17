@@ -1,0 +1,45 @@
+{% extends '::distribucion.html.twig' %}
+ 
+{% block title %}Reporte Gráfico{% endblock %}
+
+{% block titulo %}
+    REPORTE GRÁFICO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("distribucion_homepage") }}">DISTRIBUCIÓN INICIO</a></li>
+  <li class="active">REPORTE GRAFICO</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    
+    <form novalidate action="{{ path('generar_reporte_grafico') }}" method="post" {{ form_enctype(form) }}>
+        <div class="formShow" style="width:500px;">
+            <div class="contenedorform">
+                <div class="text-danger">{{ form_errors(form.lapso) }}</div>
+                <div class="labelform">Lapso:</div>
+                <div class="widgetform">{{ form_widget(form.lapso) }}</div>
+            </div>
+
+            <div id="tipografico"></div>
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#form_lapso').change(function(){
+                var dato = $("#form_lapso").val()+'-1-'+$("#form_lapso").val();
+                var ruta = "{{ path('ajax_grafico', {'datos': 'variable','mostrar': 'tipografico'}) }}";
+                ruta = ruta.replace("variable", dato);
+                $('#tipografico').load(ruta);
+            });
+            
+
+        });
+    </script>
+    <br>
+{% endblock %}

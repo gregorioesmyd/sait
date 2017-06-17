@@ -1,0 +1,82 @@
+{% extends '::protocolo.html.twig' %}
+
+{% block title %}Protocolo{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">Protocolo</li>
+</ol>
+{% endblock %}
+
+{% block body %}
+{{parent()}}
+<form novalidate method="post" action="{{ path('reunion_create') }}">
+      {{ form_widget(form._token) }}
+	  <div class="row" id="block-choice">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="btn-group" role="group" aria-label="...">
+						<div class="btn-group" role="group">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							Tipo de Solicitud
+						<span class="caret"></span>
+						</button>
+							<ul class="dropdown-menu" role="menu">
+								<li role="presentation" class="dropdown-header">Reuni&oacute;n</li>
+					            <li><a href="{{ path('reservaciones_new',{'tipo':'3','ubicacion':'1'}) }}">Sala</a></li>
+					            <li><a href="{{ path('reunion_new') }}">Oficina</a></li>
+					            <li role="presentation" class="divider"></li>
+					            <li><a href="{{ path('regalo_new') }}">Regalo Corporativo</a></li>
+					            <li><a href="{{ path('invitados_new') }}">Invitado</a></li>
+					            <li><a href="{{ path('salidacanal_new') }}">Salida del canal para recibir invitado</a></li>
+					            <li><a href="{{ path('aeropuerto_new') }}">Aeropuerto</a></li>
+					        </ul>
+						</div>
+					</div>
+				</div>
+			</div>
+	          <br><br>
+			{% if form_errors(form.fecha) or form_errors(form.hora) or form_errors(form.numeroPersonas) or form_errors(form.refrigerio) or form_errors(form.lugar)%}
+				    <div class="alert alert-danger errores" style="width:70%;">
+				        <div><b>Alerta! Ha ocurrido un error en el formulario:</b><br><br></div>
+				        <div>{{ form_errors(form.fecha) }}</div>
+				        <div>{{ form_errors(form.hora) }}</div> 
+				        <div>{{ form_errors(form.numeroPersonas) }}</div>
+				        <div>{{ form_errors(form.refrigerio) }}</div>
+				        <div>{{ form_errors(form.lugar) }}</div>
+				     </div>
+		    {% endif %}
+	        
+		<div class="panel panel-primary" style="width: 90%;">
+	        <div class="panel-heading">SOLICITUD DE PROTOCOLO DE REUNI&Oacute;N</div>
+	        <div class="panel-body">
+	        <div class="table-responsive">
+	           <table class="table table-bordered tablaDatosProtocolo">
+				    <tr>
+				        <th>Fecha</th>
+				        <th>Hora</th>
+				        <th>N° Personas</th>
+				        <th>Refrigerio</th>				         
+				    </tr>
+				    <tr>
+				        <td>{{ form_widget(form.fecha)}}</td>
+				       	<td>{{ form_widget(form.hora) }}</td>
+				      	<td>{{ form_widget(form.numeroPersonas) }}</td>
+				       	<td>{{ form_widget(form.refrigerio) }}</td>
+				    </tr>
+				    <tr>
+				    	<th colspan="4">Lugar</th>
+				    </tr>
+				    <tr>
+				    	<td colspan="4">{{ form_widget(form.lugar) }}</td>
+				    </tr>
+				</table>
+			</div>
+			</div>
+		</div>
+		<br>
+	   	<button type="submit" class="btn btn-primary">PROCESAR SOLICITUD</button>
+	   <br>
+ </form>
+{% endblock %}
+

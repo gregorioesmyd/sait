@@ -1,0 +1,63 @@
+{% extends '::protocolo.html.twig' %}
+
+{% block title %}Protocolo{% endblock %}
+
+{% block titulo %}
+    Solicitud De Protocolo
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">Protocolo</li>
+</ol>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/principal/libs/chosen_v1.4.2/chosen.css') }}" rel="stylesheet">
+{% endblock %}
+    
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script src="{{ asset('bundles/principal/libs/chosen_v1.4.2/chosen.jquery.js') }}" type="text/javascript"></script>
+    
+
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+<div class="row" id="block-choice">
+            <div class="text-center col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+                <div class="row">
+                    <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+                        <span><i>Seleccione el tipo de solicitud a generar.</i></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+                        <div class="btn-group well" role="group" aria-label="...">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                   Tipo de Solicitud
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                <li role="presentation" class="dropdown-header">Reuni&oacute;n</li>
+                                <li><a href="{{ path('reservaciones_new',{'tipo':'3','ubicacion':'1'}) }}">Sala</a></li>
+                                <li><a href="{{ path('reunion_new') }}">Oficina</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li><a href="{{ path('regalo_new') }}">Regalo Corporativo</a></li>
+                                <li><a href="{{ path('invitados_new') }}">Invitado</a></li>
+                                <li><a href="{{ path('salidacanal_new') }}">Salida del canal para recibir invitado</a></li>
+                                <li><a href="{{ path('aeropuerto_new') }}">Aeropuerto</a></li>
+                            </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+

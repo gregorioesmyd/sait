@@ -1,0 +1,9 @@
+resultados_index:
+    path:     /admin/{idencuesta}/grafico
+    defaults: { _controller: "EncuestaBundle:Resultados:grafico" }
+mostrar_resultado:
+    path:    /{idencuesta}/{idusuario}/resultados
+    defaults: { _controller: "EncuestaBundle:Resultados:mostrar_resultado"}
+ultima:
+    path:    /ultima
+    defaults: { _controller: "EncuestaBundle:Resultados:ultima"}

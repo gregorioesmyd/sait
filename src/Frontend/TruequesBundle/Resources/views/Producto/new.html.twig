@@ -1,0 +1,41 @@
+{% extends '::base_trueques.html.twig' %}
+
+{% block body -%}
+    {{ parent() }}
+    
+     <br><br>
+    <div align="center"><h1>Nuevo producto</h1></div>
+
+    {{ form_start(form, { 'attr': {'novalidate':null} }) }}
+    <div align="center" class="formularioNew">
+        <div class="panel panel-default">
+          <div class="panel-heading">Carga de productos</div>
+          <div class="panel-body">
+            
+            {{ form_widget(form._token) }}
+            <div id="wrapper-form" class="formShow" style="width:70%;">
+                <div class="contenedorform">
+                    <div class="labelform">Categoria:</div>
+                    <div class="widgetform">{{ form_widget(form.categoria) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="labelform">Producto:</div>
+                    <div class="widgetform">{{ form_widget(form.nombre, {'attr': {'class': 'inputText'} }) }}</div>
+                </div>
+            </div>
+            
+            <br>
+            <input style="width:45%;font-weight: bold;" type="submit" class="btn btn-default" value="Cargar Producto">
+            <a style="width:45%;font-weight: bold;" class="btn btn-default" href="{{ path('admin_producto') }}">
+                Volver
+            </a>
+          </div>
+        </div>
+    </div>
+    {{ form_end(form) }}    
+    
+    
+    
+
+
+{% endblock %}

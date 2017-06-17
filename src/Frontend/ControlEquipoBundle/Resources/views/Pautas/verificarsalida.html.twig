@@ -1,0 +1,229 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("pautas_listar") }}">PAUTAS</a></li>
+  <li class="active">VERIFICAR SALIDA DE EQUIPOS</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    <h1>Verificar Salida de Equipos Pauta # {{ "%06d" | format(entity.id) }}</h1>
+    <table class="bordered" style="width:80%;">
+            <thead>
+                <tr>
+                    <th>Pauta</th>
+                    <th>Tipo de Pauta</th>
+                    <th>Desde</th>
+                    <th>Hasta</th>
+                    <th>Responsable</th>
+                    <th>Dependencia</th>
+                    <th>Evento / Destino</th>
+                    <th>Estatus</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ "%06d" | format(entity.id) }}</td>
+                <td>
+                    {% if entity.tipoPauta == 1 %}
+                        Pauta Programada
+                    {% elseif entity.tipoPauta == 2 %}
+                        Pauta No Programada
+                    {% endif %}
+                </td>
+                <td>{{ entity.fechaDesde|date('d/m/Y') }}</td>
+                <td>{{ entity.fechaHasta|date('d/m/Y') }}</td>
+                <td>{{ entity.responsable }}</td>
+                <td>
+                    {% if unidadDependencia == '' %}
+                        Sin Unidad Responsable
+                    {% else %}
+                        {{ unidadDependencia }}
+                    {% endif %}
+                </td>
+                <td>{{ entity.justificacion }}</td>
+                <td>
+                    {% if estatus == 1 %}
+                        <span class="label label-info glyphicon glyphicon-certificate"> Creada</span>
+                    {% elseif estatus == 2 %}
+                        <span class="label label-success glyphicon glyphicon-ok"> Confirmada</span>
+                    {% elseif estatus == 3 %}
+                        <span class="label label-info glyphicon glyphicon-log-out"> Salida Confirmada</span>
+                    {% elseif estatus == 4 %}
+                        <span class="label label-info glyphicon glyphicon-log-in"> Entrada Confirmada</span>
+                    {% elseif estatus == 5 %}
+                        <span class="label label-danger glyphicon glyphicon-ok-sign"> Cerrada</span>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="8">
+                    <center>
+                        <form id="add_equipo_pauta">
+                            <input type="text" id="txtNombre" size="40" class="form-control" autofocus placeholder="Codigo de Barra" />
+                            <input type="hidden" id="pauta" name="pauta" value="{{ entity.id }}">
+                        </form>
+                        <p><b>LISTA DE EQUIPOS</b></p>
+                    </center>
+            
+                    {% if equipos is not empty %}
+                    <div id="divLista">
+                        <ul>
+                        {% for equipo in equipos %}
+                            <li>
+                                {% if equipo.chequeoSalida == TRUE %}
+                                    {% set chequeo = 'clsCheckTrue' %}
+                                {% elseif equipo.chequeoSalida == FALSE %}
+                                     {% set chequeo = 'clsCheckFalse' %}
+                                {% endif %}
+                                <a class="{{ chequeo }}" id="{{ equipo.id }}">&nbsp;</a>
+                                    {% if fotoReferencia[equipo.equipoId]=='' %}
+                                        <img class="img-rounded glyphicon glyphicon-picture" src="{{ asset('images/no-image.gif') }}" width="70px">
+                                    {% else %}
+                                        <img class="img-rounded glyphicon glyphicon-picture" src="{{ asset('uploads/controlequipo/') }}{{ fotoReferencia[equipo.equipoId] }}" width="70px">
+                                    {% endif%}
+                                {{ equipo.equipoId }} | {{ equipo.equipoInterno }}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    {% else %}
+                        <div id="divLista"></div>
+                        <div class="alert alert-info" id="list_equipovacia"><center>Ningun equipo Registrado en la Pauta</center></div>
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul class="record_actions">
+        <li><br>
+            <!--<a href="{{ path('pauta_edit', { 'id': entity.id }) }}" class="btn btn-info">
+                <span class="glyphicon glyphicon-flag"></span> Procesar
+            </a> |-->
+                <form id="confirmar_pauta" action="{{ path("pauta_versal_confirmar") }}" name="confirmar_pauta" method="post">
+                    <input type="hidden" id="id_pauta" name="id_pauta" value="{{ entity.id }}">
+                    <a href="#" class="btn btn-info" id="submit_confirmar">
+                        <span class="glyphicon glyphicon-log-out"></span> Confirmar Salida
+                    </a>
+                </form>
+            <br>
+            <a href="{{ path('pautas') }}" class="btn btn-default">
+                Mis Pautas
+            </a> |
+            <a href="{{ path('pautas_listar') }}" class="btn btn-default">
+                Volver a la Lista de Pautas
+            </a>
+                <!--|
+            <a href="{{ path('pauta_edit', { 'id': entity.id }) }}" class="btn btn-info">
+                <span class="glyphicon glyphicon-edit"></span> Editar
+            </a>-->
+        </li>
+    </ul>
+    <script>
+        $(function(){
+	$('#txtNombre').focus();
+	//evento al hacer clic en el boton agregar
+	$('#add_equipo_pauta').on('submit',function(e){
+            // Aqui hago la peticion ajax, captura los datos y verifico en base de datos
+            e.preventDefault();
+		//obtenemos el nombre digitado por el usuario
+		//con la funcion parseInt() convertimos de texto a numero
+		var $txtNombre=$('#txtNombre'),$pauta=$('#pauta');
+		if($.trim($txtNombre.val())!=''){
+                        $.ajax({
+                            type: 'post',
+                            url: '{{ path("controlequipo_salida_equipo") }}',
+                            data: { codigoBarra: $txtNombre.val(),pauta : $pauta.val() },
+                            dataType: 'json',
+                            success: function(data) {
+                                if(data.vacio == 'no') {
+                                    $('#'+data.id).addClass(data.chequeo);
+                                    $txtNombre.val('').focus();
+                                } else {
+                                    alert(data.mensaje);
+                                    $txtNombre.val('').focus();
+                                }
+                            }
+                        });
+                } else {
+			alert('Por favor, digite el codigo del equipo que desea Verificar.');
+                        $txtNombre.val('').focus();
+		}
+                return false;
+                
+	});
+	
+	//evento al hacer clic en el boton eliminar de cada item de la lista
+	//se debe usar "live", ya que son elementos generados donamicamente
+	$(document).on('click','.clsEliminarElemento',function(){
+		//buscamos la lista
+		var $ulLista=$('#divLista').find('ul');
+		//buscamos el padre del boton (el tag li en el que se encuentra)
+		var $liPadre=$($(this).parents().get(0)),
+                $equipoPauta=$(this).attr("id"),
+                $equipo=$(this).attr("equipo");
+                        // Hacemos la peticion Ajax
+                        $.ajax({
+                            type: 'post',
+                            url: '{{ path("controlequipo_eliminar_equipopauta") }}',
+                            data: { equipo_pauta: $equipoPauta,equipo:$equipo },
+                            dataType: 'json',
+                            success: function(data) {
+                                if(data.resultado == 'ok') {
+                                    //eliminamos el elemento
+                                    $liPadre.remove();
+                                } else {
+                                    alert(data.mensaje);
+                                }
+                            }
+                        });
+		
+		//si la listaesta vacia entonces la eliminamos del dom
+		if($ulLista.find('li').length == 0) { $ulLista.remove(); $('#list_equipovacia').show(); }   
+	});
+	
+	//al presionar <ENTER> sobre el campo txtNombre llamamos al boton (usabilidad otra vez)
+	$('#txtNombre').on('keypress',function(eEvento){
+		if(eEvento.which==13) $('#add_pauta_equipo').trigger('submit');
+	});
+        
+        $('#submit_confirmar').on('click',function(e){
+            e.preventDefault();
+            /*if(confirm("¿Está seguro que desea confirmar la salida de Equipos en la Pauta Actual?")) {
+                $( "#confirmar_pauta" ).submit();
+            }
+            return false;*/
+            if(confirm("¿Está seguro que desea confirmar la Entrada de Equipos en la Pauta actual?")) {
+                // Hacemos la validacion si existen equipos sin confirmar
+                var $pauta=$('#pauta');
+                $.ajax({
+                            type: 'post',
+                            url: '{{ path("controlequipo_verificar_salida_equipo") }}',
+                            data: { pauta : $pauta.val() },
+                            dataType: 'json',
+                            success: function(data) {
+                                if(data.vacio == 'no') {
+                                    if(confirm("Hay " + data.cantidad +" equipos que no se han verificado. ¿Está seguro que desea confirmar la Salida?")) {
+                                        // Finalmente hacemos el submit del formulario
+                                        $( "#confirmar_pauta" ).submit();
+                                    }
+                                }
+                                if(data.vacio == 'si') {
+                                    $( "#confirmar_pauta" ).submit();
+                                } 
+                                if(data.vacio == null) {
+                                    alert(data.mensaje);
+                                }
+                            }
+                        });
+                
+            }
+            return false;
+        });
+});
+    </script>
+{% endblock %}

@@ -1,0 +1,218 @@
+{% extends '::sit.html.twig' %}
+ 
+{% block title %}Gestionar Ticket{% endblock %}
+
+{% block titulo %}
+    GESTIONAR TICKET  {% if usuarioticket %}
+        <br>
+
+        <h5>{% if entity.estatus!=4 %}ASIGNADO A{% else %}CERRADO POR{% endif %} {{ usuarioticket.primernombre|upper }} {{ usuarioticket.primerapellido|upper }}</h5>
+        {% else %}
+            <div class="bg-info">TICKET SIN ASIGNAR</div>
+        {% endif %}
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("ticket") }}">LISTADO DE TICKETS</a></li>
+  <li class="active">GESTIONAR TICKET</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+
+{% if entity.estatus!=4 %}
+<form action="{{ path('ticket_asigreasig',{'id':entity.id}) }}" method="post">
+<div class="row">
+  <div class="col-md-7">
+{% endif %}
+    <div class="formShow" style="width:90%;">
+        {% if reasignado %}
+        <div class="contenedorform">
+            <div class="labelform">Reasignado por:</div>
+            <div class="widgetform"><span class="label label-warning">{{ reasignado[0].user.primernombre }} {{ reasignado[0].user.primerapellido }}</span></div>
+        </div>
+        {% endif %}
+        <div class="contenedorform">
+            <div class="labelform">Solicitante:</div>
+            <div class="widgetform">{{ entity.solicitante.primernombre }} {{ entity.solicitante.primerapellido }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Extensión:</div>
+            <div class="widgetform">{{ datossolicitante.extension }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Fecha solicitud:</div>
+            <div class="widgetform">{{ entity.fechasolicitud|date("d-m-Y") }}</div>
+        </div>
+
+        <div class="contenedorform">
+            <div class="labelform">Hora solicitud:</div>
+            <div class="widgetform">{{ entity.horasolicitud|date("G:i:s") }}</div>
+        </div>
+
+        {% if entity.estatus==4 or entity.estatus==6 %}
+            <div class="contenedorform">
+                <div class="labelform">Fecha solución:</div>
+                <div class="widgetform">{{ entity.fechasolucion|date("d-m-Y") }}</div>
+            </div>
+
+            <div class="contenedorform">
+                <div class="labelform">Hora solución:</div>
+                <div class="widgetform">{{ entity.horasolucion|date("G:i:s") }}</div>
+            </div>
+        {% endif %}
+
+        <div class="contenedorform">
+            <div class="labelform">Solicitud:</div>
+            <div class="widgetform">{{ entity.solicitud}}</div>
+        </div>
+
+        {% if entity.estatus==4 or entity.estatus==6 %}
+            <div class="contenedorform">
+                <div class="labelform">Solución:</div>
+                <div class="widgetform">{{ entity.solucion}}</div>
+            </div>
+        {% endif %}
+
+        <div class="contenedorform">
+            <div class="labelform">Categoria:</div>
+            <div class="widgetform">{{ entity.categoria.categoria|upper }}{% if entity.estatus!=4 %}<a href="{{ path('ticket_asignarcatsub',{'id':entity.id}) }}"> <span class="glyphicon glyphicon-edit"></a>{% endif %}</div>
+        </div>
+
+        <div class="contenedorform">
+            <div class="labelform">Subcategoria:</div>
+            <div class="widgetform">{{ entity.subcategoria.subcategoria|upper }}</div>
+        </div>
+
+        {% if entity.archivo %}
+        <div class="contenedorform">
+            <div class="labelform">Archivo:</div>
+            <div class="widgetform">
+
+                {% set extension =  entity.archivo|split(".") %}
+
+                {% if extension[1]=='jpg' or extension[1]=='jpeg' or extension[1]=='png' or extension[1]=='gif'  %}
+                    <a data-toggle="modal" href="#myModal">
+                        <img class="img-rounded" src="/uploads/sit/{{ entity.archivo }}" width="150px">
+                    </a>
+                {% else %}
+                    <a href="/uploads/sit/{{ entity.archivo }}">DESCARGA ARCHIVO {{ extension[1]|upper }}</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+{% if entity.estatus!=4 %}
+  </div>
+  <div class="col-md-5">
+        <div class="contenedorcatsub">
+        <div class="accordion" id="accordion2">
+            
+          <div class="panel-group" id="accordion">
+            <div class="accordion-heading">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        ASIGNAR TICKET
+                      </a>
+                    </h4>
+                  </div>
+                   <div id="collapseOne" class="panel-collapse collapse in" style="padding-left: 10px;">
+                {% for usu in usuariosunidad %}
+                    {% if usuarioticket %}
+                        {% for usuarios in usu.user if usuarios.id!= usuarioticket.id %}
+                            <div class="situnidad"><input type="radio" name="datos" value="asignar-{{usuarios.id}}"> 
+                            {{ usuarios.primernombre|title }} {{ usuarios.primerapellido|title }}</div>
+                        {% endfor %}
+                    {% else %}
+                        {% for usuarios in usu.user %}
+                            <div class="situnidad"><input type="radio" name="datos" value="asignar-{{usuarios.id}}"> 
+                            {{ usuarios.primernombre|title }} {{ usuarios.primerapellido|title }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+          <br><br>
+            <div class="accordion-heading">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                        REASIGNAR TICKET
+                      </a>
+                    </h4>
+                  </div>
+                   <div id="collapseTwo" class="panel-collapse collapse in" style="padding-left: 10px;">
+                {% for uni in unidad if uni.id!=idunidad %}
+                <div class="situnidad"><input type="radio" name="datos" value="reasignar-{{ uni.id }}"> {{ uni.descripcion }}</div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+            <br><input type="submit" class="btn btn-primary" value="ASIGNAR O REASIGNAR">
+        </div>
+      </div>
+</div>
+</div>
+</form>
+{% endif %}
+
+
+<div  class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width:800px">
+    <div class="modal-content" style="width:800px">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">DESCARGA IMAGEN</h4>
+      </div>
+      <div class="modal-body">
+        <a href="/sait/web/libs/scripts/forzardescarga.php?archivo={{ entity.archivo }}&ruta=/var/www/uploads/sit/"><img width="400px" class="img-rounded" src="/uploads/sit/{{ entity.archivo }}"></a>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">CERRAR</button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+
+
+    <br>
+<a class="btn btn-default" href="{{ path('ticket') }}">IR A LA LISTA</a>
+{% if usuarioticket %} | <a class="btn btn-default" href="{{ path('sit_seguimientoprincipal',{'idticket':entity.id}) }}">IR AL SEGUIMIENTO</a>{% endif %}
+
+
+
+{#
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('ticket') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('ticket_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('ticket_delete', { 'id': entity.id }) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE" />
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
+#}
+
+<br><br>
+{% endblock %}

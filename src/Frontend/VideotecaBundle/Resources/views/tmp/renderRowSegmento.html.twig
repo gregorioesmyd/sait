@@ -1,0 +1,27 @@
+{% for segmento in pagination %}
+    <tr>
+        <td>
+            <p><strong>Codigo:  </strong> {{ segmento.cinta.codigo }}</p>
+            <p><strong>Fechaevento:  </strong>{% if segmento.fechaEvento %}{{ segmento.fechaEvento|date('Y-m-d') }}{% endif %}</p>
+        </td>
+        <td>
+            <p><strong>Duracion:  </strong>{{ segmento.duracion|date('H:i:s') }}</p>
+            <p><strong>Inicio:  </strong>{{ segmento.inicio|date('H:i:s') }}</p>
+            <p><strong>Fin:  </strong>{{ segmento.fin|date('H:i:s') }}</p>
+        </td>
+        <td width="50%">
+            <p><strong>Titulo:  </strong>{{ segmento.titulo }}</p>
+            <p><strong>Sinopsis:  </strong>{{ segmento.sinopsis|truncate(150) }}</p>
+        </td>
+        <td width="20%">
+            <div class="btn-group" role="group" aria-label="..." style="width:100%">
+                <a class="btn btn-default" role="button" href="{{ path('segmento_show', { 'id': segmento.id, 'slug':segmento.cinta.tipocinta.slug }) }}">show</a>
+                <a class="btn btn-default" role="button" href="{{ path('segmento_edit', { 'id': segmento.id , 'slug':segmento.cinta.tipocinta.slug }) }}">edit</a>
+                <a class="btn btn-default" role="button" href="{{ path('cintasegmento_new', { 'id': segmento.cinta.id, 'slug':segmento.cinta.tipocinta.slug }) }}">Agregar</a>
+            </div>
+            <div id="boot">
+                <a class="btn btn-default" role="button" href="{{ path('cintasegmento_show', { 'id': segmento.cinta.id }) }}">Cinta</a>
+            </div>
+        </td>
+    </tr>
+{% endfor %}

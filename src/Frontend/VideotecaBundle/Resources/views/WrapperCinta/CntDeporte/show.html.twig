@@ -1,0 +1,92 @@
+{% extends 'VideotecaBundle:WrapperCinta:Cinta/show.html.twig' %}
+
+{% block dataCinta %}
+    <div class="row wrapper-campos">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+            <span><b>Tipo de Cinta:</b></span>
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <span>{{ cinta.tipoCinta.nombre }}</span>
+        </div>
+    </div>
+    <div class="row wrapper-campos">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+            <span><b>Codigo:</b></span>
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <span>{{ cinta.codigo }}</span>
+        </div>
+    </div>
+    <div class="row wrapper-campos">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+            <span><b>Formato:</b></span>
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <span>{{ cinta.formato.descripcionFormato }}</span>
+        </div>
+    </div>
+    <div class="row wrapper-campos">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+            <span><b>Duracion:</b></span>
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <span>{{ cinta.duracion.nombre }}</span>
+        </div>
+    </div>
+    <div class="row wrapper-campos">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+            <span><b>Evento:</b></span>
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <span>{{ cinta.evento.nombre }}</span>
+        </div>
+    </div>
+    <div class="row wrapper-campos">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+            <span><b>Marca:</b></span>
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <span>{{ cinta.marca.descripcionMarca }}</span>
+        </div>
+    </div>
+    <div class="row wrapper-campos">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+            <span><b>Categoria:</b></span>
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <span>{{ cinta.categoria.nombre }}</span>
+        </div>
+    </div>
+    <div class="row wrapper-campos">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+            <span><b>Documentalista:</b></span>
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <span>{{ cinta.documentalista.primerNombre }} {{ cinta.documentalista.primerApellido }}</span>
+        </div>
+    </div>
+    <div class="row wrapper-campos">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+            <span><b>Status:</b></span>
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <span>{{ cinta.status.nombre }}</span>
+        </div>
+    </div>
+    <div class="row wrapper-campos">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+            <span><b>Observaciones:</b></span>
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <p>{{ cinta.observaciones }}</p>
+        </div>
+    </div>
+    <div class="row wrapper-campos">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+            <span><b>Creado:</b></span>
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <span>{{ cinta.creado|date('d/m/Y') }}</span>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h1>LISTA DE JORNADAS</h1>
+    <a href="{{ path('jornadalaboral_new') }}"><i class="fa fa-plus"> Nueva jornada</i></a>&nbsp;&nbsp;
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li class="active">LISTA DE JORNADAS</li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+ 
+   
+    <table id="tabladatatable" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Dias</th>
+                <th>Hora desde</th>
+                <th>Hora hasta</th>
+                <th>Observacion</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.id }}</td>
+                <td>
+                    {% set dia=entity.dias|split("-") %}
+                    {% for d in dia %}
+                        {% if d==1 %} | Lunes |
+                        {% elseif d==2 %} | Martes |
+                        {% elseif d==3 %} | Miercoles |
+                        {% elseif d==4 %} |Jueves |
+                        {% elseif d==5 %} | Viernes |
+                        {% elseif d==6 %} | Sábado |
+                        {% elseif d==7 %} | Domingo |
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ entity.horadesde|date('G:i:s') }}</td>
+                <td>{{ entity.horahasta|date('G:i:s') }}</td>
+                <td>{{ entity.observacion }}</td>
+                <td>
+                    <a href="{{ path('jornadalaboral_edit', { 'id': entity.id }) }}"><i data-toggle="tooltip" data-placement="top" title="Editar o borrar jornada" class="fa fa-pencil-square-o"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip()
+    
+            $('#tabladatatable').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                 "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                 "aaSorting": [[0,'asc'],[1,'asc']],
+             } );
+        })
+    </script>
+    {% endblock %}
+
+    

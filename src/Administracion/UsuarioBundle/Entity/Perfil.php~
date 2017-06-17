@@ -1,0 +1,762 @@
+<?php
+
+namespace Administracion\UsuarioBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+/**
+ * Perfil
+ *
+ * @ORM\Table(name="usuarios.perfil")
+ * @ORM\Entity
+ */
+class Perfil
+{
+    /**
+     * @var integer
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="usuarios.perfil_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+    
+    /**
+     * @var \User
+     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * })
+     */
+    private $user;
+
+    /**
+     * @var string
+     * @ORM\Column(name="primer_nombre", type="string", length=255, nullable=false)
+     */
+    private $primerNombre;
+
+    /**
+     * @var string
+     * @ORM\Column(name="segundo_nombre", type="string", length=255, nullable=true)
+     */
+    private $segundoNombre;
+
+    /**
+     * @var string
+     * @ORM\Column(name="primer_apellido", type="string", length=255, nullable=false)
+     */
+    private $primerApellido;
+
+    /**
+     * @var string
+     * @ORM\Column(name="segundo_apellido", type="string", length=255, nullable=true)
+     */
+    private $segundoApellido;
+
+    /**
+     * @var string
+     * @ORM\Column(name="cedula", type="string", length=20, nullable=false)
+     */
+    private $cedula;
+    
+    /**
+     * @var string
+     * @ORM\Column(name="activar_proceso", type="boolean", nullable=true)
+     */
+    private $activarProceso;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="fechanacimiento", type="date", nullable=true)
+     * @Assert\NotBlank()
+     */
+    private $fechanacimiento;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="extension", type="integer", nullable=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 3,
+     *      minMessage = "You must be at least {{ limit }}cm tall to enter",
+     *      maxMessage = "You cannot be taller than {{ limit }}cm to enter"
+     * )
+     */
+    private $extension;
+    
+
+    /**
+     * @ORM\Column(name="correo_opcional", type="string", nullable=true)
+     * @Assert\NotBlank()
+     * @Assert\Email(
+     *     message = "No es una dirección de correo válida.",
+     *     checkMX = true
+     * )
+     */
+    private $correoOpcional;
+    
+    /**
+     * @var integer
+     * @ORM\Column(name="abreviado", type="string", nullable=true)
+     */
+    private $abreviado;
+    /**
+     * @var integer
+     * @ORM\Column(name="nacionalidad", type="string",length=1, nullable=true)
+     * @Assert\NotBlank()
+     */
+    private $nacionalidad;
+    
+    /**
+     * @var integer
+     * @ORM\Column(name="sexo", type="string",length=1, nullable=true)
+     */
+    private $sexo;    
+    
+    /**
+     * @var integer
+     * @ORM\Column(name="direccion_habitacion", type="text", nullable=true)
+     * @Assert\NotBlank()
+     */
+    private $direccionHabitacion;
+    
+    /**
+     * @var \Cargo
+     * @ORM\ManyToOne(targetEntity="Cargo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cargo_id", referencedColumnName="id")
+     * })
+     */
+    private $cargo;
+    
+    /**
+     * @var \Jerarquia
+     * @ORM\ManyToOne(targetEntity="Jerarquia")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="jerarquia_id", referencedColumnName="id")
+     * })
+     */
+    private $jerarquia;
+
+
+
+     /**
+     * @Assert\File(
+     * maxSize="5M", 
+     * maxSizeMessage="El archivo que intenta subir debe ser menos 5Mb") 
+     */
+    private $file;
+
+    /**
+     * @var string
+     * @ORM\Column(name="foto", type="string", length=500, nullable=true)
+     */
+    private $foto;
+
+    /**
+     * @var boolean
+     * @ORM\Column(name="jefe", type="boolean", nullable=true)
+     */
+    private $jefe;
+
+    /**
+     * @var \Nivelorganizacional
+     * @ORM\ManyToOne(targetEntity="Nivelorganizacional")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="nivelorganizacional_id", referencedColumnName="id")
+     * })
+     * @Assert\NotBlank()
+     */
+    private $nivelorganizacional;
+
+    /**
+     * @var string
+     * @ORM\Column(name="telefono_local", type="string", length=12, nullable=true)
+     * @Assert\NotBlank()
+     * @Assert\Type(
+     *     type="numeric",
+     *     message="Los datos introducidos deben ser solo números."
+     * )
+     * @Assert\Length(
+     *      min = 11,
+     *      max = 11,
+     *      minMessage = "You must be at least {{ limit }}cm tall to enter",
+     *      maxMessage = "You cannot be taller than {{ limit }}cm to enter"
+     * )
+     */
+    private $telefonoLocal;
+    
+        /**
+     * @var string
+     * @ORM\Column(name="telefono_celular", type="string", length=12, nullable=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 11,
+     *      max = 11,
+     *      minMessage = "You must be at least {{ limit }}cm tall to enter",
+     *      maxMessage = "You cannot be taller than {{ limit }}cm to enter"
+     * )
+     */
+    private $telefonoCelular;
+    
+    /**
+     * @var \Estado
+     * @ORM\ManyToOne(targetEntity="Estado")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="estado_id", referencedColumnName="id")
+     * })
+     * @Assert\NotBlank()
+     */
+    private $estado;
+    
+    /**
+     * @var \Ciudad
+     * @ORM\ManyToOne(targetEntity="Ciudad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ciudad_id", referencedColumnName="id")
+     * })
+     * @Assert\NotBlank()
+     */
+    private $ciudad;
+
+
+    /**
+     * Get id
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set primerNombre
+     *
+     * @param string $primerNombre
+     * @return Perfil
+     */
+    public function setPrimerNombre($primerNombre)
+    {
+        $this->primerNombre = $primerNombre;
+
+        return $this;
+    }
+
+    /**
+     * Get primerNombre
+     * @return string 
+     */
+    public function getPrimerNombre()
+    {
+        return $this->primerNombre;
+    }
+
+  /**
+     * Sets file.
+     * @param UploadedFile $file
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * Get file.
+     *
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+    /**
+     * Set segundoNombre
+     * @param string $segundoNombre
+     * @return Perfil
+     */
+
+    public function setSegundoNombre($segundoNombre)
+    {
+        $this->segundoNombre = $segundoNombre;
+
+        return $this;
+    }
+
+    /**
+     * Get segundoNombre
+     * @return string 
+     */
+
+    public function getSegundoNombre()
+    {
+        return $this->segundoNombre;
+    }
+
+    /**
+     * Set primerApellido
+     * @param string $primerApellido
+     * @return Perfil
+     */
+
+    public function setPrimerApellido($primerApellido)
+    {
+        $this->primerApellido = $primerApellido;
+
+        return $this;
+    }
+
+    /**
+     * Get primerApellido
+     * @return string 
+     */
+ 
+    public function getPrimerApellido()
+    {
+        return $this->primerApellido;
+    }
+
+    /**
+     * Set segundoApellido
+     * @param string $segundoApellido
+     * @return Perfil
+     */
+
+    public function setSegundoApellido($segundoApellido)
+    {
+        $this->segundoApellido = $segundoApellido;
+
+        return $this;
+    }
+
+    /**
+     * Get segundoApellido
+     * @return string 
+     */
+
+    public function getSegundoApellido()
+    {
+        return $this->segundoApellido;
+    }
+
+    /**
+     * Set cedula
+     * @param string $cedula
+     * @return Perfil
+     */
+
+    public function setCedula($cedula)
+    {
+        $this->cedula = $cedula;
+
+        return $this;
+    }
+
+    /**
+     * Get cedula
+     *
+     * @return string 
+     */
+    public function getCedula()
+    {
+        return $this->cedula;
+    }
+
+    /**
+     * Set fechanacimiento
+     *
+     * @param \DateTime $fechanacimiento
+     * @return Perfil
+     */
+    public function setFechanacimiento($fechanacimiento)
+    {
+        $this->fechanacimiento = $fechanacimiento;
+
+        return $this;
+    }
+
+    /**
+     * Get fechanacimiento
+     *
+     * @return \DateTime 
+     */
+    public function getFechanacimiento()
+    {
+        return $this->fechanacimiento;
+    }
+
+    /**
+     * Set extension
+     *
+     * @param integer $extension
+     * @return Perfil
+     */
+    public function setExtension($extension)
+    {
+        $this->extension = $extension;
+
+        return $this;
+    }
+
+    /**
+     * Get extension
+     *
+     * @return integer 
+     */
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+
+    /**
+     * Set foto
+     *
+     * @param string $foto
+     * @return Perfil
+     */
+    public function setFoto($foto)
+    {
+        $this->foto = $foto;
+
+        return $this;
+    }
+
+    /**
+     * Get foto
+     *
+     * @return string 
+     */
+    public function getFoto()
+    {
+        return $this->foto;
+    }
+
+    /**
+     * Set jefe
+     *
+     * @param boolean $jefe
+     * @return Perfil
+     */
+    public function setJefe($jefe)
+    {
+        $this->jefe = $jefe;
+
+        return $this;
+    }
+
+    /**
+     * Get jefe
+     *
+     * @return boolean 
+     */
+    public function getJefe()
+    {
+        return $this->jefe;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Administracion\UsuarioBundle\Entity\User $user
+     * @return Perfil
+     */
+    public function setUser(\Administracion\UsuarioBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Administracion\UsuarioBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set nivelorganizacional
+     *
+     * @param \Administracion\UsuarioBundle\Entity\Nivelorganizacional $nivelorganizacional
+     * @return Perfil
+     */
+    public function setNivelorganizacional(\Administracion\UsuarioBundle\Entity\Nivelorganizacional $nivelorganizacional = null)
+    {
+        $this->nivelorganizacional = $nivelorganizacional;
+
+        return $this;
+    }
+
+    /**
+     * Get nivelorganizacional
+     *
+     * @return \Administracion\UsuarioBundle\Entity\Nivelorganizacional 
+     */
+    public function getNivelorganizacional()
+    {
+        return $this->nivelorganizacional;
+    }
+
+    /**
+     * Set abreviado
+     *
+     * @param integer $abreviado
+     * @return Perfil
+     */
+    public function setAbreviado($abreviado)
+    {
+        $this->abreviado = $abreviado;
+
+        return $this;
+    }
+
+    /**
+     * Get abreviado
+     *
+     * @return integer 
+     */
+    public function getAbreviado()
+    {
+        return $this->abreviado;
+    }
+
+     /**
+     * Set cargo
+     *
+     * @param \BaseDatos\UsuarioBundle\Entity\Cargo $cargo
+     * @return Perfil
+     */
+    public function setCargo(\Administracion\UsuarioBundle\Entity\Cargo $cargo = null)
+    {
+        $this->cargo = $cargo;
+
+        return $this;
+    }
+
+    /**
+     * Get cargo
+     *
+     * @return \BaseDatos\UsuarioBundle\Entity\Cargo 
+     */
+    public function getCargo()
+    {
+        return $this->cargo;
+    }
+    
+    public function __toString() {
+        return $this->getPrimerNombre().' '.$this->getPrimerApellido();
+    }
+
+    /**
+     * Set telefonoLocal
+     *
+     * @param integer $telefonoLocal
+     * @return Perfil
+     */
+    public function setTelefonoLocal($telefonoLocal)
+    {
+        $this->telefonoLocal = $telefonoLocal;
+    
+        return $this;
+    }
+
+    /**
+     * Get telefonoLocal
+     *
+     * @return integer 
+     */
+    public function getTelefonoLocal()
+    {
+        return $this->telefonoLocal;
+    }
+
+    /**
+     * Set telefonoCelular
+     *
+     * @param integer $telefonoCelular
+     * @return Perfil
+     */
+    public function setTelefonoCelular($telefonoCelular)
+    {
+        $this->telefonoCelular = $telefonoCelular;
+    
+        return $this;
+    }
+
+    /**
+     * Get telefonoCelular
+     *
+     * @return integer 
+     */
+    public function getTelefonoCelular()
+    {
+        return $this->telefonoCelular;
+    }
+
+    /**
+     * Set estado
+     *
+     * @param \Administracion\UsuarioBundle\Entity\Estado $estado
+     * @return Perfil
+     */
+    public function setEstado(\Administracion\UsuarioBundle\Entity\Estado $estado = null)
+    {
+        $this->estado = $estado;
+    
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return \Administracion\UsuarioBundle\Entity\Estado 
+     */
+    public function getEstado()
+    {
+        return $this->estado;
+    }
+
+    /**
+     * Set ciudad
+     *
+     * @param \Administracion\UsuarioBundle\Entity\Ciudad $ciudad
+     * @return Perfil
+     */
+    public function setCiudad(\Administracion\UsuarioBundle\Entity\Ciudad $ciudad = null)
+    {
+        $this->ciudad = $ciudad;
+    
+        return $this;
+    }
+
+    /**
+     * Get ciudad
+     *
+     * @return \Administracion\UsuarioBundle\Entity\Ciudad 
+     */
+    public function getCiudad()
+    {
+        return $this->ciudad;
+    }
+
+    /**
+     * Set activarProceso
+     *
+     * @param boolean $activarProceso
+     * @return Perfil
+     */
+    public function setActivarProceso($activarProceso)
+    {
+        $this->activarProceso = $activarProceso;
+    
+        return $this;
+    }
+
+    /**
+     * Get activarProceso
+     *
+     * @return boolean 
+     */
+    public function getActivarProceso()
+    {
+        return $this->activarProceso;
+    }
+
+    /**
+     * Set nacionalidad
+     *
+     * @param string $nacionalidad
+     * @return Perfil
+     */
+    public function setNacionalidad($nacionalidad)
+    {
+        $this->nacionalidad = $nacionalidad;
+    
+        return $this;
+    }
+
+    /**
+     * Get nacionalidad
+     *
+     * @return string 
+     */
+    public function getNacionalidad()
+    {
+        return $this->nacionalidad;
+    }
+
+    /**
+     * Set correoOpcional
+     *
+     * @param string $correoOpcional
+     * @return Perfil
+     */
+    public function setCorreoOpcional($correoOpcional)
+    {
+        $this->correoOpcional = $correoOpcional;
+    
+        return $this;
+    }
+
+    /**
+     * Get correoOpcional
+     *
+     * @return string 
+     */
+    public function getCorreoOpcional()
+    {
+        return $this->correoOpcional;
+    }
+
+    /**
+     * Set direccionHabitacion
+     *
+     * @param string $direccionHabitacion
+     * @return Perfil
+     */
+    public function setDireccionHabitacion($direccionHabitacion)
+    {
+        $this->direccionHabitacion = $direccionHabitacion;
+    
+        return $this;
+    }
+
+    /**
+     * Get direccionHabitacion
+     *
+     * @return string 
+     */
+    public function getDireccionHabitacion()
+    {
+        return $this->direccionHabitacion;
+    }
+
+    /**
+     * Set sexo
+     *
+     * @param string $sexo
+     * @return Perfil
+     */
+    public function setSexo($sexo)
+    {
+        $this->sexo = $sexo;
+    
+        return $this;
+    }
+
+    /**
+     * Get sexo
+     *
+     * @return string 
+     */
+    public function getSexo()
+    {
+        return $this->sexo;
+    }
+}

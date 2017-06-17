@@ -1,0 +1,131 @@
+visita_control:
+    pattern:  /
+    defaults: { _controller: "FrontendVisitasBundle:Visita:index" }
+
+visita_show_control:
+    pattern:  /{id}/show
+    defaults: { _controller: "FrontendVisitasBundle:Visita:show" }
+
+visita_new_control:
+    pattern:  /new
+    defaults: { _controller: "FrontendVisitasBundle:Visita:new" }
+
+visita_create_control:
+    pattern:  /create
+    defaults: { _controller: "FrontendVisitasBundle:Visita:create" }
+    requirements: { _method: post }
+
+visita_edit_control:
+    pattern:  /{id}/edit
+    defaults: { _controller: "FrontendVisitasBundle:Visita:edit" }
+
+visita_update_control:
+    pattern:  /{id}/update
+    defaults: { _controller: "FrontendVisitasBundle:Visita:update" }
+    requirements: { _method: post|put }
+
+visita_delete_control:
+    pattern:  /{id}/delete
+    defaults: { _controller: "FrontendVisitasBundle:Visita:delete" }
+    requirements: { _method: post|delete }
+
+
+
+
+
+control_visitas_usuario:
+    pattern:  /listado
+    defaults: { _controller: "FrontendVisitasBundle:Usuario:index" }
+
+usuario_show_control:
+    pattern:  /{id}/showusuario
+    defaults: { _controller: "FrontendVisitasBundle:Usuario:show" }
+
+usuario_new_control:
+    pattern:  /newusuario
+    defaults: { _controller: "FrontendVisitasBundle:Usuario:new" }
+
+usuario_create_control:
+    pattern:  /createusuario
+    defaults: { _controller: "FrontendVisitasBundle:Usuario:create" }
+    requirements: { _method: post }
+
+usuario_edit_control:
+    pattern:  /{id}/editusuario
+    defaults: { _controller: "FrontendVisitasBundle:Usuario:edit" }
+
+usuario_update_control:
+    pattern:  /{id}/updateusuario
+    defaults: { _controller: "FrontendVisitasBundle:Usuario:update" }
+    requirements: { _method: post|put }
+
+usuario_delete_control:
+    pattern:  /{id}/deleteusuario
+    defaults: { _controller: "FrontendVisitasBundle:Usuario:delete" }
+    requirements: { _method: post|delete }
+
+usuario_busqueda_control:
+    pattern:  /busqueda
+    defaults: { _controller: "FrontendVisitasBundle:Usuario:busqueda" }
+
+usuario_registrar_control:
+    pattern:  /registrar/{cedula}
+    defaults: { _controller: "FrontendVisitasBundle:Usuario:registrar" }
+
+registranuevavisita:
+    pattern: /registranuevavisita/{cedula}
+    defaults: { _controller: "FrontendVisitasBundle:Usuario:registranuevavisita"}
+
+foto:
+    pattern: /foto
+    defaults: { _controller: "FrontendVisitasBundle:Usuario:foto"}
+
+mostrar:
+    pattern: /mostrar
+    defaults: { _controller: "FrontendVisitasBundle:Usuario:mostrar"}
+
+usu:
+    pattern:  /{id}/usu
+    defaults: { _controller: "FrontendVisitasBundle:Usuario:usu" }
+
+usua:
+    pattern:  /{id}/usua
+    defaults: { _controller: "FrontendVisitasBundle:Usuario:usua" }
+    requirements: { _method: post|put }
+
+
+salida:
+    pattern: /{id}/salida
+    defaults: { _controller: "FrontendVisitasBundle:Usuario:salida"}  #reviar esta ruta
+
+
+
+
+
+
+
+
+# Reportes inicio
+#******************************************************************************
+
+
+ajaxreporte:
+    pattern:  /ajax/{datos}/{mostrar}
+    defaults: { _controller: "FrontendVisitasBundle:Ajax:formulario" }
+
+
+reporteinfo:
+    pattern:  /reporteinfo
+    defaults: { _controller: "FrontendVisitasBundle:Reporte:reporteinfo" }
+
+finalreporte:
+    pattern:  /finalreporte
+    defaults: { _controller: "FrontendVisitasBundle:Reporte:finalreporte"}
+
+
+
+# Reportes fin
+#******************************************************************************
+
+
+

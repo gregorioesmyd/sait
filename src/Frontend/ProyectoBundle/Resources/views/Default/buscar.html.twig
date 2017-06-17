@@ -1,0 +1,183 @@
+{% extends '::proyecto.html.twig' %}
+
+{% block title %}Busqueda{% endblock %}
+
+{% block titulo %}
+    <h3>RESULTADO DE BÚSQUEDA</h3>
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li class="active">RESULTADO DE BÚSQUEDA PROYECTOS</li>
+</ol>
+{% endblock %}
+    
+{% block body -%}
+    {{ parent() }}
+    
+    {% set total = 0 %}
+    {% set total = proyecto|length + tarea|length + actividad|length + comentarioproyecto|length + comentarioactividad|length + documentoproyecto|length + documentoactividad|length %}
+        
+        
+        
+    <div style="width: 70%;text-align: left;">
+        <p style="padding-left: 20px;" class="bg-primary"><b>RESULTADOS DE BÚSQUEDA</b> "{% if palabra!="" %}{{ palabra }}{% else %}Muestra todos los elementos{% endif %}"</p>
+        <a href="#proyecto" class="label label-default">PROYECTOS</a>&nbsp;<a href="#tarea" class="label label-default">OBJETIVOS</a>&nbsp;<a href="#actividad" class="label label-default">ACTIVIDADES</a>&nbsp;<a href="#comentario" class="label label-default">COMENTARIOS</a>&nbsp;<a href="#documento" class="label label-default">DOCUMENTOS</a>
+        <br><br><p style="padding-left: 20px;" class="text-muted"><b>{{ total }} Encontrados</b></p>
+    
+        <div style="padding-left: 20px;">
+            {% if proyecto %}
+                <a class="label label-primary" name="proyecto">PROYECTOS</a><br><br>
+                <table class="table table-bordered">
+                    <tr class="bg-info">
+                        <th>PROYECTO</th>
+                        <th>DESCRIPCION</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                        {% for p in proyecto %}
+                            <tr>
+                                <td>{{ p.nombre|upper}}</td>
+                                <td>{{ p.descripcion|upper}}</td>
+                                <td><a target="_blank" style="color:black;" href="{{ path('proyecto_show', { 'id': p.id }) }}" data-toggle="tooltip" data-placement="top" title="Consultar Proyecto"><span class="glyphicon glyphicon-search"></span></a></td>
+                            </tr>
+                        {% endfor %}
+                </table>
+                <br><br>
+            {% endif %}
+
+            {% if tarea %}
+                <a class="label label-primary" name="tarea">OBJETIVOS</a><br><br>
+
+                <table class="table table-bordered">
+                    <tr class="bg-info">
+                        <th>OBJETIVO</th>
+                        <th>DESCRIPCION</th>
+                        <th>PROYECTO</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                    {% for p in tarea %}
+                        <tr>
+                            <td>{{ p.nombre|upper}}</td>
+                            <td>{{ p.descripcion|upper}}</td>
+                            <td>{{ p.proyecto.nombre|upper}}</td>
+                            <td><a target="_blank" style="color:black;" href="{{ path('tarea_show', { 'id': p.id }) }}" data-toggle="tooltip" data-placement="top" title="Consultar objetivo"><span class="glyphicon glyphicon-search"></span></a></td>
+                        </tr>
+                    {% endfor %}
+                </table><br><br>
+            {% endif %}    
+            
+            {% if actividad %}
+                <a class="label label-primary" name="actividad">ACTIVIDADES</a><br><br>
+
+                <table class="table table-bordered">
+                    <tr class="bg-info">
+                        <th>ACTIVIDAD</th>
+                        <th>PROYECTO</th>
+                        <th>OBJETIVO</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                    {% for p in actividad %}
+                        <tr>
+                            <td>{{ p.descripcion|upper}}</td>
+                            <td>{{ p.tarea.proyecto.nombre|upper}}</td>
+                            <td>{{ p.tarea.nombre|upper}}</td>
+                            <td><a target="_blank" style="color:black;" href="{{ path('actividad_show', { 'id': p.id }) }}" data-toggle="tooltip" data-placement="top" title="Consultar actividad"><span class="glyphicon glyphicon-search"></span></a></td>
+                        </tr>
+                    {% endfor %}
+                </table><br><br>
+            {% endif %}  
+            
+            {% if comentarioproyecto or comentarioactividad %}
+                <a class="label label-primary" name="comentario">COMENTARIOS</a><br><br>
+
+                    <table class="table table-bordered">
+                        <tr class="bg-info">
+                            <th style="width:30%;">COMENTARIO</th>
+                            <th>PROYECTO</th>
+                            <th>OBJETIVO</th>
+                            <th>ACTIVIDAD</th>
+                            <th>ACCIONES</th>
+                        </tr>       
+                    {% for p in comentarioproyecto %}
+                        <tr>
+                            <td style="width:30%">{{ p.comentario|upper}}</td>
+                            <td>{{ p.proyectoId.nombre|upper}}</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                            <td><a target="_blank" style="color:black;" href="{{ path('comentarioproyecto_show', { 'id': p.id }) }}" data-toggle="tooltip" data-placement="top" title="Detalle de Comentario"><b class="glyphicon glyphicon-search"></b></a></td>
+                            
+                        </tr>
+                    {% endfor %}
+
+                    {% for p in comentarioactividad %}
+                        <tr>
+                            <td style="width:30%">{{ p.comentario|upper}}</td>
+                            <td>{{ p.actividad.tarea.proyecto.nombre|upper}}</td>
+                            <td>{{ p.actividad.tarea.nombre|upper}}</td>
+                            <td>{{ p.actividad.descripcion|upper}}</td>
+                            <td><a target="_blank" style="color:black;" href="{{ path('comentarioactividad', { 'idactividad': p.actividad.id }) }}" data-toggle="tooltip" data-placement="top" title="Detalle de Comentario"><b class="glyphicon glyphicon-search"></b></a></td>
+                        </tr>
+                    {% endfor %}
+                </table><br><br>
+            {% endif %}
+            
+            {% if documentoproyecto or documentoactividad %}
+                <a class="label label-primary" name="documento">DOCUMENTOS</a><br><br>
+
+                    <table class="table table-bordered">
+                        <tr class="bg-info">
+                            <th>ARCHIVO</th>
+                            <th>DESCRIPCIÓN DE ARCHIVO</th>
+                            <th>PROYECTO</th>
+                            <th>TAREA</th>
+                            <th>ACTIVIDAD</th>
+                            <th>ACCIONES</th>
+                        </tr> 
+                    {% for d in documentoproyecto %}
+                        <tr>
+                            <td>
+                                {% set extension =  d.archivo|split(".") %}
+
+                                {% if extension[1]=='jpg' or extension[1]=='jpeg' or extension[1]=='png' or extension[1]=='gif'  %}
+                                        <img class="img-rounded" src="/uploads/documentosproyectos/{{ d.archivo }}" width="150px">
+                                {% else %}
+                                    <a href="/uploads/documentosproyectos/{{ d.archivo }}">DESCARGA ARCHIVO {{ extension[1]|upper }}</a>
+                                {% endif %}
+                            </td>
+                            <td>{{ d.descripcion }}</td>
+                            <td>{{ d.proyectoId.nombre }}</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                            <td><a target="_blank" style="color:black;" href="{{ path('documentoproyecto_show', { 'id': d.id }) }}" data-toggle="tooltip" data-placement="top" title="Detalle del documento"><b class="glyphicon glyphicon-search"></b></a></td>
+                        </tr>
+                    {% endfor %}
+
+                    {% for d in documentoactividad %}
+                        <tr>
+                            <td>
+                                {% set extension =  d.archivo|split(".") %}
+
+                                {% if extension[1]=='jpg' or extension[1]=='jpeg' or extension[1]=='png' or extension[1]=='gif'  %}
+                                        <img class="img-rounded" src="/uploads/documentosproyectos/{{ d.archivo }}" width="150px">
+                                {% else %}
+                                    <a href="/uploads/documentosproyectos/{{ d.archivo }}">DESCARGA ARCHIVO {{ extension[1]|upper }}</a>
+                                {% endif %}
+                            </td>
+                            <td>{{ d.descripcion }}</td>
+                            <td>{{ d.actividadId.tarea.proyecto.nombre }}</td>
+                            <td>{{ d.actividadId.tarea.nombre }}</td>
+                            <td>{{ d.actividadId.descripcion }}</td>
+                            <td><a target="_blank" style="color:black;" href="{{ path('documentoactividad_show', { 'id': d.id }) }}" data-toggle="tooltip" data-placement="top" title="Detalle del documento"><b class="glyphicon glyphicon-search"></b></a></td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </table>
+        </div>
+    </div>
+    
+    
+    
+    
+{% endblock %}
+       

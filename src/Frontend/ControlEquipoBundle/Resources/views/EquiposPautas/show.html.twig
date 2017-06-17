@@ -1,0 +1,36 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block body -%}
+    <h1>EquiposPautas</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Chequeoentrada</th>
+                <td>{{ entity.chequeoEntrada }}</td>
+            </tr>
+            <tr>
+                <th>Chequeosalida</th>
+                <td>{{ entity.chequeoSalida }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('equipopauta') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('equipopauta_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

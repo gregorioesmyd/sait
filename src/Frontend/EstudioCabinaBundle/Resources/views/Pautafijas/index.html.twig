@@ -1,0 +1,70 @@
+{% extends '::estudioCabina.html.twig' %}
+
+{% block menu %}
+    {% include 'EstudioCabinaBundle:Default:includes/menu.html.twig' %}
+{% endblock %}
+
+{% block title %}Solicitudes{% endblock %}
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path('estudio_cabina_homepage',{tipo:tipo}) }}">CALENDARIO</a></li>
+  <li class="active">LISTA DE PAUTAS FIJAS DE {% if tipo == 1 %}ESTUDIO{% elseif tipo == 2 %}CABINA{% else %}SALA{% endif %}</li>
+</ol>
+{% endblock %}
+{% block body -%}
+       {{ parent() }}
+    <h1>Pautas Fijas</h1>
+
+ <table id="tabladatatable" class="table table-striped table-bordered" style="font-size: 12px;">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>{% if tipo == 1 %}ESTUDIO{% elseif tipo == 2 %}CABINA{% else %}SALA{% endif %}</th>
+                <th>Pauta</th>
+                <th>Dias de la Semana</th>
+                <th>FechaHoraInicio</th>
+                <th>FechaHoraFin</th>
+                {% if tipo == 2 %}<th>Post-Productor</th>{% endif %}
+                 <th>Acci&oacute;n</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('pautafijas_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{entity.estudioCabina}}</td>
+                <td>{{ entity.pauta }}</td>
+                <td>
+                {% for dias in diassem[entity.id] %}
+                    {% if dias == 1 %}Lunes{% endif %}
+                    {% if dias == 2 %}Martes{% endif %}
+                    {% if dias == 3 %}Miercoles{% endif %}
+                    {% if dias == 4 %}Jueves{% endif %}
+                    {% if dias == 5 %}Viernes{% endif %}
+                    {% if dias == 6 %}Sabado{% endif %}
+                    {% if dias == 7 %}Domingo{% endif %}
+                {%endfor%}</td>
+                <td>{% if entity.HoraInicio %}{{ entity.HoraInicio|date('Y-m-d H:i:s') }}{% endif %}</td>
+                  <td>{% if entity.HoraFin %}{{ entity.HoraFin|date('Y-m-d H:i:s') }}{% endif %}</td>
+                  {% if tipo == 2 %}<td>{% if entity.postProductor %}{{ entity.postProductor}}{%else%}Sin Post-Productor Asignado{% endif %}</td>{% endif%}
+                <td> 
+                    <a href="{{ path('pautafijas_show', { 'id': entity.id }) }}"data-toggle="tooltip" data-placement="top" title="Ver Pauta"><span class="glyphicon glyphicon-eye-open"></span></a>
+                    <a href="{{ path('pautafijas_edit', { 'id': entity.id }) }}" data-toggle="tooltip" data-placement="top" title="Editar Pauta"><span class="glyphicon glyphicon-pencil"></span></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        <br><br><br>
+    <a class="btn btn-default" href="{{path('pautafijas_new',{tipo:tipo})}}">Nueva Pauta Fija</a><br><br>
+<script type="text/javascript">
+        $(document).ready(function(){
+            $('span').tooltip();
+           $('#tabladatatable').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                "aaSorting": [[1,'asc']],
+            } );
+        })
+    </script>
+    <br><br><br><br><br><br>
+    {% endblock %}

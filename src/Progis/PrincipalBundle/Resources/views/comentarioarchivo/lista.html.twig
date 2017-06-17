@@ -1,0 +1,116 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>COMENTARIOS Y ARCHIVOS</h2>
+    {% if (desde=='Ticket' or desde=='TicketOtros' or desde=='TicketLista') %}
+        {% include 'PrincipalBundle:comentarioarchivo:__infoBasicTicket.html.twig' %}
+    {% elseif desde=='Proyecto' %}
+
+
+        <h4>PROYECTO: "{{ info.nombre|upper }}"</h4>
+    {% elseif desde=='Actividad' %}
+        <h5>PROYECTO: "{{ info.objetivo.proyecto.nombre|upper }}"</h5>
+        <h5>OBJETIVO: "{{ info.objetivo.nombre|upper }}"</h5>
+        <h5>ACTIVIDAD: "{{ info.descripcion|upper }}"</h5>
+    {% endif %}
+    <a  href="{{ path("progis_comentarioarchivo_new",{'id':id,'entidad':entidad,'desde':desde}) }}"><i class="fa fa-plus">&nbsp;&nbsp;Nuevo comentario y/o archivo</i></a>
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  {% if desde=='Ticket' %}
+    <li><a href="{{ path("progis_ticket_lista") }}">LISTA DE TICKETS</a></li>
+    <li><a href="{{ path("progis_ticket_procesarTicket") }}">PROCESAR TICKET</a></li>
+  {% elseif desde=='TicketOtros' %}
+    <li><a href="{{ path("progis_ticket_lista") }}">LISTA DE TICKETS</a></li>
+    <li><a href="{{ path("progis_ticket_procesarTicketOtros") }}">OTROS TICKETS</a></li>
+  {% elseif desde=='TicketLista' %}
+    <li><a href="{{ path("progis_ticket_lista") }}">LISTA DE TICKETS</a></li>
+    <li><a href="{{ path("progis_ticket_asignar",{'idticket':id}) }}">CONSULTAR - GESTIONAR TICKETS</a></li>
+  {% elseif desde=='Proyecto' %}
+    <li><a href="{{ path("proyecto") }}">LISTA DE PROYECTOS</a></li>
+  {% elseif desde=='Actividad' %}
+    <li><a href="{{ path("proyecto")}}">LISTA DE PROYECTOS</a></li>
+    <li><a href="{{ path("objetivo",{'idproyecto':info.objetivo.proyecto.id}) }}">LISTA DE OBJETIVOS</a></li>
+    <li class="active"><a href="{{ path("proyecto_procesarActividad",{'idobjetivo':info.objetivo.id}) }}">LISTA DE ACTIVIDADES</a></li>
+  {% endif %}
+    <li class="active">LISTADO DE COMENTARIOS Y/O ARCHIVOS</li>
+  
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+    
+    {# CODIGO PARA BOTONES DE OCULTAR MOSTRAR #}
+    {% set contc=0 %}{% set conta=0 %}
+    {% for coar in comentario %}   
+            {% if contc==0 %} 
+                <a id="btn1" class="btn btn-info"  onclick="oculta('comentarios','btn1')">Ocultar comentario</a> 
+                {% set contc=1 %}
+            {% endif %}
+            {% if coar.comentarioarchivo.archivo is not null and conta==0 %}
+                <a id="btn2" class="btn btn-info" onclick="oculta('archivos','btn2')">Ocultar archivos</a>
+                {% set conta=1 %}
+            {% endif %}
+    {% endfor %}<br><br>
+    {#FIN CODIGO PARA BOTONES DE OCULTAR MOSTRAR #}
+
+    <div align="center">
+        <div style="width:60%">
+            {% for coar in comentario %}
+                <div {% if coar.comentarioarchivo.archivo is null %} class="comentarios"{% endif%} align="left">
+                    <b>PUBLICADO POR: {{ coar.comentarioarchivo.responsable.primerNombre}} {{ coar.comentarioarchivo.responsable.primerApellido}}</b>
+                    <br>EL {{ coar.comentarioarchivo.fechahora|date("d-m-Y") }} {{ coar.comentarioarchivo.fechahora|date("G:s:i") }}
+                    <br><br>{% if coar.comentarioarchivo.tipo==1 %}<p class="label label-primary">Normal</p>{% elseif coar.comentarioarchivo.tipo==2 %}<p class="label label-info">Por revisión</p>{% elseif coar.comentarioarchivo.tipo==3 %}<p class="label label-success">Por solucion</p>{% elseif coar.comentarioarchivo.tipo==4 %}<p class="label label-danger">Por dependencia</p>{% endif %}
+                    
+                </div>
+                    
+                <div class="comentarios" align="left" style="text-align: justify;"><br>{{ coar.comentarioarchivo.comentario|raw }}</div>
+                
+
+                {% if coar.comentarioarchivo.archivo is not null %}
+                    <br>
+                    {% set ext=coar.comentarioarchivo.archivo|split(".") %}
+                    
+                    {% if ext[1]=='jpg' or ext[1]=='jpeg' or ext[1]=='png' or ext[1]=='gif' %}
+                        <div class="archivos" align="left"><img width="70%" class="img-rounded" src="/uploads/progis/{{ coar.comentarioarchivo.archivo }}"></div>
+                    {% else %}
+                    
+                    <div class="archivos" align="left"><a class="btn btn-default" href="/uploads/progis/{{ coar.comentarioarchivo.archivo }}">DESCARGA ARCHIVO</a></div>
+                        
+                    {% endif %}
+                {% endif %}
+                <hr {% if coar.comentarioarchivo.comentario is not null and coar.comentarioarchivo.archivo is null %} class="comentarios"{% endif%} class="separator" />
+            {% endfor %}
+        </div>
+    </div>
+    
+    
+    
+    
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+    function oculta(tipo,btn) {
+
+        $('.'+tipo).hide()
+        $('#'+btn).html("Mostrar "+tipo)
+        $('#'+btn).attr("onclick", "muestra('"+tipo+"','"+btn+"')");
+
+    }
+
+    function muestra(tipo,btn) {
+
+        $('.'+tipo).show()
+        $('#'+btn).html("Ocultar "+tipo)
+        $('#'+btn).attr("onclick", "oculta('"+tipo+"','"+btn+"')");
+
+    }
+</script>
+
+{% endblock %}

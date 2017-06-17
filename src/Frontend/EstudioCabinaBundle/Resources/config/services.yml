@@ -1,0 +1,7 @@
+parameters:
+#    estudio_cabina.example.class: Frontend\EstudioCabinaBundle\Example
+
+services:
+#    estudio_cabina.example:
+#        class: %estudio_cabina.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

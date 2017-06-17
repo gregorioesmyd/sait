@@ -1,0 +1,118 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block ubicacion %}
+        <ol class="breadcrumb">
+          <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+          <li class="active">MIS PAUTAS</li>
+        </ol>
+{% endblock %}
+{% block body %}
+    {{ parent() }}
+    <h3 style="margin-top: 5px;">Mis Pautas</h3>
+    <table id="tabladatatable" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Pauta</th>
+                <th>Tipo</th>
+                <th>Desde</th>
+                <th>Hasta</th>
+                <th>Responsable</th>
+                <th>Dependencia</th>
+                <th>Justificacion</th>
+                <th>&nbsp;</th>
+                <th>Estatus</th>
+                <th><center>Opciones</center></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ "%06d" | format(entity.pauta.id) }}</td>
+                <td><center>
+                    {% if entity.pauta.tipoPauta == 1 %}
+                        <span class="label label-primary glyphicon glyphicon-dashboard"> P</span>
+                    {% elseif entity.pauta.tipoPauta == 2 %}
+                        <span class="label label-info glyphicon glyphicon-flash"> NP</span>
+                    {% endif %}</center>
+                </td>
+                <td><center>{% if entity.pauta.fechaDesde %}{{ entity.pauta.fechaDesde|date('d/m/Y') }}{% endif %}</center></td>
+                <td><center>{% if entity.pauta.fechaHasta %}{{ entity.pauta.fechaHasta|date('d/m/Y') }}{% endif %}</center></td>
+                <td>{{ entity.pauta.responsable }}</td>
+                <td>
+                    {% if unidadResponsable[entity.pauta.id] == '' %}
+                        Sin Unidad Responsable
+                    {% else %}
+                        {{ unidadResponsable[entity.pauta.id] }}
+                    {% endif %}
+                </td>
+                <td>{{ entity.pauta.justificacion }}</td>
+                <td><span class="badge"> {{ nequipo[entity.pauta.id] }}</span></td>
+                <td>
+                    {% if entity.pauta.estatus == 1 %}
+                        <span class="label label-info glyphicon glyphicon-certificate"> Creada</span>
+                    {% elseif entity.pauta.estatus == 2 %}
+                        <span class="label label-success glyphicon glyphicon-ok"> Ok</span>
+                    {% elseif entity.pauta.estatus == 3 %}
+                        <span class="label label-info glyphicon glyphicon-log-out"> Salida Conf.</span>
+                    {% elseif entity.pauta.estatus == 4 %}
+                        <!-- Al confirmar la Entrada se finaliza la Pauta -->
+                        <span class="label label-default glyphicon glyphicon-ok-sign"> Finalizada</span>
+                    {% else %}
+                        <span class="label label-default glyphicon glyphicon-remove"> Sin Estatus</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <center>
+                                {% if is_granted('ROLE_EQUIPOS_PAUTASPROGRAMADAS') %}
+                                    <a href="{{ path('pauta_ver', { 'id': entity.pauta.id }) }}" data-toggle="tooltip" data-placement="top" title="Ver Pauta"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                {% endif %}
+                                {% if entity.pauta.estatus == 1 %}
+                                    <a href="{{ path('pauta_show', { 'id': entity.pauta.id }) }}" data-toggle="tooltip" data-placement="top" title="Verificar y Confirmar Pauta"><span class="glyphicon glyphicon-ok"></a>
+                                    <a href="{{ path('pauta_edit', { 'id': entity.pauta.id }) }}" data-toggle="tooltip" data-placement="top" title="Editar Pauta"><span class="glyphicon glyphicon-edit"></a>
+                                {% endif %}
+                                {% if is_granted('ROLE_EQUIPOS_SEGURIDAD') %}
+                                    {% if entity.pauta.estatus == 2 %}
+                                        <a href="{{ path('pauta_versal', { 'id': entity.pauta.id }) }}" data-toggle="tooltip" data-placement="top" title="Verificar y Confirmar Salida"><span class="glyphicon glyphicon-log-out"></span></a>
+                                    {% endif %}
+                                    {% if entity.pauta.estatus == 3 %}
+                                        <a href="{{ path('pauta_verent', { 'id': entity.pauta.id }) }}" data-toggle="tooltip" data-placement="top" title="Verificar y Confirmar Entrada"><span class="glyphicon glyphicon-log-in"></span></a>
+                                    {% endif %}
+                                    <a href="{{ path('pauta_seguimiento', { 'id': entity.pauta.id }) }}" data-toggle="tooltip" data-placement="top" title="Seguimiento de la Pauta"><span class="glyphicon glyphicon-list-alt"></span></a>
+                                {% endif %}
+                    </center>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br><br><br>
+                    <b>Leyenda:</b> <span class="label label-primary glyphicon glyphicon-dashboard"> Programada</span> |
+                    <span class="label label-info glyphicon glyphicon-flash"> No Programada</span> |
+                    <b>N° Equipos:</b> <span class="badge"> N</span>
+                    <b>Opciones:</b>
+                    <span class="glyphicon glyphicon-ok"></span> Confirmar | 
+                    <span class="glyphicon glyphicon-log-out"></span> Registrar Salida |
+                    <span class="glyphicon glyphicon-log-in"></span> Registrar Entrada |
+                    <span class="glyphicon glyphicon-list-alt"></span> Seguimiento
+
+    <br><br>
+
+        <!--<ul>
+        <li>
+            <br><br>
+                <a class="btn btn-primary" href="{{ path('pauta_newpprogramada') }}"><span>REGISTRAR PAUTA (P)</span></a> |
+                <a class="btn btn-primary" href="{{ path('pauta_newpnprogramada') }}"><span>REGISTRAR PAUTA (NP)</span></a>
+            <br><br>
+        </li>
+    </ul>-->
+    <script type="text/javascript">
+        $(document).ready(function(){
+           $('span').tooltip();
+            
+           $('#tabladatatable').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                "aaSorting": [[8,'desc']],
+            } );
+        })
+    </script>
+    {% endblock %}

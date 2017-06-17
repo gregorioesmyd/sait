@@ -1,0 +1,264 @@
+{% extends 'VideotecaBundle:WrapperSegmento:Segmento/default.html.twig' %}
+
+{% block title %}Segmento{% endblock %}
+
+{% block data %}
+    <div class="row">
+        <div class="text-center col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+            <h3 class="title-section">INFORMACION DE SEGMENTO - {% block tituloSegmento %}{% endblock %}</h3>
+        </div>
+    </div>
+    <div role="tabpanel">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#tab-segmento" aria-controls="tab-segmento" role="tab" data-toggle="tab">Segmento</a>
+            </li>
+            <li role="presentation">
+                <a href="#tab-cinta" aria-controls="tab-cinta" role="tab" data-toggle="tab">Cinta</a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="tab-segmento">
+                <div id="wrapper-show" class="col-xs-12">
+                    {% block dataSegmento %}
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Titulo:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.titulo }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Titulo serie:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.tituloSerie }}</span>
+                            </div>
+                        </div>
+                        {% if segmento.tituloOriginal is defined %}
+                            <div class="row wrapper-campos">
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                    <span><b>Titulo Original:</b></span>
+                                </div>
+                                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                    <span>{{ segmento.tituloOriginal }}</span>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Titulo Alterno:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.tituloAlterno }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Sinopsis:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <p>{{ segmento.sinopsis }}</p>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Duracion:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.duracion|date('H:i:s') }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Inicio:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.inicio|date('H:i:s') }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Fin:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.fin|date('H:i:s') }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Observaciones:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <p>{{ segmento.observaciones }}</p>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Pais:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.pais }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Idioma:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.idioma.nombre }}</span>
+                            </div>
+                        </div>
+                        <div class="row wrapper-campos">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                                <span><b>Fecha Evento:</b></span>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <span>{{ segmento.fechaEvento|date('d-m-Y') }}</span>
+                            </div>
+                        </div>
+                    {% endblock %}
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <a class="btn btn-default pull-left" href="{{ path('segmento') }}">
+                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                IR A LISTADO
+                            </a>
+                        </div>
+                        <div class="col-xs-3 col-xs-offset-2 col-sm-3 col-sm-offset-2 col-md-3 col-md-offset-2 col-lg-3 col-lg-offset-2 ">
+                            {% if is_granted('ROLE_VIDEOTECA') %}<a class="btn btn-default" role="button" href="{{ path('segmento_new', { 'idCinta': segmento.cinta.id, 'slug': segmento.cinta.tipoCinta.slug }) }}">Agregar Segmento</a>{% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="tab-cinta">
+                <div class="row">
+                    <div id="wrapper-show" class="col-xs-8 col-xs-offset-2">
+                        <div class="row well">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="row wrapper-campos">
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+                                        <span><b>Tipo de Cinta:</b></span>
+                                    </div>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                        <span>{{ segmento.cinta.tipoCinta.nombre }}</span>
+                                    </div>
+                                </div>
+                                <div class="row wrapper-campos">
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+                                        <span><b>Codigo:</b></span>
+                                    </div>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                        <span>{{ segmento.cinta.codigo }}</span>
+                                    </div>
+                                </div>
+                                <div class="row wrapper-campos">
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+                                        <span><b>Formato:</b></span>
+                                    </div>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                        <span>{{ segmento.cinta.formato.descripcionFormato }}</span>
+                                    </div>
+                                </div>
+                                <div class="row wrapper-campos">
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+                                        <span><b>Duracion:</b></span>
+                                    </div>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                        <span>{{ segmento.cinta.duracion.nombre }}</span>
+                                    </div>
+                                </div>
+                                <div class="row wrapper-campos">
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+                                        <span><b>Evento:</b></span>
+                                    </div>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                        <span>{{ segmento.cinta.evento.nombre }}</span>
+                                    </div>
+                                </div>
+                                <div class="row wrapper-campos">
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+                                        <span><b>Marca:</b></span>
+                                    </div>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                        <span>{{ segmento.cinta.marca.descripcionMarca }}</span>
+                                    </div>
+                                </div>
+                                <div class="row wrapper-campos">
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+                                        <span><b>Categoria:</b></span>
+                                    </div>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                        <span>{{ segmento.cinta.categoria.nombre }}</span>
+                                    </div>
+                                </div>
+                                <div class="row wrapper-campos">
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+                                        <span><b>Documentalista:</b></span>
+                                    </div>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                        <span>{{ segmento.cinta.documentalista.primerNombre }} {{ segmento.cinta.documentalista.primerApellido }}</span>
+                                    </div>
+                                </div>
+                                <div class="row wrapper-campos">
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+                                        <span><b>Status:</b></span>
+                                    </div>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                        <span>{{ segmento.cinta.status.nombre }}</span>
+                                    </div>
+                                </div>
+                                {% if segmento.cinta.propiedad is defined %}
+                                    <div class="row wrapper-campos">
+                                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+                                            <span><b>Propiedad:</b></span>
+                                        </div>
+                                        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                            <p>{{ segmento.cinta.propiedad }}</p>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <div class="row wrapper-campos">
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+                                        <span><b>Observaciones:</b></span>
+                                    </div>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                        <p>{{ segmento.cinta.observaciones }}</p>
+                                    </div>
+                                </div>
+                                <div class="row wrapper-campos">
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+                                        <span><b>Creado:</b></span>
+                                    </div>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                        <span>{{ segmento.cinta.creado|date('d/m/Y') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <a class="btn btn-default pull-left" href="{{ path('cinta') }}">
+                                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                    Volver
+                                </a>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                <div class="btn-group pull-right" role="group" aria-label="...">
+                                    {% if is_granted('ROLE_VIDEOTECA') %}
+                                        <a class="btn btn-default" role="button" href="{{ path('cinta_edit', { 'id': segmento.cinta.id, 'slug': segmento.cinta.tipoCinta.slug }) }}">Editar Cinta</a>
+                                        <a class="btn btn-default" role="button" href="{{ path('segmento_new', { 'idCinta':segmento.cinta.id, 'slug': segmento.cinta.tipoCinta.slug }) }}">Agregar Segmento</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

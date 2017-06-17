@@ -1,0 +1,23 @@
+protocolo_homepage:
+    path:     /principal/
+    defaults: { _controller: ProtocoloBundle:Default:index }
+
+protocoloBundle_invitados:
+    resource: "@ProtocoloBundle/Resources/config/routing/invitados.yml"
+    prefix:   /invitados
+
+protocoloBundle_reunion:
+    resource: "@ProtocoloBundle/Resources/config/routing/reunion.yml"
+    prefix:   /reunion
+
+protocoloBundle_aeropuerto:
+    resource: "@ProtocoloBundle/Resources/config/routing/aeropuerto.yml"
+    prefix:   /aeropuerto
+
+protocoloBundle_regalo:
+    resource: "@ProtocoloBundle/Resources/config/routing/regalo.yml"
+    prefix:   /regalo  
+
+protocoloBundle_salidacanal:
+    resource: "@ProtocoloBundle/Resources/config/routing/salidacanal.yml"
+    prefix:   /salidacanal   

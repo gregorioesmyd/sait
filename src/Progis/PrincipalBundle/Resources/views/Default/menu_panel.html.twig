@@ -1,0 +1,114 @@
+            <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+                      <a data-step="3" data-intro="Usuario actual y unidad a la que pertenece." data-position='bottom' class="navbar-brand" href="{{ path('progis_principal_homepage')}}"><img class="img-rounded" width="30px" src="{{ asset('images/logo.png') }}">PROGIS - {{app.session.get('nomape')|upper}}</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav" style="margin-top:3px;">
+        {% if is_granted('ROLE_PROGIS_ADMIN') or rolGeneral["ROLE_PROGIS_DEFINICIONES"]==true or rolGeneral["ROLE_PROGIS_SUPERVISOR"]==true %}
+        <li class="dropdown">
+          <a style="font-size:18px" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Definiciones <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+
+                <li>
+                    <a href="{{ path('progis_categoria') }}">Categorias</a>
+                </li>
+                {% if is_granted('ROLE_PROGIS_ADMIN') and app.user=='jvalera' %}
+                <li>
+                    <a href="{{ path('jornadalaboral') }}">Jornada laboral</a>
+                </li>
+                {% endif %}
+                <li>
+                    <a href="{{ path('miembroespacio') }}">Miembros de mi espacio</a>
+                </li>
+                
+          </ul>
+        </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_PROGIS_ADMIN') or is_granted('ROLE_PROGIS_HELPDESK') or rolGeneral["ROLE_PROGIS_TICKET_ADMIN"]==true or rolGeneral["ROLE_PROGIS_TICKET_CONSULTA"]==true or rolGeneral["ROLE_PROGIS_TICKET_TECNICO"]==true or rolGeneral["ROLE_PROGIS_SUPERVISOR"]==true %}
+        <li class="dropdown">
+          <a style="font-size:18px" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tickets <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+
+                <li>
+                    <a href="{{ path('progis_ticket_lista') }}">Lista de Tickets</a>
+                </li>
+                {% if rolGeneral["ROLE_PROGIS_TICKET_ADMIN"]==true or rolGeneral["ROLE_PROGIS_TICKET_TECNICO"]==true or is_granted('ROLE_PROGIS_ADMIN') %}
+                <li>
+                    <a href="{{ path('progis_ticket_procesarTicket') }}">Mis Tickets</a>
+                </li>
+                {% endif %}
+                <li>
+                    <a href="{{ path('progis_ticket_procesarTicketOtros') }}">Otros Tickets</a>
+                </li>
+                {% if rolGeneral["ROLE_PROGIS_TICKET_ADMIN"]==true or rolGeneral["ROLE_PROGIS_TICKET_TECNICO"]==true or is_granted('ROLE_PROGIS_ADMIN') %}
+                <li>
+                    <a href="{{ path('ticket_solicitudInterna') }}">Generar solicitudes</a>
+                </li>
+                {% endif %}
+                </li>
+                
+          </ul>
+        </li>
+        {% endif %}
+
+        {% if is_granted('ROLE_PROGIS_ADMIN') or is_granted('ROLE_PROGIS_HELPDESK') or rolGeneral["ROLE_PROGIS_PROYECTO_ADMIN"]==true or rolGeneral["ROLE_PROGIS_PROYECTO_CONSULTA"]==true or rolGeneral["ROLE_PROGIS_PROYECTO_TECNICO"]==true or rolGeneral["ROLE_PROGIS_SUPERVISOR"]==true or rolProyectoGeneral["ROLE_PROGIS_PROYECTO_ESP_ADMIN"]==true or rolProyectoGeneral["ROLE_PROGIS_PROYECTO_ESP_CONSULTA"]==true or rolProyectoGeneral["ROLE_PROGIS_PROYECTO_ESP_TECNICO"]==true %}
+        <li class="dropdown">
+          <a style="font-size:18px" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Proyectos <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+
+                <li>
+                    <a href="{{ path('proyecto') }}">Gestionar Proyectos</a>
+                </li>
+                {% if is_granted('ROLE_PROGIS_ADMIN') or rolGeneral["ROLE_PROGIS_PROYECTO_ADMIN"]==true %}
+                <li>
+                    <a href="{{ path('proyecto_new') }}">Nuevo Proyecto</a>
+                </li>
+                {% endif %}
+        
+          </ul>
+        </li>
+        {% endif %}
+
+        <li><a style="font-size:18px" href="{{ path('progis_principal_pendientes',{'idusuario':app.user.id,'desde':'Menu'}) }}">Mis Pendientes</a></li>
+
+        <li><a style="font-size:18px" href="{{ path('progis_principal_mi_trabajo_realizado_filtro')}}">Mi Trabajo</a></li>
+
+        
+
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        {% if app.session.get('foto')!=null %}
+                            <img height="25px" src="{{app.session.get('foto')}}">  <i class="fa fa-caret-down"></i>
+                        {% else %}
+                            <img height="25px" src="/uploads/personalTelesur/no.png"> <i class="fa fa-caret-down"></i>
+                        {% endif %}
+                    </a>
+                    
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="{{ path("usuario_homepage") }}"><i class="fa fa-home  fa-fw"></i> Aplicaciones</a>
+                        </li>
+                        {#<li><a href="#"><i class="fa fa-user fa-fw"></i> {{ app.user.username }}</a></li>#}
+                        <li class="divider"></li>
+                        <li><a href="{{ path('usuario_logout') }}"><i class="fa fa-sign-out fa-fw"></i> Salir</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

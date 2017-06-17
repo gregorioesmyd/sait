@@ -1,0 +1,445 @@
+{% extends '::encuesta1.html.twig' %}
+
+{% block title %}Trivias{% endblock %}
+
+{% block titulo %}
+    Trivias
+{% endblock %}
+
+{% block body %}
+{{ parent() }}
+<br><br>
+<div class="resultado" style="padding:0px;">
+  <input id="inputTranscurrido" type="text" value="0" name="transcurrido" style="display:none">
+
+      <div id="pregunta" style="margin-top:-70px;">
+        <div id="circle"> </div>
+        <input id="inputSegundo" type="text" value="00" name="segundos"style="display:none">
+
+        <input id="inputPreguntas" type="text" value="{{preguntas}}" style="display:none">
+        <input id="inputContador" type="text" value="{{contador}}" style="display:none">
+        <input id="inputPreguntaactual" type="text" value="{{entity.id}}" style="display:none">
+        <input id="inputEncuesta" type="text" value="{{entity.idencuesta.id}}" style="display:none">
+      </div><br><br><br>
+
+</div>
+
+
+<script language="javascript">
+var startContador = setInterval(function(){ contador() }, 1000 );
+var startUsuariosegundos = setInterval(function(){ actualizasegundos() }, 1000 );
+
+localStorage.setItem("usuario",{{ usuario }})
+
+$(document).ready(function() {
+
+  if(localStorage.getItem("transcurrido") != undefined)
+  {
+      str = localStorage.getItem("encuestas_votos");
+      if(str == null)
+      {
+        //se recarga la pregunta
+        recargapregunta();
+      }else
+      {
+        encuesta1 = {{entity.idencuesta.id}};
+        concatena = localStorage.getItem("usuario")+encuesta1;
+        verificavoto= str.indexOf(concatena); //retorna -1 cuando no existe lo buscado en el array
+        if(verificavoto !=  -1)
+        {
+          eliminarvariableslocal();
+          localStorage.removeItem("encuesta");
+          localStorage.removeItem("usuario");
+          muestraresultado();
+        }else {
+          //se recarga la pregunta
+          recargapregunta();
+        }
+      }
+
+  }else{
+
+      str = localStorage.getItem("encuestas_votos");
+      encuesta1 ={{entity.idencuesta.id}};
+      concatena = localStorage.getItem("usuario")+encuesta1;
+      verificavoto= str.indexOf(concatena);
+      if(verificavoto !=  -1)
+      {
+        eliminarvariableslocal();
+        localStorage.removeItem("encuesta");
+        localStorage.removeItem("usuario");
+        muestraresultado();
+      }else {
+        //seteo el tiempo transcurrido en el localStorage
+        localStorage.setItem("transcurrido", 0);
+        localStorage.setItem("segundo", 0);
+
+        //actualizo el inputTranscurrido en 0
+        $('#inputTranscurrido').val(0);
+        //funcion para cargar pregunta
+
+        pregunta();
+        localStorage.removeItem("total");
+      }
+  }
+});
+
+function eliminarvariableslocal()
+{
+    localStorage.removeItem("transcurrido");
+    localStorage.removeItem("segundo");
+    localStorage.removeItem("contador");
+    localStorage.removeItem("total");
+    localStorage.removeItem("preguntaactual");
+    localStorage.removeItem("usuariosegundos");
+
+    //eliminar el circulo del plugin
+    $('#circle').remove();
+
+    //se detiene el llamado a la funcion contador
+    clearInterval(startContador);
+    clearInterval(startUsuariosegundos);
+}
+
+function contador(){
+
+  //si el inputContador es 1 indica que es la ultima pregunta
+  if(localStorage.getItem("contador") == undefined)
+  {
+
+    conta=$('#inputContador').val();
+    localStorage.setItem("contador", conta);
+  }else {
+
+    conta = localStorage.getItem("contador");
+  }
+if(conta < 0){
+
+      //se coloca en 0 el tiempo transcurrido ene l localStorage
+      localStorage.setItem("transcurrido", 0);
+
+      // se actualiza el inputTranscurrido en 0
+      $('#inputTranscurrido').val(localStorage.transcurrido);
+      //funcion para guardar la respuesta seleccionada y se carga el resultado final
+      guardarresultado();
+      eliminarvariableslocal();
+  }else
+  {
+
+      //clearInterval(startContador);
+      //si transcurrido no existe se coloca en cero y el segundo en 0
+      if(localStorage.getItem("transcurrido") != undefined)
+      {
+
+        //paso a una variable el valor del transcurrido
+        transcurrido = localStorage.getItem("transcurrido");
+
+        if(localStorage.getItem("segundo") != undefined)
+        {
+
+          if(transcurrido != 0)
+          {
+
+              seg=localStorage.getItem("segundo");
+              if(seg < 0)
+              {
+
+                segundo = 0;
+                localStorage.setItem("segundo", segundo);
+              }else {
+
+                segundo = localStorage.getItem("segundo");
+              }
+          }else {
+
+            segundo = 999;
+          }
+        }
+      }else{
+
+        //si el tiempo transcurrido no existe en el localStorage, se crea en 0 y se setea el valor.
+        transcurrido = 0;
+        localStorage.setItem("transcurrido", 0);
+        segundo = 0;
+      }
+
+      //si es cero busco nueva pregunta
+      preguntas=$('#inputPreguntas').val();
+
+      if(segundo == 0 &&  preguntas != 'u')
+      {
+        //seteo el tiempo transcurrido en el localStorage
+        localStorage.setItem("transcurrido", 0);
+        localStorage.setItem("segundo", 0);
+
+        //actualizo el inputTranscurrido en 0
+        $('#inputTranscurrido').val(0);
+        //funcion para cargar pregunta
+
+        pregunta();
+        localStorage.removeItem("total");
+      }
+      else if (segundo == 0 && preguntas == 'u')
+      {
+
+        //se coloca en 0 el tiempo transcurrido ene l localStorage
+        localStorage.setItem("transcurrido", 0);
+
+        // se actualiza el inputTranscurrido en 0
+        $('#inputTranscurrido').val(localStorage.transcurrido);
+        //funcion para guardar la respuesta seleccionada y se carga el resultado final
+        //alert("guardar resultado");
+        guardarresultado();
+        eliminarvariableslocal();
+
+      }
+      else
+      {
+        total1 = $('#inputSegundo').val();
+
+        if(localStorage.getItem("total") == undefined)
+        {
+          localStorage.setItem("total", total1);
+        }
+
+        total=localStorage.getItem("total");
+
+        valor = 1/total;
+        reloj();
+        //agregar cero delante del numero si es menor a diez, para actualizar la cuenta regresiva
+        if(segundo < 10 && segundo >= 0)
+        {
+          $('#inputSegundo').val("0"+segundo);
+        }else{
+          $('#inputSegundo').val(segundo);
+        }
+
+        value=transcurrido/total;
+        //grafico cuenta regresiva
+         $('#circle').circleProgress({
+            value: value,
+            animation: false,
+            fill: { color: "#45204C" },
+            emptyFill: "rgba(125,123,124, 1)",
+            startAngle: 11
+          });
+    }
+  }
+}
+
+function reloj(){
+
+    //aumento el tiempo transcurrido
+    transcurrido = Number(transcurrido) + 1;
+
+    //inserto el nuevo valor de transcurrido en el localStorage
+    localStorage.setItem("transcurrido",transcurrido);
+
+    //actualizo tiempo transcurrido
+    $('#inputTranscurrido').val(transcurrido);
+
+    //se calculan los segundos de acuerdo al tiempo total y el tiempo transcurrido
+    segundo = total-transcurrido;
+
+    //inserto el nuevo valor de transcurrido en el localStorage
+    localStorage.setItem("segundo",segundo);
+
+    //actualizo input con cuenta regresiva
+    $('#inputSegundo').val(segundo);
+}
+
+function recargapregunta()
+{
+    var preguntas=$('#inputPreguntas').val();
+    var preguntaact=localStorage.getItem("preguntaactual");
+
+    //verifico si la pregunta actual esta dentro del array de preguntas
+    //si devuelve != -1 si existe en el array
+    var str1 = preguntas;
+    buscapregunta= str1.indexOf(preguntaact);
+    var res = str1.split("");
+    var preguntas1 = null;
+    if(buscapregunta != -1){
+      for (i = 0; i < res.length; i++) {
+          if(res[i] != preguntaact){
+            preguntas1 += res[i] + ",";
+          }
+      }
+      var preguntas = preguntas1;
+
+    }else {
+      for (i = 0; i < res.length; i++) {
+          if(i != 0){
+            preguntas1 += res[i] + ",";
+          }
+      }
+      var preguntas = preguntas1;
+    }
+
+    if(preguntas1 == " " || preguntas1 == "" || preguntas1 == null){
+      preguntas = 'u';
+    }
+
+    var contador=Number(localStorage.getItem("contador"))-1;
+    localStorage.setItem("contador", contador);
+
+    $('#inputPreguntas').val(preguntas);
+
+
+    var ruta = "{{ path('ajax_recargapregunta', {'idpregunta': 'preguntaactual', 'preguntas': 'datoPreguntas', 'contador': 'datoscontador'}) }}";
+    ruta=ruta.replace("datoPreguntas",preguntas);
+    ruta=ruta.replace("datoscontador",contador);
+    ruta=ruta.replace("preguntaactual", preguntaact);
+    $('#pregunta').load(ruta);
+
+    $('#inputPreguntas').val(preguntas);
+
+}
+
+
+function actualizasegundos()
+{
+  segundosant = localStorage.getItem("usuariosegundos");
+  segundosact = Number(segundosant) + 1;
+  localStorage.setItem("usuariosegundos",segundosact);
+}
+
+function pregunta()
+{
+    var segundosusa = localStorage.getItem("usuariosegundos");
+    var preguntas=$('#inputPreguntas').val();
+    var contador=localStorage.getItem("contador");
+
+    console.log(preguntas);
+
+    if(localStorage.getItem("preguntaactual") != undefined)
+    {
+
+      var preguntaact=localStorage.getItem("preguntaactual");
+    }else{
+
+        var preguntaact= {{ entity.id }}
+    }
+    var sat = $( "input:checked" ).val();
+    var ruta = "{{ path('ajax_votartrivia', {'idrespuesta': 'variable', 'idpregunta': 'preguntaactual', 'preguntas': 'datoPreguntas', 'contador': 'datoscontador', 'segundosusados': 'segundosusados1'}) }}";
+    ruta=ruta.replace("datoPreguntas",preguntas);
+    ruta=ruta.replace("datoscontador",contador);
+    ruta=ruta.replace("preguntaactual", preguntaact);
+    ruta=ruta.replace("segundosusados1", segundosusa);
+    if(sat == undefined)
+    {
+      ruta = ruta.replace("variable", "N");
+    }else {
+      ruta = ruta.replace("variable", sat);
+    }
+    $('#pregunta').load(ruta);
+}
+
+function muestraresultado()
+{
+  var result = "{{ path('mostrar_resultado', {'idencuesta': 'dato', 'idusuario':'user'}) }}";
+  result=result.replace("dato",{{ entity.idencuesta.id}})
+  result=result.replace("user",{{ usuario }} )
+    $.ajax({
+        url: result,
+        dataType: 'html',
+        success: function(respuesta){
+        window.setTimeout(function() {
+          window.location.href = "http://aplicaciones.telesurtv.net"+result;
+        }, 2000);
+        }
+    });
+}
+
+function guardarresultado()
+{
+    var sat = $("input:checked").val();
+    var segundosusa = localStorage.getItem("usuariosegundos");
+    if(localStorage.getItem("preguntaactual") != undefined)
+    {
+      var preguntaact=localStorage.getItem("preguntaactual");
+    }else{
+        var preguntaact= {{ entity.id }}
+    }
+
+    var ruta = "{{ path('ajax_guardarvotos', {'idrespuesta': 'variable', 'idpregunta': 'preguntaactual', 'segundosusados': 'segundosusados1' }) }}";
+
+    ruta=ruta.replace("preguntaactual", preguntaact);
+    ruta=ruta.replace("segundosusados1", segundosusa);
+    if(sat == undefined)
+    {
+      ruta = ruta.replace("variable", "N");
+    }else {
+      ruta = ruta.replace("variable", sat);
+    }
+    $('#pregunta').load(ruta);
+
+    eliminarvariableslocal();
+
+    if(localStorage.getItem("encuestas_votos") != undefined)
+    {
+      concatena = localStorage.getItem("encuestas_votos") + localStorage.getItem("usuario")+localStorage.getItem("encuesta")+",";
+      localStorage.setItem("encuestas_votos", concatena);
+    }else {
+      concatena = localStorage.getItem("usuario")+localStorage.getItem("encuesta")+",";
+      localStorage.setItem("encuestas_votos", concatena);
+    }
+    localStorage.removeItem("encuesta");
+    localStorage.removeItem("usuario");
+    muestraresultado();
+}
+
+
+
+function botonresponder()
+{
+  //si el inputContador es 1 indica que es la ultima pregunta
+    var preguntas=$('#inputPreguntas').val();
+    var contador=localStorage.getItem("contador");
+    var segundosusa = localStorage.getItem("usuariosegundos");
+
+    if(localStorage.getItem("preguntaactual") != undefined)
+    {
+      var preguntaact=localStorage.getItem("preguntaactual");
+    }else{
+        var preguntaact= {{ entity.id }}
+    }
+    var sat = $( "input:checked" ).val();
+    var ruta = "{{ path('ajax_votartrivia', {'idrespuesta': 'variable', 'idpregunta': 'preguntaactual', 'preguntas': 'datoPreguntas', 'contador': 'datoscontador', 'segundosusados': 'segundosusados1'}) }}";
+    ruta=ruta.replace("datoPreguntas",preguntas);
+    ruta=ruta.replace("datoscontador",contador);
+    ruta=ruta.replace("segundosusados1", segundosusa);
+    ruta=ruta.replace("preguntaactual", preguntaact);
+    if(sat == undefined)
+    {
+      ruta = ruta.replace("variable", "N");
+    }else {
+      ruta = ruta.replace("variable", sat);
+    }
+
+    $('#pregunta').load(ruta);
+
+    if(localStorage.getItem("contador") <= 0){
+      eliminarvariableslocal();
+
+      if(localStorage.getItem("encuestas_votos") != undefined)
+      {
+        concatena = localStorage.getItem("encuestas_votos") + localStorage.getItem("usuario")+localStorage.getItem("encuesta")+",";
+        localStorage.setItem("encuestas_votos", concatena);
+      }else {
+        concatena = localStorage.getItem("usuario")+localStorage.getItem("encuesta")+",";
+        localStorage.setItem("encuestas_votos", concatena);
+      }
+      localStorage.removeItem("encuesta");
+      localStorage.removeItem("usuario");
+      muestraresultado();
+    }else {
+      localStorage.setItem("segundo",0);
+      localStorage.setItem("transcurrido",0);
+    }
+}
+
+</script>
+
+
+{% endblock %}

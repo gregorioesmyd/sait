@@ -1,0 +1,30 @@
+salidacanal:
+    path:     /
+    defaults: { _controller: "ProtocoloBundle:SalidaCanal:index" }
+
+salidacanal_show:
+    path:     /{id}/show
+    defaults: { _controller: "ProtocoloBundle:SalidaCanal:show" }
+
+salidacanal_new:
+    path:     /new
+    defaults: { _controller: "ProtocoloBundle:SalidaCanal:new" }
+
+salidacanal_create:
+    path:     /create
+    defaults: { _controller: "ProtocoloBundle:SalidaCanal:create" }
+    requirements: { _method: post }
+
+salidacanal_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ProtocoloBundle:SalidaCanal:edit" }
+
+salidacanal_update:
+    path:     /{id}/update
+    defaults: { _controller: "ProtocoloBundle:SalidaCanal:update" }
+    requirements: { _method: post|put }
+
+salidacanal_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ProtocoloBundle:SalidaCanal:delete" }
+    requirements: { _method: post|delete }

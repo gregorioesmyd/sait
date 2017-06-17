@@ -1,0 +1,106 @@
+{% extends '::sit.html.twig' %}
+ 
+{% block title %}Consulta Asignado{% endblock %}
+
+{% block titulo %}
+    CONSULTA TICKET ASIGNADO {% if usuarioticket %}
+        <br><h5>ASIGNADO A {{ usuarioticket.primernombre|upper }} {{ usuarioticket.primerapellido|upper }}</h5>
+        {% endif %}
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("ticket") }}">LISTADO DE TICKETS</a></li>
+  <li><a href="{{ path("ticket_asignado") }}">LISTA DE TICKETS ASIGNADOS</a></li>
+  <li class="active">CONSULTA DE TICKETS ASIGNADOS</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    
+<form novalidate action="{{ path('ticket_asignadosolucion',{'id':entity.id}) }}" method="post">
+<div class="row-fluid">
+  <div class="span7">
+    <div class="formShow" style="width:85%;">
+        {% if reasignado %}
+        <div class="contenedorform">
+            <div class="labelform">Reasignado por:</div>
+            <div class="widgetform"><span class="label label-warning">{{ reasignado[0].user.primernombre }} {{ reasignado[0].user.primerapellido }}</span></div>
+        </div>
+        {% endif %}
+        <div class="contenedorform">
+            <div class="labelform">Solicitante:</div>
+            <div class="widgetform">{{ entity.solicitante.primernombre }} {{ entity.solicitante.primerapellido }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Extensión:</div>
+            <div class="widgetform">{{ datossolicitante.extension }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Fecha solicitud:</div>
+            <div class="widgetform">{{ entity.fechasolicitud|date("d-m-Y") }}</div>
+        </div>
+
+        <div class="contenedorform">
+            <div class="labelform">Hora solicitud:</div>
+            <div class="widgetform">{{ entity.horasolicitud|date("G:i:s") }}</div>
+        </div>
+
+        <div class="contenedorform">
+            <div class="labelform">Solicitud:</div>
+            <div class="widgetform">{{ entity.solicitud}}</div>
+        </div>
+
+        <div class="contenedorform">
+            <div class="labelform">Categoria:</div>
+            <div class="widgetform">{{ entity.categoria.categoria|upper }}<a href="{{ path('ticket_asignarcatsub',{'id':entity.id}) }}"> <span class="icon-edit"></span></a></div>
+        </div>
+
+        <div class="contenedorform">
+            <div class="labelform">Subcategoria:</div>
+            <div class="widgetform">{{ entity.subcategoria.subcategoria|upper }}</div>
+        </div>
+
+        {% if entity.archivo %}
+        <div class="contenedorform">
+            <div class="labelform">Archivo:</div>
+            <div class="widgetform">
+
+                {% set extension =  entity.archivo|split(".") %}
+
+                {% if extension[1]=='jpg' or extension[1]=='jpeg' or extension[1]=='png' or extension[1]=='gif'  %}
+                    <a data-toggle="modal" href="#myModal">
+                        <img class="img-rounded" src="{{ asset('uploads/sit/') }}/{{ entity.archivo }}" width="150px">
+                    </a>
+                {% else %}
+                    <a href="{{ asset('uploads/sit/') }}/{{ entity.archivo }}">DESCARGA ARCHIVO {{ extension[1]|upper }}</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+  </div>
+  <div class="span5">
+       
+            <div class="contenedorform">
+                <div class="labelform"><h5>SOLUCION</h5></div>
+                <div class="widgetform">{{ form_widget(form.solucion, { 'attr': {'style': 'width:80%;height:200px;'} }) }}</div>
+            </div>
+
+        <br><input onclick="return confirm('¿Desea cerrar el ticket?')" type="submit" class="btn btn-danger" value="CERRAR TICKET"> | <a class="btn btn-primary" href="{{ path('ticket') }}">IR A LA LISTA</a>
+  </div>
+</div>
+</form>
+
+    <div style="width:800px;left:44%;" id="myModal" class="modal hide fade" tabindex="5" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-body">
+            <img class="img-rounded" src="{{ asset('uploads/sit/') }}/{{ entity.archivo }}">
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal">Cerrar</button>
+        </div>
+    </div>
+    <br>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends ':videoteca:base/base.html.twig' %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <link rel="stylesheet" href="{{ asset('bundles/videoteca/css/segmento.css') }}">
+    <link href="{{ asset('bundles/videoteca/css/jquery.fs.scroller.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block contenido %}
+    <!-- Cabecera -->
+    <header id="main-header">
+        <div class="container">
+            <div id="wrapper-header" class="row">
+                <!-- Logo -->
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <a href="#" id="img-container"><img id="main-logo" class="prestamo" src="{{ asset('bundles/videoteca/img/logo-telesur.png') }}" alt="logo"/></a>
+                </div>
+                <!-- End Logo -->
+
+                <!-- Titulo -->
+                <div id="titulo" class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                    <h1>Sistema de Documentación Audivisual</h1>
+                </div>
+                <!-- End Titulo -->
+            </div>
+        </div>
+    </header>
+    <!-- End Cabecera -->
+    <div class="container-fluid">
+        <div class="row">
+            {% block filtro %}{% endblock %}
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 main">
+                <div class="container">
+                    {% set statusSegmento = "active" %}
+                    {% block menu %}{% endblock %}
+                    <div id="wrapper-data" class="row">
+                        {% block data %}
+                            {% for flashMessage in app.session.flashbag.get('notice') %}
+                                <div class="alert alert-success">
+                                    {{ flashMessage | raw }}
+                                </div>
+                            {% endfor %}
+
+                            {% for flashMessage in app.session.flashbag.get('alert') %}
+                                <div class="alert alert-danger">
+                                   <b>Alerta</b>!  {{ flashMessage | raw }}
+                                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                   </button>
+                                </div>
+                            {% endfor %}
+                      {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script src="{{ asset('bundles/videoteca/js/jquery-ui.js') }}"></script>
+    <script src="{{ asset('bundles/videoteca/js/jquery.fs.scroller.js') }}"></script>
+    <script src="{{ asset('bundles/videoteca/js/scripts.js') }}"></script>
+    <script src="{{ asset('bundles/videoteca/js/filter.js') }}"></script>
+    <script>
+    $(function () {
+        $(".scrollbar").scroller();
+    });
+    </script>
+{% endblock %}

@@ -1,0 +1,33 @@
+<div class="menubootstrap">
+  <div align="left">
+    <nav id="custom-bootstrap-menu" class="navbar navbar-default" role="navigation">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+          <a class="navbar-brand" href="{{ path('usuario_homepage') }}"><span class="glyphicon glyphicon-home"></span></a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          
+            {# Para dos jornadas descomentar la siguiente linea #}
+            {#<li><a href="{{ path('mercal_numeracion',{'idjornada1':42,'idjornada2':39})}}"><span>INICIO</span></a></li>#}
+            {# Para una sola jornada descomentar la siguiente linea #}
+            <li><a href="{{ path('mercal_homepagenum',{'idjornada':67})}}"><span>INICIO</span></a></li>
+            {% if is_granted('ROLE_JORNADA') %}
+               <li><a href='{{ path('jornada') }}'><span>JORNADAS</span></a></li>
+            {% endif %}
+            {% if is_granted('ROLE_JORNADA_ASIGNUM') %}
+               <li><a href='{{ path('mercal_seleccionajornada') }}'><span>ASIGNAR NÚMERO</span></a></li>
+            {% endif %}
+            {% if is_granted('ROLE_JORNADA_NUM') %}
+               <li><a href='{{ path('mercal_jornadanumeracion') }}'><span>NUMERACIÓN</span></a></li>
+            {% endif %}
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="{{ path('contacto') }}">CONTACTO</a></li>
+          <li><a href="{{ path('usuario_logout') }}">SALIR</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </nav>
+  </div>
+</div>

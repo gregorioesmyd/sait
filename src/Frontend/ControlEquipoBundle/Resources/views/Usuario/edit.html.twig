@@ -1,0 +1,31 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block title %}Editar usuario{% endblock %}
+
+{% block titulo %}
+    <h3>EDITAR USUARIO</h3>
+{% endblock %}
+
+{% block ubicacion %}
+        <ol class="breadcrumb">
+            <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+            <li><a href="{{ path("visita_show",{'id':idvis}) }}">CONSULTAR VISITA</a></li>
+            <li class="active">EDITAR USUARIO</li>
+
+        </ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+   
+    {# % form_theme form 'ProyectoBundle:Form:fields.html.twig' % #}
+    {{ form_start(edit_form, { 'attr': {'novalidate':null,'name':'form'} }) }}
+        <div class="formShow">
+            {{ form_widget(edit_form) }}
+        </div>
+    
+        <input type="submit" class="btn btn-primary" value="EDITAR USUARIO">  | 
+        <a class="btn btn-default" href="{{ path("visita_show",{'id':idvis}) }}">IR A LA VISITA</a><BR><BR>
+    {{ form_end(edit_form) }}
+    
+{% endblock %}

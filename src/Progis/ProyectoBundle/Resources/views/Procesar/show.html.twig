@@ -1,0 +1,63 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>CONSULTA ACTIVIDAD</h2>
+    <h4>PROYECTO: "{{ entity.objetivo.proyecto.nombre|upper }}"</h4>
+    <h4>OBJETIVO: "{{ entity.objetivo.nombre|upper }}"</h4>
+    <a href="{{ path('actividad_new',{'idobjetivo':entity.objetivo.id}) }}"><i class="fa fa-plus"> Nueva Actividad</i></a>&nbsp;&nbsp;<a href="{{ path('actividad_edit',{'id':entity.id}) }}"><i class="fa fa-edit"> Editar Actividad</i></a>&nbsp;&nbsp;
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("objetivo",{'idproyecto':entity.objetivo.proyecto.id}) }}">LISTA DE OBJETIVOS</a></li>
+  <li><a href="{{ path("proyecto_procesarActividad",{'idobjetivo':entity.objetivo.id}) }}">LISTA DE ACTIVIDADES</a></li>
+  <li class="active">CONSULTAR ACTIVIDAD</li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent()}}
+    
+
+    <table class="table table-hover tablaShow">
+        <tr>
+            <th>Descripcion:</th>
+            <td>{{ entity.descripcion|capitalize }}</td>
+        </tr>
+        <tr>
+            <th>Tiempo estimado:</th>
+            <td>{{ entity.tiempoestimado|capitalize }}{% if entity.tipotiempo==2 %} Horas {% else %} Minutos {% endif %}</td>
+        </tr>
+        {% if entity.tiemporeal is not null %}
+        <tr>
+            <th>Tiempo real:</th>
+            <td>
+                <div id="tiemporeal{{ entity.id }}" {% if entity.retardo==true %}class="label label-danger"{% else %} class="label label-success"{% endif %}>
+                    {% set t=entity.tiemporeal|split('-') %}
+                    Horas:{{ t[1]}} - Minutos:{{ t[2]}} - Segundos:{{ t[3]}}
+                </div>
+            </td>
+        </tr>
+        {% endif %}
+        <tr>
+            <th>Responsable:</th>
+            <td>{{ entity.responsable.miembroespacio.usuario.primerNombre|capitalize }} {{ entity.responsable.miembroespacio.usuario.primerApellido|capitalize }}</td>
+        </tr>
+    </table>
+
+    <div align="center">
+        {% if entity.tiemporeal==null and( app.user.id==entity.responsable.miembroespacio.usuario.id or is_granted('ROLE_PROGIS_ADMIN')) %}{% if entity.ubicacion!=4 and entity.ubicacion!=3 and entity.ubicacion!=2 %}
+        <BR><BR>
+         
+        {{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+            {{ form_errors(delete_form) }}
+            {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+        {{ form_end(delete_form) }}{% else %}<br><br>{% endif %}{% endif %}
+    </div>
+        
+    <script>
+
+    </script>
+{% endblock %}

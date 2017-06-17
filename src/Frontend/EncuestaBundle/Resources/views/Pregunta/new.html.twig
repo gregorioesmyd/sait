@@ -1,0 +1,54 @@
+{% extends '::encuesta.html.twig' %}
+
+{% block title %}Preguntas-nueva{% endblock %}
+
+{% block titulo %}
+    Nueva pregunta <br> Encuesta "{{encuesta}}"
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("encuesta_index") }}">Lista de encuestas</a></li>
+  <li><a href="{{ path("pregunta_index", {'idencuesta':encuesta.id }) }}">Lista de preguntas </a></li>
+  <li class="active">Crear pregunta</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+  {{ parent() }}
+
+  <form novalidate="novalidate" action="{{ path('pregunta_create', {'idencuesta':encuesta.id }) }}" method="post" {{ form_enctype(form) }}>{{ form_widget(form._token) }}
+    <div class="formShow">
+      <br>
+      <div class="contenedorform">
+        <div class="text-error">{{ form_errors(form.tipopregunta) }}</div>
+        <div class="labelform">Tipo de pregunta:</div>
+        <div class="widgetform">{{ form_widget(form.tipopregunta) }}</div>
+      </div>
+      <div class="contenedorform">
+        <div class="text-error">{{ form_errors(form.pregunta) }}</div>
+        <div class="labelform">Pregunta:</div>
+        <div class="widgetform">{{ form_widget(form.pregunta) }}</div>
+      </div>
+      <div class="contenedorform">
+        <div class="text-error">{{ form_errors(form.tiempopregunta) }}</div>
+        <div class="labelform">Tiempo de la pregunta (EN SEGUNDOS):</div>
+        <div class="widgetform">{{ form_widget(form.tiempopregunta) }} segundos</div>
+      </div>
+      <div class="contenedorform">
+        <div style="color:blue;font-size:16px;">
+          Las medidas de la imagen deben ser de: {{ alto }} de alto y {{ ancho }} de ancho
+        </div>
+
+          <div class="text-error">{{ form_errors(form.file) }}</div>
+          <div class="labelform">Archivo:</div>
+          <div class="widgetform">{{ form_widget(form.file) }}</div>
+      </div>
+
+    </div>
+    <br>
+    <button class="btn btn-primary" type="submit">CREAR</button> |
+    <a class="btn btn-default" href="{{ path("pregunta_index", {'idencuesta':encuesta.id }) }}">IR AL LISTADO</a>
+  </form>
+{% endblock %}

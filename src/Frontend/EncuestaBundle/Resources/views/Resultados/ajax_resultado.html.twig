@@ -1,0 +1,55 @@
+{% extends '::encuesta1.html.twig' %}
+
+{% block title %}Trivias{% endblock %}
+
+{% block titulo %}
+    Trivias
+{% endblock %}
+
+{% block body %}
+{{ parent() }}
+
+<div class="resultado" style="margin-top: -140px;">
+  <div class = "contenedor" style="border-bottom:0px; padding-bottom:0px; margin-bottom:0px;">
+      <div class='puntaje'style="margin-top:100px;">
+          <div class="obtuviste">Obtuviste</div>
+
+          <div class="imagen_premio"><img src="{{ asset('images/trivias/Trivia-medalla-228x313_1.png') }}"></div>
+
+          <div class="punto">puntos</div>
+
+          {% if puntaje != 100 %}
+              <div class= "puntos1">
+                {% if puntaje <= 0 %}
+                  0{{ puntaje }}
+                {% elseif puntaje == null or puntaje == ' '%}
+                  00
+                {% else %}
+                  {{ puntaje }}
+                {% endif %}
+              </div>
+          {% else %}
+              <div class= "puntos1">
+                {{ puntaje }}
+              </div>
+          {% endif %}
+
+      <div style="font-size:16px;color:353535;padding:15px;"> Tiempo usado en responder {{ tiempo }}
+        {% if tiempo == 1 %}
+          segundo <br>
+        {% else %}
+          segundos <br>
+        {% endif %}
+
+      <div style="font-size:14px;color:353535;padding:15px;">
+      Usted participó en esta trivia el dia {{ hoy|date('d-m-Y') }} <br>
+      Los resultados obtenidos son en base a 100 puntos
+      </div>
+    </div>
+  </div>
+</div>
+
+    <a href="http://intranet.telesurtv.net"><img src="{{ asset('images/trivias/Trivia---Salir-300x65.png') }}"></a>
+    <br>
+</div>
+{% endblock %}

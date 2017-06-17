@@ -1,0 +1,151 @@
+{% extends '::sit.html.twig' %}
+ 
+{% block title %}SIT{% endblock %}
+
+{% block titulo %}
+    SISTEMA INTEGRAL DE TECNOLOGÍA
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">APLICACIONES</a></li>
+  <li class="active">SIT INICIO</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    
+<div class="row">
+  <div class="col-md-6">
+  	<div class="tickettitulo alert alert-info"><h5>SOLICITAR SOPORTE TÉCNICO</h5></div>
+  	<div class="ticketsoporte">
+
+    {% if form_errors(form.unidad) or form_errors(form.solicitud) or form_errors(form2.extension) or form_errors(form.file)%}
+    <div class="alert alert-danger errores" style="width:90%;">
+        <div><b>Alerta! Ha ocurrido un error en el formulario:</b><br><br></div>
+        <div>{{ form_errors(form.unidad) }}</div>
+        <div>{{ form_errors(form.solicitud) }}</div>
+        <div>{{ form_errors(form2.extension) }}</div>
+        <div>{{ form_errors(form.file) }}</div>
+    </div>
+    {% endif %}
+
+    <form novalidate action="{{ path('ticket_create') }}" method="post" {{ form_enctype(form) }}>
+	        {{ form_widget(form._token) }}
+	        {{ form_widget(form2._token) }}
+
+		<div class="formShowSit">
+	            <div class="contenedorformSit">
+	                <div class="labelformSit">Unidad:</div>
+	                <div class="widgetformSit">{{ form_widget(form.unidad,{'attr':{'style':'width:50%'}}) }}</div>
+	            </div>
+	        	<div class="contenedorformSit">
+	                <div class="labelformSit">Solicitud:</div>
+	                <div class="widgetformSit">{{ form_widget(form.solicitud,{'attr':{'style':'width:50%'}}) }}</div>
+	            </div>
+	            <div class="contenedorformSit">
+	                <div class="labelformSit">Ext. Solicitante:</div>
+	                <div class="widgetformSit">{{ form_widget(form2.extension, { 'attr': {'value': datosusuario.extension,'style':'width:50%'} }) }}</div>
+                    </div><br>
+	   	        <div class="contenedorformSit">
+                    <div style="text-align:center;padding-left: 120px;">
+                       	{{ form_widget(form.file) }}
+                    </div>
+                </div>
+		</div>
+
+            <button class="btn btn-large btn-primary" type="submit">SOLICITAR</button>{% if is_granted('ROLE_PROYECTO_GENERAL') %} | 
+            <a class="btn btn-default" href="{{ path('proyecto_general') }}">VOLVER A PROYECTOS</a>{% endif %}
+	    </form>
+  	</div>
+  </div>
+  
+  <div class="col-md-6">
+  	<div class="tickettitulo alert alert-info"><h5>ESTATUS DE TICKETS</h5></div>
+	<div class="ticketespera">
+		
+		{% set nuevo=0 %} {% set asignado=0 %} {% set culminado=0 %} {% set reasignado=0 %}
+		{% for tu in ticketusuario %}
+			{% if tu.estatus==1 %}
+				{% set nuevo=nuevo+1 %}
+			{% elseif tu.estatus==2 %}
+				{% set asignado=asignado+1 %}
+				{% elseif tu.estatus==3 %}
+				{% set reasignado=reasignado+1 %}
+			{% elseif tu.estatus==4 %}
+				{% set culminado=culminado+1 %}
+			{% endif %}
+		{% endfor %}
+
+		Nuevos: <a style="cursor:pointer;" title="Tickets solicitados que aún no se han atendido"><span class="badge" style="background-color:#b94a48;">{{ nuevo }}</span></a>
+		Asignados: <a style="cursor:pointer;" title="Tickets asignados para su resolución"><span class="badge" style="background-color:#468eb2;">{{ asignado }}</span></a>
+		Reasignados: <a style="cursor:pointer;" title="Tickets reasignados a otra unidad"><span class="badge" style="background-color:orange;">{{ reasignado }}</span></a>
+		Culminados: <a style="cursor:pointer;" title="Tickets resueltos"><span class="badge" style="background-color:#468847;">{{ culminado }}</span></a>
+
+		<div id="muestra">
+			<br>
+			<div><b>HISTORIAL</b></div>
+			<div class="listadoticketsolicitante">
+			<table class="ticketsolicitante table table-striped" cellpadding=0 cellspacing=0>
+				<tr><th>Solicitud</th><th>Fecha/Hora</th><th>Acciones</th></tr>
+
+				{% for tu in ticketusuario %}				
+					<tr {% if tu.estatus==1 %}style="color:red;"{% elseif tu.estatus==2%} style="color:steelblue;"{% elseif tu.estatus==3%}  style="color:orange;" {% elseif tu.estatus==4 %}style="color:green;"{% endif %}>
+						<td>{{ tu.solicitud|slice(0,20) }}</td>
+						<td>{{ tu.fechasolicitud|date("d-m-Y") }} {{ tu.horasolicitud|date("G:i:s") }}</td>
+						<td>
+							<a data-toggle="modal" href="#myModal{{ tu.id }}" title="Detalles del Ticket"><span class="glyphicon glyphicon-search"></span></a>
+							{% if tu.estatus==2 %}
+							 <a href="{{ path('sit_seguimientoprincipal', { 'idticket': tu.id }) }}" title="Seguimiento del Ticket"><span class="glyphicon glyphicon-share-alt"></span></a>
+							{% endif %}
+						</td>		
+					</tr>                                        
+                    <div class="modal fade" id="myModal{{ tu.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                      	<div class="modal-dialog">
+	                        <div class="modal-content">
+		                        <div class="modal-header">
+		                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                        	<h4 class="modal-title" id="myModalLabel">ESTATUS DE TICKET</h4>
+		                        </div>
+	                          	<div class="modal-body">
+	                                <b>Solicitud:</b> {{ tu.solicitud }} <br> <br>
+	                                {% if tu.estatus==1 %}
+	                                        <p class="text-error">El ticket aún no se ha asignado a un técnico.</p>
+	                                {% elseif tu.estatus==2%}
+	                                        <p class="text-info">El ticket fue asignado a un técnico de la unidad de {{ tu.unidad.descripcion }}.</p>
+	                                {% elseif tu.estatus==3 %}
+	                                        <p class="text-error">Haz envíado el ticket a la unidad equivocada por lo que fue reasignado a la unidad de {{ tu.unidad.descripcion }}.</p>
+	                                {% elseif tu.estatus==4 %}
+	                                        <p class="text-success">Tu ticket fue cerrado el {{ tu.fechasolucion|date('d-m-Y') }} a las {{ tu.horasolucion|date('G:i:s') }} y la solucion fue la siguiente: "<b>{{ tu.solucion }}</b>".</p>
+	                                {% endif %}
+	                      		</div>
+	                          	<div class="modal-footer">
+	                              	<button class="btn btn-default" data-dismiss="modal">Cerrar</button>
+	                          	</div>
+	                        </div>
+                        </div>
+                    </div>
+				{% endfor %}
+			</table>
+			</div>
+		</div>
+
+	</div>
+  </div>
+</div>
+<br>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#buscapalabraclave').popover({
+                placement: 'bottom',
+                content: 'Puedes buscar tickets por palabras clave.',
+                template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 style="font-size:12px;font-weight:bold;" class="popover-title"></h3><div style="text-align:justify" class="popover-content"></div></div>'
+            });
+
+            $('#buscapalabraclave').popover('show');
+        })
+
+    </script>
+{% endblock %}

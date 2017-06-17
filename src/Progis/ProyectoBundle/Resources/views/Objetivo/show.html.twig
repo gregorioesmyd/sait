@@ -1,0 +1,101 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>CONSULTA OBJETIVO</h2>
+    {% if 
+        rolMiembroEspacioNivel[entity.proyecto.nivelorganizacional.id]['ROLE_PROGIS_PROYECTO_ADMIN'] is defined or 
+        rolMiembroProyecto[entity.proyecto.id]["ROLE_PROGIS_PROYECTO_ESP_ADMIN"] is defined or 
+        (is_granted('ROLE_PROGIS_ADMIN') and app.session.get('idnivel')==entity.proyecto.nivelorganizacional.id) %}
+        <a href="{{ path('objetivo_new',{'idproyecto':proyecto.id}) }}"><i class="fa fa-plus"> Nuevo Objetivo</i></a>&nbsp;&nbsp;&nbsp;<a href="{{ path('objetivo_edit',{'id':entity.id}) }}"><i class="fa fa-edit"> Editar objetivo</i></a>&nbsp;&nbsp;<a href="{{ path('proyecto_procesarActividad', { 'idobjetivo': entity.id }) }}"  data-toggle="tooltip" data-placement="top" title="Mis actividades"><i class="fa fa-eye"></i> Gestionar actividades</a>
+    {% endif %}
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("proyecto") }}">LISTA DE PROYECTOS</a></li>
+  <li><a href="{{ path("objetivo",{'idproyecto':entity.proyecto.id}) }}">LISTA DE OBJETIVOS</a></li>
+  <li class="active">NUEVO OBJETIVO</li>
+</ol>
+{% endblock %}
+
+{% block contenido -%}
+    {{ parent() }}
+
+    <table class="table table-hover table-bordered tablaShow">
+        <tr>
+            <th>Proyecto:</th>
+            <td>{{ entity.proyecto.nombre|capitalize }}</td>
+        </tr>
+        <tr>
+            <th>Nombre Objetivo:</th>
+            <td>{{ entity.nombre|capitalize }}</td>
+        </tr>
+        <tr>
+            <th>Descripcion:</th>
+            <td>{{ entity.descripcion|capitalize }}</td>
+        </tr>
+        <tr>
+            <th>Fecha inicio estimada:</th>
+            <td>
+                {% if entity.fechainicioestimada %}
+                    {{ entity.fechainicioestimada|date('d-m-Y') }}
+                {% else %}
+                    POR DEFINIR
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Fecha fin estimada:</th>
+            <td>
+                {% if entity.fechafinestimada %}
+                    {{ entity.fechafinestimada|date('d-m-Y') }}
+                {% else %}
+                    POR DEFINIR
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Estatus:</th>
+            <td>
+                {% if entity.estatus==1 %}
+                    <span class="label label-danger">OBJETIVO SIN COMENZAR</span>
+                {% elseif entity.estatus==2 %}
+                    <span class="label label-warning">EN PROGRESO</span>
+                {% elseif entity.estatus==3 %}
+                    <span class="label label-success">CULMINADO</span>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Completado:</th>
+            <td>
+                {% if entity.porcentaje==0 %}
+                    SIN AVANCE
+                {% else %}
+                    <div class="progress" style="width:50%;">
+                      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{ entity.porcentaje }}%;color:black;font-weight:bold;">
+                        {{ entity.porcentaje }}%
+                      </div>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+            
+    <div align="center">
+
+    {% if 
+        rolMiembroEspacioNivel[entity.proyecto.nivelorganizacional.id]['ROLE_PROGIS_PROYECTO_ADMIN'] is defined or 
+        rolMiembroProyecto[entity.proyecto.id]["ROLE_PROGIS_PROYECTO_ESP_ADMIN"] is defined or 
+        (is_granted('ROLE_PROGIS_ADMIN') and app.session.get('idnivel')==entity.proyecto.nivelorganizacional.id) %}
+        
+        {{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+            {{ form_errors(delete_form) }}
+            {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+        {{ form_end(delete_form) }}
+       
+    {% endif %}
+    </div> 
+{% endblock %}

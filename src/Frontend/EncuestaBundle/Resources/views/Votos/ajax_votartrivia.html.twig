@@ -1,0 +1,68 @@
+
+
+<style>
+    label{
+        padding-right: 40px !important;
+    }
+</style>
+
+<br><br>
+
+<div class="row" style="margin-top:70px;">
+    <div class="col-md-12 col-lg-12">
+        <div class="tiempo">tiempo </div>
+        <input id="inputSegundo" type="text" name="segundos" value="{{ entity.tiempopregunta+1 }}">
+        <div class="restante">restante </div>
+    </div>
+</div>
+<div id="circle"> </div>
+<br><br>
+<div class = "contenedor" style="background-color:#DFDFDF">
+              <div class="row" style="margin-top:50px;position:relative;max-width: 100%;margin-left: 0px;margin-right: 0px;">
+
+                <div class="col-md-6 col-lg-6" style="min-height:330px;padding:0;">
+
+                    <div class="col-md-12 col-lg-12" style="text-align:justify;padding-top:10px;">{{ entity.idencuesta.tema }} </div>
+                    <div class="col-md-12 col-lg-12" style="padding:0;">
+                        <div style="padding:0;"id ="pregunta" class="col-sm-11">
+                            <h4 style="padding-left:10px;line-height:30px;"> Pregunta {{ entity.idencuesta.numeropregunta - contador }} de {{ entity.idencuesta.numeropregunta }}</h4>
+                        </div>
+                        <div style="padding:0;margin-top:10px;  text-align: right;background-color: #C5C5C5;" class="col-sm-1">
+                            <img src="{{ asset('images/trivias/Trivia-flecha1-30X30.png') }}">
+                        </div>
+                    </div>
+                    <div class="col-sm-12"id="preg" >
+                        {{ entity.pregunta }}
+                    </div>
+                    <div class="checkbox col-sm-12"style="padding:0; background-color:#F1F1F1">
+                        {{ form_widget(form.respuesta) }}
+                    </div>
+
+                </div>
+                <div id="imagen" class="col-md-6 col-lg-6" style="padding:0;min-height:330px;">
+                  <img style="position: absolute; margin-left: 0px;" src="{{ asset('images/trivias/Trivia-transparencia-70x330.png') }}">
+                  <img style="position: absolute; margin-left: 10px; margin-top:155px;" src="{{ asset('images/trivias/Trivia-flecha-30x30.png') }}">
+                    <img src="/uploads/encuestas/{{ entity.archivo }}">
+                </div>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-md-12" style="margin-top:-5px;margin-bottom:10px;">
+        <input onclick="botonresponder()" type="image" name="imageField" src="{{ asset('images/trivias/Trivia---Responder-300x65.png') }}"/>
+    </div>
+  </div>
+
+        <input id="inputPreguntas"name= "preguntas" type="text" value="{{preguntas}}" style="display:none">
+        <input id="inputContador" name= "contador"type="text" value="{{contador}}" style="display:none">
+        <input id="inputUsuario" name= "contador"type="text" value="{{usuario}}" style="display:none">
+
+<script language="javascript">
+    localStorage.setItem("preguntaactual", {{ entity.id }})
+    localStorage.setItem("encuesta", {{ entity.idencuesta.id }})
+    //clearInterval(startContador);
+    //clearInterval(startUsuariosegundos);
+    //actualizo en el localStorage el contador
+    localStorage.setItem("contador", {{contador}});
+
+
+</script>

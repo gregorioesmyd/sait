@@ -1,0 +1,242 @@
+security:
+    firewalls:
+        frontend:
+            pattern: ^/
+            anonymous: true
+            form_login:
+                login_path: /usuario/login
+                check_path: /usuario/login_check
+                default_target_path: /usuario/inicio
+                #always_use_default_target_path: true
+                use_referer: true
+            logout:
+                path: usuario_logout
+                target: /usuario/login
+
+    providers:
+        usuarios:
+            entity: { class: Administracion\UsuarioBundle\Entity\User, property: username }
+
+    encoders:
+       # Administracion\UsuarioBundle\Entity\User: { algorithm: plaintext }
+
+        Administracion\UsuarioBundle\Entity\User:
+            algorithm: md5
+            iterations:       0
+            encode_as_base64: false
+
+        #Symfony\Component\Security\Core\User\User: plaintext
+
+    access_control:
+        - { path: ^/usuario/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/usuario/notificar, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/usuario/organigrama, roles: ROLE_USER }
+        - { path: ^/usuario/inicio, roles: ROLE_USER }
+        - { path: ^/usuario/actualizarfoto, roles: ROLE_ACTUALIZA_FOTO }
+        - { path: ^/usuario/actualizar, roles: ROLE_USER }
+        - { path: ^/usuario/encuesta, roles: ROLE_USER }
+        - { path: ^/usuario/telesur/personal, roles: ROLE_USER }
+        - { path: ^/usuario/contacto, roles: ROLE_USER }
+        - { path: ^/usuario/cambioclave, roles: ROLE_USER }
+        - { path: ^/usuario/actualizacambioclave, roles: ROLE_USER }
+        - { path: ^/usuario, roles: ROLE_ADMINISTRADOR }
+        - { path: ^/nivelorganizacional, roles: ROLE_NIVELORGANIZACIONAL}
+        - { path: ^/formulario/bazar, roles: ROLE_USER }
+
+
+
+    #ROLES DE DISTRIBUCION
+        - { path: ^/distribucion/operador/new, roles: ROLE_DISTRIBUCION_ADMINISTRADOR }
+        - { path: ^/distribucion/operador/edit, roles: ROLE_DISTRIBUCION_ADMINISTRADOR }
+        - { path: ^/distribucion/tipooperador/new, roles: ROLE_DISTRIBUCION_ADMINISTRADOR }
+        - { path: ^/distribucion/tipooperador/edit, roles: ROLE_DISTRIBUCION_ADMINISTRADOR }
+        - { path: ^/distribucion/representante/newAdd, roles: ROLE_DISTRIBUCION_ADMINISTRADOR }
+        - { path: ^/distribucion/representante/edit, roles: ROLE_DISTRIBUCION_ADMINISTRADOR }
+        - { path: ^/distribucion/objetocomodato/new, roles: ROLE_DISTRIBUCION_ADMINISTRADOR }
+        - { path: ^/distribucion/objetocomodato/edit, roles: ROLE_DISTRIBUCION_ADMINISTRADOR }
+        - { path: ^/distribucion/zona/new, roles: ROLE_DISTRIBUCION_ADMINISTRADOR }
+        - { path: ^/distribucion/zona/edit, roles: ROLE_DISTRIBUCION_ADMINISTRADOR }
+        - { path: ^/distribucion, roles: ROLE_DISTRIBUCION }
+
+    #ROLES DE CONSTANCIAS
+        - { path: ^/constancia, roles: ROLE_USER }
+        - { path: ^/constancia/inicio, roles: ROLE_CONSTANCIA_ADMINISTRADOR}
+        - { path: ^/constancia/edit, roles: ROLE_CONSTANCIA_ADMINISTRADOR}
+
+    #ROLES DE SIT
+        - { path: ^/sit/inicio, roles: ROLE_USER}
+        - { path: ^/sit/ticket/create, roles: ROLE_USER}
+        - { path: ^/sit/ticketgeneral, roles: ROLE_SIT_GENERAL}
+        - { path: ^/sit/listausuariounidad, roles: ROLE_SIT_SUPERADMINISTRADOR}
+        - { path: ^/sit/ticket, roles: ROLE_SIT_ADMINISTRADOR}
+        - { path: ^/sit/asignado, roles: ROLE_SIT_ADMINISTRADOR}
+        - { path: ^/sit/categoria, roles: ROLE_SIT_ADMINISTRADOR}
+        - { path: ^/sit/subcategoria, roles: ROLE_SIT_ADMINISTRADOR}
+
+
+    #ROLES DE LICENCIAS
+        - { path: ^/licencias/reportes, roles:[ROLE_LICENCIAS , ROLE_LICADMIN] }
+        - { path: ^/licencias/modif, roles:ROLE_LICADMIN }
+
+    #ROLES DE CONTENIDOS
+        - { path: ^/compras, roles: ROLE_CONTENIDOS_ADMIN}
+        - { path: ^/informacion, roles: ROLE_CONTENIDOS_ADMIN}
+        - { path: ^/equipostelesur, roles: ROLE_CONTENIDOS_ADMIN}
+        - { path: ^/inactivos, roles:ROLE_CONTENIDOS_ADMIN}
+
+        - { path: ^/proveedor/show, roles:[ROLE_CONTENIDOS_DIRECTORLINEA, ROLE_CONTENIDOS_ASISTENTES, ROLE_CONTENIDOS_COMPRAS, ROLE_CONTENIDOS_DGE, ROLE_CONTENIDOS_ADMIN]}
+        - { path: ^/proveedor/edit, roles:[ROLE_CONTENIDOS_ASISTENTES, ROLE_CONTENIDOS_COMPRAS, ROLE_CONTENIDOS_ADMIN]}
+        - { path: ^/proveedor/creaelimina, roles:[ROLE_CONTENIDOS_ASISTENTES, ROLE_CONTENIDOS_COMPRAS, ROLE_CONTENIDOS_APOYO, ROLE_CONTENIDOS_ADMIN]}
+
+        - { path: ^/banco/show, roles: [ROLE_CONTENIDOS_ASISTENTES, ROLE_CONTENIDOS_COMPRAS, ROLE_CONTENIDOS_APOYO, ROLE_CONTENIDOS_DGE, ROLE_CONTENIDOS_ADMIN]}
+        - { path: ^/banco/edit, roles: [ROLE_CONTENIDOS_ASISTENTES, ROLE_CONTENIDOS_COMPRAS, ROLE_CONTENIDOS_APOYO, ROLE_CONTENIDOS_ADMIN]}
+
+        - { path: ^/presupuesto/show, roles: [ROLE_CONTENIDOS_ASISTENTES, ROLE_CONTENIDOS_COMPRAS, ROLE_CONTENIDOS_APOYO, ROLE_CONTENIDOS_DGE, ROLE_CONTENIDOS_ADMIN]}
+        - { path: ^/presupuesto/edit, roles: [ROLE_CONTENIDOS_ASISTENTES, ROLE_CONTENIDOS_COMPRAS, ROLE_CONTENIDOS_APOYO, ROLE_CONTENIDOS_ADMIN]}
+
+        - { path: ^/contratacion/show, roles: [ROLE_CONTENIDOS_DIRECTORLINEA, ROLE_CONTENIDOS_ASISTENTES, ROLE_CONTENIDOS_COMPRAS, ROLE_CONTENIDOS_APOYO, ROLE_CONTENIDOS_DGE, ROLE_CONTENIDOS_ADMIN]}
+        - { path: ^/contratacion/edit, roles: [ROLE_CONTENIDOS_ASISTENTES, ROLE_CONTENIDOS_COMPRAS, ROLE_CONTENIDOS_APOYO, ROLE_CONTENIDOS_ADMIN]}
+
+        - { path: ^/pago/show, roles:[ROLE_CONTENIDOS_DIRECTORLINEA, ROLE_CONTENIDOS_ASISTENTES, ROLE_CONTENIDOS_ADMIN]}
+        - { path: ^/pago/edit, roles:[ROLE_CONTENIDOS_ASISTENTES, ROLE_CONTENIDOS_TESORERIA, ROLE_CONTENIDOS_ADMIN]}
+        - { path: ^/pago/control, roles:[ROLE_CONTENIDOS_COMPRAS, ROLE_CONTENIDOS_PTTO, ROLE_CONTENIDOS_RRHH, ROLE_CONTENIDOS_FINANZAS, ROLE_CONTENIDOS_TESORERIA, ROLE_CONTENIDOS_DGE, ROLE_CONTENIDOS_ADMIN]}
+        - { path: ^/pago/ruta, roles:[ROLE_CONTENIDOS_DIRECTORLINEA, ROLE_CONTENIDOS_DGE, ROLE_CONTENIDOS_ADMIN]}
+
+    #ROLES DE CONTRATOS
+        - { path: ^/contratos, roles:ROLE_CONTRATOS }
+
+    #NETO
+        - { path: ^/neto, roles: ROLE_USER }
+
+    #VISITAS
+        - { path: ^/visita, roles: ROLE_VISITAS }
+    #DIRECTORIO
+        - { path: ^/directorio, roles: ROLE_DIRECTORIO }
+
+    #JORNADAS
+        - { path: ^/jornada/numeracion, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/jornada/homepagenum, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/jornada/ajaxmercalsiguienteautomatico, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/jornada/homepagejor, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/jornada/homepagenum, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/jornada/jornada, roles: ROLE_JORNADA}
+        - { path: ^/jornada/asignum, roles: ROLE_JORNADA_ASIGNUM}
+        - { path: ^/jornada/num, roles: ROLE_JORNADA_NUM}
+        - { path: ^/jornada, roles: ROLE_USER}
+
+    #ROLES DE CUMPLEANIOS
+        - { path: ^/cumpleanios, roles: ROLE_CUMPLEANIOS}
+
+    #PROYECTO
+        - { path: ^/proyecto/proyecto/new, roles: ROLE_PROYECTO_ADMIN}
+        - { path: ^/proyecto/actividad/edit, roles: [ROLE_PROYECTO_ADMIN,ROLE_PROYECTO]}
+        - { path: ^/proyecto/comentarioactividad/edit, roles: ROLE_PROYECTO_ADMIN}
+        - { path: ^/proyecto/proyecto, roles: ROLE_USER, roles:  ROLE_PROYECTO}
+        - { path: ^/proyecto/tarea, roles: ROLE_USER}
+        - { path: ^/proyecto/index, roles: ROLE_USER}
+        - { path: ^/proyecto/actividad, roles: ROLE_USER}
+        - { path: ^/proyecto/comentarioactividad, roles: ROLE_USER}
+
+    #TRANSPORTE
+        - { path: ^/transporte/vehiculos, roles: ROLE_TRANSPORTE_ADMINISTRADOR}
+        - { path: ^/transporte/personalexterno, roles: ROLE_TRANSPORTE_ADMINISTRADOR}
+        - { path: ^/transporte/solicitudes/new, roles: ROLE_TRANSPORTE}
+        - { path: ^/transporte/mis_solicitudes, roles: ROLE_TRANSPORTE}
+        - { path: ^/transporte/solicitudes, roles: ROLE_TRANSPORTE_ADMINISTRADOR}
+
+    #CONTROL DE EQUIPOS
+        - { path: ^/controlequipo/modelo/, role: ROLE_EQUIPOS_ALMACEN}
+        - { path: ^/controlequipo/proveedor/, role: ROLE_EQUIPOS_ALMACEN}
+        - { path: ^/controlequipo/marcas/, role: ROLE_EQUIPOS_ALMACEN}
+        - { path: ^/controlequipo/equipointerno/, role: ROLE_EQUIPOS_ALMACEN}
+        - { path: ^/controlequipo/pauta/nuevapro, role: ROLE_EQUIPOS_PAUTASPROGRAMADAS}
+        - { path: ^/controlequipo/pauta/create, role: [ROLE_EQUIPOS_PAUTASPROGRAMADAS,ROLE_EQUIPOS_SEGURIDAD]}
+        - { path: ^/controlequipo/pauta/edit, role: [ROLE_EQUIPOS_PAUTASPROGRAMADAS,ROLE_EQUIPOS_SEGURIDAD]}
+        - { path: ^/controlequipo/pauta/show, role: [ROLE_EQUIPOS_PAUTASPROGRAMADAS,ROLE_EQUIPOS_SEGURIDAD]}
+        - { path: ^/controlequipo/pauta/ver, role: [ROLE_EQUIPOS_PAUTASPROGRAMADAS,ROLE_EQUIPOS_SEGURIDAD]}
+        - { path: ^/controlequipo/pauta/confirmar, role: [ROLE_EQUIPOS_PAUTASPROGRAMADAS,ROLE_EQUIPOS_SEGURIDAD]}
+        - { path: ^/controlequipo/pauta/programada, role: [ROLE_EQUIPOS_PAUTASPROGRAMADAS,ROLE_EQUIPOS_SEGURIDAD]}
+        #- { path: ^/controlequipo/equipoexterno/, role: ROLE_EQUIPOS_SEGURIDAD}
+        - { path: ^/controlequipo/pauta/verificar, role: ROLE_EQUIPOS_SEGURIDAD}
+        #- { path: ^/controlequipo/visita, role: ROLE_EQUIPOS_SEGURIDAD}
+        - { path: ^/controlequipo/pauta/listar, role: ROLE_EQUIPOS_SEGURIDAD}
+        - { path: ^/controlequipo/pauta/, role: [ROLE_EQUIPOS_PAUTASPROGRAMADAS,ROLE_EQUIPOS_SEGURIDAD]}
+        - { path: ^/controlequipo/pauta/seguimiento, role: [ROLE_EQUIPOS_PAUTASPROGRAMADAS,ROLE_EQUIPOS_SEGURIDAD]}
+        - { path: ^/controlequipo/, role: [ROLE_EQUIPOS_PAUTASPROGRAMADAS,ROLE_EQUIPOS_SEGURIDAD,ROLE_EQUIPOS_ALMACEN,ROLE_VISITAS_EXTERNOS]}
+
+
+        - { path: ^/controlequipo/equipoexterno/, role: ROLE_VISITAS_EXTERNOS}
+        - { path: ^/controlequipo/visita, role: ROLE_VISITAS_EXTERNOS}
+
+
+    #cabina y estudio
+        - { path: ^/cabinaestudio/index/estudios, roles:ROLE_USER}
+        - { path: ^/cabinaestudio/index/1, roles:ROLE_USER}
+        - { path: ^/cabinaestudio/index/cabinas, roles:ROLE_USER}
+        - { path: ^/cabinaestudio/index/2, roles:ROLE_USER}
+        - { path: ^/cabinaestudio/reservaciones/listar/, roles:[ROLE_CABINA_ADMIN,ROLE_ESTUDIO_ADMIN,ROLE_SALA_ADMIN] }
+        - { path: ^/cabinaestudio/reservaciones/lista/, roles:ROLE_USER}
+        - { path: ^/cabinaestudio/reservaciones/new/, roles:ROLE_USER}
+        - { path: ^/cabinaestudio/reservaciones/show/, roles:ROLE_USER}
+        - { path: ^/cabinaestudio/reservaciones/edit/, roles:ROLE_USER}
+        - { path: ^/cabinaestudio/pautafijas/listar/, roles:[ROLE_ESTUDIO_ADMIN,ROLE_CABINA_ADMIN,ROLE_SALA_ADMIN]}
+        - { path: ^/cabinaestudio/pautafijas/show/, roles:[ROLE_CABINA_ADMIN,ROLE_ESTUDIO_ADMIN,ROLE_SALA_ADMIN] }
+        - { path: ^/cabinaestudio/pautafijas/edit/, roles:[ROLE_CABINA_ADMIN,ROLE_ESTUDIO_ADMIN,ROLE_SALA_ADMIN]}
+        - { path: ^/cabinaestudio/pautafijas/new/, roles:[ROLE_CABINA_ADMIN,ROLE_ESTUDIO_ADMIN,ROLE_SALA_ADMIN]}
+        - { path: ^/cabinaestudio/historialreservaciones/, roles:[ROLE_CABINA_ADMIN,ROLE_ESTUDIO_ADMIN,ROLE_SALA_ADMIN]}
+        - { path: ^/reservaciones, roles: ROLE_USER}
+        - { path: ^/cabinaestudio, roles: ROLE_USER}
+
+    #NOMINA
+        - { path: ^/nomina, roles: [ROLE_USER]}
+
+    #PROGIS
+        - { path: ^/progis/principal/verificaSession, role: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/progis/ticket/valorar, role: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/progis/ticket/solicitud, role: ROLE_USER}
+        - { path: ^/progis/ticket/procesarSolicitud, role: ROLE_USER}
+        - { path: ^/progis, role: [ROLE_PROGIS,ROLE_PROGIS_ADMIN]}
+
+    #ROLES DE TRIVIAS/ENCUESTAS
+        - { path: ^/encuesta/encuesta/admin/, role: ROLE_TRIVIAS }
+        - { path: ^/encuesta/pregunta/admin/, role: ROLE_TRIVIAS }
+        - { path: ^/encuesta/respuesta/admin/, role:ROLE_TRIVIAS }
+        - { path: ^/encuesta/votos/admin/, role:ROLE_TRIVIAS }
+        - { path: ^/encuesta/resultados/admin/, role:ROLE_TRIVIAS }
+
+    #VIDEOTECA
+        - { path: ^/videoteca/avila/, roles:ROLE_USER }
+        - { path: ^/videoteca/prestamo, roles:ROLE_USER }
+        - { path: ^/videoteca/cinta/new, roles:ROLE_VIDEOTECA }
+        - { path: ^/videoteca/cinta/edit, roles:ROLE_VIDEOTECA }
+        - { path: ^/videoteca/cinta/delete, roles:ROLE_VIDEOTECA }
+        - { path: ^/videoteca/cinta/update, roles:ROLE_VIDEOTECA }
+        - { path: ^/videoteca/cinta/create, roles:ROLE_VIDEOTECA }
+        - { path: ^/videoteca/cinta/choice, roles:ROLE_VIDEOTECA }
+        - { path: ^/videoteca/cinta, roles:ROLE_USER }
+        - { path: ^/videoteca/segmento/new, roles:ROLE_VIDEOTECA }
+        - { path: ^/videoteca/segmento/edit, roles:ROLE_VIDEOTECA }
+        - { path: ^/videoteca/segmento/delete, roles:ROLE_VIDEOTECA }
+        - { path: ^/videoteca/segmento/update, roles:ROLE_VIDEOTECA }
+        - { path: ^/videoteca/segmento/create, roles:ROLE_VIDEOTECA }
+        - { path: ^/videoteca/segmento, roles:ROLE_USER }
+        - { path: ^/videoteca/cintasvirgenes, roles:ROLE_USER }
+
+    #NOTIFICACIONES
+        - { path: ^/notificaciones, role:[ROLE_CUMPLEANIOS]}
+
+    #CREATV
+        - { path: ^/creatv, role:[ROLE_CREATV]}
+
+    #PROTOCOLO
+        - { path: ^/protocolo, role:[ROLE_USER]}
+
+    #SOLICITUDES DE NUEVAS APLICACIONES
+        - { path: ^/solicitudes/solicitudes/admin, roles:[ROLE_ADMINISTRADOR]}
+
+    #TRUEQUES
+        - { path: ^/trueques/user, roles:ROLE_USER }
+        - { path: ^/trueques/search, roles:ROLE_USER }
+        - { path: ^/trueques/misproductos, roles:ROLE_USER }
+        - { path: ^/trueques/categoria, roles:ROLE_TRUEQUES_ADMIN }
+        - { path: ^/trueques/admin, roles:ROLE_TRUEQUES_ADMIN }

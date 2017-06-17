@@ -1,0 +1,111 @@
+{% extends '::protocolo.html.twig' %}
+
+{% block title %}Protocolo{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">Protocolo</li>
+</ol>
+{% endblock %}
+
+{% block body %}
+{{ parent() }}
+<form novalidate method="post" action="{{ path('invitados_create') }}">
+      {{ form_widget(form._token) }}
+	  <div class="row" id="block-choice">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="btn-group" role="group" aria-label="...">
+						<div class="btn-group" role="group">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							Tipo de Solicitud
+						<span class="caret"></span>
+						</button>
+							<ul class="dropdown-menu" role="menu">
+								<li role="presentation" class="dropdown-header">Reuni&oacute;n</li>
+					            <li><a href="{{ path('reservaciones_new',{'tipo':'3','ubicacion':'1'}) }}">Sala</a></li>
+					            <li><a href="{{ path('reunion_new') }}">Oficina</a></li>
+					            <li role="presentation" class="divider"></li>
+					            <li><a href="{{ path('regalo_new') }}">Regalo Corporativo</a></li>
+					            <li><a href="{{ path('invitados_new') }}">Invitado</a></li>
+					            <li><a href="{{ path('salidacanal_new') }}">Salida del canal para recibir invitado</a></li>
+					            <li><a href="{{ path('aeropuerto_new') }}">Aeropuerto</a></li>
+					        </ul>
+						</div>
+					</div>
+				</div>
+			</div>
+				<br><br>	
+				{% if form_errors(form.fecha) or form_errors(form.hora) or form_errors(form.horaEstudio) or form_errors(form.invitados) or form_errors(form.responsableEntrevista) or form_errors(form.transportePersonal) or form_errors(form.wifi) or form_errors(form.motivo)%}
+				    <div class="alert alert-danger errores" style="width:70%;">
+				        <div><b>Alerta! Ha ocurrido un error en el formulario:</b><br><br></div>
+				        <div>{{ form_errors(form.fecha) }}</div>
+				        <div>{{ form_errors(form.hora) }}</div> 
+				        <div>{{ form_errors(form.horaEstudio) }}</div>
+				        <div>{{ form_errors(form.invitados) }}</div>
+				        <div>{{ form_errors(form.responsableEntrevista) }}</div>
+				        <div>{{ form_errors(form.transportePersonal) }}</div>
+				        <div>{{ form_errors(form.wifi) }}</div>
+				        <div>{{ form_errors(form.motivo) }}</div>
+				     </div>
+		    {% endif %}
+		<div class="panel panel-primary" style="width: 90%;">
+	        <div class="panel-heading">SOLICITUD DE PROTOCOLO DE INVITADO</div>
+	        <div class="panel-body">
+	        <div class="table-responsive">
+	            <table class="table table-bordered tablaDatosProtocolo">
+				    <tr>
+				        <th>Fecha de llegada</th>
+				        <th>Hora de llegada</th>
+				        <th>Hora de entrada al estudio</th>
+				    </tr>
+				    <tr>
+				    	<td>{{ form_widget(form.fecha) }}</td>
+						<td>{{ form_widget(form.hora) }}</td>
+						<td>{{ form_widget(form.horaEstudio) }}</td>
+				    </tr>
+				    <tr>
+				        <th colspan="3">Nombre del Invitado</th>
+				    </tr>
+				    <tr>
+				        <td colspan="3">{{ form_widget(form.invitados) }}</td>
+				    </tr>
+				    <tr>
+				    	<th>Responsable de la entrevista</th>
+				        <th>Transporte Personal</th>
+				        <th>Servicio de Wifi</th>
+					</tr>
+					<tr>
+						<td>{{ form_widget(form.responsableEntrevista) }}</td>
+						<td>{{ form_widget(form.transportePersonal) }}</td>
+						<td>{{ form_widget(form.wifi) }}</td>
+					</tr>
+					<tr>
+				    	<th colspan="3">Motivo de la Visita o Programa al que asistir&aacute;</th>
+				    </tr>
+				    <tr>
+				     	<td colspan="3">{{ form_widget(form.motivo) }}</td>
+				    </tr>
+				</table>
+				<div id="oculto" style="display:none">
+					<table class="table table-bordered tablaDatosProtocolo">
+						<div><h4>Datos importante para la unidad de transporte</h4></div>
+							<div><h5>En caso de que no posea transporte personal por favor llegar los siguientes datos:</h5></div>
+					    <tr>
+					        <th>Hora de la Busqueda</th>
+					        <td>{{ form_widget(form.horaBusqueda) }}</td>
+					        <th>Tel&eacute;fono de contacto</th>
+					        <td>{{ form_widget(form.tlfContacto) }}</td>
+					    </tr>
+				 </table>
+				 </div>
+				</table>
+			</div>
+	   		</div>
+		</div>
+
+	<br>
+	<button type="submit" class="btn btn-primary">PROCESAR SOLICITUD</button>
+	<br><br><br>
+ </form>
+{% endblock %}

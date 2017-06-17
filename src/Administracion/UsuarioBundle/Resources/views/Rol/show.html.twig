@@ -1,0 +1,50 @@
+{% extends '::administracion.html.twig' %}
+{% block title %}Inicio - Telesur{% endblock %}
+
+{% block body %}
+{{ parent() }}
+<div class="titulo">ROL</div>
+
+    {% if app.session.started %}
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="Greenflash-notice">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        {% for flashMessage in app.session.flashbag.get('alert') %}
+            <div class="Redflash-notice">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="formShow">
+        <div class="contenedorform">
+            <div class="labelform">Id:</div>
+            <div class="widgetform">{{ entity.id }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Rol:</div>
+            <div class="widgetform">{{ entity.rol }}</div>
+        </div>
+    </div>
+
+<br>
+
+        <a class="btn btn-default" href="{{ path('rol') }}">
+            Ir a la lista
+        </a> |
+
+        <a class="btn btn-default" href="{{ path('rol_edit', { 'id': entity.id }) }}">
+            Ir a editar
+        </a> 
+        <br><br>
+        <form action="{{ path('rol_delete', { 'id': entity.id }) }}" method="post" onsubmit="return confirm('Seguro que desea eliminar')">
+            {{ form_widget(delete_form) }}
+            <button  class="btn btn-danger" type="submit">Borrar</button>
+        </form>
+        </td>
+
+{% endblock %}
+

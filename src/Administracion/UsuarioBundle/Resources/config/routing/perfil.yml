@@ -1,0 +1,32 @@
+perfil:
+    pattern:  /perfil/perfil/lista
+    defaults: { _controller: "UsuarioBundle:Perfil:index" }
+
+perfil_show:
+    pattern:  /perfil/{id}/show
+    defaults: { _controller: "UsuarioBundle:Perfil:show" }
+
+perfil_new:
+    pattern:  /perfil/new
+    defaults: { _controller: "UsuarioBundle:Perfil:new" }
+
+perfil_create:
+    pattern:  /perfil/create
+    defaults: { _controller: "UsuarioBundle:Perfil:create" }
+    requirements: { _method: post }
+
+perfil_edit:
+    pattern:  /perfil/{id}/edit
+    defaults: { _controller: "UsuarioBundle:Perfil:edit" }
+
+perfil_update:
+    pattern:  /perfil/{id}/update
+    defaults: { _controller: "UsuarioBundle:Perfil:update" }
+    requirements: { _method: post }
+
+perfil_delete:
+    pattern:  /perfil/{id}/delete
+    defaults: { _controller: "UsuarioBundle:Perfil:delete" }
+    requirements: { _method: post }
+    
+    

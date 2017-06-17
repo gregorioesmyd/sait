@@ -1,0 +1,50 @@
+{% extends '::directorio.html.twig' %}
+
+{% block title %}Nivel{% endblock %}
+
+{% block titulo %}
+    Nivelor ganizacional
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("nivelorganizacional") }}">NIVELES INICIO</a></li>
+  <li class="active">CONSULTAR NIVEL</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+
+    <table class="table table-hover table-bordered" style="width: 50%">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Codigo</th>
+                <td>{{ entity.codigo }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ entity.descripcion }}</td>
+            </tr>
+            <tr>
+                <th>Correo</th>
+                <td>{{ entity.correo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <a class="btn btn-primary" href="{{ path('nivelorganizacional_edit', { 'id': entity.id }) }}">
+            EDITAR
+        </a>
+            <bR><br>
+        {{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+            {{ form_errors(delete_form) }}
+            {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+        {{ form_end(delete_form) }}
+       
+{% endblock %}

@@ -1,0 +1,138 @@
+formulario:
+    resource: "@FormularioBundle/Resources/config/routing.yml"
+    prefix:   /formulario
+
+solicitudesapp:
+    resource: "@SolicitudesBundle/Resources/config/routing.yml"
+    prefix:   /solicitudes
+
+#rel:
+#    resource: "@RelBundle/Resources/config/routing.yml"
+#    prefix:   /rel
+
+encuesta:
+    resource: "@EncuestaBundle/Resources/config/routing.yml"
+    prefix:   /encuesta
+
+protocolo:
+    resource: "@ProtocoloBundle/Resources/config/routing.yml"
+    prefix:   /protocolo
+
+datatable:
+    resource: "@DatatableBundle/Resources/config/routing.yml"
+    prefix:   /datatable
+
+reporte:
+    resource: "@ReporteBundle/Resources/config/routing.yml"
+    prefix:   /progis/reporte
+
+principal:
+    resource: "@PrincipalBundle/Resources/config/routing.yml"
+    prefix:   /progis/principal
+
+wiki:
+    resource: "@WikiBundle/Resources/config/routing.yml"
+    prefix:   /progis/wiki
+
+ticket:
+    resource: "@TicketBundle/Resources/config/routing.yml"
+    prefix:   /progis/ticket
+
+proyecto:
+    resource: "@ProyectoBundle/Resources/config/routing.yml"
+    prefix:   /progis/proyecto
+
+estudio_cabina:
+    resource: "@EstudioCabinaBundle/Resources/config/routing.yml"
+    prefix:   /cabinaestudio
+
+control_equipo:
+    resource: "@ControlEquipoBundle/Resources/config/routing.yml"
+    prefix:   /controlequipo
+
+creatv:
+    resource: "@CreatvBundle/Resources/config/routing.yml"
+    prefix:   /creatv
+
+transporte:
+    resource: "@TransporteBundle/Resources/config/routing.yml"
+    prefix:   /transporte
+
+#vehiculos_index:
+#    resource: "@TransporteBundle/Resources/config/routing/vehiculos.yml"
+#    prefix:   /transporte/vehiculos
+
+#solicitudes_index:
+#    resource: "@TransporteBundle/Resources/config/routing/solicitudes.yml"
+#    prefix:   /transporte/solicitudes
+
+#personalexterno_index:
+#        resource: "@TransporteBundle/Resources/config/routing/personalexterno.yml"
+#        prefix:   /transporte/personalexterno
+
+#TransporteBundle_asignaciones:
+#        resource: "@TransporteBundle/Resources/config/routing/asignaciones.yml"
+#        prefix:   /transporte/asignaciones
+
+
+cumpleanios:
+    resource: "@CumpleaniosBundle/Resources/config/routing.yml"
+    prefix:   /notificaciones
+
+incidencia:
+    resource: "@IncidenciaBundle/Resources/config/routing.yml"
+    prefix:   /
+
+mercal:
+    resource: "@MercalBundle/Resources/config/routing.yml"
+    prefix:   /jornada
+directorio:
+    resource: "@DirectorioBundle/Resources/config/routing.yml"
+    prefix:   /directorio
+contratos:
+    resource: "@ContratosBundle/Resources/config/routing.yml"
+    prefix:   /contratos
+
+constancia:
+    resource: "@ConstanciaBundle/Resources/config/routing.yml"
+    prefix:   /constancia
+
+neto:
+    resource: "@NetoBundle/Resources/config/routing.yml"
+    prefix:   /neto
+
+nomina:
+    resource: "@NominaBundle/Resources/config/routing.yml"
+    prefix:   /nomina
+
+licencias:
+    resource: "@LicenciasBundle/Resources/config/routing.yml"
+    prefix:   /licencias
+
+frontend_visitas:
+    resource: "@FrontendVisitasBundle/Resources/config/routing.yml"
+    prefix:   /usuario_control
+
+distribucion:
+    resource: "@DistribucionBundle/Resources/config/routing.yml"
+    prefix:   /distribucion
+
+videoteca:
+    resource: "@VideotecaBundle/Resources/config/routing.yml"
+    prefix:   /videoteca
+
+trueques:
+    resource: "@TruequesBundle/Resources/config/routing.yml"
+    prefix:   /trueques
+
+usuario:
+    resource: "@UsuarioBundle/Resources/config/routing.yml"
+    prefix:   /usuario
+
+login:
+    pattern:  /
+    defaults: { _controller: UsuarioBundle:Default:index }
+
+visitas:
+    resource: "@FrontendVisitasBundle/Resources/config/routing.yml"
+    prefix:   /visitas

@@ -1,0 +1,39 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>LISTA DE MIS PENDIENTES</h2>
+    <h5>{{ perfil.PrimerNombre }} {{ perfil.PrimerApellido}}</h5>
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("miembroespacio") }}">LISTA DE MIEMBROS</a></li>
+  <li class="active">LISTA DE PENDIENTES</li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-primary">
+            <div class="panel-heading">ACTIVIDADES POR REVISAR EN ORDEN DE CIERRE</div><br>
+            {% for a in actividad %}
+                  <div class="panel panel-default" style="margin: 5px">
+                      <div class="panel-body">
+                          <p>Proyecto: <a target="_blank" href="{{ path('proyecto_show',{'id':a.objetivo.proyecto.id}) }}">{{ a.objetivo.proyecto.nombre }}</p></a>
+                          <p>Objetivo: <a target="_blank" href="{{ path('objetivo_show',{'id':a.objetivo.id}) }}">{{ a.objetivo.nombre }}</p></a>
+                          <p>Actividad: <a target="_blank" href="{{ path('proyecto_procesarActividad', { 'idobjetivo': a.objetivo.id  }) }}">{{ a.descripcion }}</a></p>
+                          <p>Tiempo: {{ a.tiempoestimado }} {% if a.tipotiempo==2%}Hora(s){% else %}Minuto(s){% endif %}</p>
+                          <p>Ubicacion: {% if a.ubicacion==1 %}Nuevo{% elseif a.ubicacion==2 %}Proceso{% elseif a.ubicacion==3 %}Revisión{% elseif a.ubicacion==4%}Culminado{% elseif a.ubicacion==5 %}Dependencia{% endif %}</p>
+                      </div>
+                  </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

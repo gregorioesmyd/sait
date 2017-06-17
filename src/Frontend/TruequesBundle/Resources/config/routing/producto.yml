@@ -1,0 +1,30 @@
+admin_producto:
+    path:     /
+    defaults: { _controller: "TruequesBundle:Producto:index" }
+
+admin_producto_show:
+    path:     /{id}/show
+    defaults: { _controller: "TruequesBundle:Producto:show" }
+
+admin_producto_new:
+    path:     /new
+    defaults: { _controller: "TruequesBundle:Producto:new" }
+
+admin_producto_create:
+    path:     /create
+    defaults: { _controller: "TruequesBundle:Producto:create" }
+    requirements: { _method: post }
+
+admin_producto_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "TruequesBundle:Producto:edit" }
+
+admin_producto_update:
+    path:     /{id}/update
+    defaults: { _controller: "TruequesBundle:Producto:update" }
+    requirements: { _method: post|put }
+
+admin_producto_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "TruequesBundle:Producto:delete" }
+    requirements: { _method: post|delete }

@@ -1,0 +1,30 @@
+Usuariosegundos:
+    path:     /
+    defaults: { _controller: "EncuestaBundle:Usuariosegundos:index" }
+
+Usuariosegundos_show:
+    path:     /{id}/show
+    defaults: { _controller: "EncuestaBundle:Usuariosegundos:show" }
+
+Usuariosegundos_new:
+    path:     /new
+    defaults: { _controller: "EncuestaBundle:Usuariosegundos:new" }
+
+Usuariosegundos_create:
+    path:     /create
+    defaults: { _controller: "EncuestaBundle:Usuariosegundos:create" }
+    requirements: { _method: post }
+
+Usuariosegundos_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EncuestaBundle:Usuariosegundos:edit" }
+
+Usuariosegundos_update:
+    path:     /{id}/update
+    defaults: { _controller: "EncuestaBundle:Usuariosegundos:update" }
+    requirements: { _method: post|put }
+
+Usuariosegundos_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "EncuestaBundle:Usuariosegundos:delete" }
+    requirements: { _method: post|delete }

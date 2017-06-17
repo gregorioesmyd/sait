@@ -1,0 +1,56 @@
+{% extends '::proyecto.html.twig' %}
+
+{% block title %}Proyecto{% endblock %}
+
+{% block titulo %}
+    <h3>EN PROCESO</h3>
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("proyecto") }}">LISTA DE PROYECTOS</a></li>
+  <li class="active">EN PROCESO</li>
+</ol>
+{% endblock %}
+    
+{% block body -%}
+    {{ parent() }}
+    
+<meta content="120" http-equiv="REFRESH"> </meta>
+
+    <table class="table table-striped table-bordered" style="width: 90%">
+        <thead>
+            <tr style="text-align: center;" class="info">
+                <th width="20%">RESPONSABLE</th>
+                <th width="20%">PROYECTO</th>
+                <th width="20%">OBJETIVO</th>
+                <th width="30%">ACTIVIDAD ACTUAL EN PROCESO</th>
+                <th width="10%">ESTIMADO</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for int in integrantes %}
+                {% set x=0 %}
+                {% for act in actividades if act.responsable.id==int.id %}
+                    {% set x=1%}
+                    <tr>
+                        <td>{{ int.primerNombre|upper }} {{ int.primerApellido|upper }}</td>
+                        <td>{{ act.tarea.proyecto.nombre|capitalize }}</td>
+                        <td>{{ act.tarea.nombre|capitalize }}</td>
+                        <td><a href="{{ path('actividad',{'idtarea':act.tarea.id})}}">{{ act.descripcion|capitalize }}</a></td>
+                        <td>{{ act.tiempoestimado }} {% if act.tipotiempo==1 %}DÍA(S){% elseif act.tipotiempo==2 %}HORA(S){% else %}MINUTO(S){% endif %}</td>
+                    </tr>
+                {% endfor %}
+                {% if x==0 %}
+                    <tr>
+                        <td>{{ int.primerNombre|upper }} {{ int.primerApellido|upper }}</td>
+                        <td colspan="4">Sin actividades en proceso</td>
+                    </tr>
+                {% endif %}
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

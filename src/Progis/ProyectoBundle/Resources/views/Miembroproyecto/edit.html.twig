@@ -1,0 +1,58 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>EDITAR MIEMBRO PROYECTO</h2>
+    <h4>PROYECTO "{{ entity.proyecto.nombre|upper }}"<br></h4>
+{% endblock %}
+
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("proyecto") }}">LISTA DE PROYECTOS</a></li>
+  <li><a href="{{ path("proyecto_show",{'id':entity.proyecto.id}) }}">CONSULTAR PROYECTO</a></li>
+  <li><a href="{{ path("miembroproyecto",{'idproyecto':entity.proyecto.id}) }}">LISTA DE MIEMBROS</a></li>
+  <li class="active">EDITAR MIEMBRO DEL PROYECTO</li>
+</ol>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent()}}
+    <style>
+        #progis_proyectobundle_miembroproyecto_rolproyecto label{
+                display: block;
+        }
+
+        #progis_proyectobundle_miembroproyecto_rolproyecto input{
+                float: left;
+                text-align: left;
+                padding: 0px;
+                margin: 0px;
+        }
+    </style>
+    
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+    
+    {{ form_start(edit_form, { 'attr': {'novalidate':null} }) }}
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">MODIFIQUE LOS PARÁMETROS QUE DESEE</div>
+            <div class="panel-body">
+                    <div id="formulario">{{ form_widget(edit_form) }}</div>
+            </div>
+        </div>
+
+            <div align="center"><input type="submit" class="btn btn-primary" value="EDITAR PROYECTO"><br><br>
+    {{ form_end(edit_form) }}   
+        
+        
+    <div align="center">{{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+        {{ form_errors(delete_form) }}
+        {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+    {{ form_end(delete_form) }}</div>
+    <br>
+{% endblock %}

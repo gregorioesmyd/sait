@@ -1,0 +1,31 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>NUEVA CATEGORIA</h2>
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("progis_categoria") }}">LISTA DE CATEGORIAS</a></li>
+  <li class="active">NUEVA CATEGORIA</li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent()}}
+ 
+    {{ form_start(form, { 'attr': {'novalidate':null} }) }}
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">INGRESE LOS PARÁMETROS</div>
+            <div class="panel-body">
+                    <div id="formulario">{{ form_widget(form) }}</div>
+            </div>
+        </div>
+
+        <div align="center"><input type="submit" class="btn btn-primary" value="CREAR CATEGORIA">
+    {{ form_end(form) }}  
+        
+{% endblock %}

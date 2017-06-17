@@ -1,0 +1,27 @@
+{% extends '::videoteca.html.twig' %}
+
+{% block body -%}
+    <h1>Registrar Segmento</h1>
+
+    <!-- Single button -->
+    <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        Tipo de Segmento <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="{{ path('segmento_new', { 'idCinta' : 31, 'slug': 'prensa' } ) }}">Prensa</a></li>
+        <li><a href="{{ path('segmento_new', { 'idCinta' : 32, 'slug': 'satelite' } ) }}">Satelite</a></li>
+        <li><a href="{{ path('segmento_new', { 'idCinta' : 33, 'slug': 'videoteca' } ) }}">Videoteca</a></li>
+        <li><a href="{{ path('segmento_new', { 'idCinta' : 34, 'slug': 'deporte' } ) }}">Deporte</a></li>
+      </ul>
+    </div>
+
+    <ul class="record_actions">
+        <li>
+            <a class="btn btn-default" role="button" aria-label="Previous" href="{{ path('cinta') }}">
+                <span aria-hidden="true">&laquo;</span>
+                Volver
+            </a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends '::controlequipo.html.twig' %}
+
+    {% block ubicacion %}
+        <ol class="breadcrumb">
+          <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+          <li><a href="{{ path("equipointerno") }}">EQUIPOS INTERNOS</a></li>
+          <li class="active">DETALLES DE EQUIPO INTERNO</li>
+        </ol>
+    {% endblock %}
+{% block body %}
+    {{ parent()}}
+    <h1>Equipo Interno</h1>
+    <table class="table table-hover table-striped formShow" style="width: 60%;">
+        <tbody>
+            <tr>
+                <th>Código catálogo</th>
+                <td>{{ entity.codigoCatalogo }}</td>
+            </tr>
+            <tr>
+                <th>Código del bien</th>
+                <td>{{ entity.codigoBien }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion del Equipo</th>
+                <td>{{ entity.descripcionEquipo }}</td>
+            </tr>
+            <tr>
+                <th>Codigo de barra / Nro Control</th>
+                <td>{{ entity.codigoBarra }}</td>
+            </tr>
+            <tr>
+                <th>Serial</th>
+                <td>{{ entity.serial }}</td>
+            </tr>
+            <tr>
+                <th>Unidad Responsable</th>
+                <td>{{ unidadResponsable }}</td>
+            </tr>
+            <tr>
+                <th>Responsable</th>
+                <td>{{ entity.responsablePatrimonial }}</td>
+            </tr>
+            <tr>
+                <th>Control Perceptivo</th>
+                <td>{{ entity.controlPerceptivo|date('d/m/Y') }}</td>
+            </tr>
+            <tr>
+                <th>Solicitud de Contratación</th>
+                <td>{{ entity.solicitudContratacion }}</td>
+            </tr>
+            <tr>
+                <th>Partida Presupuestaria</th>
+                <td>{{ entity.partidaPresupuestaria }}</td>
+            </tr>
+            <tr>
+                <th>Nro. Factura</th>
+                <td>{{ entity.nroFactura }}</td>
+            </tr>
+            <tr>
+                <th>Precio</th>
+                <td>{{ entity.moneda }} {{ entity.precio|number_format(2, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <th>Acta de Entrega</th>
+                <td>{{ entity.actaEntrega }}</td>
+            </tr>
+            <tr>
+                <th>Creado</th>
+                <td>{{ entity.creado|date('d/m/Y') }}</td>
+            </tr>
+            <tr>
+                <th>Foto Referencia</th>
+                <td>
+                    {% if entity.fotoReferencia=='' %}
+                        <span class="label label-danger">Sin fotografia</span>
+                        <a href="#">Incluir Fotografia</a>
+                        {% else %}
+                            <a data-toggle="modal" href="#fotoReferencia" data-target="#fotoReferencia">
+                                <img class="img-rounded glyphicon glyphicon-picture" src="{{ asset('uploads/controlequipo/') }}{{ entity.fotoReferencia }}" width="150px">
+                            </a>
+                    {% endif%}
+                </td>
+            </tr>
+            <tr>
+                <th>Marca</th>
+                <td>{{ marca }}</td>
+            </tr>
+            <tr>
+                <th>Modelo</th>
+                <td>{{ entity.modelo }}</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a class="btn btn-default" href="{{ path('equipointerno') }}">
+            Ver Lista de Equipos
+        </a> | 
+        <a class="btn btn-default" href="{{ path('equipointerno_edit', { 'id': entity.id }) }}">
+            Editar
+        </a><br><br>
+        {{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+            {{ form_errors(delete_form) }}
+            {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+        {{ form_end(delete_form) }}
+    </li>
+</ul>
+<!-- My modal -->
+<div class="modal fade" id="fotoReferencia" tabindex="-1" role="dialog" aria-labelledby="FotoReferencia" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Foto de Referencia</h4>
+            </div>
+            <div class="modal-body">
+                {% if entity.fotoReferencia%}
+                    <img class="img-rounded glyphicon glyphicon-picture" src="{{ asset('uploads/controlequipo/') }}{{ entity.fotoReferencia }}" width="550px" height="350px">
+                {% endif%}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+    

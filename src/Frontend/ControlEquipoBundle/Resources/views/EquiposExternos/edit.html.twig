@@ -1,0 +1,106 @@
+{% extends '::controlequipo.html.twig' %}
+{% block title %}Editar Equipo Externo{% endblock %}
+
+{% block titulo %}
+    EDITAR EQUIPO EXTERNO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("equipoexterno") }}">EQUIPOS EXTERNOS</a></li>
+  <li class="active">EDITAR EQUIPO EXTERNO</li>
+</ol>
+{% endblock %}
+{% block body %}
+    {{ parent() }}
+
+    {% if not edit_form.vars.valid %}
+        <div class="alert alert-danger errores" style="width:70%;">
+            <div><b>Alerta! Ha ocurrido un error en el formulario:</b><br><br></div>
+            <div>{{ form_errors(edit_form.codigoBarra) }}</div>
+            <div>{{ form_errors(edit_form.descripcionEquipo) }}</div>
+            <div>{{ form_errors(edit_form.serial) }}</div>
+            <div>{{ form_errors(edit_form.equipoMarca) }}</div>
+            <div>{{ form_errors(edit_form.propietarioId) }}</div>
+            <div>{{ form_errors(edit_form.tipoPropietario) }}</div>
+        </div>
+    {% endif %} 
+    
+    <form novalidate action="{{ path('equipoexterno_update',{'id':entity.id}) }}" method="post" {{ form_enctype(edit_form) }} class="form-horizontal" role="form">
+        {{ form_widget(edit_form._token) }}
+        <input type="hidden" name="_method" value="PUT"> 
+   
+        <div class="formShow">
+            <div class="form-group">
+                <label for="propietarioId" class="col-sm-4 control-label">Cedula</label>
+                <div class="col-sm-3 ">
+                     <p class="form-control-static">{{ propietario['cedula'] }}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="propietarioId" class="col-sm-4 control-label">Propietario</label>
+                <div class="col-sm-3">
+                    {#{ form_widget(edit_form.propietarioId,{ 'attr': {'class': 'form-control input-sm','style': 'width:220px;'} }) }#}
+                    {{ form_widget(edit_form.propietarioId,{ 'attr': {'style': 'display:none;'} }) }}
+                    <p class="form-control-static">{{ propietario['nombres'] }}</p>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="tipoPropietario" class="col-sm-4 control-label">Tipo Propietario</label>
+                <div class="col-sm-3">
+                    {#{ form_widget(edit_form.tipoPropietario,{ 'attr': {'class': 'form-control input-sm','style': 'width:220px;'} }) }#}
+                    {{ form_widget(edit_form.tipoPropietario,{ 'attr': {'style': 'display:none;'} }) }}
+                    {% if entity.tipoPropietario==1 %}
+                        <p class="form-control-static"><span class="label label-info">Interno/Empleado</span></p>
+                    {% elseif entity.tipoPropietario==2 %}
+                        <p class="form-control-static"><span class="label label-info">Externo/Visitante</span></p>
+                    {% endif%}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="nroControl" class="col-sm-4 control-label">Código Barra/ Nro Control * </label>
+                <div class="col-sm-3">
+                    {{ form_widget(edit_form.codigoBarra,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="codigoBarra" class="col-sm-4 control-label">Serial *</label>
+                <div class="col-sm-3">
+                    {{ form_widget(edit_form.serial,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="descripcionEquipo" class="col-sm-4 control-label">Descripcion del Equipo *</label>
+                <div class="col-sm-3">
+                    {{ form_widget(edit_form.descripcionEquipo,{ 'attr': {'class': 'form-control input-sm','rows':'4','style':'width:220px;'} }) }}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="marcas_selector" class="col-sm-4 control-label">Marca *</label>
+                <div class="col-sm-3">
+                        {{ form_widget(edit_form.equipoMarca,{ 'attr': {'class': 'form-control input-sm chosen-select','style': 'width:220px;'} }) }}
+                </div>
+            </div>
+            
+            <br>
+            <input type="submit" class="btn btn-primary" value="MODIFICAR EQUIPO INTERNO">
+        <br><br>
+        </div>
+        <a class="btn btn-default" href="{{ path('equipoexterno') }}">
+            VOLVER A LA LISTA DE EQUIPOS
+        </a>
+     </form>
+    {#{ form(edit_form) }#}
+     <script>
+        $(function() {
+            $(".chosen-select").chosen({no_results_text: "No encontrado!"});
+
+        });
+    </script>
+{% endblock %}

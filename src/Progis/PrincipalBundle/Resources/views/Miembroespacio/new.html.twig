@@ -1,0 +1,145 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>NUEVO MIEMBRO</h2>
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("miembroespacio") }}">LISTA DE MIEMBROS</a></li>
+  <li class="active">NUEVO MIEMBRO</li>
+</ol>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent()}}
+    <style>
+        #progis_principalbundle_miembroespacio_rolgeneral label{
+                display: block;
+        }
+
+        #progis_principalbundle_miembroespacio_rolgeneral input{
+                float: left;
+                text-align: left;
+                padding: 0px;
+                margin: 0px;
+        }
+
+    </style>
+    <link href="{{ asset('bundles/principal/libs/chosen_v1.4.2/chosen.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent()}}
+    <script src="{{ asset('bundles/principal/libs/chosen_v1.4.2/chosen.jquery.js') }}" type="text/javascript"></script>
+{% endblock %}
+
+    
+{% block contenido -%}
+    {{ parent()}}
+ 
+    
+    {{ form_start(form, { 'attr': {'novalidate':null} }) }}
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">INGRESE LOS PARÁMETROS</div>
+            <div class="panel-body">
+                    <div id="formulario">{{ form_widget(form) }}</div>
+            </div>
+        </div>
+
+        <div class="alert alert-info">Los roles específicos se aplican solo a los proyectos, específicamente en el módulo "Agregar miembros a proyectos" de cada proyecto.</div>
+        <div align="center"><input type="submit" class="btn btn-primary" value="AGREGAR MIEMBRO">
+            
+    {{ form_end(form) }}  
+    
+    <script>
+        $(document).ready(function(){
+            
+            if($("#progis_principalbundle_miembroespacio_poseerolgeneral").is(':checked')){
+                $("#RolesGenerales").show();
+            }else $("#RolesGenerales").hide();
+                
+            
+            //muestro roles al tildar check rol general y al destildar quito el check de todos los roles
+            
+            $("#progis_principalbundle_miembroespacio_poseerolgeneral").click(function(){
+                if($("#progis_principalbundle_miembroespacio_poseerolgeneral").is(':checked')) {  
+                    $("#RolesGenerales").show();
+                } else {  
+                    $("#RolesGenerales").hide();
+                    for(var i=1;i<=8;i++){
+                        $("#progis_principalbundle_miembroespacio_rolgeneral_"+i).prop("checked", false);
+                    }
+                }  
+            })
+            
+            //si selecciono rol supervisor no puedo tener otro rol de consulta ni administrador
+            $("#progis_principalbundle_miembroespacio_rolgeneral_1").click(function(){
+                for(i=2;i<=8;i++){$("#progis_principalbundle_miembroespacio_rolgeneral_"+i).prop("checked", false);}
+            });
+            
+            $("#progis_principalbundle_miembroespacio_rolgeneral_8").click(function(){
+                $("#progis_principalbundle_miembroespacio_rolgeneral_1").prop("checked", false);
+            });
+            
+            //si tengo admin no puedo tener consulta ni tecnico en ticket
+            $("#progis_principalbundle_miembroespacio_rolgeneral_2").click(function(){
+                $("#progis_principalbundle_miembroespacio_rolgeneral_1").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_3").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_4").prop("checked", false);
+            });
+            
+            $("#progis_principalbundle_miembroespacio_rolgeneral_3").click(function(){
+                $("#progis_principalbundle_miembroespacio_rolgeneral_1").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_2").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_4").prop("checked", false);
+            });
+            
+            $("#progis_principalbundle_miembroespacio_rolgeneral_4").click(function(){
+                $("#progis_principalbundle_miembroespacio_rolgeneral_1").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_2").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_3").prop("checked", false);
+            });
+            
+            
+            //si tengo admin no puedo tener consulta ni tecnico en proyecto
+            $("#progis_principalbundle_miembroespacio_rolgeneral_5").click(function(){
+                $("#progis_principalbundle_miembroespacio_rolgeneral_1").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_6").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_7").prop("checked", false);
+            });
+            
+            $("#progis_principalbundle_miembroespacio_rolgeneral_6").click(function(){
+                $("#progis_principalbundle_miembroespacio_rolgeneral_1").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_5").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_7").prop("checked", false);
+            });
+            
+            $("#progis_principalbundle_miembroespacio_rolgeneral_7").click(function(){
+                $("#progis_principalbundle_miembroespacio_rolgeneral_1").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_6").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_5").prop("checked", false);
+            });
+
+            
+           
+        });
+    </script>   
+    
+  <script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+  </script>
+{% endblock %}
+

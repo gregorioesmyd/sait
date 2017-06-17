@@ -1,0 +1,238 @@
+{% extends '::base_trueques.html.twig' %}
+
+{% block body -%}
+    <h1>Mis Productos</h1>
+    <br>
+    <br>
+    <table class="table" style="width:50%;">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td id="miproducto" data-miproducto="{{ entity.id }}">{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Producto</th>
+                <td>{{ entity.productoCambiar.nombre }}</td>
+            </tr>
+             <tr>
+                <th>Producto de Interes</th>
+                <td>
+                    {% for item in entity.MisProductoInteres %}
+                        <span>{{ item }}, </span>
+                    {% endfor %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if entity.MiProducto|length > 0 and entity.status != 'Contacto' and entity.status != 'Inactivo' %}
+        <h4>Productos Contactados</h4>
+        <table class="table" style="width:25%;">
+            <tbody>
+                {% for item in entity.MiProducto %}
+                    <tr>
+                        <td>
+                            {{ item.productoCambiar.nombre }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    {% if entity.MiProducto|length > 0 and entity.status == 'Inactivo' %}
+        <h4>Productos Contactados</h4>
+        <table class="table" style="width:25%;">
+            <tbody>
+                {% for item in entity.MiProducto %}
+                    <tr>
+                        <th>{{ item.user }}:</th>
+                        <td>
+                            {{ item.productoCambiar.nombre }}
+                        </td>
+                        <td>
+                            Finalizado
+                        </td>   
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    {% if entity.MiProducto|length > 0 and entity.status == 'Contacto' %}
+        <h4>Lista de interesados Contactos</h4>
+        <table class="table" style="width:45%;">
+            <tbody>
+                {% for item in entity.MiProducto %}
+                    <tr>
+                        <th>{{ item.user }}:</th>
+                        <td>
+                            {{ item.productoCambiar.nombre }}
+                        </td>
+                        <td>
+                            <button type="button" data-trueque="{{ trueque.id }}" class="btn btn-default finalizar_trueque">Confirmar Intercambio</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    {% if entity.Interesados|length > 0 and entity.status == 'Contacto'  %}
+        <h4>Productos Contactados</h4>
+        <table class="table" style="width:25%;">
+            <tbody>
+                {% for item in entity.Interesados %}
+                    <tr>
+                        <th>{{ item.user }}:</th>
+                        <td>
+                            {{ item.productoCambiar.nombre }}
+                        </td>
+                        <td>
+                            {% if trueque.getMisProductoUser1.id == item.id or trueque.getMisProductoUser2.id == item.id %}
+                                <button type="button" data-trueque="{{ trueque.id }}" class="btn btn-default finalizar_trueque">Confirmar Intercambio</button>
+                            {% endif %}
+                        </td>   
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+
+    {% if entity.Interesados|length > 0 and entity.status != 'Contacto' %}
+        <h4>Lista de interesados Contactos</h4>
+        <table class="table" style="width:25%;">
+            <tbody>
+                {% for item in entity.interesados %}
+                    <tr>
+                        <th>{{ item.productoCambiar.nombre }}</th>
+                        <td>
+                            <button type="button" class="btn btn-default seleccionado" name="seleccionado" data-trueque="{{ item.id }}">Elegir</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+
+    <div align="center">
+        <div class="btn-nav">
+            <div class="btn-group" role="group" aria-label="...">
+                <a class="btn btn-default" href="{{ path('misproductos') }}">
+                    Volver
+                </a>
+                <a class="btn btn-default" href="{{ path('misproductos_edit', { 'id': entity.id }) }}">
+                    Editar
+                </a>
+            </div>
+        </div>
+
+        <br>
+
+        {{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+            {{ form_errors(delete_form) }}
+            {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+        {{ form_end(delete_form) }}
+    </div>
+
+    <br>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+
+        $(function() {
+            
+            $(".seleccionado").on('click', function() {
+                var trueque = $(this).data('trueque');
+                swal({
+                    title: "Estas seguro?",
+                    text: "Quieres dar inicio al proceso de intercambio!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Si, Estoy seguro!",
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                },
+                    
+                function(){
+                    console.log('pass');
+                    var dataForm = {
+                        'mi_producto' : $("#miproducto").data('miproducto'),
+                        'producto_trueque' : trueque
+                    };
+
+                    console.log(dataForm);
+
+                    $.ajax({
+                        url: '{{ path("TruequesBundle_reservar") }}',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: dataForm,
+                    })
+                    .done(function(data) {
+                        console.log(data['status']);
+                        if (data['status'] == "success") {
+                            setTimeout(function(){
+                                swal("Excelente!", "Ya se dio inicio a la fase de intercambio.", "success"); 
+                            }, 100);
+                            setTimeout(function(){
+                                location.reload();
+                            }, 700);
+                        } else{
+                            setTimeout(function(){
+                                swal("Error!", "Contacte al administrador.", "error"); 
+                            }, 200);
+                        };
+                    })
+                    .fail(function() {
+                        console.log("error");
+                    })
+                    .always(function() {
+                        console.log("complete");
+                    });
+                
+                });
+                
+            });
+
+            $('.finalizar_trueque').on('click', function() {
+                var dataForm = {
+                    'id_trueque' : $(this).data('trueque')
+                };
+
+                $.ajax({
+                    url: '{{ path("TruequesBundle_finalizar") }}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: dataForm,
+                })
+                .done(function(data) {
+                    if (data["status"] == 'success') {
+                        swal("Excelente!", "El intercambio se realizo con exito!", "success");
+                        setTimeout(function(){
+                            location.reload();
+                        }, 700);
+                    };
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+                
+            });
+
+        });
+
+    </script>
+
+{% endblock %}

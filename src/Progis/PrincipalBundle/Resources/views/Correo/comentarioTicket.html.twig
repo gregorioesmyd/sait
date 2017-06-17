@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css">
+        	th{
+        		text-align: right;
+        		margin-right: 20px;
+        	}
+
+        	table{
+        		width: 600px;
+
+        	}
+
+        	table td{
+        		padding: 10px;
+        		border:1px solid gray;
+        	}
+
+        	table th{
+        		border:1px solid gray;
+        		background-color: #F8F8F8;
+        		padding-right: 10px;
+        		width: 25%;
+        	}
+        </style>
+    </head>
+
+    <body>
+    	<div align="center">
+			<div><h3>TIENES UN NUEVO COMENTARIO Y/O ARCHIVO EN UN TICKET</h3></div>
+
+			<table cellspacing=0>
+				<tr>
+                                    <th>TICKET:</th>
+                                    <td>{{ entity.ticket.solicitud|capitalize }}</td>
+				</tr>
+				<tr>
+                                    <th>SOLICITANTE:</th>
+                                    <td>{{ entity.ticket.solicitante.primerNombre|capitalize }} {{ entity.ticket.solicitante.segundoNombre|capitalize }}</td>
+				</tr>
+				<tr>
+                                    <th>EXTENSIÓN:</th>
+                                    <td>{{ entity.ticket.solicitante.extension }}</td>
+				</tr>
+				<tr>
+                                    <th>COMENTARIO:</th>
+                                    <td>{{ entity.comentarioarchivo.comentario|raw }}</td>
+				</tr>
+				<tr>
+                                    <th>¿ARCHIVO?:</th>
+                                    <td>{% if entity.comentarioarchivo.archivo is not null %}Sí posee{% else %}No posee{% endif %}</td>
+				</tr>
+   
+
+			</table>
+			<br>
+		</div>
+	</body>
+	
+</html>

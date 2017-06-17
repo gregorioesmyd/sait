@@ -1,0 +1,34 @@
+{% extends '::contratos.html.twig' %}
+
+{% block title %}Nueva Direcci&oacute;n{% endblock %}
+
+{% block titulo %}
+    NUEVA DIRECCI&Oacute;N
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("Direccionsolicitante") }}">LISTADO DE DIRECCIONES</a></li>
+  <li class="active">NUEVA DIRECCI&Oacute;N</li>
+</ol>
+{% endblock %}
+    
+{% block body -%}
+    {{ parent() }}
+
+    <form novalidate="novalidate" action="{{ path('Direccionsolicitante_create') }}" method="post" {{ form_enctype(form) }}>{{ form_widget(form._token) }}  
+        <div class="formShow">
+            <br>
+            <div class="contenedorform">
+                <div class="text-error">{{ form_errors(form.nombre) }}</div>                    
+                <div class="labelform">Nombre de la Direcci&oacute;n:</div>
+                <div class="widgetform">{{ form_widget(form.nombre) }}</div>
+            </div>  
+        </div>
+        <br><br>
+            <button class="btn btn-primary" type="submit">CREAR</button> |
+        <a class="btn btn-default" href="{{ path('Direccionsolicitante') }}">VOLVER</a>
+        <br>
+    </form>
+{% endblock %}

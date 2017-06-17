@@ -1,0 +1,74 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css">
+        	th{
+        		text-align: right;
+        		margin-right: 20px;
+        	}
+
+        	.solicitud{
+        		text-align: justify;
+        	}
+
+        	table{
+        		width: 600px;
+
+        	}
+
+        	table td{
+        		padding: 10px;
+        		border:1px solid gray;
+        	}
+
+        	table th{
+        		border:1px solid gray;
+        		background-color: #F8F8F8;
+        		padding-right: 10px;
+        		width: 25%;
+        	}
+        </style>
+    </head>
+
+    <body>
+    	<div align="center">
+			<div><h3>TIENES UN TICKET ASIGNADO</h3></div>
+
+			<table cellspacing=0>
+				<tr>
+                                    <th>Solicitante:</th>
+                                    <td>{{ ticket.solicitante|title }}</td>
+				</tr>
+                                <tr>
+                                    <th>Fecha solicitud:</th>
+                                    <td>{{ ticket.fechasolicitud|date("d-m-Y") }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Hora solicitud:</th>
+                                    <td>{{ ticket.horasolicitud|date("G:i:s") }}</td>
+                                </tr>
+				<tr>
+                                    <th>Extensión:</th>
+                                    <td>{{ ticket.solicitante.extension }}</td>
+				</tr>
+
+				<tr>
+                                    <th>Solicitud:</th>
+                                    <td class="solicitud">{{ ticket.solicitud }}</td>
+				</tr>
+                                <tr>
+                                    <th>Tiempo de atención</th>
+                                    <td>{{ subcat.tiempoatencion }}{% if subcat.tipotiempo==2 %} Hora(s){% else %} Minuto(s){% endif %}</td>
+                                </tr>
+                                <tr>
+                                    <th>¿Posee Archivo?</th>
+                                    <td>{% if ticket.archivo is not null %}Sí{% else %}No{% endif %}</td>
+                                </tr>
+
+			</table>
+			<br>
+			<!--<div>PARA IR DIRECTAMENTE AL TICKET PRESIONE <a href="http://aplicaciones.telesurtv.net/sait/web/app_dev.php/progis/ticket/asignar/{{ticket.id}}">AQUÍ</a></div>-->
+		</div>
+	</body>
+	
+</html>

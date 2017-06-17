@@ -1,0 +1,451 @@
+{% extends '::administracion.html.twig' %}
+
+{% block title %}Inicio - Telesur{% endblock %}
+
+{% block titulo %}
+    <br><h2>SISTEMA DE APLICACIONES INTERNAS</h2>
+    <h3>{% if usuario.sexo=='F' %}BIENVENIDA{% else %}BIENVENIDO{% endif %} {{ usuario.primerNombre | upper}} {{ usuario.primerApellido | upper }}</h3><br>
+{% endblock %}
+
+
+
+
+{jornada% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/principal/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{asset('libs/hopscotch/dist/css/hopscotch.css')}}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{asset('libs/hopscotch/dist/js/hopscotch.js')}}"></script>
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+
+    {% include 'UsuarioBundle:Default:__actualizaDatosModal.html.twig' %}
+    <div class="row" id="appIndexContenedor">
+
+        {% if is_granted('ROLE_PROGIS') or is_granted('ROLE_PROGIS_ADMIN') %}
+            <div class="col-xs-6 col-sm-4 col-md-3">
+                <div class="hover-viewlink third-effect">
+                    <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-supervisiondeprocesos-130x95.jpg') }}">
+                    <div class="mask"></div>
+                    <div class="content">
+                      <a href="{{ path('progis_ticket_lista')}}" class="info"></a>
+                      {#<a href="{{ path('progis_principal_productividad')}}" class="info"></a>#}
+                    </div>
+                    <p class="title">PROGIS</p>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if usuario.user.fueradenomina==false %}
+            <div class="col-xs-6 col-sm-4 col-md-3">
+                <div class="hover-viewlink third-effect">
+                    <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-neto-130x95.jpg') }}">
+                    <div class="mask"></div>
+                    <div class="content">
+                      <a href="{{ path('neto_homepage')}}" class="info"></a>
+                    </div>
+                    <p class="title">NETO</p>
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-sm-4 col-md-3">
+                <div class="hover-viewlink third-effect">
+                    <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-constancia-130x95.jpg') }}">
+                    <div class="mask"></div>
+                    <div class="content">
+                      <a href="{{ path('constancia_homepage')}}" class="info"></a>
+                    </div>
+                    <p class="title">CONSTANCIAS</p>
+                </div>
+            </div>
+
+        {% endif %}
+        
+            <div class="col-xs-6 col-sm-4 col-md-3">
+                <div class="hover-viewlink third-effect">
+                    <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-soporte-tecnico-130x95.jpg') }}">
+                    <div class="mask"></div>
+                    <div class="content">
+                      <a href="{{ path('ticket_homepage')}}" class="info"></a>
+                    </div>
+                    <p class="title">TICKET</p>
+                </div>
+            </div>
+
+            <div  class="col-xs-6 col-sm-4 col-md-3">
+                <div class="hover-viewlink third-effect">
+                    <img id="personal" src="{{ asset('images/aplicaciones/Aplicacionesinternas-personal-tecnico-130x95.jpg') }}">
+                    <div class="mask"></div>
+                    <div class="content">
+                      <a href="{{ path('telesur_personal')}}" class="info"></a>
+                    </div>
+                    <p class="title">PERSONAL</p>
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-sm-4 col-md-3">
+                <div class="hover-viewlink third-effect">
+                    <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-jornadas-130x95.jpg') }}">
+                    <div class="mask"></div>
+                    <div class="content">                        
+                      {#<a href="{{ path('mercal_numeracion',{'idjornada1':43,'idjornada2':44})}}" class="info"></a>#}
+                      <a href="{{ path('mercal_homepagenum',{'idjornada':46})}}" class="info"></a>
+                    </div>
+                    <p class="title">JORNADAS</p>
+
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-sm-4 col-md-3">
+
+                    <div class="hover-viewlink third-effect">
+                        <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-actualizacion-130x95.jpg') }}">
+                        <div class="mask"></div>
+                        <div class="content">
+                          <a href="{{ path('user_actualizarDatos')}}" class="info"></a>
+                        </div>
+                        <p class="title">ACTUALIZAR DATOS</p>
+                    </div>
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-3">
+                <div class="hover-viewlink third-effect">
+                    <img id="nuevasapp" src="{{ asset('images/aplicaciones/Aplicacionesinternas-controldeequipos-130x95.jpg') }}">
+                    <div class="mask"></div>
+                    <div class="content">
+                      <a href="{{ path('mis_aplicaciones')}}" class="info"></a>
+                    </div>
+                    <p class="title">NUEVAS APLICACIONES</p>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-3">
+                <div class="hover-viewlink third-effect">
+                    <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-reservaciones-tecnico-130x95.jpg') }}">
+                    <div class="mask"></div>
+                    <div class="content">
+                      <a href="{{ path('estudio_cabina_principal')}}" class="info"></a>
+                    </div>
+                    <p class="title">RESERVACIONES</p>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-3">
+                <div class="hover-viewlink third-effect">
+                    <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-protocolo-tecnico-130x95.jpg') }}">
+                    <div class="mask"></div>
+                    <div class="content">
+                      <a href="{{ path('protocolo_homepage')}}" class="info"></a>
+                    </div>
+                    <p class="title">PROTOCOLO</p>
+                </div>
+            </div>
+
+            {% if is_granted('ROLE_CUMPLEANIOS') %}
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <div class="hover-viewlink third-effect">
+                        <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-notificaciones-130x95.jpg') }}">
+                        <div class="mask"></div>
+                        <div class="content">
+                          <a href="{{ path('cumpleanios_homepage')}}" class="info"></a>
+                        </div>
+                        <p class="title">NOTIFICACIONES</p>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if is_granted('ROLE_DISTRIBUCION') %}
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <div class="hover-viewlink third-effect">
+                        <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-distribucion-130x95.jpg') }}">
+                        <div class="mask"></div>
+                        <div class="content">
+                          <a href="{{ path('distribucion_homepage')}}" class="info"></a>
+                        </div>
+                        <p class="title">DISTRIBUCIÓN</p>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if is_granted('ROLE_LICENCIAS') or is_granted('ROLE_LICADMIN') %}
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <div class="hover-viewlink third-effect">
+                        <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-licencias-130x95.jpg') }}">
+                        <div class="mask"></div>
+                        <div class="content">
+                          <a href="{{ path('licencias_homepage')}}" class="info"></a>
+                        </div>
+                        <p class="title">LICENCIAS</p>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if is_granted('ROLE_EQUIPOS_PAUTASPROGRAMADAS') or is_granted('ROLE_EQUIPOS_SEGURIDAD') or is_granted('ROLE_EQUIPOS_ALMACEN') or is_granted('ROLE_VISITAS_EXTERNOS') %}
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <div class="hover-viewlink third-effect">
+                        <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-controldeequipos-130x95.jpg') }}">
+                        <div class="mask"></div>
+                        <div class="content">
+                          <a href="{{ path('controlequipo_homepage')}}" class="info"></a>
+                        </div>
+                        <p class="title">CONTROL EQUIPOS</p>
+                    </div>
+                </div>
+
+            {% endif %}
+
+            {% if is_granted('ROLE_VIDEOTECA') %}
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <div class="hover-viewlink third-effect">
+                        <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-videoteca-130x95.jpg') }}">
+                        <div class="mask"></div>
+                        <div class="content">
+                          <a href="{{ path('videoteca_homepage')}}" class="info"></a>
+                        </div>
+                        <p class="title">VIDEOTECA</p>
+                    </div>
+                </div>
+
+            {% endif %}
+            {% if is_granted('ROLE_DIRECTORIO') %}
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <div class="hover-viewlink third-effect">
+                        <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-directorio-130x95.jpg') }}">
+                        <div class="mask"></div>
+                        <div class="content">
+                          <a href="{{ path('directorio_homepage')}}" class="info"></a>
+                        </div>
+                        <p class="title">DIRECTORIO</p>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if is_granted('ROLE_CREATV') %}
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <div class="hover-viewlink third-effect">
+                        <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-creatv-130x95.jpg') }}">
+                        <div class="mask"></div>
+                        <div class="content">
+                          <a href="{{ path('creatv_homepage')}}" class="info"></a>
+                        </div>
+                        <p class="title">CREATV</p>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="col-xs-6 col-sm-4 col-md-3">
+                <div class="hover-viewlink third-effect">
+                    <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-trueques-130x95.jpg') }}">
+                    <div class="mask"></div>
+                    <div class="content">
+                      <a href="{{ path('trueques_homepage')}}" class="info"></a>
+                    </div>
+                    <p class="title">TRUEQUES</p>
+                </div>
+            </div>
+            {#
+            <div class="col-sm-4 col-md-3">
+                <a href="{{ path('mercal_homepagenum',{'idjornada':1})}}">
+                    <div class="thumbnail appIndex" id="appIndex"><br>
+                        <i class="fa fa-calendar fa-2x"></i>
+                        <div class="caption">
+                            <h4><b>TRANSPORTE</b></h4>
+                            <p>Sistema de númeración para organizar jornadas.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+             #}
+            {% if is_granted('ROLE_CONTRATOS')%}
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <div class="hover-viewlink third-effect">
+                        <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-contratos-130x95.jpg') }}">
+                        <div class="mask"></div>
+                        <div class="content">
+                          <a href="{{ path('contratos')}}" class="info"></a>
+                        </div>
+                        <p class="title">CONTRATOS</p>
+                    </div>
+                </div>
+
+            {% endif %}
+
+                <div class="col-xs-6 col-sm-4 col-md-3">
+                    <div class="hover-viewlink third-effect">
+                        <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-rrhh-130x95.jpg') }}">
+                        <div class="mask"></div>
+                        <div class="content">
+                          <a href="{{ path('nomina_homepage')}}" class="info"></a>
+                        </div>
+                        <p class="title">RRHH</p>
+                    </div>
+                </div>
+
+                {% if is_granted('ROLE_TRIVIAS')%}
+                  <div class="col-xs-6 col-sm-4 col-md-3">
+                      <div class="hover-viewlink third-effect">
+                          <img src="{{ asset('images/aplicaciones/Aplicacionesinternas-contratos-130x95.jpg') }}">
+                          <div class="mask"></div>
+                          <div class="content">
+                            <a href="{{ path('encuesta_index')}}" class="info"></a>
+                          </div>
+                          <p class="title">Trivias Admin</p>
+                      </div>
+                  </div>
+                {% endif %}
+                    {#
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <a href="{{ path('ticket')}}">
+                    <div class="thumbnail appIndex" id="appIndex"><br>
+                        <i class="fa fa-eraser fa-2x"></i>
+                        <div class="caption">
+                            <h4><b>SIT</b></h4>
+                            <p>Historico de tickets.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>#}
+        </div>
+
+
+
+          {#
+
+
+        <div class="row">
+
+            {% if is_granted('ROLE_DISTRIBUCION') %}
+                <div class="col-sm-6 col-md-4">
+                    <a href="{{ path('distribucion_homepage')}}">DISTRIBUCIÓN<br><img class="img-circle" id="neto" src="{{ asset("images/apps/mapamundi.jpg") }}" data-placement="bottom" title="DISTRIBUCIÓN" data-trigger="hover"></a>
+                </div>
+            {% endif %}
+
+            {% if is_granted('ROLE_LICENCIAS') or is_granted('ROLE_LICADMIN') %}
+                <div class="col-sm-6 col-md-4">
+                    <a href="{{ path('licencias_homepage')}}">LICENCIAS<br><img id="licencias" src="{{ asset("images/licencias/candado.png") }}" data-placement="bottom" title="LICENCIAS" data-trigger="hover"></a>
+                </div>
+            {% endif %}
+
+            {% if is_granted('ROLE_VISITAS') %}
+                <div class="col-sm-6 col-md-4">
+                    <a href="{{ path('control_visitas_usuario')}}">VISITAS<br><img id="licencias" src="{{ asset("images/User_male.png") }}" data-placement="bottom" title="VISITAS" data-trigger="hover"></a>
+                </div>
+            {% endif %}
+
+            {% if is_granted('ROLE_VIDEOTECA') %}
+                <div class="col-sm-6 col-md-4">
+                    <a href="{{ path('videoteca_prestamo')}}">VIDEOTECA<br><img id="licencias" src="{{ asset("images/videoteca.jpg") }}" data-placement="bottom" title="VIDEOTECA" data-trigger="hover"></a>
+                </div>
+            {% endif %}
+
+            {% if is_granted('ROLE_RRHH_TXT') or is_granted('ROLE_RRHH_HISTORICO') %}
+                <div class="col-sm-6 col-md-4">
+                    <a href="{{ path('nomina_homepage')}}">RRHH<br><img id="licencias" src="{{ asset("images/nomina.jpeg") }}" data-placement="bottom" title="TXT PRESTACIONES" data-trigger="hover"></a>
+                </div>
+            {% endif %}
+
+            {% if is_granted('ROLE_CONTENIDOS_ADMIN') or is_granted('ROLE_CONTENIDOS_DGE') or is_granted('ROLE_CONTENIDOS_TESORERIA') or is_granted('ROLE_CONTENIDOS_FINANZAS') or is_granted('ROLE_CONTENIDOS_RRHH') or is_granted('ROLE_CONTENIDOS_PTTO') or is_granted('ROLE_CONTENIDOS_APOYO') or is_granted('ROLE_CONTENIDOS_COMPRAS') or is_granted('ROLE_CONTENIDOS_ASISTENTES') or is_granted('ROLE_CONTENIDOS_DIRECTORLINEA') %}
+                <div class="col-sm-6 col-md-4">
+                    <a href="{{ path('datosproveedor')}}">CONTROL DE PAGOS<br><img id="licencias" src="{{ asset("images/dinero.jpg") }}" data-placement="bottom" title="CONTROL DE PAGOS" data-trigger="hover"></a>
+                </div>
+            {% endif %}
+
+            <div class="col-sm-6 col-md-4">
+                <a href="javascript:void(0)" id="pe">ESTUDIOS<br><img src="{{ asset("images/estudio.jpg") }}" data-placement="bottom" title="SOLICITUDES" data-trigger="hover"></a>
+            </div>
+
+
+            {% if is_granted('ROLE_CREATV') %}
+                <div class="col-sm-6 col-md-4">
+                    <a href="{{ path('creatv_homepage')}}">CREATV<br><img src="{{ asset("images/creatv.jpg") }}" data-placement="bottom" title="CREATV" data-trigger="hover"></a>
+                </div>
+            {% endif %}
+
+
+            {% if is_granted('ROLE_TRANSPORTE') or is_granted('ROLE_TRANSPORTE_ADMINISTRADOR') %}
+                <div class="col-sm-6 col-md-4">
+                    <a href="{{ path('transporte')}}" id="tr">TRANSPORTE<br><img  src="{{ asset("images/transporte.jpg") }}" data-placement="bottom" title="SOLICITUDES" data-trigger="hover"></a>
+                </div>
+            {% endif %}
+
+
+            {# DOS JORNADAS #}
+            {#
+            <div class="col-sm-6 col-md-4">
+                <a href="{{ path('mercal_numeracion',{'idjornada1':1,'idjornada2':2})}}">JORNADAS<br><img id="licencias" src="{{ asset("images/jornada.png") }}" data-placement="bottom" title="SOLICITUDES" data-trigger="hover"></a>
+            </div>
+            #}
+{#
+            {% if is_granted('ROLE_EQUIPOS_PAUTASPROGRAMADAS') or is_granted('ROLE_EQUIPOS_SEGURIDAD') or is_granted('ROLE_EQUIPOS_ALMACEN') %}
+            <div class="col-sm-6 col-md-4">
+                <a href="{{ path('controlequipo_homepage')}}" id="ce">CONTROL EQUIPOS<br><img src="{{ asset("images/equipos.png") }}" data-placement="bottom" title="CONTROL EQUIPO" data-trigger="hover"></a>
+            </div>
+            {% endif %}
+
+            {% if is_granted('ROLE_CONTRATOS')%}
+                <div class="col-sm-6 col-md-4">
+                    <a href="{{ path('contratos') }}">CONTRATOS<br><img  src="{{ asset("images/contratos.jpg") }}" data-placement="bottom" title="SOLICITUDES" data-trigger="hover"></a>
+                </div>
+            {% endif %}
+
+            {% if is_granted('ROLE_DIRECTORIO') %}
+                <div class="col-sm-6 col-md-4">
+                    <a href="{{ path('directorio_homepage')}}">DIRECTORIO<br><img src="{{ asset("images/directorio.jpg") }}" data-placement="bottom"  data-trigger="hover"></a>
+                </div>
+            {% endif %}
+
+            {% if is_granted('ROLE_CUMPLEANIOS') %}
+                <div class="col-sm-6 col-md-4">
+                    <a href="{{ path('cumpleanios_personal')}}">CUMPLEAÑOS<br><img src="{{ asset("images/cumpleanios.jpg") }}" data-placement="bottom"  data-trigger="hover"></a>
+                </div>
+            {% endif %}
+
+        </div>#}
+
+    <script>
+    // Define the tour!
+    /*var tour = {
+      id: "hello-hopscotch",
+      steps: [
+        {
+          title: "Nuevo organigrama",
+          content: "Dale un vistazo al nuevo organigrama teleSUR y verifica si te encuentras en el Nivel Organizacional donde laboras, de lo contrario actualiza tus datos.",
+          target: "organigrama",
+          placement: "bottom",
+          arrowOffset: 40,
+          showSkip:false
+        },
+        {
+          title: "Actualiza tus datos",
+          content: "Puedes actualizar tus datos cuando lo desees.",
+          target: document.querySelector("#actualizarDatos"),
+          placement: "top",
+          arrowOffset: 115
+        },
+        {
+          title: "Consulta personal",
+          content: "Busca los datos de cualquier persona activa dentro de teleSUR.",
+          target: document.querySelector("#personal"),
+          placement: "right",
+
+        },
+        {
+            title:"Solicitudes",
+            content:"Ahora puedes solicitar la automatización de Procesos en tu Unidad o nuevas aplicaciones desde este enlace",
+            target: document.querySelector("#nuevasapp"),
+            placement:"left",
+        }
+        
+      ],
+  showPrevButton: true,
+  scrollTopMargin: 100
+    };*/
+
+    // Start the tour!
+    //hopscotch.startTour(tour);
+    </script>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends '::base.html.twig' %}
+
+{% block ubicacion %}
+        <ol class="breadcrumb">
+          <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+          <li><a href="{{ path("proveedor") }}">PROVEEDORES</a></li>
+          <li class="active">DETALLES DE EQUIPO INTERNO</li>
+        </ol>
+    {% endblock %}
+
+{% block body -%}
+    {{ parent()}}
+    <h1>Detalle de Proveedor</h1>
+
+    <table class="table table-hover table-striped formShow" style="width: 60%;">
+        <tbody>
+            <tr>
+                <th>ID</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Proveedor</th>
+                <td>{{ entity.descripcionProveedor }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>            
+        <a class="btn btn-default" href="{{ path('proveedor') }}">
+            Ver Lista de Proveedores
+        </a> | 
+        <a class="btn btn-default" href="{{ path('proveedor_edit', { 'id': entity.id }) }}">
+            Editar
+        </a>
+    </li>
+    <br>
+    <li>{{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+            {{ form_errors(delete_form) }}
+            {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+        {{ form_end(delete_form) }}</li>
+</ul>
+{% endblock %}
+
+{% block menu %}
+        {% include 'ControlEquipoBundle:Default:menu.html.twig' %}
+    {% endblock %}

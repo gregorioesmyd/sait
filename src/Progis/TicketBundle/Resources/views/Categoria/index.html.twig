@@ -1,0 +1,55 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h1>LISTA DE CATEGORIAS</h1>
+    <a href="{{ path('progis_categoria_new') }}"><i class="fa fa-plus"> Nueva categoria</i></a>&nbsp;&nbsp;
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li class="active">LISTA DE CATEGORIAS</li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+ 
+   
+    <table id="tabladatatable" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th style="width:60%">Categoria</th>
+                <th>Accion Categoria</th>
+                <th>Accion Sub-Categoria</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.id }}</td>
+                <td>{{ entity.categoria }}</td>
+                <td><a href="{{ path('progis_categoria_edit', { 'id': entity.id }) }}"><i data-toggle="tooltip" data-placement="top" title="Editar o borrar categoria" class="fa fa-pencil-square-o"></i> Editar</a></td>
+                <td>
+                    <a href="{{ path('progis_subcategoria_new', { 'id': entity.id }) }}"><i data-toggle="tooltip" data-placement="top" title="Nueva subcategoria" class="fa fa-plus"></i> Editar</a>&nbsp;&nbsp;
+                    <a href="{{ path('progis_subcategoria', { 'id': entity.id }) }}"><i data-toggle="tooltip" data-placement="top" title="Lista de subcategorias" class="fa fa-list"></i> Ver lista</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip()
+    
+            $('#tabladatatable').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                 "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                 "aaSorting": [[0,'asc'],[1,'asc']],
+             } );
+        })
+    </script>
+    {% endblock %}

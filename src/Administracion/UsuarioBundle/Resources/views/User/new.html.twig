@@ -1,0 +1,147 @@
+
+{% extends '::administracion.html.twig' %}
+
+{% block title %}Nuevo usuario{% endblock %}
+
+{% block titulo %}
+    NUEVO USUARIO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+    <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+    <li><a href="{{ path("user") }}">LISTA DE USUARIOS</a></li>
+    <li class="active">NUEVO USUARIO</li>
+</ol>
+{% endblock %}
+
+{% block body %}
+{{ parent() }}
+
+<form novalidate action="{{ path('user_create') }}" method="post" {{ form_enctype(form) }} {{ form_enctype(form_perfil) }}>
+
+    {{ form_widget(form._token) }}
+    {{ form_widget(form_perfil._token) }}
+
+     <div class="formShow">
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form.username) }}</div>
+            <div class="labelform">Username:</div>
+            <div class="widgetform">{{ form_widget(form.username) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form.password) }}</div>
+            <div class="labelform">Password:</div>
+            <div class="widgetform">{{ form_widget(form.password) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form.isActive) }}</div>
+            <div class="labelform">Activo:</div>
+            <div class="widgetform">{{ form_widget(form.isActive) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form.fueradenomina) }}</div>
+            <div class="labelform">Fuera de Nomina:</div>
+            <div class="widgetform">{{ form_widget(form.fueradenomina) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form_perfil.primerNombre) }}</div>
+            <div class="labelform">Primer nombre:</div>
+            <div class="widgetform">{{ form_widget(form_perfil.primerNombre) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form_perfil.segundoNombre) }}</div>
+            <div class="labelform">Segundo nombre:</div>
+            <div class="widgetform">{{ form_widget(form_perfil.segundoNombre) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form_perfil.primerApellido) }}</div>
+            <div class="labelform">Primer apellido:</div>
+            <div class="widgetform">{{ form_widget(form_perfil.primerApellido) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form_perfil.segundoApellido) }}</div>
+            <div class="labelform">Segundo apellido:</div>
+            <div class="widgetform">{{ form_widget(form_perfil.segundoApellido) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form_perfil.cedula) }}</div>
+            <div class="labelform">Cédula:</div>
+            <div class="widgetform">{{ form_widget(form_perfil.cedula) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form_perfil.extension) }}</div>
+            <div class="labelform">Extensión:</div>
+            <div class="widgetform">{{ form_widget(form_perfil.extension) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form_perfil.nivelorganizacional) }}</div>
+            <div class="labelform">Dependencia:</div>
+            <div class="widgetform">{{ form_widget(form_perfil.nivelorganizacional) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form_perfil.fechanacimiento) }}</div>
+            <div class="labelform">Fecha nacimiento:</div>
+            <div class="widgetform">{{ form_widget(form_perfil.fechanacimiento) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form_perfil.nacionalidad) }}</div>
+            <div class="labelform">Nacionalidad:</div>
+            <div class="widgetform">{{ form_widget(form_perfil.nacionalidad) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form_perfil.estado) }}</div>
+            <div class="labelform">Estado:</div>
+            <div class="widgetform">{{ form_widget(form_perfil.estado) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form_perfil.ciudad) }}</div>
+            <div class="labelform">Ciudad:</div>
+            <div class="widgetform">{{ form_widget(form_perfil.ciudad) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form_perfil.abreviado) }}</div>
+            <div class="labelform">Abreviado:</div>
+            <div class="widgetform">{{ form_widget(form_perfil.abreviado) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form_perfil.direccionHabitacion) }}</div>
+            <div class="labelform">Direccion Habitacion:</div>
+            <div class="widgetform">{{ form_widget(form_perfil.direccionHabitacion) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form_perfil.correoOpcional) }}</div>
+            <div class="labelform">Correo Opcional:</div>
+            <div class="widgetform">{{ form_widget(form_perfil.correoOpcional) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form_perfil.telefonoCelular) }}</div>
+            <div class="labelform">Telefono Celular:</div>
+            <div class="widgetform">{{ form_widget(form_perfil.telefonoCelular) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form_perfil.telefonoLocal) }}</div>
+            <div class="labelform">Telefono Local:</div>
+            <div class="widgetform">{{ form_widget(form_perfil.telefonoLocal) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form_perfil.file) }}</div>
+            <div class="labelform">Foto:</div>
+            <div class="widgetform">{{ form_widget(form_perfil.file) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-danger">{{ form_errors(form.rol) }}</div>
+            <div class="labelform">Rol:</div>
+            <div class="widgetform">{{ form_widget(form.rol) }}</div>
+        </div>
+    </div>
+
+    <br>
+
+    <button class="btn btn-primary" type="submit">GUARDAR</button> | 
+    <a class="btn btn-default"  href="{{ path('user') }}">IR AL LISTADO</a>
+</form>
+
+<br>
+
+{% endblock %}

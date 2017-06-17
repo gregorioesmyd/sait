@@ -1,0 +1,173 @@
+{% extends '::mercal.html.twig' %}
+ 
+{% block title %}Asignar n&uacute;mero{% endblock %}
+
+{% block titulo %}
+    ASIGNACIÓN DE NÚMEROS<br>JORNADA {{ jornada.nombrejornada|upper }} {{ jornada.fechajornada|date('d/m/Y') }}
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("mercal_seleccionajornada") }}">SELECCIONAR JORNADA</a></li>
+  <li class="active">ASIGNACIÓN DE NÚMEROS</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+        <br>
+        
+    <table id="datatable">
+       <thead>
+            <tr>
+                <th>ID</th>
+                <th>Foto</th>
+                <th>Username</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Cedula</th>
+                <th>Trabajador</th>
+                <th>Familiar</th>
+            </tr>
+        </thead>
+        </thead>
+    </table>
+    
+    <script>
+    $(document).ready(function() {
+        $('#datatable').DataTable( {
+            serverSide: true,
+            ajax: {
+                url: "{{ path('datatable_json',{'bundle':'UsuarioBundle','entidad':'Perfil','joins':'join x.user u','where':'u.isActive=true','order':' '})}}",
+                type: 'POST',
+                dataType: 'json',
+                "dataSrc": function ( json ) {
+                    for ( var i=0, ien=json.data.length ; i<ien ; i++ ) {
+                        var idUsuario = json.data[i]['suid']
+                        var idJornada= {{jornada.id}};
+                        var numTrab={{ numeroasignadotrab|json_encode()|raw }}
+                        var numFam={{ numeroasignadofam|json_encode()|raw }}
+                        
+                        var rutaA = "{{ path('mercal_asignarnumero', { 'idjornada':'datoIdJornada','idtrabajador': 'datoIdUsuario' }) }}"
+                        rutaA=rutaA.replace("datoIdJornada",idJornada)
+                        rutaA=rutaA.replace("datoIdUsuario",idUsuario)
+                        
+                        var rutaB="{{ path('mercal_listadofam', {'idjornada':'datoIdJornada', 'idtrabajador': 'datoIdUsuario' }) }}";
+                        rutaB=rutaB.replace("datoIdJornada",idJornada)
+                        rutaB=rutaB.replace("datoIdUsuario",idUsuario)
+
+
+
+                        if(json.data[i]['suisActive']==true)
+                            json.data[i]['suisActive'] = '<span class="label label-success">Activo</span>';
+                        else
+                            json.data[i]['suisActive'] = '<span class="label label-danger">Inactivo</span>';
+                        
+                        
+                        
+                        //fotos
+                        if(json.data[i]['sxfoto']!=null)
+                            json.data[i]['sxfoto'] = '<img src="'+json.data[i]['sxfoto']+'" height="50px">';
+                        else
+                            json.data[i]['sxfoto'] = '<img src="/uploads/personalTelesur/no.png" height="50px">';
+                        
+                        //acciones
+                        if(numTrab[idUsuario])
+                            json.data[i]['ntrabajador'] = '<a class="label label-success" href="'+rutaA+'">Nro. '+numTrab[idUsuario]+'</a>';
+                        else
+                            json.data[i]['ntrabajador'] = '<a class="label label-danger" href="'+rutaA+'">Asignar Nro.</a>';
+                        
+                        if(numFam[idUsuario])
+                            json.data[i]['nfamiliar'] = '<a class="label label-success" href="'+rutaB+'">Nro. '+numFam[idUsuario]+'</a>';
+                        else
+                            json.data[i]['nfamiliar'] = '<a class="label label-danger" href="'+rutaB+'">Asignar Nro.</a>';
+                        
+                    }
+                    return json.data;
+                }
+            },
+            
+            columns: [
+              { "data": "suid", "name":"integer" },
+              { "data": "sxfoto", "name":"string" },
+              { "data": "suusername", "name":"string" },
+              { "data": "sxprimerNombre", "name":"string" },
+              { "data": "sxprimerApellido", "name":"string"  },
+              { "data": "sxcedula", "name":"integer"  },
+              { "data": "ntrabajador", "name":"string"  },
+              { "data": "nfamiliar", "name":"string"  }
+            ]
+            
+            
+        } );
+    } );
+    </script>
+        
+        
+        
+     {# 
+        
+   <table cellpadding="0" cellspacing="0" border="0" class="display" id="tablalistaespecial">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Cedula</th>
+                <th>Trabajador</th>
+                <th>Familiar</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in trabajadores %}
+            <tr>
+
+                <td><a href="{{ path('user_show', { 'id': entity.user.id }) }}">{{ entity.user.username }}</a></td>
+                <td>{{ entity.primernombre }} {{ entity.segundonombre }}</td>
+                <td>{{ entity.primerapellido }} {{ entity.segundoapellido }}</td>
+                <td>{{ entity.cedula }}</td>
+                <td align="center">
+
+                    {% if numeroasignadotrab[entity.id] is defined %}
+                        
+                        <a class="label label-success" href="{{ path('mercal_asignarnumero', { 'idjornada':jornada.id,'idtrabajador': entity.user.id }) }}">Nro. {{ numeroasignadotrab[entity.id].numero }}</a>
+
+                    {% else %}
+
+                        <a class="label label-danger" href="{{ path('mercal_asignarnumero', { 'idjornada':jornada.id,'idtrabajador': entity.
+                        user.id }) }}">Asignar Nro.</a>
+
+                    {% endif %}
+
+                </td>
+
+                <td align="center">
+                    {% if numeroasignadofam[entity.id] is defined %}
+                        
+                        <a class="label label-success" href="{{ path('mercal_listadofam', {'idjornada':jornada.id, 'idtrabajador': entity.user.id }) }}">Nro. {{ numeroasignadofam[entity.id].numero }}</a>
+
+                    {% else %}
+
+                        <a class="label label-danger" href="{{ path('mercal_listadofam', {'idjornada':jornada.id, 'idtrabajador': entity.user.id }) }}">Asignar Nro.</a>
+
+                    {% endif %}
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>#}
+    <a class="btn btn-default" href="{{ path('mercal_seleccionajornada') }}">Volver a las jornadas</a>
+    <br><br>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+           $('#tablalistaespecial').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                "aaSorting": [[1,'asc'],[2,'asc']],
+            } );
+        })
+    </script>
+
+{% endblock %}

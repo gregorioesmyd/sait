@@ -1,0 +1,11 @@
+organigrama_1:
+    pattern:  /1
+    defaults: { _controller: "UsuarioBundle:Organigrama:index" }
+
+organigrama_2:
+    pattern:  /
+    defaults: { _controller: "UsuarioBundle:Organigrama:index2" }
+    
+organigrama_ajax:
+    pattern:  /ajax/{id}
+    defaults: { _controller: "UsuarioBundle:Organigrama:ajax" }

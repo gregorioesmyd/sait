@@ -1,0 +1,197 @@
+{% extends 'VideotecaBundle:WrapperCinta:Cinta/default.html.twig' %}
+
+{% block data %}
+	<div class="row">
+		<div class="text-center col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+			<h3 class="title-section">INFORMACION DE CINTAS</h3>
+		</div>
+	</div>
+	<div id="tabcintas" role="tabpanel">
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active">
+				<a href="#tab-cinta" aria-controls="tab-cinta" role="tab" data-toggle="tab">Cinta</a>
+			</li>
+			<li role="presentation">
+				<a href="#tab-segmento" aria-controls="tab-segmento" role="tab" data-toggle="tab">Segmento</a>
+			</li>
+		</ul>
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane fade in active" id="tab-cinta">
+				<div class="row">
+					<div id="wrapper-show" class="col-xs-6 col-xs-offset-3">
+						<div class="row well">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<div class="row wrapper-campos">
+							        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+							            <span><b>Tipo de Cinta:</b></span>
+							        </div>
+							        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							            <span>{{ cinta.tipoCinta.nombre }}</span>
+							        </div>
+							    </div>
+							    <div class="row wrapper-campos">
+							        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+							            <span><b>Codigo:</b></span>
+							        </div>
+							        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							            <span>{{ cinta.codigo }}</span>
+							        </div>
+							    </div>
+							    <div class="row wrapper-campos">
+							        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+							            <span><b>Formato:</b></span>
+							        </div>
+							        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							            <span>{{ cinta.formato.descripcionFormato }}</span>
+							        </div>
+							    </div>
+							    <div class="row wrapper-campos">
+							        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+							            <span><b>Duracion:</b></span>
+							        </div>
+							        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							            <span>{{ cinta.duracion.nombre }}</span>
+							        </div>
+							    </div>
+							    <div class="row wrapper-campos">
+							        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+							            <span><b>Evento:</b></span>
+							        </div>
+							        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							            <span>{{ cinta.evento.nombre }}</span>
+							        </div>
+							    </div>
+							    <div class="row wrapper-campos">
+							        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+							            <span><b>Marca:</b></span>
+							        </div>
+							        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							            <span>{{ cinta.marca.descripcionMarca }}</span>
+							        </div>
+							    </div>
+							    <div class="row wrapper-campos">
+							        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+							            <span><b>Categoria:</b></span>
+							        </div>
+							        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							            <span>{{ cinta.categoria.nombre }}</span>
+							        </div>
+							    </div>
+							    <div class="row wrapper-campos">
+							        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+							            <span><b>Documentalista:</b></span>
+							        </div>
+							        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							            <span>{{ cinta.documentalista.primerNombre }} {{ cinta.documentalista.primerApellido }}</span>
+							        </div>
+							    </div>
+							    <div class="row wrapper-campos">
+							        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+							            <span><b>Status:</b></span>
+							        </div>
+							        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							            <span>{{ cinta.status.nombre }}</span>
+							        </div>
+							    </div>
+							    {% if cinta.propiedad is defined %}
+							    	<div class="row wrapper-campos">
+								        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+								            <span><b>Propiedad:</b></span>
+								        </div>
+								        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+								            <p>{{ cinta.propiedad }}</p>
+								        </div>
+								    </div>
+							    {% endif %}
+							    <div class="row wrapper-campos">
+							        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+							            <span><b>Observaciones:</b></span>
+							        </div>
+							        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							            <p>{{ cinta.observaciones }}</p>
+							        </div>
+							    </div>
+							    <div class="row wrapper-campos">
+							        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 theader">
+							            <span><b>Creado:</b></span>
+							        </div>
+							        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+							            <span>{{ cinta.creado|date('d/m/Y') }}</span>
+							        </div>
+							    </div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+								<a class="btn btn-default pull-left" href="{{ path('cinta') }}">
+									<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+									Volver
+								</a>
+							</div>
+							<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+								<div class="btn-group pull-right" role="group" aria-label="...">
+									{% if is_granted('ROLE_VIDEOTECA') %}
+										<a class="btn btn-default" role="button" href="{{ path('cinta_edit', { 'id': cinta.id, 'slug': cinta.tipoCinta.slug }) }}">Editar Cinta</a>
+										<a class="btn btn-default" role="button" href="{{ path('segmento_new', { 'idCinta':cinta.id, 'slug': cinta.tipoCinta.slug }) }}">Agregar Segmento</a>
+									{% endif %}									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="tab-segmento">
+				<div id="wrapper-show" class="col-xs-12">
+					<table id="CintaSegmento" class="table table-striped table-bordered addDataTable tableCinta">
+				        <thead>
+				            <tr>
+				                <th>Inicio</th>
+				                <th>Fin</th>
+				                <th>Duracion</th>
+				                <th>Fechaevento</th>
+				                <th>Titulo</th>
+				                <th>Sinopsis</th>
+				                <th class="actions">Actions</th>
+				            </tr>
+				        </thead>
+				        <tbody>
+				            {% for segmento in segmentos %}
+				            <tr>
+				                <td>{{ segmento.inicio|date('H:i:s') }}</td>
+				                <td>{{ segmento.fin|date('H:i:s') }}</td>
+				                <td>{{ segmento.duracion|date('H:i:s') }}</td>
+				                <td>{% if segmento.fechaEvento %}{{ segmento.fechaEvento|date('Y-m-d H:i:s') }}{% endif %}</td>
+				                <td>{{ segmento.titulo | truncate(14) }}</td>
+				                <td>{{ segmento.sinopsis | truncate(20) }}</td>
+				                <td>
+				                    <div class="btn-group" role="group" aria-label="..." style="margin-bottom:10px;">
+				                        {% if is_granted('ROLE_VIDEOTECA') %}
+											<a class="btn btn-default" role="button" href="{{ path('segmento_edit', { 'id': segmento.id, 'slug': segmento.cinta.tipoCinta.slug }) }}">Editar</a>
+				                        	<a class="btn btn-default" role="button" href="{{ path('segmento_show', { 'id': segmento.id, 'slug': segmento.cinta.tipoCinta.slug }) }}">Detalle</a>
+				                        {% endif %}
+				                    </div>
+				                </td>
+				            </tr>
+				            {% endfor %}
+				        </tbody>
+				    </table>
+					<div class="row">
+						<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+							<a class="btn btn-default pull-left" href="{{ path('cinta') }}">
+								<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+								IR A LISTADO
+							</a>
+						</div>
+						<div class="col-xs-3 col-xs-offset-2 col-sm-3 col-sm-offset-2 col-md-3 col-md-offset-2 col-lg-3 col-lg-offset-2 ">
+							{% if is_granted('ROLE_VIDEOTECA') %}
+								<a class="btn btn-default" role="button" href="{{ path('segmento_new', { 'idCinta':cinta.id, 'slug': cinta.tipoCinta.slug }) }}">Agregar Segmento</a>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

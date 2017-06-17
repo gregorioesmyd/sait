@@ -1,0 +1,182 @@
+{% extends '::solicitudes.html.twig' %}
+
+{% block title %}Solicitudes-Nueva{% endblock %}
+
+{% block titulo %}
+     NUEVA SOLICITUD
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("mis_aplicaciones") }}">LISTA DE SOLICITUDES</a></li>
+  <li class="active">NUEVA SOLICITUD</li>
+</ol>
+{% endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/principal/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{asset('libs/hopscotch/dist/css/hopscotch.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('bundles/principal/libs/chosen_v1.4.2/chosen.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    
+<br>{{ parent() }}
+
+	<div class="row">
+      <div class="col-md-12">
+        <section class="panel">
+          <div class="panel-body">
+            {# CONDICIONES DE DESARROLLO #}
+            <div class="alert alert-success">              
+              <strong style="font-size:20px;">CONDICIONES:</strong> <br>
+              1- Una vez comenzado el proyecto los requerimientos no pueden ser cambiados, ya que esta información es la base para dar inicio a la fase de desarollo.<br>
+              2- En caso de aceptar este acuerdo y posteriormente existe un nuevo requerimiento, este no entrará en la fase de desarrollo y deberá esperar la culminación del proyecto para su posterior análisis.<br>
+            </div>  
+
+            {# INFORMACION SOBRE FORMULARIO #}
+            <div class="alert alert-info ">              
+              <strong>Información:</strong> A continuación, debe rellenar el siguiente formulario para solicitar la aplicación o la automatización de un proceso a la unidad de Aplicaciones y Desarrollo.
+            </div>
+
+            <form novalidate="novalidate" action="{{ path('solicitudesapp_create') }}" method="post" {{ form_enctype(form) }}>{{ form_widget(form._token) }}
+           	  	<br>
+           	  	
+
+           	  	{# NOMBRE DE LA APLICACION #}
+           	  	<div class="form-group" style="width:100%;display: inline-block;">
+                	<label class="col-sm-3 col-sm-3 control-label">Nombre de la Aplicaci&oacute;n:<span style="color:red;">*</span></label>
+                	<div id="nombre" class="col-sm-6" data-trigger="focus" data-toggle="popover" title="Nombre de la aplicación" data-content="Escriba en este campo el nombre que desea tenga la aplicación">
+
+                    	{{ form_widget(form.nombre,{ 'attr': {'style':'width:100%;height:60px;','class': 'form-control','placeholder' : 'Escriba el nombre de la aplicación'} }) }}
+                    	<p class="help-block">{{ form_errors(form.nombre) }}</p>
+                	</div>
+            	</div>
+
+
+            	{# PROBLEMA O NECESIDAD #}
+            	<div class="form-group" style="width:100%;display: inline-block;">
+                	<label class="col-sm-3 col-sm-3 control-label">Problema:<span style="color:red;">*</span></label>
+                	<div id="problema" class="col-sm-6" data-trigger="focus" data-toggle="popover" title="Problema o Necesidad" data-content="Describa paso a paso en este campo la necesidad o problema del area solicitante que requiere sea automatizado">
+
+
+
+                    	{{ form_widget(form.problema,{ 'attr': {'style': 'width:100%;height:400px;','class': 'form-control','placeholder' : 'Describa paso a paso en este campo la necesidad o problema del area solicitante que requiere sea automatizado.'} }) }}
+                    	<p class="help-block">{{ form_errors(form.problema) }}</p>
+                	</div>
+            	</div>
+
+
+            	{# BENEFICIARIOS DE LA APLICACION #}
+            	<div class="form-group" style="width:100%;display: inline-block;">                	
+                    <label class="col-sm-3 col-sm-3 control-label">Beneficiarios <span style="color:red;">*</span></label>
+                    <div id="beneficiarios" class="col-sm-6" data-trigger="focus" data-toggle="popover" title="Beneficiarios del Sistema" data-content="Escriba aqui las personas que se beneficiaran de realizarse esta aplicación">                        
+                        {{ form_widget(form.beneficiarios,{'attr': {'style': 'width:100%;height:60px;','class': 'form-control','data-role':'tagsinput', 'placeholder' : 'Escriba aqui las personas que se beneficiaran de realizarse esta aplicación'} }) }}
+                        <p class="help-block">{{ form_errors(form.beneficiarios) | raw }}</p>
+                    </div>
+                </div>
+
+                {# REQUERIMIENTOS #}
+                <div class="col-md-12">
+		        	<div class="alert alert-default well address ">
+		              	<h3 id="requerimientos">Requerimientos</h3>
+		               
+
+			            <h4 style="font-size:15px;"> 
+				            <strong style="color:red;font-size:15px;">Como llenar este campo:</strong>
+				            Debe agregar uno a uno los requerimientos que necesita tenga el sistema, cada requerimiento debe ser llenado por separado, es decir escriba un paso a la vez, luego haga clic sobre "AGREGAR REQUERIMIENTO" y describa el siguiente paso.
+				        </h4>
+		            </div>   
+
+		        	<ul style="padding:0px;"class="requerimientos" data-prototype="{{ form_widget(form.requerimientos.vars.prototype)|e }}">
+						{% spaceless %}
+						   	<br>
+						   	{{ form_errors(form.requerimientos) }}
+						  	{{ form_widget(form.requerimientos) }}
+						{% endspaceless %}
+					</ul><br><br><br><br><br><br>
+		        </div>
+
+
+		        {# RESPONSABLES #}
+		        <div class="col-md-12">
+				<br>
+					<div class="alert alert-default well address ">
+				          <h3 id="responsables">Responsables</h3>
+				          <h4 style="font-size:15px;"> 
+				            	<strong style="color:red;font-size:15px;">Como llenar este campo:</strong>
+				            	Debe asociar todos los usuarios que serán responsables de manejar la aplicación, estos deben ser agregados individualmente, es decir, hace clic sobre "AGREGAR RESPONSABLE" selecciona al primer usuario y en caso de existir otro u otros nuevamente hace clic sobre dicho enlace.
+				        	</h4>
+			        </div> 
+
+		        	<ul style="padding:0px;"class="responsables" data-prototype="{{ form_widget(form.responsables.vars.prototype)|e }}">
+						{% spaceless %}
+						   	<br>
+						   	{{ form_errors(form.responsables) }}
+						  	{{ form_widget(form.responsables) }}
+						{% endspaceless %}
+					</ul><br><br><br><br><br><br>
+		        </div>
+
+
+		        {# UNIDADES #}
+		        <div class="col-md-12">
+				<br>
+					<div class="alert alert-default well address ">
+				          <h3 id="unidades">Unidades</h3>
+				          <h4 style="font-size:15px;"> 
+				            <strong style="color:red;font-size:15px;">Como llenar este campo:</strong>
+				            Este campo hace referencia a las Unidades que harán uso de la aplicación, debe hacer clic sobre "AGREGAR UNIDAD" selecciona de la lista la opcion respectiva y en caso de existir otra hacer clik sobre "AGREGAR UNIDAD" tantas veces como unidades desee agregar.
+				        </h4>
+			        </div> 
+
+		        	<ul style="padding:0px;"class="unidades" data-prototype="{{ form_widget(form.unidades.vars.prototype)|e }}">
+						{% spaceless %}
+						   	<br>
+						   	{{ form_errors(form.unidades) }}
+						  	{{ form_widget(form.unidades) }}
+						{% endspaceless %}
+					</ul><br><br><br><br><br><br>
+		        </div>
+		        <br><br><button class="btn btn-primary" type="submit">REGISTRAR APLICACION</button> |
+      			<a class="btn btn-default" href="{{ path('mis_aplicaciones') }}">IR AL LISTADO</a>
+      			<br>
+           	</form>
+          </div>
+        </section>
+      </div>
+	</div>
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}	
+
+	<script>
+		$(document).ready(function(){
+		    $('[data-toggle="popover"]').popover(); 
+		});
+	</script>
+	<script src="{{ asset('js/solicitudes/requerimientos.js') }}"></script>
+	<script src="{{ asset('js/solicitudes/responsables.js') }}"></script>
+	<script src="{{ asset('js/solicitudes/unidades.js') }}"></script>
+	<script src="{{asset('libs/hopscotch/dist/js/hopscotch.js')}}"></script>
+	<script src="{{ asset('bundles/principal/libs/chosen_v1.4.2/chosen.jquery.js') }}" type="text/javascript"></script>
+
+	<script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+  </script>
+	
+{% endblock %}

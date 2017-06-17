@@ -1,0 +1,55 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>FILTRO PARA CONSULTAR TRABAJO REALIZADO</h2>
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+    
+ 
+    <form action="{{ path('progis_principal_mi_trabajo_realizado',{'pdf':'false','id':app.user.id}) }}" method="post">
+        <input type="submit" value="GENERAR" class="btn btn-primary">
+        <div style="position: relative;">
+            <div class="formSlide" id="fecha" style="width:100%;">
+                <h3>Seleccione un intervalo de fechas</h3>
+                <table class="table table-bordered" style=" width:500px;">
+                    <tr>
+                        <th>FECHA DESDE:</th>
+                        <td><input type="text" name="fd" id="fd"></td>
+                    </tr>
+                    <tr>
+                        <th>FECHA HASTA:</th>
+                        <td><input type="text" name="fh" id="fh"></td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>  
+    </form>        
+
+    <script>
+        $(document).ready(function() {
+            $( "#fd" ).datepicker({
+              changeMonth: true,
+              changeYear: true,
+              dateFormat: "dd-mm-yy",
+            });
+            
+            $( "#fh" ).datepicker({
+              changeMonth: true,
+              changeYear: true,
+              dateFormat: "dd-mm-yy",
+            });
+        });
+    </script>
+    
+{% endblock %}

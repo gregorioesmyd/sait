@@ -1,0 +1,108 @@
+{% form_theme form _self %}
+
+{% block form_row %}
+    <div class="row">
+        <div class="form-group">
+            {{ form_label(form) }}
+            <div class="col-xs-7">
+                {{ form_errors(form) }}
+    			{{ form_widget(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock form_row %}
+
+{%- block button_widget -%}
+    <div class="row">
+        <div class="form-group">
+            <div class="col-xs-3 col-xs-offset-3">
+                {%- if label is empty -%}
+			        {% set label = name|humanize %}
+			    {%- endif -%}
+			    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+                    <span class="glyphicon glyphicon-save"></span>
+                    {{ label|trans({}, translation_domain) }}
+                </button>
+            </div>
+        </div>
+    </div>
+{%- endblock button_widget -%}
+
+{%- block date_widget -%}
+    <div class="row">
+        <div class="col-xs-5">
+            {%- if widget == 'single_text' -%}
+                {{ block('form_widget_simple') }}
+            {%- else -%}
+                <div {{ block('widget_container_attributes') }}>
+                    {{- date_pattern|replace({
+                        '{{ year }}':  form_widget(form.year),
+                        '{{ month }}': form_widget(form.month),
+                        '{{ day }}':   form_widget(form.day),
+                    })|raw -}}
+                </div>
+            {%- endif -%}
+        </div>
+    </div>
+{%- endblock date_widget -%}
+
+{%- block number_widget -%}
+    <div class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            {# type="number" doesn't work with floats #}
+            {%- set type = type|default('text') -%}
+            {{ block('form_widget_simple') }}
+        </div>
+    </div>
+{%- endblock number_widget -%}
+
+{%- block integer_widget -%}
+    <div class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            {% set type = type|default('number') %}
+            {{- block('form_widget_simple') -}}
+        </div>
+    </div>
+{%- endblock integer_widget -%}
+
+{%- block choice_widget -%}
+    <div class="row">
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            {% if expanded %}
+                {{- block('choice_widget_expanded') -}}
+            {% else %}
+                {{- block('choice_widget_collapsed') -}}
+            {% endif %}
+         </div>
+    </div>
+{%- endblock choice_widget -%}
+
+{%- block time_widget -%}
+    <div class="row">
+        <div class="col-xs-12">
+            {%- if widget == 'single_text' -%}
+                {{ block('form_widget_simple') }}
+            {%- else -%}
+                {%- set vars = widget == 'text' ? { 'attr': { 'size': 1 }} : {} -%}
+                    <div class="col-xs-4 hora">{{ form_widget(form.hour, vars) }}</div>
+
+                    {% if with_minutes %}
+                        <div class="col-xs-4 minuto">:{{ form_widget(form.minute, vars) }}</div> 
+                    {% endif %}
+                    {% if with_seconds %}
+                        <div class="col-xs-4 segundo">:{{ form_widget(form.second, vars) }}</div>
+                    {% endif %}
+            {%- endif -%}
+        </div>
+    </div>
+{%- endblock time_widget -%}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+         {% for error in errors %}
+                        <div class="alert alert-danger">{{ error.message }}</div>
+                    {% endfor %}
+         {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}

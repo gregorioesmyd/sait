@@ -1,0 +1,16 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block body -%}
+    {{ parent() }}
+    <h1>Registrar Marca</h1>
+
+    {{ form(form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('marca') }}" class="btn btn-default">
+            Volver a la Lista de Marcas
+        </a>
+    </li>
+</ul>
+{% endblock %}

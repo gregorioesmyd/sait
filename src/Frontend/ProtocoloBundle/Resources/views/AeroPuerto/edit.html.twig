@@ -1,0 +1,68 @@
+{% extends '::protocolo.html.twig' %}
+
+{% block title %}Protocolo{% endblock %}
+
+{% block titulo %}
+   EDITAR SOLICITUD DE AEROPUERTO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">Protocolo</li>
+</ol>
+{% endblock %}
+{% block body -%}
+ {{parent()}}
+<form novalidate action="{{ path('aeropuerto_update',{'id':entity.id}) }}" method="post" {{ form_enctype(edit_form) }}>
+        <input type="hidden" name="_method" value="PUT"> {{ form_widget(edit_form._token) }}
+
+        <div class="formShow">
+            <div class="contenedorform">
+                <div class="labelform">Fecha:</div>
+                <div class="widgetform">{{ form_widget(edit_form.fecha,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Hora:</div>
+                <div class="widgetform">{{ form_widget(edit_form.hora,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Nombre del Invitado:</div>
+                <div class="widgetform">{{ form_widget(edit_form.nombreInvitado,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+             <div class="contenedorform">
+                <div class="labelform">Linea &Aacute;erea:</div>
+                <div class="widgetform">{{ form_widget(edit_form.lineaAerea,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">N&uacute;mero de Vuelo:</div>
+                <div class="widgetform">{{ form_widget(edit_form.numeroVuelo,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Lugar de Destino:</div>
+                <div class="widgetform">{{ form_widget(edit_form.lugarDestino,{ 'attr': {'style': 'margin: 0px; height: 109px; width: 300px;'} }) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Localizador:</div>
+                <div class="widgetform">{{ form_widget(edit_form.localizador,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Aeropuerto:</div>
+                <div class="widgetform">{{ form_widget(edit_form.aeropuerto,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Pa&iacute;s de Procedencia:</div>
+                <div class="widgetform">{{ form_widget(edit_form.paisProcedencia,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Responsable del Invitado:</div>
+                <div class="widgetform">{{ form_widget(edit_form.responsable,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+        </div>
+        <a class="btn btn-default" href="{{ path('aeropuerto') }}">
+            VOLVER A LA LISTA
+        </a> | 
+        <input type="submit" class="btn btn-primary" value="EDITAR TAREA">
+        <br><br>
+    </form>
+{% endblock %}

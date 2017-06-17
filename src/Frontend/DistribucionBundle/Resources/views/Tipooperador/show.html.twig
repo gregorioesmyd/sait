@@ -1,0 +1,71 @@
+{% extends '::distribucion.html.twig' %}
+
+{% block title %}CONSULTAR TIPO DE OPERADOR{% endblock %}
+
+{% block titulo %}
+    CONSULTA TIPO DE OPERADOR
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("distribucion_homepage") }}">DISTRIBUCIÓN INICIO</a></li>
+  <li><a href="{{ path("tipooperador") }}">LISTA DE TIPO DE OPERADORES</a></li>
+  <li class="active">CONSULTAR TIPO DE OPERADOR</li>
+
+</ol>
+{% endblock %}
+
+{% block body %}
+
+{{ parent() }}
+
+
+    <div class="formShow">
+
+        <div class="contenedorform">
+            <div class="labelform">Id:</div>
+            <div class="widgetform">{{ entity.id }}</div>
+        </div>
+
+        <div class="contenedorform">
+            <div class="labelform">Tipo:</div>
+            <div class="widgetform">{{ entity.operador }}</div>
+        </div>
+
+        <div class="contenedorform">
+                <div class="labelform">Código:</div>
+                <div class="widgetform">{{ entity.codigo }}</div>
+        </div>
+
+        <div class="contenedorform">
+                <div class="labelform">Última Modificación:</div>
+                <div class="widgetform">{{ entity.user.primernombre | title
+ }} {{ entity.user.primerapellido | title
+ }}</div>
+        </div>
+
+    </div>
+
+    <br>
+
+
+    <a class="btn btn-default" href="{{ path('tipooperador') }}">
+        IR A LA LISTA
+    </a> |
+
+    {% if is_granted('ROLE_DISTRIBUCION_ADMINISTRADOR') %}
+
+    <a class="btn btn-default" href="{{ path('tipooperador_edit', { 'id': entity.id }) }}">
+        IR A EDITAR
+    </a>
+
+    <br><br>
+    <form action="{{ path('tipooperador_delete', { 'id': entity.id }) }}" method="post" onsubmit="return confirm('¿Seguro que desea borrar?')">
+        <input type="hidden" name="_method" value="DELETE" />
+        {{ form_widget(delete_form) }}
+        <button class="btn btn-danger" type="submit">BORRAR</button>
+    </form>
+    {% endif %}
+
+{% endblock %}

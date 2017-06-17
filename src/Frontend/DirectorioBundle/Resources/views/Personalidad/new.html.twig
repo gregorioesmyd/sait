@@ -1,0 +1,93 @@
+{% extends '::directorio.html.twig' %}
+
+{% block title %}Nueva Personalidad{% endblock %}
+
+{% block titulo %}
+    NUEVA PERSONALIDAD
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("directorio_homepage") }}">DIRECTORIO INICIO</a></li>
+  <li><a href="{{ path("personalidad") }}">LISTA DE PERSONALIDADES</a></li>
+  <li class="active">NUEVA PERSONALIDAD</li>
+
+</ol>
+{% endblock %}
+
+
+{% block body -%}
+    {{parent()}}
+
+    <form action="{{ path('personalidad_create') }}" method="post" {{ form_enctype(form) }} novalidate>
+        {{ form_widget(form._token) }}
+            <div class="formShow">
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.nombre) }}</div>
+                    <div class="labelform">Nombre:</div>
+                    <div class="widgetform">{{ form_widget(form.nombre) }}</div>
+                </div>
+
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.apellido) }}</div>
+                    <div class="labelform">Apellido:</div>
+                    <div class="widgetform">{{ form_widget(form.apellido) }}</div>
+                </div>
+  
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.telefono) }}</div>
+                    <div class="labelform">Telefono:</div>
+                    <div class="widgetform">{{ form_widget(form.telefono) }}</div>
+                </div>
+                
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.email) }}</div>
+                    <div class="labelform">Email:</div>
+                    <div class="widgetform">{{ form_widget(form.email) }}</div>
+                </div>
+
+                <div class="contenedorform" id="especial">
+                    <div class="text-error">{{ form_errors(form.especialidad) }}</div>
+                    <div class="labelform">Especialidad:</div>
+                    <div class="widgetform">{{ form_widget(form.especialidad) }}</div>
+                </div>
+
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.pais) }}</div>
+                    <div class="labelform">Pais Nacimiento:</div>
+                    <div class="widgetform">{{ form_widget(form.pais) }}</div>
+                </div>
+
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.paisprocedencia) }}</div>
+                    <div class="labelform">Pais Residencia:</div>
+                    <div class="widgetform">{{ form_widget(form.paisprocedencia) }}</div>
+                </div>
+
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.ciudad) }}</div>
+                    <div class="labelform">Ciudad:</div>
+                    <div class="widgetform">{{ form_widget(form.ciudad) }}</div>
+                </div>
+
+
+                <div class="contenedorform">
+                    <div class="text-danger">
+                        <li>
+                            {{ form_errors(form.file) }}
+                        </li>
+                    </div>
+                    <div class="labelform">Archivo:</div>
+                    <div class="widgetform">
+                        {{ form_widget(form.file) }}
+                    </div>
+                </div>
+
+            </div>
+
+                <br><br>
+            <button class="btn btn-primary" type="submit">CREAR</button> |
+        <a class="btn btn-default" href="{{ path('personalidad') }}">VOLVER</a>
+    </form>
+{% endblock %}

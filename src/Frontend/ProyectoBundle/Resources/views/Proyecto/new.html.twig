@@ -1,0 +1,90 @@
+{% extends '::proyecto.html.twig' %}
+
+{% block title %}Nuevo Proyecto{% endblock %}
+
+{% block titulo %}
+    NUEVO PROYECTO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("proyecto") }}">LISTA DE PROYECTOS</a></li>
+  <li class="active">NUEVO PROYECTO</li>
+</ol>
+{% endblock %}
+    
+{% block body -%}
+    {{ parent()}}
+    {# % form_theme form 'ProyectoBundle:Form:fields.html.twig' % #}
+    {{ form_start(form, { 'attr': {'novalidate':null} }) }}
+        <div class="formShow">
+            {{ form_widget(form) }}
+        </div>
+
+    <input type="submit" class="btn btn-primary" value="CREAR PROYECTO"> | 
+    <a class="btn btn-default" href="{{ path('proyecto') }}">VOLVER A LA LISTA</a>
+    {{ form_end(form) }}
+
+    <br><br>
+
+    
+    {#
+    
+    
+    {% if form_errors(form.nombre) or form_errors(form.descripcion) or form_errors(form.responsable) %}
+    <div class="alert alert-danger errores" style="width:70%;">
+        <div><b>Alerta! Ha ocurrido un error en el formulario:</b><br><br></div>
+        <div>{{ form_errors(form.nombre) }}</div>        
+        <div>{{ form_errors(form.descripcion) }}</div>
+        <div>{{ form_errors(form.responsable) }}</div>
+    </div>
+    {% endif %}
+    
+    
+     <form novalidate action="{{ path('proyecto_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form._token) }}
+
+        <div class="formShow">
+            <div class="contenedorform">
+                <div class="labelform">Nombre:</div>
+                <div class="widgetform">{{ form_widget(form.nombre) }}</div>
+            </div>
+            
+            <div class="contenedorform">
+                <div class="labelform">Descripción:</div>
+                <div class="widgetform">{{ form_widget(form.descripcion) }}</div>
+            </div>
+            
+            <div class="contenedorform">
+                <div class="labelform">Responsable:</div>
+                <div class="widgetform">{{ form_widget(form.responsable) }}</div>
+            </div>
+        </div>
+        <a class="btn btn-default" href="{{ path('proyecto') }}">
+            VOLVER A LA LISTA
+        </a> | 
+        <input type="submit" class="btn btn-primary" value="CREAR PROYECTO">
+        <br><br>
+     </form>
+        #}
+    <script>
+    $(function() {
+        $( "#frontend_proyectobundle_proyecto_fechainicio" ).datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: "dd-mm-yy",
+        });
+      
+            
+        $('#frontend_proyectobundle_proyecto_descripcion').popover({
+            placement: 'right',
+            content: 'Indica cual es el propósito general del  proyecto, debe ser concreto y redactado en infinitivo basado en el titulo.',
+            template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 style="font-size:12px;font-weight:bold;" class="popover-title"></h3><div style="text-align:justify" class="popover-content"></div></div>'
+        });
+        
+        $('#frontend_proyectobundle_proyecto_descripcion').popover('show');
+            
+    });
+    </script>
+{% endblock %}

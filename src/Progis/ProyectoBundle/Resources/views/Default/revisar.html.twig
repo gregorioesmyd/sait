@@ -1,0 +1,53 @@
+{% extends '::proyecto.html.twig' %}
+
+{% block title %}Proyecto{% endblock %}
+
+{% block titulo %}
+    <h3>MONITOR</h3>
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("proyecto") }}">LISTA DE PROYECTOS</a></li>
+  <li class="active">EN PROCESO</li>
+</ol>
+{% endblock %}
+    
+{% block body -%}
+    {{ parent() }}
+    
+<meta content="120" http-equiv="REFRESH"> </meta>
+          ACTIVIDADES POR REVISAR
+ 
+        {# ACTIVIDADES EN REVISION #}
+          <table class="table table table-striped table-bordered">
+              <tr class="info">
+                  <th width="20%">RESPONSABLE</th>
+                  <th width="20%">PROYECTO</th>
+                  <th width="20%">OBJETIVO</th>
+                  <th width="40%">ACTIVIDAD</th>
+              </tr>
+          {% for int in integrantes %}
+              {% set x=0 %}
+              {% for act in revision if act.responsable.id==int.id %}
+                  {% set x=1%}
+                  <tr>
+                      <td>{{ int.primerNombre|title }} {{ int.primerApellido|title }}</td>
+                      <td>{{ act.tarea.proyecto.nombre|capitalize }}</td>
+                      <td>{{ act.tarea.nombre|capitalize }}</td>
+                      <td><a href="{{ path('actividad',{'idtarea':act.tarea.id})}}">{{ act.descripcion|capitalize }}</a></td>
+                  </tr>
+              {% endfor %}
+
+              {% if x==0 %}
+                  <tr>
+                      <td>{{ int.primerNombre|title }} {{ int.primerApellido|title }}</td>
+                      <td colspan="3">Sin actividades por revisar</td>
+                  </tr>
+              {% endif %}
+
+          {% endfor %}
+          </table>
+{% endblock %}
+

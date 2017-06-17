@@ -1,0 +1,44 @@
+{% extends '::nomina.html.twig' %}
+
+{% block title %}PLANILLA ARC{% endblock %}
+
+{% block titulo %}
+    <h3>GENERAR PLANILLA ARC</h3>
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+    <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+    <li><a href="{{ path("nomina_homepage") }}">PRINCIPAL RRHH</a></li>
+    <li class="active">GENERAR PLANILLA ARC</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+
+    {% for type, flashMessage in app.session.flashbag.all() %}
+        <div class="alert alert-{{ type }} fade in">
+            <button class="close" data-dismiss="alert" type="button">×</button>
+            {% if flashMessage.title is defined %}
+                <strong>{{ flashMessage.title }}</strong>
+            {% else %}
+                {{ type }}
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <div class="formShow">
+        <form action="{{ path('nomina_planilla_arc_generar')}}" method="post">
+            <div class="form-group">
+                <select name="anio" class="form-control">
+                {% for anio in anios %}
+                   <option>{{ anio }}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <input type="submit" class="btn btn-default" value="Generar">
+        </form>
+    </div>
+    <br><br>
+{% endblock %}

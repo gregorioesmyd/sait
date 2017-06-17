@@ -1,0 +1,30 @@
+estatus:
+    path:     /
+    defaults: { _controller: "EstudioCabinaBundle:Estatus:index" }
+
+estatus_show:
+    path:     /{id}/show
+    defaults: { _controller: "EstudioCabinaBundle:Estatus:show" }
+
+estatus_new:
+    path:     /new
+    defaults: { _controller: "EstudioCabinaBundle:Estatus:new" }
+
+estatus_create:
+    path:     /create
+    defaults: { _controller: "EstudioCabinaBundle:Estatus:create" }
+    requirements: { _method: post }
+
+estatus_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EstudioCabinaBundle:Estatus:edit" }
+
+estatus_update:
+    path:     /{id}/update
+    defaults: { _controller: "EstudioCabinaBundle:Estatus:update" }
+    requirements: { _method: post|put }
+
+estatus_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "EstudioCabinaBundle:Estatus:delete" }
+    requirements: { _method: post|delete }

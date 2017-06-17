@@ -1,0 +1,32 @@
+<?php
+
+namespace Frontend\FormularioBundle\Entity\Bazar;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Ticket
+ * 
+ * @ORM\Table(name="formulario.categoria_bazar")
+ * @ORM\Entity
+ */
+class Categoria
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="frontend.categoria_bazar_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     *
+     * @ORM\Column(name="descripcion", type="string", length=100, nullable=false)
+     */
+    private $descripcion;
+
+}

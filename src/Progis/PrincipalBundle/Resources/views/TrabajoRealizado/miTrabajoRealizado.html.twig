@@ -1,0 +1,61 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>TRABAJO REALIZADO</h2>
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+    
+{% set totalHoras=0 %}
+    
+    
+<div style="">FECHA {{ "now"|date("d-m-Y")}}</div>
+    
+<br>
+<table class="table table-bordered">
+    <tr>
+        <th>Fecha</th>
+        <th>Tiempo en horas</th>
+        <th>Tiempo en minutos</th>
+        <th>Tiempo en segundos</th>
+        <th>Descripcion</th>
+        <th>Tipo</th>
+    </tr>
+{% for t in ticketsTrabajados %}
+    <tr>
+        <td>{{ t.fecha|date("d-m-Y") }}</td>
+        <td>{{ t.horas|number_format(2) }}</td>
+        <td>{{ (t.horas*60)|number_format(2) }}</td>
+        <td>{{ (t.horas*3600)|number_format(0) }}</td>
+        <td>{{ t.ticket.ticket.solicitud }}</td>
+        <td>Ticket</td>
+    </tr>
+    {% set totalHoras=totalHoras+t.horas %}
+{% endfor %}
+
+{% for a in actividadesTrabajadas %}
+    <tr>
+        <td>{{ a.fecha|date("d-m-Y") }}</td>
+        <td>{{ a.horas|number_format(2) }}</td>
+        <td>{{ (a.horas*60)|number_format(2) }}</td>
+        <td>{{ (a.horas*3600)|number_format(0) }}</td>
+        <td>{{ a.actividad.descripcion }}</td>
+        <td>Actividad</td>
+    </tr>
+    {% set totalHoras=totalHoras+a.horas %}
+{% endfor %}
+</table>
+
+<div style="font-size: 16px;font-weight: bold;">
+    TOTAL HORAS TRABAJADAS: {{ totalHoras|number_format(2) }}
+</div>
+{% endblock %}

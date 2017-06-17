@@ -1,0 +1,72 @@
+{% extends 'VideotecaBundle:CintasVirgenes:default.html.twig' %}
+
+{% block data %}
+{{ parent() }}
+    <div class="row">
+        <div class="text-center col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+            <h3 class="title-section">INFORMACION DE CINTAS VIRGENES</h3>
+        </div>
+    </div>
+<div id="wrapper-show" class="col-xs-8 col-xs-offset-2">
+    <div class="row well">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="row wrapper-campos">
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                    <span><b>Cinta:</b></span>
+                </div>
+                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                    <span>{{ entity.idCintasVirgenes.nombreCV }}</span>
+                </div>
+            </div>
+            <div class="row wrapper-campos">
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                    <span><b>Usuario Solicitante:</b></span>
+                </div>
+                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                    <span>{{ entity.idUsuarioSolicitante }}</span>
+                </div>
+            </div>
+            <div class="row wrapper-campos">
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                    <span><b>Usuario Prestamista:</b></span>
+                </div>
+                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                    <span>{{ entity.idUsuarioPrestamista }}</span>
+                </div>
+            </div>
+            <div class="row wrapper-campos">
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                    <span><b>Cantidad Asignada:</b></span>
+                </div>
+                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                    <p>{{ entity.cantidad }}</p>
+                </div>
+            </div>
+            <div class="row wrapper-campos">
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                    <span><b>Motivo:</b></span>
+                </div>
+                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                    <p>{{ entity.motivo }}</p>
+                </div>
+            </div>
+            <div class="row wrapper-campos">
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 theader">
+                    <span><b>Fecha de Asignación:</b></span>
+                </div>
+                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                    <p>{{ entity.fechaEntrega|date('Y-m-d H:i:s') }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <a class="btn btn-default pull-left" href="{{ path('asignacionescv') }}">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                IR A LISTADO
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

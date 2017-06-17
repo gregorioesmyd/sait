@@ -1,0 +1,86 @@
+{% extends '::estudioCabina.html.twig' %}
+
+{% block menu %}
+    {% include 'EstudioCabinaBundle:Default:includes/menu.html.twig' %}
+{% endblock %}
+
+{% block title %}ESTUDIOS-CABINAS{% endblock %}
+
+{% block titulo %}
+    PAUTAS FIJAS
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path('estudio_cabina_homepage',{'tipo':tipo}) }}">CALENDARIO</a></li>
+    <li><a href="{{ path('pautafijas',{'tipo':tipo}) }}">LISTA DE PAUTA</a></li>
+  <li class="active">NUEVA PAUTA FIJA</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent()}}
+    
+    {% if form_errors(form.estudioCabina) or form_errors(form.diasPautas) or form_errors(form.pauta) or form_errors(form.postProductor) or form_errors(form.observacion) or form_errors(form.horainicio) or form_errors(form.horafin)%}
+    <div class="alert alert-danger errores" style="width:70%;">
+        <div><b>Alerta! Ha ocurrido un error en el formulario:</b><br><br></div>
+        <div>{{ form_errors(form.estudioCabina) }}</div>
+        <div>{{ form_errors(form.pauta) }}</div> 
+        <div>{{ form_errors(form.diasPautas) }}</div> 
+        <div>{{ form_errors(form.postProductor) }}</div>
+        <div>{{ form_errors(form.observacion) }}</div>
+        <div>{{ form_errors(form.horainicio) }}</div>
+        <div>{{ form_errors(form.horafin) }}</div>
+     </div>
+    {% endif %}
+    
+     <form novalidate action="{{ path('pautafijas_create',{'tipo':tipo}) }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form._token) }}
+        
+         <div class="formShow">
+            <div class="contenedorform">
+                <div class="labelform">{% if tipo == 1 %}Estudios
+                                    {% elseif tipo == 2 %}Cabinas{% else %}SALA{% endif %}:</div>
+                <div class="widgetform">{{ form_widget(form.estudioCabina) }}</div>
+            </div>  
+           <div class="contenedorform">
+                <div class="labelform">Dia de la semana:</div>
+                <div class="widgetform">{{ form_widget(form.diasPautas,{"separador" :  "====="  }) }}</div>
+            </div> 
+            <div class="contenedorform">
+                <div class="labelform">Hora Inicio:</div>
+                 <div class="widgetform">{{ form_widget(form.horainicio,{ 'attr': {'data-date-format': 'hh:mm'} }) }}</div>
+            </div>
+            
+            <div class="contenedorform">
+                <div class="labelform">Hora Fin:</div>
+                <div class="widgetform">{{ form_widget(form.horafin,{ 'attr': {'data-date-format': 'hh:mm'} }) }}</div>
+            </div>
+            
+            <div class="contenedorform">
+                <div class="labelform">Pauta:</div>
+                <div class="widgetform">{{ form_widget(form.pauta) }}</div>
+            </div>
+            {%if tipo==2%}
+            <div class="contenedorform">
+                <div for="postProductor" class="labelform">Post-Productor:</div>
+                <div class="col-sm-1">{{ form_widget(form.postProductor,{ 'attr': {'class': 'form-control input-sm chosen-select','style': 'width:220px;'} }) }}</div>
+            </div><br>
+            {% endif%}
+            <div class="contenedorform">
+                <div class="labelform">Observación:</div>
+                <div class="widgetform">{{ form_widget(form.observacion) }}</div>
+            </div>
+           </div>
+        <a class="btn btn-default" href="{{ path('pautafijas',{tipo:tipo}) }}">
+            VOLVER A LA LISTA
+        </a> | 
+        <input type="submit" class="btn btn-primary" value="CREAR SOLICITUD">
+        <br><br>
+     </form>
+<script>
+        $(function() {
+            $(".chosen-select").chosen({no_results_text: "No encontrado!"});
+        });
+    </script>
+{% endblock %}

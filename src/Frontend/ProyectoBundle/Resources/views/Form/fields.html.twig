@@ -1,0 +1,14 @@
+{% block form_row %}
+
+    <div style="width: 50%;text-align: left" class="text-danger formerror"><b>{{ form_errors(form) }}</b></div>
+    <div class="contenedorform">
+        <div class="labelform">{{ form_label(form) }}:</div>
+        <div class="widgetform">
+            
+            {{ form_widget(form) }}
+        
+        </div>
+    </div>
+    
+{% endblock form_row %}
+>

@@ -1,0 +1,19 @@
+services:
+    videoteca.ultimoCodigo:
+        class: Frontend\VideotecaBundle\Entity\UltimoCodigo
+
+    videoteca.service.cinta:
+        class: Frontend\VideotecaBundle\Services\CintaService
+        arguments: [@doctrine.orm.entity_manager, @videoteca.ultimoCodigo]
+
+    videoteca.service.segmento:
+        class: Frontend\VideotecaBundle\Services\SegmentoService
+        arguments: [@doctrine.orm.entity_manager, @session]
+
+    videoteca.service.prestamo:
+        class: Frontend\VideotecaBundle\Services\PrestamoService
+        arguments: [@doctrine.orm.entity_manager]
+
+    videoteca.service.form:
+        class: Frontend\VideotecaBundle\Services\FormService
+        arguments: [@doctrine.orm.entity_manager]

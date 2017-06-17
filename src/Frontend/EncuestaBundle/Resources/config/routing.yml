@@ -1,0 +1,23 @@
+ultima_encuesta:
+    pattern: /encuesta/ultima
+    defaults: { _controller: EncuestaBundle:Default:ultima }
+
+encuesta:
+    resource: "@EncuestaBundle/Resources/config/routing/encuesta.yml"
+    prefix: /encuesta
+
+pregunta:
+    resource: "@EncuestaBundle/Resources/config/routing/pregunta.yml"
+    prefix: /pregunta
+
+respuesta:
+    resource: "@EncuestaBundle/Resources/config/routing/respuesta.yml"
+    prefix: /respuesta
+
+votos:
+    resource: "@EncuestaBundle/Resources/config/routing/votos.yml"
+    prefix: /votos
+
+resultados:
+    resource: "@EncuestaBundle/Resources/config/routing/resultados.yml"
+    prefix: /resultados

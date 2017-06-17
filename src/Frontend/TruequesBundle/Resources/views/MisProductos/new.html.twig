@@ -1,0 +1,120 @@
+{% extends '::base_trueques.html.twig' %}
+
+{% block body -%}
+
+	{{ parent() }}
+	
+	<br><br>
+	<div align="center">
+		<h1 id="title-publish">Publicar producto</h1>
+
+	    {% if not form.vars.valid %}
+	        <div class="alert alert-danger errores" style="width:70%;">
+	            <div><b>Alerta! Ha ocurrido un error en el formulario:</b><br><br></div>
+	            <div align="left">
+	            	{{ form_errors(form.categoria) }}
+	            	{{ form_errors(form.productoCambiar) }}
+	            	{{ form_errors(form.mis_producto_interes) }}
+	            </div>
+	        </div>
+	    {% endif %}
+
+	</div>
+
+	<div class="container-new-misproductos">
+		{{ form_start(form, { 'attr': {'novalidate':null} }) }}
+		<div align="center" class="formularioNew">
+			<div class="panel panel-default">
+			  <div class="panel-heading">Carga de productos</div>
+			  <div class="panel-body">
+				
+					{{ form_widget(form._token) }}
+					<div id="wrapper-form" class="formShow" style="width:70%;">
+						<div class="contenedorform">
+							<div class="labelform">Categoria:</div>
+							<div class="widgetform">{{ form_widget(form.categoria, {'attr': {'class': 'autocomplete_select categoria_selector'} }) }}</div>
+						</div>
+						<div class="contenedorform">
+							<div class="labelform">Producto:</div>
+							<div class="widgetform">{{ form_widget(form.productoCambiar, {'attr': {'class': 'autocomplete_select producto_selector'} }) }}</div>
+						</div>
+						<!--<div class="contenedorform">
+							<div class="labelform">Fecha de Vencimiento:</div>
+							<div class="widgetform input-group date datepicker">{#{ form_widget(form.fechaVencimiento, {'attr': { 'class': 'datepicker form-control' }}) }#}
+								<div class="input-group-addon">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</div>
+							</div>
+						</div>-->
+						<div class="contenedorform">
+							<div class="labelform">Productos de interes:</div>
+							<div class="content-tags"></div>
+							<div class="widgetform">{{ form_widget(form.mis_producto_interes, { 'attr': { 'class': 'producto_intereses my-select-multiple show-menu-arrow', 'data-live-search': 'true', 'data-selected-text-format': 'count > 4', 'data-size': '6', 'data-max-options': '2' } }) }}</div>
+							<a href="" class="links-more-products"></a>
+						</div>
+					</div>
+				
+				<div class="btn-nav">
+					<input style="width:45%;font-weight: bold;" type="submit" class="btn btn-default" value="Guardar">
+					<a style="width:45%;font-weight: bold;" class="btn btn-default" href="{{ path('misproductos') }}">
+						Volver
+					</a>
+				</div>
+			  </div>
+			</div>
+		</div>
+		{{ form_end(form) }}
+	</div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script>
+		$(function() {
+
+			$(".categoria_selector").change(function(){
+				$(".producto_intereses option").show();
+				var $this = $(this);
+				var data = {
+					categoria_id: $this.val()
+				};
+
+				var $producto_selector = $('.producto_selector');
+				$producto_selector.empty();
+				$('.links-more-products').text('');
+				if ($this.find('option:selected').text() == 'Medicina' ) {
+					$('.links-more-products').text('Otro Producto');
+				};
+				$.ajax({
+					type: 'post',
+					url: '{{ path("select_categoria_producto") }}',
+					data: data,
+					success: function(data) {
+						$producto_selector.html('<option value="">Seleccione</option>');
+						var productos = data.productos;
+						for(var i in productos){
+							$producto_selector.append('<option value="' + productos[i]['id'] + '">' + productos[i]['nombre'] + '</option>');
+						}
+					}
+				});
+			});
+
+			$('.links-more-products').on('click', function(event) {
+				event.preventDefault();
+				swal("Por favor enviar un correo a la Unidad de Comunicaciones!", "comunicaciones@telesurtv.net");
+			});
+
+			$(".producto_selector").change(function() {
+				$(".producto_intereses option").show();
+				var valueSelected = $(this).val();
+				$(".my-select-multiple option[value='" + valueSelected + "']").attr('disabled', 'disabled');
+				$(".my-select-multiple option[value='" + valueSelected + "']").removeAttr('selected');
+				$('.my-select-multiple').selectpicker('refresh');
+			});
+
+		});		
+	</script>
+{% endblock %}

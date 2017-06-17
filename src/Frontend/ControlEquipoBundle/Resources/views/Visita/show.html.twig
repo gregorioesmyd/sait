@@ -1,0 +1,296 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block title %}Consultar visita{% endblock %}
+
+{% block titulo %}
+    <h3>CONSULTAR VISITA</h3>
+{% endblock %}
+
+{% block ubicacion %}
+        <ol class="breadcrumb">
+            <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+            <li><a href="{{ path("visita") }}">LISTADO DE VISITANTES</a></li>
+            <li class="active">CONSULTAR VISITA</li>
+
+        </ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+
+<div class="formShow" >
+    <div class="row">
+        <div class="col-md-6">
+
+                <div class="contenedorform">
+                    <div class="labelform">Nombre:</div>
+                    <div class="widgetform">{{ entity.usuario.nombres|capitalize }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="labelform">Apellidos:</div>
+                    <div class="widgetform">{{ entity.usuario.apellidos|capitalize }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="labelform">Cedula:</div>
+                    <div class="widgetform">{{ entity.usuario.cedula|capitalize }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="labelform">Dirección:</div>
+                    <div class="widgetform">{{ entity.usuario.direccion|capitalize }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="labelform">Fecha entrada:</div>
+                    <div class="widgetform">{{ entity.fechaentrada|date('d-m-Y') }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="labelform">Hora entrada:</div>
+                    <div class="widgetform">{{ entity.horaentrada|date('G:i:s') }}</div>
+                </div>
+
+                {% if entity.fechasalida is not null %}
+                <div class="contenedorform">
+                    <div class="labelform">Fecha salida:</div>
+                    <div class="widgetform">{{ entity.fechasalida|date('d-m-Y') }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="labelform">Hora salida:</div>
+                    <div class="widgetform">{{ entity.horasalida|date('G:i:s') }}</div>
+                </div>
+                {% endif %}
+
+                <div class="contenedorform">
+                    <div class="labelform">Contacto:</div>
+                    <div class="widgetform">{{ entity.contacto }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="labelform">Observaciones:</div>
+                    <div class="widgetform">{{ entity.observaciones }}</div>
+                </div>
+        </div>
+                <div class="col-md-6">
+                  <a href="#" class="pull-right" data-toggle="modal" data-target="#myModalEquipos"><span class="glyphicon glyphicon-list-alt"></span></a>
+            {% if foto==1 %}
+                <img class="img-rounded" src="/uploads/visitas/{{ entity.usuario.cedula }}" style="width:100%">
+            {% else %}
+                <img src="{{ asset('images/nodisp.jpg') }}" width="250px;"><br><br>
+                IMAGEN NO DISPONIBLE
+            {% endif %}
+        </div>
+    </div>
+
+        <div class="row">
+            <table class="table table-striped table-bordered table-condensed" id="list_equipos_visita" style="max-width: 800px;margin-top:10px;">
+                        <tbody>
+                            <td>
+                    {% if equipos is not empty %}
+                            <table class="table table-striped table-bordered table-condensed" id="list_equipos_visita" style="max-width: 800px;margin-bottom:0;">
+                            <thead>
+                                <tr>
+                                    <th colspan="6" style="text-align: center;">Registros de Equipos</th>
+                                </tr>
+                                <tr>
+                                    <th>Descripción</th>
+                                    <th>Serial</th>
+                                    <th>Marca</th>
+                                    <th>Fecha/Hora Entrada</th>
+                                    <th>Fecha/Hora Salida</th>
+                                    {#<th>Registrar Salida</th>#}
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                    {% for equipo in equipos %}
+                                        <tr>
+                                            <td>{{ equipo.equipo.descripcionEquipo }}</td>
+                                            <td>{{ equipo.equipo.serial }}</td>
+                                            <td>{{ equipo.equipo.equipoMarca }}</td>
+                                            <td>{{ equipo.fechaEntrada|date('d/m/Y H:i:s') }}</td>
+                                            <td>
+                                                {% if equipo.fechaSalida is not null %}
+                                                    {{ equipo.fechaSalida|date('d/m/Y H:i:s') }}
+                                                {% endif %}
+                                            </td>
+                                            {#<td>
+                                                <center>
+                                                    <a onclick="return confirm('Va a registrar la salida de este Equipo, ¿Desea continuar?')" class="btn btn-info" href="{{ path('registroexterno_salida', { 'id': equipo.id,'propietario':entity.usuario.id,'visita':entity.id }) }}">
+                                                    <span class="glyphicon glyphicon-log-out"></span></a>
+                                                </center>
+                                            </td>#}
+                                        </tr>
+                                    {% endfor %}
+                            </tbody>
+                            </table>
+            {% else %}
+                    <div class="alert alert-info" id="list_equipovacia" style="margin-bottom:0;"><center>Ningun equipo Registrado</center></div>
+            {% endif %}
+                                        </td>
+                                    </tr>
+
+                        </tbody>
+                        </table>
+
+                {% if entity.fechasalida is null %}
+                <button class="btn btn-primary registroequipoexterno" id="entrada" data-toggle="modal" data-target="#myModalEquipo">
+                    <span class="glyphicon glyphicon-log-in"></span> Registrar Entrada de Equipo
+                </button> |
+                <button class="btn btn-danger registroequipoexterno" id="salida" data-toggle="modal" data-target="#myModalEquipo">
+                    <span class="glyphicon glyphicon-log-out"></span> Registrar Salida de Equipo
+                </button>
+
+                {% endif %}
+
+        </div>
+</div>
+
+        <!-- Button trigger modal -->
+        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+          TOMAR FOTO
+        </button> |
+
+        <a class="btn btn-default" href="{{ path('visita') }}">
+            IR A LA LISTA
+        </a> |
+        <a class="btn btn-default" href="{{ path('usuario_edit', { 'id': entity.usuario.id,'idvis':entity.id }) }}">
+            IR A EDITAR USUARIO
+        </a>{% if entity.fechasalida is null %} |
+        <a onclick="return confirm('Va a registrar la salida de este visitante, ¿Desea continuar?')" class="btn btn-warning" href="{{ path('visita_salida',{'id':entity.id}) }}">MARCAR SALIDA DEL VISITANTE</a>{% endif %}
+
+        <br><br>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="width: 99%">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">Tomar Foto</h4>
+          </div>
+          <div class="modal-body">
+                {% include 'ControlEquipoBundle:Visita:_camaraweb.html.twig' %}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">CERRAR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="myModalEquipos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 1000px;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+          <h4 class="modal-title" id="myModalLabel">EQUIPOS REGISTRADOS</h4>
+        </div>
+        <div class="modal-body">
+              <table class="table table-bordered table-condensed">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Descripción</th>
+                    <th>Marca</th>
+                    <th>Serial</th>
+                    <th>Registros</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% if yourequipos is not empty %}
+                  {% for equipovisita in yourequipos %}
+                    <tr>
+                      <th scope="row"><a href="{{ path('equipoexterno_show', { 'id': equipovisita.id }) }}" target="_blank">{{ equipovisita.id }}</a></th>
+                      <td>{{ equipovisita.descripcionEquipo }}</td>
+                      <td>{{ equipovisita.equipoMarca }}</td>
+                      <td>{{ equipovisita.serial }}</td>
+                      <td><center><a href="{{ path('equipoexterno_rastreo', { 'id': equipovisita.id }) }}" target="_blank"><span class="glyphicon glyphicon-eye-open"></span></a></center></td>
+                    </tr>
+                  {% endfor %}
+                {% else %}
+                    <tr>
+                      <td colspan="5"><center>Ningún Equipo Registrado.</center></td>
+                    </tr>
+                {% endif %}
+                </tbody>
+              </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">CERRAR</button>
+        </div>
+      </div>
+    </div>
+    </div>
+{% if entity.fechaSalida is null %}
+    <div class="modal fade" id="myModalEquipo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="width: 1000px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+            <h4 class="modal-title" id="myModalLabel">REGISTRAR EQUIPO</h4>
+          </div>
+          <div class="modal-body">
+                <form action="{{ path('equipoexterno_new', { 'id': entity.usuario.id,'tipo':2 }) }}" method="post" class="form-inline" id="buscar_equipoexterno">
+                    <input type="text" class="form-control input-large" name="codigoBarra" id="codigoBarra" autocomplete="off" placeholder="Codigo Barra del Equipo" />
+                    <input type="hidden" name="propietario" id="propietario" value="{{ entity.usuario.id }}">
+                    <input type="hidden" name="tipo" id="tipo" value="2">
+                    <input type="hidden" name="visita" id="visita" value="{{ entity.id }}">
+                    <input class="btn btn-primary" type="submit" value="BUSCAR">
+                </form>
+                <div id="resultado_equipoexterno"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">CERRAR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        $(function(){
+            $('#myModalEquipo').on('hidden.bs.modal', function () {
+                $('#resultado_equipoexterno').html('');
+                //window.alert('hidden event fired!');
+            });
+
+            $('#myModalEquipo').on('shown.bs.modal', function () {
+                $('#codigoBarra').focus();
+            });
+
+            //$('#codigoBarra').focus();
+            //evento al hacer clic en el boton agregar
+             $(".registroequipoexterno").click(function(){
+                var selector = $(this).attr("id");
+                    if (selector == "salida"){
+                        var $attr = $("#buscar_equipoexterno").attr("action",'{{ path("equipoexterno_salida", { 'id': entity.usuario.id,'tipo':2 }) }}');
+                    } else {
+                        var $attr = $("#buscar_equipoexterno").attr("action",'{{ path("equipoexterno_new", { 'id': entity.usuario.id,'tipo':2 }) }}');
+                    }
+                });
+
+            $('#buscar_equipoexterno').on('submit',function(e){
+                e.preventDefault();
+                var $codigoBarra=$('#codigoBarra'),$propietario=$('#propietario'),$tipo=$('#tipo'),$visita=$('#visita');
+
+                if($.trim($codigoBarra.val())!=='') {
+                    $.ajax({
+                        type: 'POST',
+                        url: $(this).attr('action'),
+                        data: { codigoBarra: $codigoBarra.val(),propietario: $propietario.val(),tipo:$tipo.val(),visita:$visita.val() },
+                        dataType: 'html',
+                        success: function(response) {
+                                $('#resultado_equipoexterno').html(response);
+                                $codigoBarra.val('').focus();
+                        },
+                        complete: function(response) {
+                            $('input[type=submit]').removeAttr('disabled');
+                            $('button[type=submit]').removeAttr('disabled');
+                        }
+                    });
+                } else {
+                    alert('Por favor, digite el código del equipo que desea buscar.');
+                    $('input[type=submit]').removeAttr('disabled');
+                    $('button[type=submit]').removeAttr('disabled');
+                }
+                return false;
+            });
+
+        });
+    </script>
+    {% endif %}
+{% endblock %}

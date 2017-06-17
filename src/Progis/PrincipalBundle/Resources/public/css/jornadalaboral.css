@@ -1,0 +1,32 @@
+#progis_principalbundle_jornadalaboral_dias label{
+        display: block;
+}
+
+#progis_principalbundle_jornadalaboral_dias input{
+        float: left;
+        text-align: left;
+        padding: 0px;
+        margin: 0px;
+}
+
+#progis_principalbundle_jornadalaboral_horadesde select{
+    width: 100px;
+}
+
+#progis_principalbundle_jornadalaboral_horahasta select{
+    width: 100px;
+}
+
+#progis_principalbundle_miembroespacio_rol label{
+        display: block;
+}
+
+#progis_principalbundle_miembroespacio_rol input{
+        float: left;
+        text-align: left;
+        padding: 0px;
+        margin: 0px;
+}
+
+
+

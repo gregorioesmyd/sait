@@ -1,0 +1,49 @@
+{% extends '::contratos.html.twig' %}
+
+{% block title %}Lista de Direc. Solicitante{% endblock %}
+
+{% block titulo %}
+    LISTA DE DIRECCIONES SOLICITANTES
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">LISTA DE DIRECCIONES SOLICITANTES</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+ {{ parent() }}
+
+    <table id="tabladatatable">
+        <thead>
+            <tr>
+                <th width="80%">Nombre</th>
+                <th width="20%">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr align="center">
+                <td>{{ entity.nombre }}</td>
+                <td>
+                    <a href="{{ path('Direccionsolicitante_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></a>
+                    <a href="{{ path('Direccionsolicitante_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-pencil"></a>        
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table><br><br><br>
+
+    <a class="btn btn-default" href="{{ path( 'Direccionsolicitante_new' ) }}">Registrar Direcci&oacute;n Solicitante</a><br><br>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+           $('#tabladatatable').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                "aaSorting": [[0,'asc'],[1,'asc']],
+            } );
+        })
+    </script>
+{% endblock %}

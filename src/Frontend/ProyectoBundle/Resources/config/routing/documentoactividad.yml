@@ -1,0 +1,30 @@
+documentoactividad:
+    path:     /lista/{actividad}
+    defaults: { _controller: "ProyectoBundle:Documentoactividad:index" }
+
+documentoactividad_show:
+    path:     /{id}/show
+    defaults: { _controller: "ProyectoBundle:Documentoactividad:show" }
+
+documentoactividad_new:
+    path:     /nuevo/{actividad}
+    defaults: { _controller: "ProyectoBundle:Documentoactividad:new" }
+
+documentoactividad_create:
+    path:     /create/{actividad}
+    defaults: { _controller: "ProyectoBundle:Documentoactividad:create", actividad: 1 }
+    requirements: { _method: post }
+
+documentoactividad_edit:
+    path:     editar/{id}
+    defaults: { _controller: "ProyectoBundle:Documentoactividad:edit" }
+
+documentoactividad_update:
+    path:     /{id}/update
+    defaults: { _controller: "ProyectoBundle:Documentoactividad:update" }
+    requirements: { _method: post|put }
+
+documentoactividad_delete:
+    path:     /eliminar/{id}
+    defaults: { _controller: "ProyectoBundle:Documentoactividad:delete" }
+    requirements: { _method: post|delete }

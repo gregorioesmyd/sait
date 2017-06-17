@@ -1,0 +1,127 @@
+{% if mostrar=='pais' %}
+    <div class="contenedorform">
+        <div class="labelform" style="width:30%">Pais:</div>
+        <div class="widgetform">{{ form_widget(form.pais,{'attr':{'style':'width:70%;height:200px;'}}) }}</div>
+    </div>
+    <div id="tipooperador"></div>
+{% endif %}
+
+{% if mostrar=='tipooperador' %}
+    <div class="contenedorform">
+        <div class="labelform" style="width:30%">Tipo Operador:</div>
+		<div class="widgetform">{{ form_widget(form.tipooperador,{'attr':{'style':'width:70%;height:80px;'}}) }}</div>
+    </div>
+    <div id="operador"></div>
+{% endif %}
+
+{% if mostrar=='operador' %}
+    <div class="contenedorform">
+        <div class="labelform" style="width:30%">Operador:</div>
+        <div class="widgetform">{{ form_widget(form.operador,{'attr':{'style':'width:70%;'}}) }}</div>
+    </div>
+    <div id="fechadesde"></div>
+{% endif %}
+
+
+
+{% if mostrar=='fechadesde' %}
+    <div class="contenedorform">
+        <div class="labelform" style="width:30%">Fecha desde:</div>
+        <div class="widgetform">{{ form_widget(form.fechadesde,{'attr':{'style':'width:40%;'}}) }}</div>
+    </div>
+    <div id="fechahasta"></div>
+{% endif %}
+
+{% if mostrar=='fechahasta' %}
+    <div class="contenedorform">
+        <div class="labelform" style="width:30%">Fecha hasta:</div>
+        <div class="widgetform">{{ form_widget(form.fechahasta,{'attr':{'style':'width:40%;'}}) }}</div>
+    </div>
+    <div id="formato"></div>
+{% endif %}
+
+
+{% if mostrar=='formato' %}
+    <div class="contenedorform">
+        <div class="labelform" style="width:30%">Formato:</div>
+        <div class="widgetform">{{ form_widget(form.formato,{'attr':{'style':'width:40%;'}}) }}</div>
+    </div>
+    <div id="botones"></div>
+{% endif %}
+
+{% if mostrar=='botones' %}
+        <br>
+        <button class="btn btn-primary" type="submit">GENERAR</button> | 
+
+        <a class="btn btn-default" href="{{ path('distribucion_homepage') }}">IR AL INICIO</a>
+{% endif %}
+
+{% if mostrar=='aniomes' %}
+    <div class="contenedorform">
+        <div class="labelform">Fecha hasta:</div>
+        <div class="widgetform">{{ form_widget(form) }}</div>
+    </div>
+    <div id="formato"></div>
+{% endif %}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#form_tipooperador').change(function(){
+            var dato = $("#form_pais").val()+"-"+$("#form_tipooperador").val();
+            var ruta = "{{ path('ajax', {'datos': 'variable','mostrar': 'operador'}) }}";
+            ruta = ruta.replace("variable", dato);
+            $('#operador').load(ruta);
+        });
+
+        $('#form_operador').change(function(){
+            var dato = $("#form_operador").val();
+            var ruta = "{{ path('ajax', {'datos': 'variable','mostrar': 'fechadesde'}) }}";
+            ruta = ruta.replace("variable", dato);
+            $('#fechadesde').load(ruta);
+        });
+        
+        $('#form_pais').click(function(){
+            var dato = $("#form_pais").val();
+            var ruta = "{{ path('ajax', {'datos': 'variable','mostrar': 'tipooperador'}) }}";
+            ruta = ruta.replace("variable", dato);
+            $('#tipooperador').load(ruta);
+        });
+
+        $('#form_fechadesde').change(function(){
+            var dato = $("#form_operador").val();
+            var ruta = "{{ path('ajax', {'datos': 'variable','mostrar': 'fechahasta'}) }}";
+            ruta = ruta.replace("variable", dato);
+            $('#fechahasta').load(ruta);
+        });
+
+        $('#form_fechahasta').change(function(){
+            var dato = $("#form_operador").val();
+            var ruta = "{{ path('ajax', {'datos': 'variable','mostrar': 'formato'}) }}";
+            ruta = ruta.replace("variable", dato);
+            $('#formato').load(ruta);
+        });
+
+        $('#form_formato').change(function(){
+            var dato = $("#form_formato").val();
+            var ruta = "{{ path('ajax', {'datos': 'variable','mostrar': 'botones'}) }}";
+            ruta = ruta.replace("variable", dato);
+            $('#botones').load(ruta);
+        });
+    });
+</script>
+
+  <script>
+      $(function() {
+        $( "#form_fechadesde" ).datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: "dd-mm-yy",
+        });
+        $( "#form_fechahasta" ).datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: "dd-mm-yy",
+        });
+      });
+  </script>

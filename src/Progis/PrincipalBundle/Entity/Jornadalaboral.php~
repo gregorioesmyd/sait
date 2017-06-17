@@ -1,0 +1,201 @@
+<?php
+
+namespace Progis\PrincipalBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Documento
+ *
+ * @ORM\Table(name="progis.jornadalaboral")
+ * @ORM\Entity
+ */
+class Jornadalaboral
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="progis.jornadalaboral_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;  
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="dias", type="string", length=500, nullable=false)
+     * @Assert\NotBlank(message="Debe seleccionar al menos un día.")
+     */
+    private $dias;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="horas", type="integer", nullable=true)
+     * @Assert\NotBlank(message="Debe seleccionar al menos un día.")
+     */
+    private $horasDiarias;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="horadesde", type="time", nullable=false)
+     * @Assert\NotBlank(message="Debe seleccionar la hora desde.")
+     */
+    private $horadesde;
+    
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="horahasta", type="time", nullable=false)
+     * @Assert\NotBlank(message="Debe seleccionar la hora hasta.")
+     */
+    private $horahasta;
+    
+    
+   
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="observacion", type="text", nullable=true)
+     */
+    private $observacion;
+
+    
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set dias
+     *
+     * @param string $dias
+     * @return Jornadalaboral
+     */
+    public function setDias($dias)
+    {
+        $this->dias = $dias;
+    
+        return $this;
+    }
+
+    /**
+     * Get dias
+     *
+     * @return string 
+     */
+    public function getDias()
+    {
+        return $this->dias;
+    }
+
+    /**
+     * Set horadesde
+     *
+     * @param \DateTime $horadesde
+     * @return Jornadalaboral
+     */
+    public function setHoradesde($horadesde)
+    {
+        $this->horadesde = $horadesde;
+    
+        return $this;
+    }
+
+    /**
+     * Get horadesde
+     *
+     * @return \DateTime 
+     */
+    public function getHoradesde()
+    {
+        return $this->horadesde;
+    }
+
+    /**
+     * Set horahasta
+     *
+     * @param \DateTime $horahasta
+     * @return Jornadalaboral
+     */
+    public function setHorahasta($horahasta)
+    {
+        $this->horahasta = $horahasta;
+    
+        return $this;
+    }
+
+    /**
+     * Get horahasta
+     *
+     * @return \DateTime 
+     */
+    public function getHorahasta()
+    {
+        return $this->horahasta;
+    }
+
+    /**
+     * Set observacion
+     *
+     * @param string $observacion
+     * @return Jornadalaboral
+     */
+    public function setObservacion($observacion)
+    {
+        $this->observacion = $observacion;
+    
+        return $this;
+    }
+
+    /**
+     * Get observacion
+     *
+     * @return string 
+     */
+    public function getObservacion()
+    {
+        return $this->observacion;
+    }
+    
+    public function __toString() {
+        
+        $dias=  str_replace(array(1,2,3,4,5,6,7),array('Lun','Mar','Mie','Jue','Vie','Sab','Dom'),  $this->getDias());
+
+        return strtoupper($dias.' '.$this->getHoradesde()->format("G:i:s").' A '.$this->getHorahasta()->format("G:i:s"));
+    }
+
+    /**
+     * Set horas
+     *
+     * @param integer $horas
+     * @return Jornadalaboral
+     */
+    public function setHoras($horas)
+    {
+        $this->horas = $horas;
+    
+        return $this;
+    }
+
+    /**
+     * Get horas
+     *
+     * @return integer 
+     */
+    public function getHoras()
+    {
+        return $this->horas;
+    }
+}

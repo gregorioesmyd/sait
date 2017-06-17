@@ -1,0 +1,27 @@
+{% extends '::contratos.html.twig' %}
+
+{% block title %}Detalle de direc. Solic.{% endblock %}
+
+{% block titulo %}
+    DETALLES DE LA DIRECCI&Oacute;N
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("Direccionsolicitante") }}">LISTADO DE DIRECCIONES</a></li>
+  <li class="active">DETALLES DE LA DIRECCI&Oacute;N</li>
+</ol>
+{% endblock %}
+    
+{% block body -%}
+    {{ parent() }}
+    <div class="formShow">       
+        <div class="contenedorform">
+            <div class="labelform">Nombre de la Direcci&oacute;n:</div>
+            <div class="widgetform">{{ entity.nombre }}</div>
+        </div>
+    </div>
+    <a class="btn btn-default" href="{{ path('Direccionsolicitante') }}">IR A LA LISTA</a> |
+    <a class="btn btn-default" href="{{ path('Direccionsolicitante_edit', { 'id': entity.id }) }}">IR A EDITAR</a><br><br>
+{% endblock %}

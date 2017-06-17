@@ -1,0 +1,72 @@
+{% extends '::licencias.html.twig' %}
+
+{% block title %}Licencia detalles{% endblock %}
+
+{% block titulo %}
+    DETALLES DE LICENCIA <br> ({{ entity.nombre }})
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("licencias_homepage") }}">LICENCIAS INICIO</a></li>
+  <li class="active">DETALLES DE LICENCIA</li>
+</ol>
+{% endblock %}
+
+{% block body %}
+
+{{ parent() }}
+
+
+    <div class="form-show_edit">
+        
+        <div class="contenedor">
+            <br>
+            <div class="labels">Nombre:</div>
+            <div class="dato">{{ entity.nombre }}</div>
+        </div>
+
+        <div class="contenedor">
+            <div class="labels">Fecha de Compra:</div>
+            <div class="dato">{{ entity.fechaCompra|date('Y-m-d') }}</div>
+        </div>
+
+        <div class="contenedor">
+            <div class="labels">Fecha de Vencimiento:</div>
+            <div class="dato">{{ entity.fechaVencimiento|date('Y-m-d') }}</div>
+        </div>
+
+        <div class="contenedor">
+            <div class="labels">Descripci&oacute;n:</div>
+            <div class="dato">{{ entity.descripcion }}</div>
+        </div>       
+        <div class="contenedor">
+            <div class="labels">Tipo de Licencia:</div>
+            {% if entity.tipo == 'l'%}
+                <div class="dato">LICENCIA</div>
+            {% elseif entity.tipo == 's' %}
+                <div class="dato">SERVICIO</div>
+            {% endif %}
+        </div>
+        <div class="contenedor">
+            <div class="labels">C&oacute;digo:</div>
+            <div class="dato">{{ entity.codigo }}</div>
+        </div>
+        <div class="contenedor">
+            <div class="labels">Responsable:</div>
+            <div class="dato">{{ perfil }}</div>
+            <br>
+        </div>
+    </div>
+
+    <br>
+        <a class="btn btn-default" href="{{ path( retorno ) }}">LISTADO</a> &nbsp;
+        {% if rol == 1 %}   
+        <a class="btn btn-primary" href="{{ path('licencias_edit', { 'id': entity.id, 'retorno': retorno }) }}">EDITAR</a>
+          <br><br>
+        <a class="btn btn-danger" href="{{ path('licencias_delete', { 'id': entity.id, 'retorno':retorno }) }}">ELIMINAR</a> &nbsp;
+        {% endif %}
+        <br><br>
+      
+{% endblock %}

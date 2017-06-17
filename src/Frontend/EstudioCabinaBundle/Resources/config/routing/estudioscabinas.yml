@@ -1,0 +1,30 @@
+estudioscabinas:
+    path:     /
+    defaults: { _controller: "EstudioCabinaBundle:EstudiosCabinas:index" }
+
+estudioscabinas_show:
+    path:     /{id}/show
+    defaults: { _controller: "EstudioCabinaBundle:EstudiosCabinas:show" }
+
+estudioscabinas_new:
+    path:     /new
+    defaults: { _controller: "EstudioCabinaBundle:EstudiosCabinas:new" }
+
+estudioscabinas_create:
+    path:     /create
+    defaults: { _controller: "EstudioCabinaBundle:EstudiosCabinas:create" }
+    requirements: { _method: post }
+
+estudioscabinas_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EstudioCabinaBundle:EstudiosCabinas:edit" }
+
+estudioscabinas_update:
+    path:     /{id}/update
+    defaults: { _controller: "EstudioCabinaBundle:EstudiosCabinas:update" }
+    requirements: { _method: post|put }
+
+estudioscabinas_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "EstudioCabinaBundle:EstudiosCabinas:delete" }
+    requirements: { _method: post|delete }

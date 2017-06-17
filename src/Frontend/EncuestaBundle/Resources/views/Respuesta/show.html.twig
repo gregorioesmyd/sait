@@ -1,0 +1,52 @@
+{% extends '::encuesta.html.twig' %}
+
+{% block title %}Respuesta-detalle{% endblock %}
+
+{% block titulo %}
+    Respuesta "{{ entity.respuesta }}" <br> Pregunta "{{entity.idpregunta.id}}"
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("encuesta_index") }}">Lista de encuestas</a></li>
+  <li><a href="{{ path("pregunta_index", {'idencuesta':entity.idpregunta.idencuesta.id }) }}">Lista de preguntas</a></li>
+  <li><a href="{{ path("respuesta_index", {'idpregunta':entity.idpregunta.id}) }}">Lista de respuestas</a></li>
+  <li class="active">Detalle de respuesta</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+
+    <div class="formShow">
+      <div class="contenedorform">
+          <div class="labelform">Encuesta:</div>
+          <div class="widgetform">{{ entity.idpregunta.idencuesta.nombre }}</div>
+      </div>
+      <div class="contenedorform">
+          <div class="labelform">Pregunta:</div>
+          <div class="widgetform">{{ entity.idpregunta.pregunta }}</div>
+      </div>
+      <div class="contenedorform">
+          <div class="labelform">Respuesta:</div>
+          <div class="widgetform">{{ entity.respuesta }}</div>
+      </div>
+      <div class="contenedorform">
+          <div class="labelform">Correcta / Incorrecta:</div>
+          <div class="widgetform">
+            {% if entity.correcta == '1' %}
+              Correcta
+            {% else %}
+              Incorrecta
+            {% endif %}
+          </div>
+      </div>
+    </div>
+    <br><br>
+    <a class="btn btn-default" href="{{ path("respuesta_index", {'idpregunta':entity.idpregunta.id}) }}">IR A LA LISTA</a> |
+    <a class="btn btn-default" href="{{ path("respuesta_edit", {'idpregunta':entity.idpregunta.id, 'id':entity.id}) }}">IR A EDITAR</a>
+    <br><br>
+
+
+{% endblock %}

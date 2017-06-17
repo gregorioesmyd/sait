@@ -1,0 +1,102 @@
+{% extends '::proyecto.html.twig' %}
+
+{% block title %}Proyecto{% endblock %}
+
+{% block titulo %}
+    <h3>ACTIVIDADES PENDIENTES</h3>
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("proyecto") }}">LISTA DE PROYECTOS</a></li>
+  <li class="active">EN PROCESO</li>
+</ol>
+{% endblock %}
+    
+{% block body -%}
+    {{ parent() }}
+    
+<meta content="120" http-equiv="REFRESH"> </meta> 
+
+
+{% for int in integrantes if int.id== app.user.id  %}
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          {{ int.primerNombre }} {{ int.primerApellido}}
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+          <table class="table table-bordered">
+              <thead>
+              <tr>
+                  <th width="20%">PROYECTO</th>
+                  <th width="20%">OBJETIVO</th>
+                  <th width="10%">FIN OBJETIVO</th>
+                  <th width="50%">ACTIVIDAD</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for act in actpendiente if act.responsable.id==int.id %}
+                  {% set x=1%}
+                  <tr>
+                      <td>{{ act.tarea.proyecto.nombre|capitalize }}</td>
+                      <td>{{ act.tarea.nombre|capitalize }}</td>
+                      <td>{{ act.tarea.fechafinestimada|date("d-m-Y") }}</td>
+                      <td><a href="{{ path('actividad',{'idtarea':act.tarea.id})}}">{{ act.descripcion|capitalize }}</a></td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+ {% endfor %}
+ {% for int in integrantes if int.id!= app.user.id  %}
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="headingTwo">
+        <h4 class="panel-title">
+          <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#{{int.id}}" aria-expanded="false" aria-controls="collapseTwo">
+            {{ int.primerNombre }} {{ int.primerApellido}}
+          </a>
+        </h4>
+      </div>
+      <div id="{{int.id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+        <div class="panel-body">
+          <table class="table table-bordered">
+              <thead>
+              <tr>
+                  <th width="20%">PROYECTO</th>
+                  <th width="20%">OBJETIVO</th>
+                  <th width="10%">FIN OBJETIVO</th>
+                  <th width="50%">ACTIVIDAD</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for act in actpendiente if act.responsable.id==int.id %}
+                  {% set x=1%}
+                  <tr>
+                      <td>{{ act.tarea.proyecto.nombre|capitalize }}</td>
+                      <td>{{ act.tarea.nombre|capitalize }}</td>
+                      <td>{{ act.tarea.fechafinestimada|date("d-m-Y") }}</td>
+                      <td><a href="{{ path('actividad',{'idtarea':act.tarea.id})}}">{{ act.descripcion|capitalize }}</a></td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+ {% endfor %}
+</div>
+
+
+
+
+
+              {% endblock %}

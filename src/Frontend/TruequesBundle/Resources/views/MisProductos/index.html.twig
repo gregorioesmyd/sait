@@ -1,0 +1,66 @@
+{% extends '::base_trueques.html.twig' %}
+
+{% block body -%}
+{{ parent()}}
+
+<br>
+<h1>Mis Productos</h1>
+
+<a href="{{ path('misproductos_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>  Nuevo</a><br><br>
+<table class="dataTable table table-striped table-bordered" cellspacing="0" width="100%">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Producto</th>
+			<th>Intereses</th>
+			<th>Status</th>
+			<th>Acciones</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for entity in entities %}
+		<tr>
+			<td>{{ entity.id }}</td>
+			<td>{{ entity.productoCambiar.nombre }}</td>
+			<td>
+				{% set lengthItem = entity.MisProductoInteres|length %}
+				{% for key, item in entity.MisProductoInteres %}
+					<span>{{ item }}</span>{% if key == lengthItem - 1 %}.{% else  %},{% endif %}
+				{% endfor %}
+
+			</td>
+			<td class="label-estatus">
+				{% if entity.status == 'Exitoso' %}
+					<span class="label label-success">{{ entity.status }}</span>
+				{% elseif entity.status == 'Inactivo' or entity.status == 'Expirado' %}
+					<span class="label label-danger">{{ entity.status }}</span>
+				{% elseif entity.status == 'Cancelado'  %}
+					<span class="label label-warning">{{ entity.status }}</span>
+				{% else %}
+					<span class="label label-info">{{ entity.status }}</span>
+				{% endif %}
+			</td>
+			<td>
+                {% if entity.status == 'Activo' or entity.status == 'Cancelado' %}
+				<a href="{{ path('misproductos_edit', { 'id': entity.id }) }}" class="btn btn-default">
+					<span class="glyphicon glyphicon-edit"></span>    Editar
+				</a>
+                                {% endif %}
+				<a href="{{ path('misproductos_show', { 'id': entity.id }) }}" class="btn btn-default">
+					<span class="glyphicon glyphicon-fullscreen"></span>    Detalles
+				</a>
+				{% if entity.interesados|length > 0 and (entity.status!='Exitoso') %}
+
+					{% if entity.status == "Confirmado" %}{% endif %}
+						<a href="{{ path('misproductos_show', { 'id': entity.id }) }}" class="btn btn-primary">
+							Interesados <span class="badge">{{entity.interesados|length}}</span>
+						</a>
+				{% endif %}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+
+{% endblock %}

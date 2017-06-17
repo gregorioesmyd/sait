@@ -1,0 +1,24 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block title %}Buscar Empleado{% endblock %}
+
+{% block titulo %}
+    <h3>BUSCAR EMPLEADO</h3>
+{% endblock %}
+
+{% block ubicacion %}
+        <ol class="breadcrumb">
+            <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+            <li class="active">BUSCAR EMPLEADO</li>
+        </ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    
+    <form action="{{ path('equipoexterno_busqueda_empleado') }}" method="post" class="form-inline">
+        <input type="text" class="form-control input-large" name="cedula" id="cedula" autocomplete="off" placeholder="Cédula del Empleado" autofocus />
+        <input class="btn btn-primary" type="submit" value="BUSCAR">
+    </form>
+        <br><br><br>
+{% endblock %}

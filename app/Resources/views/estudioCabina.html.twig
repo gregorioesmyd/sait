@@ -1,0 +1,19 @@
+{% extends "::base.html.twig"%}
+
+        {% block stylesheets %}
+            {{ parent()}}
+            <link rel="stylesheet" href="{{ asset('css/jquery.timepicker.css') }}">
+            <link href="{{ asset('css/chosen.css') }}" rel="stylesheet" type="text/css" >
+        {% endblock %}
+            
+        {% block javascripts %}
+            {{ parent() }}
+            
+            <script src="{{ asset('js/moment.js') }}"></script>
+            <script src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script>
+            <script src="{{ asset('js/jquery.timepicker.js') }}"></script>
+            <script src="{{ asset('js/jquery.timepicker.min.js') }}"></script>
+            <script src="{{ asset('js/chosen.jquery.js') }}"></script>
+
+        {% endblock %}
+

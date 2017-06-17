@@ -1,0 +1,19 @@
+# cintasegmento_show:
+#     path:     /{id}/show
+#     defaults: { _controller: "VideotecaBundle:CintaSegmento:show" }
+
+cintasegmento_new:
+    path:     /{id}/{slug}/new
+    defaults: { _controller: "VideotecaBundle:CintaSegmento:new" }
+
+csegmento_new:
+    path:     /{id}/{slug}/new
+    defaults: { _controller: "VideotecaBundle:CintaSegmento:newSegmento" }
+
+# cintasegmento_home:
+#     path:   /{page}
+#     defaults: { _controller: "VideotecaBundle:CintaSegmento:index", page : 1 }
+
+cintasegmento_tmprestamo:
+    path:   /{id}/{page}/tmprestamo
+    defaults: { _controller: "VideotecaBundle:CintaSegmento:tmprestamo", page : 1 }

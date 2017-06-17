@@ -1,0 +1,43 @@
+<?php
+
+namespace Frontend\ControlEquipoBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Modelos
+ *
+ * @ORM\Table(name="controlequipo.modelos")
+ * @ORM\Entity
+ */
+class Modelos
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="controlequipo.modelos_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion_modelo", type="string", length=255, nullable=false)
+     */
+    private $descripcionModelo;
+
+    /**
+     * @var \Marcas
+     *
+     * @ORM\ManyToOne(targetEntity="Marcas")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="marca_id", referencedColumnName="id")
+     * })
+     */
+    private $marca;
+
+
+}

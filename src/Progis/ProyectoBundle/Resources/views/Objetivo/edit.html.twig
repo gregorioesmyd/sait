@@ -1,0 +1,64 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>EDITAR OBJETIVO</h2>
+    <h4>PROYECTO: {{ entity.proyecto.nombre|upper }}</h4>
+    <a href="{{ path('proyecto_procesarActividad', { 'idobjetivo': entity.id }) }}"  data-toggle="tooltip" data-placement="top" title="Mis actividades"><i class="fa fa-eye"></i> Gestionar actividades</a>
+{% endblock %}
+
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("proyecto_homepage") }}">LISTA DE PROYECTOS</a></li>
+  <li><a href="{{ path("objetivo",{'idproyecto':proyecto.id}) }}">LISTA DE OBJETIVOS</a></li>
+  <li><a href="{{ path("objetivo_show",{'id':entity.id}) }}">CONSULTAR OBJETIVO</a></li>
+  <li class="active">EDITAR OBJETIVO</li>
+</ol>
+{% endblock %}
+
+{% block contenido -%}
+    {{ parent() }}
+
+    
+    {{ form_start(edit_form, { 'attr': {'novalidate':null} }) }}
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">MODIFIQUE LOS PARÁMETROS QUE DESEE</div>
+            <div class="panel-body">
+                    <div id="formulario">{{ form_widget(edit_form) }}</div>
+            </div>
+        </div>
+
+            <div align="center"><input type="submit" class="btn btn-primary" value="EDITAR OBJETIVO"><br><br>
+    {{ form_end(edit_form) }}   
+        
+        
+    <div align="center">{{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+        {{ form_errors(delete_form) }}
+        {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+    {{ form_end(delete_form) }}</div>
+    <br>
+
+    <script>
+    $(function() {
+      $( "#frontend_proyectobundle_objetivo_fechainicioestimada" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "dd-mm-yy",
+      });
+      $( "#frontend_proyectobundle_objetivo_fechafinestimada" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "dd-mm-yy",
+      });
+    });
+    </script>    
+    
+    {{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+        {{ form_errors(delete_form) }}
+        {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+    {{ form_end(delete_form) }}
+    <br>
+{% endblock %}

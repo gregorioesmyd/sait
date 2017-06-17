@@ -1,0 +1,227 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>LISTA DE PENDIENTES</h2>
+    <h5>{{ perfil.PrimerNombre }} {{ perfil.PrimerApellido}}</h5>
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  {% if desde=='ME'%}
+  <li><a href="{{ path("miembroespacio") }}">LISTA DE MIEMBROS</a></li>
+  <li class="active">LISTA DE PENDIENTES</li>
+  {% elseif desde=='Menu'%}
+  <li class="active">LISTA DE MIS PENDIENTES</li>
+  {% endif %}
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+
+    <A class="btn btn-default" HREF="#actividades">Ancla a Actividades</A> |  <A class="btn btn-default" HREF="#tickets">Ancla a Tickets</A>
+    <br><br>
+    
+    {% if actividadProceso is not empty %}
+        <div class="alert alert-warning">TIENES UNA ACTIVIDAD EN PROCESO</div>
+        <p><b>Proyecto:</b> <a href="{{ path('proyecto_show',{'id':actividadProceso[0].objetivo.proyecto.id}) }}">{{ actividadProceso[0].objetivo.proyecto.nombre }}</p></a>
+        <p><b>Objetivo:</b> <a href="{{ path('objetivo_show',{'id':actividadProceso[0].objetivo.id}) }}">{{ actividadProceso[0].objetivo.nombre }}</p></a>
+        <p><b>Actividad:</b> <a href="{{ path('proyecto_procesarActividad', { 'idobjetivo': actividadProceso[0].objetivo.id  }) }}">{{ actividadProceso[0].descripcion }}</a></p>
+    {% elseif ticketProceso is not empty %}
+        <div class="alert alert-warning">TIENES UN TICKET EN PROCESO</div>
+        
+        <p><b>Solicitud:</b> <a href="{{ path('progis_ticket_asignar',{'idticket':ticketProceso[0].ticket.id}) }}">{{ ticketProceso[0].ticket.solicitud}}</p></a>
+        
+    {% else %}
+        <div class="alert alert-warning">ACTUALMENTE NO TIENES ACTIVIDADES EN PROCESO</div>
+    {% endif %}
+    
+    <br>
+    <div class="panel panel-info">
+        <!-- Default panel contents -->
+        <div class="panel-heading"><h5>METAS</h5></div>    
+        <table id="tabladatatableM" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>P</th>
+                    <th style="width: 40%;">ACTIVIDAD</th>
+                    <th><span data-toggle="tooltip" data-placement="top" title="Tiempo estimado">T.E</span></th>
+                    <th>UBICACION</th>
+                    <th><span data-toggle="tooltip" data-placement="top" title="Fecha fin estimada del objetivo">FECHA F.E.O.</span></th>
+                    <th><span data-toggle="tooltip" data-placement="top" title="Fecha fin estimada de la meta">FECHA F.E.M.</span></th>
+                    <th style="width: 15%;"><span data-toggle="tooltip" data-placement="top" title="Observación meta">OBSERVACION M.</span></th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in pendientes['metas']%}
+                    <tr>
+                        <td>{{ a.actividad.ordenPriometa }}</td>
+                        <td style="text-align: justify;">{{ a.actividad.descripcion }}</td>
+                        <td>{{ a.actividad.tiempoestimado }}</td>
+                        <td>{% if a.actividad.ubicacion==1 %}nuevo{% elseif a.actividad.ubicacion==2 %}proceso{% elseif a.actividad.ubicacion==3 %}revision{% elseif a.actividad.ubicacion==4 %}culminado{% elseif a.actividad.ubicacion==5 %}dependencia{% endif %}</td>
+                        <td {% if a.actividad.objetivo.fechafinestimada|date("Y-m-d")<"now"|date("Y-m-d")%}style="color:red;"{% endif %}>{{ a.actividad.objetivo.fechafinestimada|date("d-m-Y") }} {% if a.actividad.objetivo.fechafinestimada|date("Y-m-d")<"now"|date("Y-m-d")%}<a href="{{ path('objetivo_edit',{'id':a.actividad.objetivo.id}) }}">Cambiar</a>{% endif %}</td>
+                        <td {% if a.meta.fechahasta|date("Y-m-d")<"now"|date("Y-m-d")%}style="color:red;"{% endif %}>{{ a.meta.fechahasta|date("d-m-Y") }}</td>
+                        <td>{{ a.meta.observacion}}</td>
+                        <td>
+                            <a href="{{ path('proyecto_procesarActividad', { 'idobjetivo': a.actividad.objetivo.id  }) }}">Gestionar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+            
+    <div class="panel panel-info">
+        <!-- Default panel contents -->
+        <div class="panel-heading"><a name="actividades"><h5>ACTIVIDAD</h5></a></div>    
+    <table id="tabladatatableA" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th style="width: 40%;">ACTIVIDAD</th>
+                <th>T.E</th>
+                <th>UBICACION</th>
+                <th><span data-toggle="tooltip" data-placement="top" title="Fecha fin estimada del objetivo">FECHA F.E.O</span></th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in pendientes['actividades']%}
+                <tr>
+                    <td style="text-align: justify;">{{ a.descripcion }}</td>
+                    <td>{{ a.tiempoestimado }}</td>
+                    <td>{% if a.ubicacion==1 %}nuevo{% elseif a.ubicacion==2 %}proceso{% elseif a.ubicacion==3 %}revision{% elseif a.ubicacion==4 %}culminado{% elseif a.ubicacion==5 %}dependencia{% endif %}</td>
+                    <td {% if a.objetivo.fechafinestimada|date("Y-m-d")<"now"|date("Y-m-d")%}style="color:red;"{% endif %}>{{ a.objetivo.fechafinestimada|date("d-m-Y")}} {% if a.objetivo.fechafinestimada|date("Y-m-d")<"now"|date("Y-m-d")%}<a href="{{ path('objetivo_edit',{'id':a.objetivo.id}) }}">Cambiar</a>{% endif %}</td>
+                    <td>
+                        <a href="{{ path('proyecto_procesarActividad', { 'idobjetivo': a.objetivo.id  }) }}">Gestionar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+        
+    
+    <div class="panel panel-info">
+        <!-- Default panel contents -->
+        <div class="panel-heading"><a name="tickets"><h5>TICKETS</h5></a></div>      
+    <table id="tabladatatableT" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th style="width: 40%;">SOLICITUD</th>
+                <th>FECHA SOLICITUD</th>
+                <th>SOLICITANTE</th>
+                <th>UBICACION</th>
+                <th><span data-toggle="tooltip" data-placement="top" title="Tiempo de atención">T.A</span></th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in pendientes['tickets']%}
+                <tr>
+                    <td style="text-align: justify;">{{ t.ticket.solicitud }}</td>
+                    <td>{{ t.ticket.fechasolicitud|date("d-m-Y") }} {{ t.ticket.horasolicitud|date("G:s:i")}}</td>
+                    <td>{{ t.ticket.solicitante.primerNombre }}</td>
+                    <td>{% if t.ubicacion==1 %}nuevo{% elseif t.ubicacion==2 %}proceso{% elseif t.ubicacion==3 %}revision{% elseif t.ubicacion==4 %}culminado{% elseif t.ubicacion==5 %}dependencia{% endif %}</td>
+                    <td>{{ t.subcategoria.tiempoatencion }}{% if t.subcategoria.tipotiempo==2 %} Hora(s){% else %} Minuto(s){% endif %}</td>
+                    <td><a  href="{{ path("progis_ticket_asignar",{'idticket':t.ticket.id}) }}">Gestionar</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    
+    
+     {#
+    
+    
+    
+    
+    
+    <div class="row">
+        
+      <div class="col-sm-4">
+      <div class="panel panel-primary">
+      <div class="panel-heading">PRIORIDADES METAS</div><br>
+      {% set fd=null %}{% set fh=null %}
+      {% for ma in pendientes['metas']%}
+          {#
+            {% if fd!=ma.meta.fechadesde|date("Y-m-d") and fh!=ma.meta.fechahasta|date("Y-m-d") %}
+                <div style="margin-left: 5px" class="label label-danger">META DESDE: {{ma.meta.fechadesde|date("d-m-Y")}} HASTA: {{ma.meta.fechahasta|date("d-m-Y")}}</div><br><br>
+            {% endif %}#}
+         {#   
+            <div class="panel panel-default" style="margin: 5px">
+                <div class="panel-body">
+                    <p>Prioridad: {{ ma.actividad.ordenPriometa }}</p>
+                    <p>Proyecto: <a href="{{ path('proyecto_show',{'id':ma.actividad.objetivo.proyecto.id}) }}">{{ ma.actividad.objetivo.proyecto.nombre }}</p></a>
+                    <p>Objetivo: <a href="{{ path('objetivo_show',{'id':ma.actividad.objetivo.id}) }}">{{ ma.actividad.objetivo.nombre }}</p></a>
+                    <p>Actividad: <a href="{{ path('proyecto_procesarActividad', { 'idobjetivo': ma.actividad.objetivo.id  }) }}">{{ ma.actividad.descripcion }}</a></p>
+                    <p>Tiempo: {{ ma.actividad.tiempoestimado }} {% if ma.actividad.tipotiempo==2%}Hora(s){% else %}Minuto(s){% endif %}</p>
+                    <p>Ubicacion: {% if ma.actividad.ubicacion==1 %}Nuevo{% elseif ma.actividad.ubicacion==2 %}Proceso{% elseif ma.actividad.ubicacion==3 %}Revisión{% elseif ma.actividad.ubicacion==4%}Culminado{% elseif ma.actividad.ubicacion==5 %}Dependencia{% endif %}</p>
+                    <div class="label label-danger">META A CUMPLIR DESDE: {{ma.meta.fechadesde|date("d-m-Y")}} HASTA: {{ma.meta.fechahasta|date("d-m-Y")}}</div><br><br>
+                </div>
+            </div>
+            
+            {% set fd=ma.meta.fechadesde|date("Y-m-d") %}
+            {% set fh=ma.meta.fechahasta|date("Y-m-d") %}
+      {% endfor %}
+      </div>
+      </div>
+      
+      <div class="col-sm-4">
+      <div class="panel panel-primary">
+      <div class="panel-heading">ACTIVIDADES</div><br>
+      {% for a in pendientes['actividades'] %}
+            <div class="panel panel-default" style="margin: 5px">
+                <div class="panel-body">
+                    <p>Proyecto: <a href="{{ path('proyecto_show',{'id':a.objetivo.proyecto.id}) }}">{{ a.objetivo.proyecto.nombre }}</p></a>
+                    <p>Objetivo: <a href="{{ path('objetivo_show',{'id':a.objetivo.id}) }}">{{ a.objetivo.nombre }}</p></a>
+                    <p>Actividad: <a href="{{ path('proyecto_procesarActividad', { 'idobjetivo': a.objetivo.id  }) }}">{{ a.descripcion }}</a></p>
+                    <p>Tiempo: {{ a.tiempoestimado }} {% if a.tipotiempo==2%}Hora(s){% else %}Minuto(s){% endif %}</p>
+                    <p>Ubicacion: {% if a.ubicacion==1 %}Nuevo{% elseif a.ubicacion==2 %}Proceso{% elseif a.ubicacion==3 %}Revisión{% elseif a.ubicacion==4%}Culminado{% elseif a.ubicacion==5 %}Dependencia{% endif %}</p>
+                </div>
+            </div>
+      {% endfor %}
+      </div>
+      </div>
+      
+      <div class="col-sm-4">
+      <div class="panel panel-primary">
+      <div class="panel-heading">TICKETS</div><br>
+      {% for t in pendientes['tickets'] %}
+            <div class="panel panel-default" style="margin: 5px">
+                <div class="panel-body">
+                    <p>Solicitante: {{ t.responsable.usuario.PrimerNombre|capitalize }} {{ t.responsable.usuario.PrimerApellido|capitalize }} </p>
+                    <p>Fecha solicitud: {{ t.ticket.fechasolicitud|date("d-m-Y") }} </p>
+                    <p>Solicitud: <a  href="{{ path("progis_ticket_asignar",{'idticket':t.ticket.id}) }}">{{ t.ticket.solicitud }}</a> </p>
+                    <p>Tiempo de atención: {{ t.subcategoria.tiempoatencion }} {% if t.subcategoria.tipotiempo==2 %}Hora(s){% elseif t.subcategoria.tipotiempo==3 %}Minuto(s){% endif %} </p>
+                </div>
+            </div>
+      {% endfor %}
+      </div>
+    </div>
+      </div>
+#}
+      
+      <script>
+        $(document).ready(function(){
+
+            $('[data-toggle="tooltip"]').tooltip()
+            $('#tabladatatableM').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                 "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                 "aaSorting": [[5,'desc'],[4,'asc']],
+             } );
+            $('#tabladatatableA').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                 "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                 "aaSorting": [[3,'asc'],[0,'asc']],
+             } );
+            $('#tabladatatableT').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                 "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                 "aaSorting": [[3,'asc'],[2,'asc']],
+             } );
+        })
+      </script>
+{% endblock %}

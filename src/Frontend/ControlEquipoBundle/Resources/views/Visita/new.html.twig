@@ -1,0 +1,60 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block title %}Nueva Visita{% endblock %}
+
+{% block titulo %}
+    <h3>REGISTRAR VISITA</h3>
+{% endblock %}
+
+{% block ubicacion %}
+        <ol class="breadcrumb">
+            <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+            <li><a href="{{ path("visita") }}">LISTADO DE VISITANTES</a></li>
+            <li class="active">REGISTRAR VISITA</li>
+
+        </ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+   
+    
+    {# % form_theme form 'ProyectoBundle:Form:fields.html.twig' % #}
+    {{ form_start(formv, { 'attr': {'novalidate':null,'name':'form'} }) }}
+        <div class="formShow">
+            {% if usuario is not empty and foto==1 %}
+                <img src="/uploads/visitas/{{ usuario[0].cedula }}" width="200px;">
+            {% else %}
+                <img src="{{ asset('images/nodisp.jpg') }}" width="250px;"><br>
+                IMAGEN NO DISPONIBLE<br><br>
+            {% endif %}
+            {{ form_widget(formu) }}
+            {{ form_widget(formv) }}
+        </div>
+    
+        <input type="submit" class="btn btn-primary" value="REGISTRAR VISITA">  | 
+        <a class="btn btn-default" href="{{ path('visita_busca') }}">VOLVER A LA BUSQUEDA</a><BR><BR>
+    {{ form_end(formv) }}
+    
+
+    {% if usuario is not empty %}
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#frontend_controlequipobundle_usuario_nombres').val("{{ usuario[0].nombres }}");
+                $('#frontend_controlequipobundle_usuario_nombres').attr('readonly', true);
+                $('#frontend_controlequipobundle_usuario_apellidos').val("{{ usuario[0].apellidos }}");
+                $('#frontend_controlequipobundle_usuario_apellidos').attr('readonly', true);
+                $('#frontend_controlequipobundle_usuario_cedula').val("{{ usuario[0].cedula }}");
+                $('#frontend_controlequipobundle_usuario_cedula').attr('readonly', true);
+                $('#frontend_controlequipobundle_usuario_telefono').val("{{ usuario[0].telefono }}");
+                $('#frontend_controlequipobundle_usuario_telefono').attr('readonly', true);
+                $('#frontend_controlequipobundle_usuario_direccion').val("{{ usuario[0].direccion }}");
+                $('#frontend_controlequipobundle_usuario_direccion').attr('readonly', true);
+
+            });
+        </script>
+    {% endif %}
+     
+        
+
+{% endblock %}

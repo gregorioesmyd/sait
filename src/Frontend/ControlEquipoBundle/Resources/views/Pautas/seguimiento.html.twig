@@ -1,0 +1,278 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("pautas") }}">PAUTAS</a></li>
+  <li class="active">SEGUIMIENTO DE LA PAUTA</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    <h1>Seguimiento de la Pauta</h1>
+
+    <table class="bordered" style="width:80%;">
+            <thead>
+                <tr>
+                    <th>Pauta</th>
+                    <th>Tipo de Pauta</th>
+                    <th>Desde</th>
+                    <th>Hasta</th>
+                    <th>Responsable</th>
+                    <th>Dependencia</th>
+                    <th>Evento / Destino</th>
+                    <th>Estatus Actual</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ "%06d" | format(entity.id) }}</td>
+                <td>
+                    {% if entity.tipoPauta == 1 %}
+                        Pauta Programada
+                    {% elseif entity.tipoPauta == 2 %}
+                        Pauta No Programada
+                    {% endif %}
+                </td>
+                <td>{{ entity.fechaDesde|date('d/m/Y') }}</td>
+                <td>{{ entity.fechaHasta|date('d/m/Y') }}</td>
+                <td>{{ entity.responsable }}</td>
+                <td>
+                    {% if unidadDependencia == '' %}
+                        Sin Unidad Responsable
+                    {% else %}
+                        {{ unidadDependencia }}
+                    {% endif %}
+                </td>
+                
+                <td>{{ entity.justificacion }}</td>
+                <td>
+                    {% if entity.estatus == 1 %}
+                        <span class="label label-info glyphicon glyphicon-certificate"> Creada</span>
+                    {% elseif entity.estatus == 2 %}
+                        <span class="label label-success glyphicon glyphicon-ok"> Confirmada</span>
+                    {% elseif entity.estatus == 3 %}
+                        <span class="label label-info glyphicon glyphicon-log-out"> Salida Confirmada</span>
+                    {% elseif entity.estatus == 4 %}
+                        <!-- Al confirmar la Entrada se finaliza la Pauta -->
+                        <span class="label label-default glyphicon glyphicon-ok-sign"> Finalizada</span>
+                    {% else %}
+                        <span class="label label-default glyphicon glyphicon-remove"> Sin Estatus</span>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="8">
+                    <center>
+                        <p><b>SEGUIMIENTO DE LA PAUTA</b></p>
+                    </center>
+            <div id="seguimiento">
+                   <table>
+                       <tr>
+                            <th width="10%">Operacion</th>
+                            <th>Fecha/Hora de Operación</th>
+                            <th>Usuario</th>
+                       </tr>
+                       {% for operacion in operaciones %}
+                           
+                           <tr><td>
+                                {% if operacion.tipoOperacion == 1 %}
+                                    <span class="label label-info glyphicon glyphicon-certificate"> Creada</span>
+                                {% elseif operacion.tipoOperacion == 2 %}
+                                    <span class="label label-success glyphicon glyphicon-ok"> Confirmada</span>
+                                {% elseif operacion.tipoOperacion == 3 %}
+                                    <span class="label label-info glyphicon glyphicon-log-out"> Salida Confirmada</span>
+                                {% elseif operacion.tipoOperacion == 4 %}
+                                    <span class="label label-info glyphicon glyphicon-log-in"> Entrada Confirmada</span>
+                                {% endif %}
+                                </td>
+                                <td> {{ operacion.fechaOperacion|date('d/m/Y G:i:s') }} </td>
+                                <td>{{ operacion.reponsableUsuario }}</td>
+                            </tr>
+                            {% if operacion.tipoOperacion == 4 %}
+                                <tr>
+                                    <td><span class="label label-default glyphicon glyphicon-ok-sign"> Finalizada</span></td>
+                                    <td> {{ operacion.fechaOperacion|date('d/m/Y G:i:s') }} </td>
+                                    <td>{{ operacion.reponsableUsuario }}</td>
+                                </tr>
+                            {% endif %}
+                   {% endfor %}
+                   </table>
+                                            {% if equipos is not empty %}
+                                            
+                                                <div class="panel-group" id="accordion" style="margin-top: 15px;">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                                            Ver Lista de Equipos
+                                                            </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseOne" class="panel-collapse collapse">
+                                                            <div class="panel-body">
+                                                                <div id="list-equipo">
+                                                                    <ul>
+                                                                        {% for equipo in equipos %}
+                                                                            <li>
+                                                                                {% if fotoReferencia[equipo.equipoId]=='' %}
+                                                                                    <img class="img-thumbnail glyphicon glyphicon-picture" src="{{ asset('images/no-image.gif') }}" width="100px" />
+                                                                                {% else %}
+                                                                                    <img class="img-thumbnail glyphicon glyphicon-picture" src="{{ asset('uploads/controlequipo/') }}{{ fotoReferencia[equipo.equipoId] }}" width="100px" />
+                                                                                {% endif%}
+                                                                                <p><b>Descripción:</b> {{ equipo.equipoInterno}}
+                                                                                    <p>Salida{% if equipo.chequeoSalida == null or equipo.chequeoSalida == FALSE %}
+                                                                                       <span class="label label-danger glyphicon glyphicon-remove"> No Confirmada</span>
+                                                                                    {% else %}
+                                                                                        <span class="label label-success glyphicon glyphicon-ok-sign"> Confirmada</span>
+                                                                                        {% endif %}</p>
+                                                                                    <p>Entrada{% if equipo.chequeoEntrada == null or equipo.chequeoEntrada == FALSE %}
+                                                                                       <span class="label label-danger glyphicon glyphicon-remove"> No Confirmada</span>
+                                                                                    {% else %}
+                                                                                        <span class="label label-success glyphicon glyphicon-ok-sign"> Confirmada</span>
+                                                                                    {% endif %}</p>
+                                                                            </li>
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <div class="alert alert-info" id="list_equipovacia" style="margin-top:15px;"><center>Ningun equipo Registrado en la Pauta</center></div>
+                                            {% endif %}
+                                        
+            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul class="record_actions">
+        <li>
+            <!--<a href="{{ path('pauta_edit', { 'id': entity.id }) }}" class="btn btn-info">
+                <span class="glyphicon glyphicon-flag"></span> Procesar
+            </a> |-->
+        {% if is_granted('ROLE_EQUIPOS_SEGURIDAD') %}
+            {% if estatus == 1 %}
+                <br>
+                <form id="confirmar_pauta" action="{{ path("pauta_confirmar") }}" name="verif_salida_pauta" method="post">
+                        <input type="hidden" id="id_pauta" name="id_pauta" value="{{ entity.id }}">
+                        <a href="#" class="btn btn-info" id="submit_confirmar">
+                            <span class="glyphicon glyphicon-ok"></span> Confirmar Pauta
+                        </a>
+                </form>
+            {% elseif estatus == 2 %}
+                <br>
+                    <a href="{{ path('pauta_versal', { 'id': entity.id }) }}" class="btn btn-info">
+                        <span class="glyphicon glyphicon-log-out"></span> Verificar y Confirmar Salida de Equipos
+                    </a>
+                <br>
+            {% elseif estatus == 3 %}
+                <br>
+                    <a href="{{ path('pauta_verent', { 'id': entity.id }) }}" class="btn btn-info">
+                        <span class="glyphicon glyphicon-log-in"></span> Verificar y Confirmar Entrada de Equipos
+                    </a>
+                <br>
+            {% endif %}
+        {% endif %}
+                <br>
+                {% if is_granted('ROLE_EQUIPOS_PAUTASPROGRAMADAS') %}
+                    <a href="{{ path('pautas') }}" class="btn btn-default">
+                        Volver a la Lista de Pautas
+                    </a>
+                {% else %} 
+                    <a href="{{ path('pautas') }}" class="btn btn-default">
+                        Mis Pautas
+                    </a> |
+                    <a href="{{ path('pautas_listar') }}" class="btn btn-default">
+                        Volver a la Lista de Pautas
+                    </a>
+                {% endif %}
+                <br>
+            <!--|
+            <a href="{{ path('pauta_edit', { 'id': entity.id }) }}" class="btn btn-info">
+                <span class="glyphicon glyphicon-edit"></span> Editar
+            </a>-->
+        </li>
+    </ul>
+    <script>
+        $(function(){
+	$('#txtNombre').focus();
+	//evento al hacer clic en el boton agregar
+	$('#add_equipo_pauta').on('submit',function(e){
+            // Aqui hago la peticion ajax, captura los datos y verifico en base de datos
+            e.preventDefault();
+		//obtenemos el nombre digitado por el usuario
+		//con la funcion parseInt() convertimos de texto a numero
+		var $txtNombre=$('#txtNombre');
+		if($.trim($txtNombre.val())!=''){
+                        $.ajax({
+                            type: 'post',
+                            url: '{{ path("controlequipo_search_equipo") }}',
+                            data: { codigoBarra: $txtNombre.val() },
+                            dataType: 'json',
+                            success: function(data) {
+                                if(data.vacio == 'no') {
+                                    var $ulLista;
+                                    //si la lista html no existe entonces la agregamos al dom
+                                    if(!$('#divLista').find('ul').length) $('#divLista').append('<ul/>');
+
+                                    //obtenemos una instancia de la lista
+                                    $ulLista=$('#divLista').find('ul');
+                                    //creamos el item que va a contener el nombre y el boton eliminar
+                                    var $liNuevoNombre =
+                                            $('<li/>').html('<a class="clsEliminarElemento">&nbsp;</a>'+data.descripcion + ' | '+data.serial);
+
+                                    //agregamos el equipo al inicio
+                                    $ulLista.prepend($liNuevoNombre);
+                                    $txtNombre.val('').focus();
+                                } else {
+                                    alert('Equipo no encontrado');
+                                    $txtNombre.val('').focus();
+                                }
+                            }
+                        });
+
+                } else {
+			alert('Por favor, digite el codigo del equipo que desea agregar a la lista.')
+		}
+                return false;
+                
+	});
+	
+	//evento al hacer clic en el boton eliminar de cada item de la lista
+	//se debe usar "live", ya que son elementos generados donamicamente
+	$(document).on('click','.clsEliminarElemento',function(){
+		//buscamos la lista
+		var $ulLista=$('#divLista').find('ul');
+		//buscamos el padre del boton (el tag li en el que se encuentra)
+		var $liPadre=$($(this).parents().get(0));
+		
+		//eliminamos el elemento
+		$liPadre.remove();
+		//si la listaesta vacia entonces la eliminamos del dom
+		if($ulLista.find('li').length==0) $ulLista.remove();
+	});
+	
+	//al presionar <ENTER> sobre el campo txtNombre llamamos al boton (usabilidad otra vez)
+	$('#txtNombre').on('keypress',function(eEvento){
+		if(eEvento.which==13) $('#add_pauta_equipo').trigger('submit');
+	});
+        
+        $('#submit_confirmar').on('click',function(e){
+            e.preventDefault();
+            if(confirm("¿Está seguro que desea confirmar la Pauta con los equipos actuales? No podrá modificarla")) {
+                $( "#confirmar_pauta" ).submit();
+            }
+            return false;
+        });
+});
+    </script>
+{% endblock %}
+
+    {% block menu %}
+        {% include 'ControlEquipoBundle:Default:menu.html.twig' %}
+    {% endblock %}

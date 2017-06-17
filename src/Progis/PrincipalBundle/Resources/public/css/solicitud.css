@@ -1,0 +1,64 @@
+#progis_ticketbundle_ticket_nivelorganizacional label{
+        display: block;
+}
+
+#progis_ticketbundle_ticket_nivelorganizacional input{
+        float: left;
+        text-align: left;
+        padding: 0px;
+        margin: 0px;
+}
+
+/* FORMULARIOS */
+
+        #formulario ul{
+            list-style: none;
+            padding: 0;
+            color: #A94442;
+            font-weight: bold;
+        }
+
+        #formulario select{
+                width: 200px;
+        }
+
+        #formulario input[type="text"]{
+                width: 109px;
+        }
+
+
+        #formulario textarea{
+                width: 300px;
+                height: 150px;
+        }
+
+        #formulario .contenedorform{
+                margin-bottom:5px;
+                padding: 5px;
+                height: auto;
+                overflow: visible;
+
+        }
+        
+        #formulario .labelform {
+            display: inline-block;
+            float                  :left;
+            width                  :35%;
+            text-align             :right;
+            font-weight            :bold;
+            padding: 4px;
+            padding-right: 10px;
+
+
+        }
+
+        #formulario .widgetform {
+            display: inline-block;
+            text-align: left;
+            text-align: justify;
+            padding: 4px;
+            width: 65%;
+        }
+
+
+/* FIN FORMULARIOS */

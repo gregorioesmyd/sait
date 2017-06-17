@@ -1,0 +1,86 @@
+<?php
+
+namespace Frontend\CumpleaniosBundle\Entity\Efemerides;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Efemerides
+ *
+ * @ORM\Table(name="efemerides.efemerides")
+ * @ORM\Entity
+ */
+class Efemerides {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="efemerides_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", nullable=false)
+     * @Assert\NotBlank(message="El campo nombre efemerides no puede estar en blanco.").
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="anio", type="string", nullable=false)
+     * @Assert\NotBlank(message="El campo año no puede estar en blanco.").
+     */
+    private $anio;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mes", type="string", nullable=true)
+     * @Assert\NotBlank(message="El campo año no puede estar en blanco.").
+     */
+    private $mes;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="dia", type="string", nullable=true)
+     * @Assert\NotBlank(message="El campo año no puede estar en blanco.").
+     */
+    private $dia;
+
+    /**
+     * @var \Frontend\CumpleaniosBundle\Entity\Efemerides\TipoEfemerides
+     *
+     * @ORM\ManyToOne(targetEntity="Frontend\CumpleaniosBundle\Entity\Efemerides\TipoEfemerides")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_tipoefemerides", referencedColumnName="id")
+     * })
+     * @Assert\NotBlank(message="Debe seleccionar un tipo.")
+     */
+    private $tipoId;
+
+    /**
+     * @var \Frontend\CumpleaniosBundle\Entity\Efemerides\Pais
+     *
+     * @ORM\ManyToOne(targetEntity="Frontend\CumpleaniosBundle\Entity\Efemerides\Pais")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_pais", referencedColumnName="id")
+     * })
+     * @Assert\NotBlank(message="Debe seleccionar un pais.")
+     */
+    private $paisId;
+
+  
+
+    public function __toString() {
+        return $this->getNombre();
+    }
+
+}

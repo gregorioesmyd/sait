@@ -1,0 +1,35 @@
+{% extends '::contratos.html.twig' %}
+
+{% block title %}Nuevo Abogado{% endblock %}
+
+{% block titulo %}
+    NUEVO ABOGADO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("abogados") }}">LISTADO DE ABOGADOS</a></li>
+  <li class="active">NUEVO ABOGADO</li>
+</ol>
+{% endblock %}
+    
+{% block body -%}
+    {{ parent() }}
+
+    <form action="{{ path('abogados_create') }}" method="post" {{ form_enctype(form) }}>{{ form_widget(form._token) }}
+               
+        <div class="formShow">
+            <br>
+            <div class="contenedorform">
+                <div class="text-error">{{ form_errors(form.nombre) }}</div>                    
+                <div class="labelform">Nombre del Abogado:</div>
+                <div class="widgetform">{{ form_widget(form.nombre) }}</div>
+            </div>  
+        </div>
+        <br><br>
+            <button class="btn btn-primary" type="submit">CREAR</button> |
+        <a class="btn btn-default" href="{{ path('abogados') }}">VOLVER</a>
+        <br>
+    </form>
+{% endblock %}

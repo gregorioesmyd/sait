@@ -1,0 +1,235 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+  {% if is_granted('ROLE_EQUIPOS_SEGURIDAD') %}
+    <li><a href="{{ path("pautas_listar") }}">PAUTAS</a></li>
+  {% endif %}
+  {% if is_granted('ROLE_EQUIPOS_PAUTASPROGRAMADAS') %}
+      <li><a href="{{ path("pautas") }}">PAUTAS</a></li>
+  {% endif %}
+  <li class="active">VERIFICAR Y CONFIRMAR PAUTA</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    <h2>Verificar y Confirma Pauta # {{ "%06d" | format(entity.id) }}</h2>
+    <table class="bordered" style="width:80%;">
+            <thead>
+                <tr>
+                    <th>Pauta</th>
+                    <th>Tipo de Pauta</th>
+                    <th>Desde</th>
+                    <th>Hasta</th>
+                    <th>Responsable</th>
+                    <th>Dependencia</th>
+                    <th>Evento / Destino</th>
+                    <th>Estatus</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ "%06d" | format(entity.id) }}</td>
+                <td>
+                    {% if entity.tipoPauta == 1 %}
+                        Pauta Programada
+                    {% elseif entity.tipoPauta == 2 %}
+                        Pauta No Programada
+                    {% endif %}
+                </td>
+                <td>{{ entity.fechaDesde|date('d/m/Y') }}</td>
+                <td>{{ entity.fechaHasta|date('d/m/Y') }}</td>
+                <td>{{ entity.responsable }}</td>
+                <td>
+                    {% if unidadDependencia == '' %}
+                        Sin Unidad Responsable
+                    {% else %}
+                        {{ unidadDependencia }}
+                    {% endif %}
+                </td>
+                <td>{{ entity.justificacion }}</td>
+                <td>
+                    {% if entity.estatus == 1 %}
+                        <span class="label label-info glyphicon glyphicon-certificate"> Creada</span>
+                    {% elseif entity.estatus == 2 %}
+                        <span class="label label-success glyphicon glyphicon-ok"> Confirmada</span>
+                    {% elseif entity.estatus == 3 %}
+                        <span class="label label-info glyphicon glyphicon-log-out"> Salida Confirmada</span>
+                    {% elseif entity.estatus == 4 %}
+                        <!-- Al confirmar la Entrada se finaliza la Pauta -->
+                        <span class="label label-danger glyphicon glyphicon-ok-sign"> Finalizada</span>
+                    {% else %}
+                        <span class="label label-danger glyphicon glyphicon-remove"> Sin Estatus</span>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="8">
+                    <center>
+                        <p><b>Añadir Equipos a la Lista</b></p>
+                        <form id="add_equipo_pauta">
+                            <input type="text" id="txtNombre" size="40" class="form-control" autofocus placeholder="Código de Barra" />
+                            <input type="hidden" id="pauta" name="pauta" value="{{ entity.id }}">
+                        </form>
+                        <p><b>LISTA DE EQUIPOS</b></p>
+                    </center>
+            
+                    {% if equipos is not empty %}
+                    <div id="divLista">
+                        <ul>
+                        {% for equipo in equipos %}
+                            <li><a class="clsEliminarElemento" equipo="{{ equipo.equipoId }}" id="{{ equipo.id }}">&nbsp;</a>
+                                {% if fotoReferencia[equipo.equipoId]=='' %}
+                                    <img class="img-rounded glyphicon glyphicon-picture" src="{{ asset('images/no-image.gif') }}" width="70px">
+                                {% else %}
+                                    <img class="img-rounded glyphicon glyphicon-picture" src="{{ asset('uploads/controlequipo/') }}{{ fotoReferencia[equipo.equipoId] }}" width="70px">
+                                {% endif%}
+                                {{ equipo.equipoId }} | {{ equipo.equipoInterno }} </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    {% else %}
+                        <div id="divLista"></div>
+                        <div class="alert alert-info" id="list_equipovacia"><center>Ningun equipo Registrado en la Pauta</center></div>
+                    {% endif %}
+                
+            
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul class="record_actions">
+        <li><br>
+              
+            <!--<a href="{{ path('pauta_edit', { 'id': entity.id }) }}" class="btn btn-info">
+                <span class="glyphicon glyphicon-flag"></span> Procesar
+            </a> |-->
+            {% if entity.tipoPauta == 1 %}
+                {% set boton = 'Confirmar Pauta' %}
+            {% elseif entity.tipoPauta == 2 %}
+                {% set boton = 'Confirmar Pauta y dar Salida' %}
+            {% endif%}
+                <form id="confirmar_pauta" action="{{ path("pauta_confirmar") }}" name="confirmar_pauta" method="post">
+                    <input type="hidden" id="id_pauta" name="id_pauta" value="{{ entity.id }}">
+                    <a href="#" class="btn btn-info" id="submit_confirmar">
+                        <span class="glyphicon glyphicon-ok"></span> {{ boton }}
+                    </a>
+                </form>
+            <br>
+            {% if is_granted('ROLE_EQUIPOS_PAUTASPROGRAMADAS') %}
+                <a href="{{ path('pautas') }}" class="btn btn-default">
+                    Volver a la Lista de Pautas
+                </a>
+            {% else %}
+                <a href="{{ path('pautas') }}" class="btn btn-default">
+                    Mis Pautas
+                </a> |
+                <a href="{{ path('pautas_listar') }}" class="btn btn-default">
+                    Volver a la Lista de Pautas
+                </a>
+            {% endif %}
+                <!--|
+            <a href="{{ path('pauta_edit', { 'id': entity.id }) }}" class="btn btn-info">
+                <span class="glyphicon glyphicon-edit"></span> Editar
+            </a>-->
+        </li>
+    </ul>
+    <script>
+        $(function(){
+	$('#txtNombre').focus();
+	//evento al hacer clic en el boton agregar
+	$('#add_equipo_pauta').on('submit',function(e){
+            // Aqui hago la peticion ajax, captura los datos y verifico en base de datos
+            e.preventDefault();
+		//obtenemos el nombre digitado por el usuario
+		//con la funcion parseInt() convertimos de texto a numero
+		var $txtNombre=$('#txtNombre'),$pauta=$('#pauta');
+		if($.trim($txtNombre.val())!==''){
+                        $.ajax({
+                            type: 'post',
+                            url: '{{ path("controlequipo_search_equipo") }}',
+                            data: { codigoBarra: $txtNombre.val(),pauta : $pauta.val() },
+                            dataType: 'json',
+                            success: function(data) {
+                                if(data.vacio === 'no') {
+                                    var $ulLista;
+                                    //si la lista html no existe entonces la agregamos al dom
+                                    if(!$('#divLista').find('ul').length) $('#divLista').append('<ul/>');
+                                    $('#list_equipovacia').hide();
+                                    //if($('#divLista').find('div')) $('#divLista').find('div').hide();
+                                    // obtenemos una instancia de la lista
+                                    $ulLista=$('#divLista').find('ul');
+                                    if (data.fotoReferencia === null) {
+                                        var $foto = "{{ asset('images/no-image.gif') }}";
+                                    } else {
+                                        var $foto = "{{ asset('uploads/controlequipo/') }}" + data.fotoReferencia;
+                                    }
+                                    //creamos el item que va a contener el nombre y el boton eliminar
+                                    var $liNuevoNombre =
+                                        $('<li/>').html('<a class="clsEliminarElemento" id="' + data.pauta + '" equipo="'+ data.equipo +'">&nbsp;</a> <img class="img-rounded glyphicon glyphicon-picture" src="'+ $foto +'" width="70px"> ' + data.equipo + ' | ' + data.descripcion);
+                                    //agregamos el equipo al inicio
+                                    $ulLista.prepend($liNuevoNombre);
+                                    $txtNombre.val('').focus();
+                                } else {
+                                    alert(data.mensaje);
+                                    $txtNombre.val('').focus();
+                                }
+                            }
+                        });
+                } else {
+			alert('Por favor, digite el código del equipo que desea agregar a la lista.');
+		}
+                return false;
+                
+	});
+	
+	//evento al hacer clic en el boton eliminar de cada item de la lista
+	//se debe usar "live", ya que son elementos generados donamicamente
+	$(document).on('click','.clsEliminarElemento',function(){
+		//buscamos la lista
+		var $ulLista=$('#divLista').find('ul');
+		//buscamos el padre del boton (el tag li en el que se encuentra)
+		var $liPadre=$($(this).parents().get(0)),
+                $equipoPauta=$(this).attr("id"),
+                $equipo=$(this).attr("equipo");
+                        // Hacemos la peticion Ajax
+                        $.ajax({
+                            type: 'post',
+                            url: '{{ path("controlequipo_eliminar_equipopauta") }}',
+                            data: { equipo_pauta: $equipoPauta,equipo:$equipo },
+                            dataType: 'json',
+                            success: function(data) {
+                                if(data.resultado === 'ok') {
+                                    //eliminamos el elemento
+                                    $liPadre.remove();
+                                } else {
+                                    alert(data.mensaje);
+                                }
+                            }
+                        });
+		
+		//si la lista esta vacia, la eliminamos del dom
+		if($ulLista.find('li').length===0) 
+                    $ulLista.remove();
+                    //$('#list_equipovacia').show();
+                
+	});
+	
+	//al presionar <ENTER> sobre el campo txtNombre llamamos al boton (usabilidad otra vez)
+	$('#txtNombre').on('keypress',function(eEvento){
+		if(eEvento.which===13) $('#add_pauta_equipo').trigger('submit');
+	});
+        
+        $('#submit_confirmar').on('click',function(e){
+            e.preventDefault();
+            if(confirm("¿Está seguro que desea confirmar la Pauta con los equipos actuales? No podrá modificarla")) {
+                $( "#confirmar_pauta" ).submit();
+            }
+            return false;
+        });
+});
+    </script>
+{% endblock %}

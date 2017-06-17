@@ -1,0 +1,39 @@
+<?php
+
+namespace Progis\PrincipalBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Documento
+ *
+ * @ORM\Table(name="progis.ActividadMeta")
+ * @ORM\Entity
+ */
+class ActividadMeta
+{
+    
+    /**
+     * @var \Frontend\PrincipalBundle\Entity\Ticket
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Progis\ProyectoBundle\Entity\ProcesarActividad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="actividad_id", referencedColumnName="id")
+     * })
+     */
+    private $actividad;
+    
+    /**
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Metas")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="meta_id", referencedColumnName="id")
+     * })
+     */
+    private $meta;
+    
+
+     
+
+}

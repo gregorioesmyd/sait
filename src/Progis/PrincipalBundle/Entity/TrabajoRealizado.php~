@@ -1,0 +1,163 @@
+<?php
+
+namespace Progis\PrincipalBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Documento
+ * @ORM\Table(name="progis.trabajorealizado")
+ * @ORM\Entity
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="tipo_proceso", type="string")
+ * @ORM\DiscriminatorMap({
+*               "ticket" = "TrabajoTicket"
+*              ,"actividad" = "TrabajoActividad"
+*         })
+ */
+
+
+abstract  class TrabajoRealizado
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="progis.trabajorealizado_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;  
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo", type="string", nullable=true)
+     */
+    private $tipo;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fecha", type="datetime", nullable=true)
+     */
+    private $fecha;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tiemporeal", type="string", nullable=true)
+     */
+    private $tiemporeal;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ubicacion", type="integer", nullable=false)
+     */
+    private $ubicacion;
+    
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set tipo
+     *
+     * @param string $tipo
+     * @return TrabajoRealizado
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+    
+        return $this;
+    }
+
+    /**
+     * Get tipo
+     *
+     * @return string 
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * Set fecha
+     *
+     * @param \DateTime $fecha
+     * @return TrabajoRealizado
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+    
+        return $this;
+    }
+
+    /**
+     * Get fecha
+     *
+     * @return \DateTime 
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
+     * Set tiemporeal
+     *
+     * @param string $tiemporeal
+     * @return TrabajoRealizado
+     */
+    public function setTiemporeal($tiemporeal)
+    {
+        $this->tiemporeal = $tiemporeal;
+    
+        return $this;
+    }
+
+    /**
+     * Get tiemporeal
+     *
+     * @return string 
+     */
+    public function getTiemporeal()
+    {
+        return $this->tiemporeal;
+    }
+
+    /**
+     * Set ubicacion
+     *
+     * @param integer $ubicacion
+     * @return TrabajoRealizado
+     */
+    public function setUbicacion($ubicacion)
+    {
+        $this->ubicacion = $ubicacion;
+    
+        return $this;
+    }
+
+    /**
+     * Get ubicacion
+     *
+     * @return integer 
+     */
+    public function getUbicacion()
+    {
+        return $this->ubicacion;
+    }
+}

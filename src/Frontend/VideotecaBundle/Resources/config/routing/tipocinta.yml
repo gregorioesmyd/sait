@@ -1,0 +1,15 @@
+cntdeporte_show:
+    path:     /{id}/show
+    defaults: { _controller: "VideotecaBundle:CntDeporte:show" }
+
+cntprensa_show:
+    path:     /{id}/show
+    defaults: { _controller: "VideotecaBundle:CntPrensa:show" }
+
+cntsatelite_show:
+    path:     /{id}/show
+    defaults: { _controller: "VideotecaBundle:CntSatelite:show" }
+
+cntvideoteca_show:
+    path:     /{id}/show
+    defaults: { _controller: "VideotecaBundle:CntVideoteca:show" }

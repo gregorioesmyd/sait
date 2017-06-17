@@ -1,0 +1,225 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h3>PRIORIDADES Y METAS</h3>
+    <h5>LISTA DE PENDIENTES DE "{{ miembroEspacio.usuario.PrimerNombre|upper }} {{miembroEspacio.usuario.primerApellido|upper }}"</h5>
+    <h5>META A CUMPLIR DESDE "{{ meta.fechadesde|date("d-m-Y") }}" HASTA "{{ meta.fechahasta|date("d-m-Y") }}"</h5>
+    <h5>
+        JORNADA LABORAL: 
+        {% set dia=meta.jornadalaboral.dias|split("-") %}
+        {% for d in dia %}
+            {% if d==1 %} | Lunes |
+            {% elseif d==2 %} | Martes |
+            {% elseif d==3 %} | Miercoles |
+            {% elseif d==4 %} | Jueves |
+            {% elseif d==5 %} | Viernes |
+            {% elseif d==6 %} | Sábado |
+            {% elseif d==7 %} | Domingo |
+            {% endif %}
+        {% endfor %}
+    
+    </h5>
+    <h5>HORAS LABORALES DIARIAS "{{ meta.jornadalaboral.horasDiarias }}"</h5>
+    <h5>TOTAL DE HORAS A CUMPLIR SEGÚN JORNADA LABORAL "{{ meta.horas }}"</h5>
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("miembroespacio") }}">LISTA DE MIEMBROS</a></li>
+  <li><a href="{{ path("metas",{'id':miembroEspacio.id}) }}">LISTA DE METAS</a></li>
+  <li><a href="{{ path("metas_show",{'id':meta.id}) }}">CONSULTAR METAS</a></li>
+  <li class="active">PRIORIDADES A METAS</li>
+</ol>
+{% endblock %}
+    
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/principal/css/prioridadMeta.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/principal/js/prioridadMeta/procesar.js') }}"></script>
+    
+    <script>
+        function muestraSol(id){
+            $("#collapseSolicitud"+id).show()
+            $("#btnVerMAs"+id).hide()
+            $("#btnOcultar"+id).show()
+        }
+
+        function ocultaSol(id){
+            $("#collapseSolicitud"+id).hide()
+            $("#btnVerMAs"+id).show()
+            $("#btnOcultar"+id).hide()
+        }
+        
+        $(document).ready(function(){
+            $("#selectProyecto").change(function(){
+                $( "#formFiltro" ).submit();
+            });
+            
+            $("#selectObjetivo").change(function(){
+                $( "#formFiltro" ).submit();
+            });
+            {% if data is not empty %}
+                $("#selectProyecto option[value={{ data['proyecto'] }}]").attr("selected",true);
+                $("#selectObjetivo option[value={{ data['objetivo'] }}]").attr("selected",true);
+            {% endif %}
+        })
+        
+
+    </script>
+    
+{% endblock %}
+
+{% block contenido -%}
+    {{ parent() }}
+
+<form id="formFiltro" action="{{ path('prioridadmeta_new',{'idmeta':meta.id})}}" method="post">
+    PROYECTO: 
+    <SELECT name="proyecto" id="selectProyecto" style="width: 250px;">
+        <OPTION value="t">Todos</OPTION>
+    {% for key,p in arrayFiltro['proyecto'] %}
+        <OPTION value="{{ key }}">{{ p|capitalize }}</OPTION>
+    {% endfor %}
+    </SELECT>    
+
+    OBJETIVO: 
+    <SELECT name="objetivo" id="selectObjetivo" style="width: 250px;">
+        <OPTION value="t">Todos</OPTION>
+    {% for key,o in arrayFiltro['objetivo'] %}
+            <OPTION value="{{ key }}">{{ o|capitalize }}</OPTION>
+    {% endfor %}
+    </SELECT>  
+    
+    <a class="label label-primary" href="">LIMPIAR FILTRO</a>
+</form>
+
+<div class="alert alert-info">
+    <p>Los proyectos y objetivos se mostraran segun lo siguiente:</p>
+    <p>1.- La <span style="cursor: pointer;font-weight: bold;color:red;" data-toggle="tooltip" data-placement="top" title="Fecha de inicio estimada de objetivo" >FIEO</span> es menor o igual a la <span style="cursor: pointer;font-weight: bold;color:red;" data-toggle="tooltip" data-placement="top" title="Fecha desde de meta" >FDM</span> y la <span style="cursor: pointer;font-weight: bold;color:red;" data-toggle="tooltip" data-placement="top" title="Fecha de fin estimada de objetivo" >FFEO</span> es mayor o igual a la <span style="cursor: pointer;font-weight: bold;color:red;" data-toggle="tooltip" data-placement="top" title="Fecha fin de meta" >FFM</span></p>
+    <p>2.- La <span style="cursor: pointer;font-weight: bold;color:red;" data-toggle="tooltip" data-placement="top" title="Fecha de inicio estimada de objetivo" >FIEO</span> es mayor o igual a la <span style="cursor: pointer;font-weight: bold;color:red;" data-toggle="tooltip" data-placement="top" title="Fecha desde de meta" >FDM</span> y la <span style="cursor: pointer;font-weight: bold;color:red;" data-toggle="tooltip" data-placement="top" title="Fecha de fin estimada de objetivo" >FFEO</span> es mayor o igual a la <span style="cursor: pointer;font-weight: bold;color:red;" data-toggle="tooltip" data-placement="top" title="Fecha fin de meta">FFM</span></p>
+    
+</div>
+
+    
+{# ALERTAS #}
+   <div id="success" class="alert alert-success alert-dismissible" role="alert" style="display: none;">
+     <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+     <div class="smssuccess"></div>
+   </div>
+
+   <div id="danger" class="alert alert-danger alert-dismissible" role="alert" style="display: none;">
+     <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+     <div class="smsdanger"></div>
+   </div>
+ {# FIN ALERTAS #}
+ 
+ <div style="font-size: 15px;">TIEMPO EN METAS ASIGNADAS: <span id="tiempo" style="color:red;font-size: 19px;"> </span> HORA(S) DE {{ meta.horas }}.</div>
+    
+    {# COLUMNAS #}
+    <div class="pendiente bg-danger">PENDIENTES</div>
+    <div class="priometa bg-primary">PRIORIDADES Y METAS</div>
+    <br style="clear:both">
+    {# FIN COLUMNAS #}
+
+
+{% set hora=0 %}
+{% set minuto=0 %}
+{% for i in 1..2 %}
+<ul id="{% if i==1 %}pendiente{% elseif i==2 %}priometa{% endif %}" class="droptrue">
+    {% for a in actividad if i==1 %}
+        <div class="col-md-6 {{a.id}}-{{a.responsable.id}}" id="{{a.id}}-{{a.responsable.id}}-proyecto">
+            <div class="panel panel-{% if i==1 %}default{% elseif i==2%}default{% endif %}" id="{{a.id}}-{{a.responsable.id}}-proyecto">
+                <div style="cursor: move;" class="panel-heading">
+                    <span id="prioridad-{{a.id}}-proyecto"></span><b>Responsable:</b> {{ a.responsable.miembroespacio.usuario.primerNombre }} {{ a.responsable.miembroespacio.usuario.primerApellido }}
+                </div>
+                <div role="tabpanel" aria-labelledby="heading{{ a.id }}">
+                    <div class="panel-body" style="height: 200px;overflow-y: scroll;">
+                        <div><b>Creación:</b> {{ a.fechacreacion|date("d-m-Y")}}</div>
+                        <div><b>Proyecto:</b> {{ a.objetivo.proyecto.nombre }}</div>
+                        <div><b>Objetivo:</b> {{ a.objetivo.nombre }}</div>
+                        <div><b>Duración:</b> {{ a.tiempoestimado}} {% if a.tipotiempo==2 %} Hora(s){% else %} Minuto(s) {% endif %}</div>
+                        <br>
+                        {% if a.descripcion|length > 100 %}
+                            {{ a.descripcion|capitalize|slice(0,100)|raw}}<a style="text-decoration:none;color:#333333;display: none;" id="collapseSolicitud{{ a.id }}">{{ a.descripcion|capitalize|slice(100)}}</a>
+
+                            <a id="btnVerMAs{{ a.id }}" style="cursor:pointer;" onclick="muestraSol({{ a.id }})"><b>...Ver mas</b></a>
+                            <a id="btnOcultar{{ a.id }}" style="cursor:pointer;display: none;" onclick="ocultaSol({{ a.id }})"><b>Ocultar</b></a>
+
+
+                        {% else %}
+                            {{ a.descripcion|capitalize}}
+                        {% endif %}
+                        
+                        {#<br><br><p class="label label-info">proyecto</p>#}
+                    </div>
+                </div>
+            </div>
+        </div>     
+    {% endfor %}
+    
+    {% for a in priometa if i==2 %}
+        <div class=" {{a.actividad.id}}-{{a.actividad.responsable.id}}" id="{{a.actividad.id}}-{{a.actividad.responsable.id}}-proyecto">
+            <div class="panel panel-{% if i==1 %}default{% elseif i==2%}default{% endif %}" id="{{a.actividad.id}}-{{a.actividad.responsable.id}}-proyecto">
+                <div style="cursor: move;" class="panel-heading">
+                    <span id="prioridad-{{a.actividad.id}}-proyecto">{% if i==2%}<b>Prioridad:</b> {{a.actividad.ordenPriometa}}</span> <b>Responsable:</b> {% endif %}{{ a.actividad.responsable.miembroespacio.usuario.primerNombre }} {{ a.actividad.responsable.miembroespacio.usuario.primerApellido }}
+                </div>
+                <div role="tabpanel" aria-labelledby="heading{{ a.actividad.id }}">
+                    <div class="panel-body" style="height: auto;">
+                        <div><b>Creación:</b> {{ a.actividad.fechacreacion|date("d-m-Y")}}</div>
+                        {% if a.actividad.ubicacion==4 %}
+                            <div {% if a.actividad.fin|date("Y-m-d")>meta.fechahasta|date("Y-m-d") %}style="color:red;"{% endif %}><b>Finalización:</b> {{ a.actividad.fin|date("d-m-Y")}}</div>
+                        {% endif %}
+                        <div><b>Ubicación:</b> {% if a.actividad.ubicacion==1 %}<span class="label label-primary">Nuevo</span>{% elseif a.actividad.ubicacion==2 %}<span class="label label-warning">Proceso{% elseif a.actividad.ubicacion==3 %}<span class="label label-info">Revision</span>{% elseif a.actividad.ubicacion==4 %}<span class="label label-success">Culminado</span>{% elseif a.actividad.ubicacion==4 %}<span class="label label-warning">Dependencia</span>{% endif %}</div>
+                        <div><b>Proyecto:</b> {{ a.actividad.objetivo.proyecto.nombre }}</div>
+                        <div><b>Objetivo:</b> {{ a.actividad.objetivo.nombre }}</div>
+                        <div><b>Duración:</b> {{ a.actividad.tiempoestimado}} {% if a.actividad.tipotiempo==2 %} Hora(s){% else %} Minuto(s) {% endif %}</div>
+                        
+                        
+                        <a href="{{ path('actividad_show',{'id':a.actividad.id}) }}">
+                        {% if a.actividad.descripcion|length > 100 %}
+                            {{ a.actividad.descripcion|capitalize|slice(0,100)|raw}}<a style="text-decoration:none;display: none;" id="collapseSolicitud{{ a.actividad.id }}">{{ a.actividad.descripcion|capitalize|slice(100)}}</a>
+
+                            <a id="btnVerMAs{{ a.actividad.id }}" style="cursor:pointer;" onclick="muestraSol({{ a.actividad.id }})"><b>...Ver mas</b></a>
+                            <a id="btnOcultar{{ a.actividad.id }}" style="cursor:pointer;display: none;" onclick="ocultaSol({{ a.actividad.id }})"><b>Ocultar</b></a>
+
+
+                        {% else %}
+                            {{ a.actividad.descripcion|capitalize}}
+                        {% endif %}
+                        </a>
+                        {#<br><br><p class="label label-info">proyecto</p>#}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if a.actividad.tipotiempo==2 %}     
+            {% set hora=hora+a.actividad.tiempoestimado %}
+        {% else %}
+            {% set minuto=minuto+a.actividad.tiempoestimado %}
+        {% endif %}
+    {% endfor %}
+</ul>
+{% endfor %} 
+    {% set tiempo=hora+(minuto/60) %}
+        
+        
+        <script>
+            $( "#tiempo" ).html({{ tiempo|number_format(2) }});
+        </script>
+<br style="clear:both">
+    
+<input type="hidden" value="{{ meta.id }}" id="idmeta">
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip()
+    
+        })
+    </script>
+{% endblock %}

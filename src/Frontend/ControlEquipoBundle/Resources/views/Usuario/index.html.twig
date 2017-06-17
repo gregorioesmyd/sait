@@ -1,0 +1,57 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block title %}Usuario{% endblock %}
+
+{% block titulo %}
+    <h3>LISTA DE USUARIOS</h3>
+{% endblock %}
+
+{% block ubicacion %}
+        <ol class="breadcrumb">
+            <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+            <li class="active">LISTA DE USUARIOS</li>
+
+        </ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+   
+
+    <table id="tabladatatable" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Cedula</th>
+                <th>Telefono</th>
+                <th style="width: 30%;">Direccion</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.nombres }}</td>
+                <td>{{ entity.apellidos }}</td>
+                <td>{{ entity.cedula }}</td>
+                <td>{{ entity.telefono }}</td>
+                <td>{{ entity.direccion }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+        <br><br><br>
+                
+    <script type="text/javascript">
+        $(document).ready(function(){
+           $('span').tooltip()
+            
+           $('#tabladatatable').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                "aaSorting": [[1,'asc'],[2,'asc']],
+            } );
+        })
+    </script>
+    {% endblock %}

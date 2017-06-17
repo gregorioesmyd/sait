@@ -1,0 +1,29 @@
+<div class="modal fade" id="myModalCargando" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="container">
+      <div class="modal-dialog" style="width: 200px;padding-top: 20%;">
+        <div class="modal-content">
+          <div class="modal-body" style="text-align: center;">
+                <div>
+                    <img width='100px;' src='{{asset('images/logo.png')}}'>
+                </div>
+                <div>
+                    <p style="font-size: 10px;">Cargando, por favor espere...</p>
+                    
+                </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+</div>
+
+<script>
+    $('#myModalCargando').modal({ 
+        backdrop: 'static', 
+        keyboard: true 
+    });
+    
+    $(document).ready(function() {
+        $('#myModalCargando').modal('hide')
+    });
+</script>

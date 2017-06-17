@@ -1,0 +1,99 @@
+{% extends '::sit.html.twig' %}
+ 
+{% block title %}Sit{% endblock %}
+
+
+{% block titulobanner %}
+    SEGUIMIENTO DE INCIDENCIAS
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO APLICACIONES</a></li>
+  <li class="active">SEGUIMIENTO DE TICKET</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+
+    <style>
+        #im:hover{
+            width: 200px;
+        }
+    </style>
+    
+    <div class="titulo">TICKET ASIGNADO A<br>{{ ticket.user[0].primerNombre }} {{ ticket.user[0].primerApellido }}</div>
+  
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="alert alert-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    {% for flashMessage in app.session.flashbag.get('alert') %}
+        <div class="alert alert-danger">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    
+    {% include 'SitBundle:Seguimiento:_infoticket.html.twig' %}
+    {% include 'SitBundle:Seguimiento:_enviocorreo.html.twig' %}
+    {% include 'SitBundle:Seguimiento:_comentario.html.twig' %}
+
+         <table id="tablalistaespecial" class="table table-striped" style="font-size: 12px;">
+              <thead>
+                <tr>
+                      <th>ID</th>
+                      <th>FECHA</th>
+                      <th style="width:45%;">EVENTO</th>
+                      <th>TIPO</th>
+                      <th>REPONSABLE</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for s in seguimiento %}
+                    <tr>
+                        <td>{{ s.id }}</td>
+                        <td>{{ s.fecha|date('d-m-Y G:i:s') }}</td>
+                        <td style="text-align: justify;">
+                              {{ s.evento|raw }}
+                              {% if s.archivo!='' %}
+                                  {% set ext=s.archivo|split('.') %}
+                                      <a href="/sait/web/libs/scripts/forzardescarga.php?archivo={{ s.archivo }}&ruta=../../uploads/sit/"><img width="80px" class="img-rounded" src="{{ asset('images/descarga.png') }}"></a>
+                              {% endif %}
+                        </td>
+                        <td>{% if s.tipo=='e' %}<span class="label label-info">Email</span>{% elseif s.tipo=='c' %}<span class="label label-success">Comentario</span>{% endif %}</td>
+                        <td>{{ s.responsable.primerNombre }} {{ s.responsable.primerApellido }}</td>
+                    </tr>
+                {% endfor %}
+              </tbody>
+          </table>
+
+    <br><br><br><br>
+    {% if is_granted('ROLE_SIT_ADMINISTRADOR') and unidadc == 1 %}
+      <a href="{{ path('ticket') }}" class="btn btn-default">IR AL LISTADO</a> |
+      <a href="{{ path('ticket_show',{'id':ticket.id}) }}" class="btn btn-default">IR A GESTION</a>  
+    {% endif %}
+
+    {% if ticket.estatus == 2 %}
+      {% if is_granted('ROLE_SIT_ADMINISTRADOR') and ticket.user[0].id==app.user.id %}| 
+        <a href="#" class="btn btn-info" data-toggle="modal" data-target="#correo">ENVIAR CORREO</a> | 
+      {% endif %}
+
+      <a href="#" class="btn btn-info" data-toggle="modal" data-target="#comentario">REALIZAR UN COMENTARIO</a>
+
+    {% endif %}
+    <br>
+    
+    <script type="text/javascript">
+        $(document).ready(function(){
+           $('#tablalistaespecial').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                "aaSorting": [[0,'desc'],[1,'desc'],[2,'desc']],
+            } );
+        })
+    </script>
+    <br><br>
+{% endblock %}

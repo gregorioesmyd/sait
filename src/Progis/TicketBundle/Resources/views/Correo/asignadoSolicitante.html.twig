@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css">
+        	th{
+        		text-align: right;
+        		margin-right: 20px;
+        	}
+
+        	.solicitud{
+        		text-align: justify;
+        	}
+
+        	table{
+        		width: 600px;
+
+        	}
+
+        	table td{
+        		padding: 10px;
+        		border:1px solid gray;
+        	}
+
+        	table th{
+        		border:1px solid gray;
+        		background-color: #F8F8F8;
+        		padding-right: 10px;
+        		width: 25%;
+        	}
+        </style>
+    </head>
+
+    <body>
+    	<div align="center">
+			<div><h3>SU TICKET FUE ASIGNADO A UN TÉCNICO</h3></div>
+
+			<table cellspacing=0>
+				<tr>
+                                    <th>Solicitud:</th>
+                                    <td class="solicitud">{{ ticket.solicitud }}</td>
+				</tr>
+                                <tr>
+                                    <th>Fecha solicitud:</th>
+                                    <td>{{ ticket.fechasolicitud|date("d-m-Y") }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Hora solicitud:</th>
+                                    <td>{{ ticket.horasolicitud|date("G:i:s") }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Unidad encargada</th>
+                                    <td>{{ ticket.nivelorganizacional.descripcion}}</td>
+                                </tr>
+			</table>
+			<br>
+			<!--<div>PARA IR DIRECTAMENTE AL TICKET PRESIONE <a href="http://aplicaciones.telesurtv.net/sait/web/app_dev.php/progis/ticket/asignar/{{ticket.id}}">AQUÍ</a></div>-->
+		</div>
+	</body>
+	
+</html>

@@ -1,0 +1,92 @@
+{% extends ':videoteca:base/base.html.twig' %}
+
+{% block stylesheets %}
+    {{parent()}}
+    <link href="{{ asset('bundles/videoteca/css/dataTables.bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/videoteca/css/style-ppal.css') }}">
+{% endblock %}
+
+{% block contenido %}
+    <div id="container">
+        {% include 'VideotecaBundle:inc:head.html.twig' %}
+        <div id="content" class="container">
+             <div id="title-menu" class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <!-- SubTitulo -->
+                    <div id="subtitulo" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <h2>{% block title %}{% endblock %}</h2>
+                    </div>
+                    <!-- End SubTitulo -->
+                    {% include 'VideotecaBundle:inc:menu.html.twig' %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    {% block data %}
+                        {% for flashMessage in app.session.flashbag.get('notice') %}
+                            <div class="alert alert-success">
+                                {{ flashMessage | raw }}
+                            </div>
+                        {% endfor %}
+
+                        {% for flashMessage in app.session.flashbag.get('alert') %}
+                            <div class="alert alert-danger">
+                                {{ flashMessage | raw }}
+                            </div>
+                        {% endfor %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+        {% include 'VideotecaBundle:inc:footer.html.twig' %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script src="{{ asset('bundles/videoteca/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bundles/videoteca/js/dataTables.bootstrap.js') }}"></script>
+    <script type="text/javascript">
+        $(function(){
+            $('.addDataTable').dataTable({
+                "language": {
+                    "sProcessing":     "Procesando...",
+                    "sLengthMenu":     "Mostrar _MENU_ registros",
+                    "sZeroRecords":    "No se encontraron resultados",
+                    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix":    "",
+                    "sSearch":         "Buscar:",
+                    "sUrl":            "",
+                    "sInfoThousands":  ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst":    "Primero",
+                        "sLast":     "Último",
+                        "sNext":     "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                }
+            });
+
+            var $menuActive = $('#main-menu li.active a').text();
+
+            if ($menuActive == "Cintas") {
+                $('.pagination').addClass('classCinta');
+            } else if($menuActive == "Prestamos"){
+                $('.pagination').addClass('classPrestamo');
+            } else if($menuActive == "Segmentos"){
+                $('.pagination').addClass('classSegmento');
+            } else if($menuActive == "Inventario"){
+                $('.pagination').addClass('classInventario');
+            }
+
+        });
+    </script>
+{% endblock %}

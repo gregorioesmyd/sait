@@ -1,0 +1,55 @@
+{% extends '::sit.html.twig' %}
+ 
+{% block title %}Editar subcategoria{% endblock %}
+
+{% block titulo %}
+    EDITAR SUBCATEGORIA <BR><h5>CATEGORIA: {{entity.categoria.categoria|upper}}
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("subcategoria", {'id':idcat}) }}">LISTA DE SUBCATEGORIAS</a></li>
+  <li class="active">EDITAR SUBCATEGORIA</li>
+</ol>
+{% endblock %}
+
+
+{% block body -%}
+    {{ parent() }}
+    
+    {% if form_errors(edit_form.subcategoria)  %}
+    <div class="alert alert-danger">
+        <ul>
+            <li>{{ form_errors(edit_form.subcategoria) }}</li>
+        </ul>
+    </div>
+    {% endif %}
+
+    <form novalidate action="{{ path('subcategoria_update', { 'idsub': entity.id,'idcat':idcat }) }}" method="post" {{ form_enctype(edit_form) }}>
+        <input type="hidden" name="_method" value="PUT" />
+        {{ form_widget(edit_form._token) }}
+
+        <div class="formShow">
+            <div class="contenedorform">
+                <div class="labelform">Subcategoria:</div>
+                <div class="widgetform">{{ form_widget(edit_form.subcategoria) }}</div>
+            </div>
+            <div class="contenedorform" style="display:none;">
+                <div class="labelform">Categoria:</div>
+                <div class="widgetform">{{ form_widget(edit_form.categoria) }}</div>
+            </div>
+        </div>
+            <button class="btn btn-primary" type="submit">EDITAR</button> | 
+            <a  class="btn btn-default" href="{{ path('subcategoria', {'id':idcat}) }}">
+                IR A LA LISTA
+            </a>
+    </form>
+
+    <form action="{{ path('subcategoria_delete', { 'id': entity.id }) }}" method="post" onsubmit="return confirm('¿Seguro que desea borrar?')">
+        <input type="hidden" name="_method" value="DELETE" />
+        {{ form_widget(delete_form) }}
+        <button class="btn btn-danger"  type="submit">BORRAR</button>
+    </form>
+
+{% endblock %}

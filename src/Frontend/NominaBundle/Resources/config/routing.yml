@@ -1,0 +1,29 @@
+nomina_homepage:
+    pattern:  /inicio
+    defaults: { _controller: NominaBundle:Default:index }
+
+
+nomina_formalimentacion:
+    pattern:  /formalimentacion
+    defaults: { _controller: NominaBundle:Default:formalimentacion }
+
+nomina_txtalimentacion:
+    pattern:  /txtalimentacion
+    defaults: { _controller: NominaBundle:Default:txtalimentacion }
+
+nomina_formhistorico:
+    pattern:  /formhistorico
+    defaults: { _controller: NominaBundle:Default:formhistorico }
+
+nomina_generaexcelhistorico:
+    pattern:  /generaexcelhistorico
+    defaults: { _controller: NominaBundle:Default:generaexcelhistorico }
+    requirements: { _method: post }
+
+nomina_planilla_arc:
+    pattern:  /arc
+    defaults: { _controller: NominaBundle:Arc:index }
+
+nomina_planilla_arc_generar:
+    pattern:  /arc/generar
+    defaults: { _controller: NominaBundle:Arc:generar }

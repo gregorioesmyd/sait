@@ -1,0 +1,42 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>CntVideoteca list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Propiedad</th>
+                <th>Id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('cntvideoteca_show', { 'id': entity.id }) }}">{{ entity.propiedad }}</a></td>
+                <td>{{ entity.id }}</td>
+                <td>{{ entity.codigo }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('cntvideoteca_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('cntvideoteca_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('cntvideoteca_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

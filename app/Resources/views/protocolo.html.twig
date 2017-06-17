@@ -1,0 +1,24 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+     	<link rel="stylesheet" href="{{ asset('bundles/protocolo/css/jquery-ui-timepicker-addon.min.css') }}">
+	    <link href="{{ asset('bundles/principal/libs/chosen_v1.4.2/chosen.css') }}" rel="stylesheet">
+	    <link href="{{ asset('bundles/protocolo/css/bootstrap-tagsinput.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('bundles/protocolo/js/jquery-ui-timepicker-addon.min.js') }}"></script>
+ 	<script src="{{ asset('bundles/principal/libs/chosen_v1.4.2/chosen.jquery.js') }}"></script>
+ 	<script src="{{ asset('bundles/protocolo/js/scripts/picker.js') }}"></script>
+ <!--Plugin Tags-->
+ 	<script src="{{ asset('bundles/protocolo/js/bootstrap-tagsinput.js') }}"></script>
+<!--Fin-->
+
+{% endblock %}    
+
+{% block menu %}
+    {% include 'ProtocoloBundle:Default:includes/menu.html.twig' %}
+{% endblock %}
+

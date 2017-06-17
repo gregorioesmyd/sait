@@ -1,0 +1,36 @@
+segmento:
+    path:     /{page}
+    defaults: { _controller: "VideotecaBundle:Segmento:index", page: 1 }
+    requirements:
+        page:  \d+
+
+segmento_new:
+    path:     /new/{idCinta}/{slug}
+    defaults: { _controller: "VideotecaBundle:Segmento:new" }
+
+segmento_show:
+    path:     /show/{id}/{slug}
+    defaults: { _controller: "VideotecaBundle:Segmento:show" }
+
+segmento_choice:
+    path:     /choice
+    defaults: { _controller: "VideotecaBundle:Segmento:choice" }
+
+segmento_create:
+    path:     /create/{idCinta}/{slug}
+    defaults: { _controller: "VideotecaBundle:Segmento:create" }
+    requirements: { _method: post }
+
+segmento_edit:
+    path:     /edit/{id}/{slug}
+    defaults: { _controller: "VideotecaBundle:Segmento:edit" }
+
+segmento_update:
+    path:     /update/{id}/{slug}
+    defaults: { _controller: "VideotecaBundle:Segmento:update" }
+    requirements: { _method: post|put }
+
+segmento_delete:
+    path:     /delete/{id}/{slug}
+    defaults: { _controller: "VideotecaBundle:Segmento:delete" }
+    requirements: { _method: post|delete }

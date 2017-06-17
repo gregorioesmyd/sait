@@ -1,0 +1,32 @@
+<table>
+    <tr>
+        <td style="color:red;font-weight: bold">LOGO TELESUR AQUÍ</td>
+        <td>
+            <h2>PROGIS - INFORME DE GESTION</h2>
+            <h4>{{ perfil.nivelorganizacional.descripcion|upper }}</h4>
+            <h4>{{ meses[data['mes']]|upper}}-{{ data['anio']}}</h4>
+        </td>
+    </tr>
+</table>
+
+<br><br>
+<h3 style="color:black;font-weight: bold;">ACTIVIDADES ESPECIALES</h3>
+    
+    {% set proy=null %}
+    {% for o in objetivo %}
+        {% if proy != o.proyecto.id %}
+            <div style="margin-top: 20px;margin-bottom: 10px;"><u>PROYECTO: {{ o.proyecto.nombre|upper }} ({{ o.proyecto.porcentaje }}%)</u></div>
+            <div style="margin-left: 20px;margin-bottom: 10px;">{{ o.proyecto.descripcion|capitalize }}</div>
+        {% endif %}
+        
+        <div style="margin-left: 40px;margin-bottom: 10px;">OBJETIVO: {{ o.nombre|upper }} ({{ o.porcentaje }}%)</div>
+        <div style="margin-left: 60px;margin-bottom: 10px;">{{ o.descripcion|capitalize }}</div>
+        
+        {% set proy=o.proyecto.id %}
+    {% endfor %}
+
+<h3 style="color:black;font-weight: bold;">GESTIÓN DE REQUERIMIENTOS</h3>
+<br>
+<div align="center" style="color:black;">TICKETS ATENDIDOS {{ cantidadTicketAtendido }}</div>
+<br><br>
+<div align="center" style="color:red;font-weight: bold">IMAGEN DE GRÁFICO AQUÍ</div>

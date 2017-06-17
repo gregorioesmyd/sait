@@ -1,0 +1,38 @@
+VideotecaBundle_prestamo:
+    resource: "@VideotecaBundle/Resources/config/routing/prestamo.yml"
+    prefix:   /prestamo
+
+VideotecaBundle_cinta:
+    resource: "@VideotecaBundle/Resources/config/routing/cinta.yml"
+    prefix:   /cinta
+
+VideotecaBundle_segmento:
+    resource: "@VideotecaBundle/Resources/config/routing/segmento.yml"
+    prefix:   /segmento
+
+VideotecaBundle_cintasegmento:
+    resource: "@VideotecaBundle/Resources/config/routing/cintasegmento.yml"
+    prefix:   /cintasegmento
+
+VideotecaBundle_cintasvirgenes:
+    resource: "@VideotecaBundle/Resources/config/routing/cintasvirgenes.yml"
+    prefix:   /cintasvirgenes
+
+VideotecaBundle_asignacionescv:
+    resource: "@VideotecaBundle/Resources/config/routing/asignacionescv.yml"
+    prefix:   /asignacionescv
+
+VideotecaBundle_formato:
+    resource: "@VideotecaBundle/Resources/config/routing/formato.yml"
+    prefix:   /formato
+
+VideotecaBundle_categoria:
+    resource: "@VideotecaBundle/Resources/config/routing/categoria.yml"
+    prefix:   /categoria
+
+VideotecaBundle_tipocinta:
+    resource: "@VideotecaBundle/Resources/config/routing/tipocinta.yml"
+
+VideotecaBundle_avila:
+    resource: "@VideotecaBundle/Resources/config/routing/avila.yml"
+    prefix:   /avila

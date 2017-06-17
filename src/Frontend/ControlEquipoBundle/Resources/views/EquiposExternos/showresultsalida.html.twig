@@ -1,0 +1,90 @@
+<div id="registroequipoexternoentrada" style="max-height: 400px;"></div>
+{% if creado is defined %}
+<div class="alert alert-success">
+    <div>Equipo Registrado Exitosamente!</div>
+</div>
+{% endif %}
+<table class="table table-bordered table-striped" style="font-size: 10px;">
+    <thead>
+        <tr>
+            <th>Descripcion del Equipo</th>
+            <th>Serial</th>
+            <th>Marca</th>
+            <th>Cédula</th>
+            <th>Propietario</th>
+            {% if visita == '0' %}
+              {% if dependencia is not empty %}
+              <th>Dependencia</th>
+              {% endif %}
+            {% endif %}
+            <th>Registro de Salida</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="vertical-align: middle;">
+            <td style="vertical-align: middle;">{{ entity.descripcionEquipo }}</td>
+            <td style="vertical-align: middle;">{{ entity.serial }}</td>
+            <td style="vertical-align: middle;">{{ entity.equipoMarca }}</td>
+            <td style="vertical-align: middle;">{{ propietario['cedula'] }}</td>
+            <td style="vertical-align: middle;">{{ propietario['nombres'] }}</td>
+            {% if visita == '0' %}
+              {% if ocupado is not empty %}
+              <td style="vertical-align: middle;">{{ dependencia }}</td>
+              {% endif %}
+            {% endif %}
+            <!--<td style="vertical-align: middle;">
+                {% if entity.fotoReferencia=='' %}
+                    <center><span class="label label-danger">Sin fotografia</span></center>
+                {% else %}
+                    <img class="img-rounded glyphicon glyphicon-picture" src="{{ asset('uploads/controlequipo/') }}{{ entity.fotoReferencia }}" width="150px">
+                {% endif%}
+            </td>-->
+            <td style="vertical-align: middle;">
+                {% if ocupado is empty %}
+                  <center><span class="label label-danger" style="padding: 8px;">ENTRADA NO REGISTRADA</span></center>
+                {% elseif ocupado == 0 %}
+                      <center><span class="label label-danger" style="padding:8px;">NO ES PROPIETARIO DEL EQUIPO</span></center>
+                {% elseif ocupado is not empty %}
+                    <center>
+                            <a onclick="return confirm('Va a registrar la salida de este Equipo, ¿Desea continuar?')" class="btn btn-danger" href="{{ path('registroexterno_salida', { 'id': ocupado,'propietario':propietario['id'],'visita':visita }) }}">
+                            <span class="glyphicon glyphicon-log-out"></span> Registrar Salida</a>
+                    </center>
+                {% else %}
+                <center><span class="label label-danger" style="padding:8px;">NO DISPONIBLE</span></center>
+                {% endif %}
+            </td>
+        </tr>
+    </tbody>
+</table>
+       <script>
+        $(function() {
+            $(".chosen-select").chosen({no_results_text: "No encontrado!"});
+
+            $(document).on('submit','#form_registroexterno_new',function(e){
+                e.preventDefault();
+                var $f = $('#form_registroexterno_new');
+                if ($f.data('locked') == undefined || !$f.data('locked')){
+                  $.ajax({
+                      type: 'POST',
+                      url: '{{ path("registroexterno_create") }}',
+                      data: $f.serialize(),
+                      dataType: 'json',
+                      beforeSend: function(){ $f.data('locked', true);},
+                      success: function(response) {
+                          if(response.status == 'error') {
+                              $('#registroequipoexternoentrada').html(response.info);
+                          } else {
+                              alert(response.info);
+                              {% if propietario['tipo'] == 1 %}
+                                  $(location).attr('href','{{ path('equipoexterno_datos_empleado',{'id':propietario['id'],'tipo': propietario['tipo']}) }}');
+                              {% else %}
+                                  $(location).attr('href','{{ path('visita_show',{'id':visita }) }}');
+                              {% endif %}
+                          }
+                      },
+                      complete: function(){ $f.data('locked', false);}
+                  });
+                }
+            });
+        });
+    </script>

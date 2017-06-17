@@ -1,0 +1,31 @@
+{% extends '::base.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+
+	<link href="{{ asset('menu/css/menu.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('css/chosen.css') }}" rel="stylesheet" type="text/css" >
+        <!-- plugin tour css
+        <link href="{{ asset('css/tour/hopscotch-0.1.1.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('css/tour/jquerysctipttop.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('css/tour/demo.css') }}" rel="stylesheet" type="text/css" />
+       Fin-->
+	
+{% endblock %}
+{% block javascripts %}
+            {{ parent() }}
+            
+             <script src="{{ asset('js/chosen.jquery.js') }}"></script>
+             <!--Plugin tour js
+             <script src="{{ asset('js/tour/jquery-1.7.2.min.js') }}"></script>
+             <script src="{{ asset('js/tour/hopscotch-0.1.1.js') }}"></script>
+             <script src="{{ asset('js/tour/demo.js') }}"></script>
+            Fin-->
+
+        {% endblock %}
+
+
+{% block menu %}
+    {% include 'VideotecaBundle:Default:includes/menu-videoteca.html.twig' %}
+{% endblock %}

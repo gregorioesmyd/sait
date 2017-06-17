@@ -1,0 +1,53 @@
+{% extends 'VideotecaBundle:WrapperSegmento:Segmento/edit.html.twig' %}
+
+{% block panelTitulo %}Editar Segmento - Videoteca{% endblock %}
+
+{% block formulario %}
+	<div id="tabsegmento" role="tabpanel">
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Datos Generales</a></li>
+			<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Origen Material</a></li>
+			<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Evaluacion Material</a></li>
+		</ul>
+		<!-- Tab panes -->
+    	{% form_theme edit_form 'VideotecaBundle:Form:bootstrap.html.twig' %}
+    	{{ form_start(edit_form, {'attr': {'novalidate': 'novalidate', 'class': 'form-horizontal'}}) }}
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="home">
+				{{ form_row(edit_form.titulo) }}
+				{{ form_row(edit_form.tituloOriginal) }}
+				{{ form_row(edit_form.tituloAlterno) }}
+				{{ form_row(edit_form.sinopsis) }}
+				{{ form_row(edit_form.observaciones) }}
+				{{ form_row(edit_form.inicio) }}
+				{{ form_row(edit_form.fin) }}
+				{{ form_row(edit_form.duracion) }}
+				{{ form_row(edit_form.pais) }}
+				{{ form_row(edit_form.idioma) }}
+				{{ form_row(edit_form.fechaEvento) }}
+			</div>
+			<div role="tabpanel" class="tab-pane" id="profile">
+				{{ form_row(edit_form.paisProductor) }}
+				{{ form_row(edit_form.anioRealizado) }}
+				{{ form_row(edit_form.productor) }}
+				{{ form_row(edit_form.director) }}
+				{{ form_row(edit_form.proveedor) }}
+				{{ form_row(edit_form.autoridad) }}
+			</div>
+			<div role="tabpanel" class="tab-pane" id="messages">
+				{{ form_row(edit_form.fechaIngreso) }}
+				{{ form_row(edit_form.genero) }}
+				{{ form_row(edit_form.franja) }}
+				{{ form_row(edit_form.norma) }}
+				{{ form_row(edit_form.clasificacion) }}
+				{{ form_row(edit_form.elemento) }}
+				{{ form_row(edit_form.tqc) }}
+				{{ form_row(edit_form.evaluador) }}
+			</div>
+		</div>
+		<hr>
+		{{ form_widget(edit_form.submit) }}
+	</div>
+	{{ form_end(edit_form) }}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends '::administracion.html.twig' %}
+
+{% block title %}Nuevo rol{% endblock %}
+
+{% block titulo %}
+    NUEVO ROL
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+    <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+    <li><a href="{{ path("rol") }}">LISTA DE ROLES</a></li>
+    <li class="active">NUEVO ROL</li>
+</ol>
+{% endblock %}
+
+{% block body %}
+	{{ parent() }}
+
+	<form novalidate action="{{ path('rol_create') }}" method="post" {{ form_enctype(form) }}>
+
+		{{ form_widget(form._token) }}
+
+
+     <div class="formShow">
+        <div class="contenedorform">
+            <div class="text-error">{{ form_errors(form.rol) }}</div>
+            <div class="labelform">Rol:</div>
+            <div class="widgetform">{{ form_widget(form.rol) }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="text-error">{{ form_errors(form.descripcion) }}</div>
+            <div class="labelform">Descripcion:</div>
+            <div class="widgetform">{{ form_widget(form.descripcion) }}</div>
+        </div>
+     </div>
+     <br>
+
+	        <button class="btn btn-primary" type="submit">CREAR</button> | 
+	    	<a class="btn btn-default"  href="{{ path('rol') }}">IR A LA LISTA</a>
+	</form>
+
+{% endblock %}

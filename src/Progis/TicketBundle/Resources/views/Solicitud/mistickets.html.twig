@@ -1,0 +1,73 @@
+{% extends '::ticket.html.twig' %}
+
+{% block titulo %}
+    <h2>HISTORIAL DE TICKETS ENVIADOS</h2>
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li class="active">MIS TICKETS</li>
+</ol>
+{% endblock %}
+
+  
+{% block body -%}
+    {{ parent()}}
+
+    <div class="alert alert-danger">TICKETS SIN ATENDER</div>
+    <table class="table table-striped" style="width: 80%">
+        <tr>
+            <th style="width: 60%">Solicitud</th>
+            <th>Fecha</th>
+            <th>Comentarios y archivos</th>
+        </tr>
+    {% for t in tickets if t.estatus==1 %}
+        <tr>
+            <td>{{ t.solicitud }}</td>
+            <td>{{ t.fechasolicitud|date("d-m-Y") }} {{ t.horasolicitud|date("G:i:s") }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    
+    <br>
+    
+    <div class="alert alert-warning">TICKETS EN PROCESO</div>
+    <table class="table table-striped" style="width: 80%">
+        <tr>
+            <th style="width: 60%">Solicitud</th>
+            <th>Fecha</th>
+            <th>Comentarios y archivos</th>
+        </tr>
+    {% for t in tickets if t.estatus==2 %}
+        <tr>
+            <td>{{ t.solicitud }}</td>
+            <td>{{ t.fechasolicitud|date("d-m-Y") }} {{ t.horasolicitud|date("G:i:s") }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    
+    <br>
+    
+    <div class="alert alert-success">TICKETS CULMINADOS</div>
+    <table class="table table-striped" style="width: 100%">
+        <tr>
+            <th style="width: 25%;">Solicitud</th>
+            <th style="width: 25%;">Fecha Solucitud</th>
+            <th style="width: 25%;">Solucion</th>
+            <th style="width: 25%;">Fecha Solucion</th>
+        </tr>
+    {% for t in tickets if t.estatus==4 %}
+        <tr>
+            <td>{{ t.solicitud }}</td>
+            <td>{{ t.fechasolicitud|date("d-m-Y") }} {{ t.horasolicitud|date("G:i:s") }}</td>
+            <td>{{ t.solucion }}</td>
+            <td>{{ t.fechasolucion|date("d-m-Y") }} {{ t.horasolucion|date("G:i:s") }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    
+    <br>
+    
+    <input type="submit" class="btn btn-primary" value="SOLICITAR SOPORTE TÉCNICO"><br><br>
+{% endblock %}

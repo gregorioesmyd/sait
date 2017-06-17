@@ -1,0 +1,55 @@
+{% extends '::encuesta.html.twig' %}
+
+{% block title %}Preguntas-editar{% endblock %}
+
+{% block titulo %}
+    Pregunta "{{ entity.pregunta }}" <br> Encuesta "{{encuesta}}"
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("encuesta_index") }}">Lista de encuestas</a></li>
+  <li><a href="{{ path("pregunta_index", {'idencuesta':encuesta.id }) }}">Lista de preguntas </a></li>
+  <li class="active">Editar pregunta</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+  {{ parent() }}
+  <form novalidate="novalidate" action="{{ path('pregunta_update', { 'id': entity.id,'idencuesta':encuesta.id  }) }}" method="post" {{ form_enctype(edit_form) }}>{{ form_widget(edit_form._token) }}
+    <input type="hidden" name="_method" value="PUT" />
+    <div class="formShow">
+      <div class="contenedorform">
+        <div class="text-error">{{ form_errors(edit_form.tipopregunta) }}</div>
+        <div class="labelform">Tipo de pregunta:</div>
+        <div class="widgetform">{{ form_widget(edit_form.tipopregunta) }}</div>
+      </div>
+      <div class="contenedorform">
+        <div class="text-error">{{ form_errors(edit_form.pregunta) }}</div>
+        <div class="labelform">Pregunta:</div>
+        <div class="widgetform">{{ form_widget(edit_form.pregunta) }}</div>
+      </div>
+      <div class="contenedorform">
+        <div class="text-error">{{ form_errors(edit_form.tiempopregunta) }}</div>
+        <div class="labelform">Tiempo de la pregunta (EN SEGUNDOS):</div>
+        <div class="widgetform">{{ form_widget(edit_form.tiempopregunta) }} segundos</div>
+      </div>
+        <div class="contenedorform">
+          <div style="color:blue;font-size:16px;">
+            Las medidas de la imagen deben ser de: {{ alto }} de alto y {{ ancho }} de ancho
+          </div>
+            <div class="labelform">Cargar Imagen:</div>
+
+
+            <div class="widgetform">{{ form_widget(edit_form.file) }}</div>
+        </div>
+      <button class="btn btn-primary" type="submit">EDITAR</button>
+  </div>
+  <br>
+   <a class="btn btn-default" href="{{ path('pregunta_index', { 'idencuesta':encuesta.id }) }}">IR A LA LISTA</a> |
+   <a class="btn btn-default" href="{{ path('pregunta_show', { 'id': entity.id, 'idencuesta':encuesta.id }) }}">IR A CONSULTAR</a> |
+   <a class="btn btn-default" href="{{ path('respuesta_index', { 'idpregunta': entity.id }) }}"> VER RESPUESTAS</a>
+
+  </form>
+{% endblock %}

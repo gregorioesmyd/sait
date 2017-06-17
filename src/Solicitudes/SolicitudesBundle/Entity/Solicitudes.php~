@@ -1,0 +1,64 @@
+<?php
+
+namespace Solicitudes\SolicitudesBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Solicitudes.solicitudes
+ *
+ * @ORM\Table(name="solicitudes.solicitudes")
+ * @ORM\Entity
+ */
+class Solicitudes
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="solicitudes.solicitudes_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="problema", type="string", length=5000, nullable=false)
+     */
+    private $problema;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="unidades", type="string", length=255, nullable=false)
+     */
+    private $unidades;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="beneficiarios", type="string", length=255, nullable=false)
+     */
+    private $beneficiarios;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="responsables", type="string", length=255, nullable=false)
+     */
+    private $responsables;
+
+    /**
+     * @var \Usuarios.perfil
+     *
+     * @ORM\ManyToOne(targetEntity="Usuarios.perfil")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="solicitante_id", referencedColumnName="id")
+     * })
+     */
+    private $solicitante;
+
+
+}

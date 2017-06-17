@@ -1,0 +1,112 @@
+<link rel="stylesheet" href="{{ asset('libs/bootstrap3/css/bootstrap.min.css') }}">
+<table>
+    <tr>
+        <td><img src="{{ asset('images/logosit.jpg') }}"></td>
+        <td>
+            <h2>PROGIS - ESTADO DE PROCESOS</h2>
+            <h4>{{ perfil.nivelorganizacional.descripcion|upper }}</h4>
+        </td>
+    </tr>
+</table>
+
+    <table class="table table-hover tablaShow">
+        <tr>
+            <th colspan="2">PARÁMETROS SELECCIONADOS</th>
+        </tr>
+        <tr>
+            <th>Miembros:</th>
+            <td style="text-align: left;">
+                {% set cont = 0 %}
+                {% set largo = miembroEspacio | length %}
+                {% for me in miembroEspacio %} 
+                    {% set cont=cont+1 %}
+                        {{ me.usuario.primerNombre|title }} {{ me.usuario.primerApellido|title }}{% if cont == largo-1 %} y{% elseif largo > 1 and cont < largo-1  %},{% else %}.{% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>Tipo:</th>
+            <td style="text-align: left;">
+                {% set cont = 0 %}
+                {% set largo = data.tipo | length %}
+                {% for t in data.tipo %} 
+                    {% set cont=cont+1 %}
+                        {% if t=='p' %}Proyecto{% elseif t=='t' %}Ticket{% endif %}{% if cont == largo-1 %} y{% elseif largo > 1 and cont < largo-1  %},{% else %}.{% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>Estatus:</th>
+            <td style="text-align: left;">
+                {% set cont = 0 %}
+                {% set largo = data.estatusproceso | length %}
+                {% for e in data.estatusproceso %} 
+                    {% set cont=cont+1 %}
+                        {% if e==1 %}Nuevo{% elseif e==2 %}En proceso{% elseif e==3 %}En revisión{% elseif e==5 %}En dependencia{% endif %}{% if cont == largo-1 %} y{% elseif largo > 1 and cont < largo-1  %},{% else %}.{% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
+     
+{% for me in miembroEspacio %}
+    <table class="table table-striped"> 
+        <tr>
+            <td width="200px">
+                {% if me.usuario.foto is not null%}
+                    <img height="100px" src="{{ me.usuario.foto }}">
+                {% else %}
+                    <img height="100px" src="/uploads/personalTelesur/no.png">
+                {% endif %}
+            </td>
+            <td>
+                <b>Nombre:</b> {{ me.usuario.primerNombre }} {{ me.usuario.primerApellido}}
+            </td>
+        </tr>
+    </table>
+    
+    {% for dt in data.tipo if dt=='p' %}        
+        <div class="alert alert-info">METAS ASIGNADAS</div>        
+        {% for ma in consulta['metaActividad'] if ma.actividad.responsable.miembroespacio.id==me.id %}
+            <div>
+                <p><b>Prioridad:</b> {{ ma.actividad.ordenPriometa }}</p>
+                <p><b>Estatus:</b> {% if ma.actividad.ubicacion==1 %}Nuevo{% elseif ma.actividad.ubicacion==2 %}Proceso{% elseif ma.actividad.ubicacion==3 %}Revisión{% elseif ma.actividad.ubicacion==4%}Culminado{% elseif ma.actividad.ubicacion==5 %}Dependencia{% endif %}</p></p>
+                <p><b>Proyecto:</b> {{ ma.actividad.objetivo.proyecto.nombre|capitalize }}</p>
+                <p><b>Objetivo:</b> {{ ma.actividad.objetivo.nombre|capitalize }}</p>
+                <p><b>Actividad:</b> {{ ma.actividad.descripcion|capitalize }}</p>
+                <p><b>Fecha de cumplimiento:</b> Desde {{ ma.meta.fechadesde|date("d-m-Y")}} Hasta {{ ma.meta.fechahasta|date("d-m-Y")}}</p>
+            </div>
+            <div style="border-bottom: 1px solid gray; margin-bottom: 10px;"></div>
+        {% else %}
+            <div class="label label-danger">SIN RESULTADOS</div><br><br>
+        {% endfor %}
+            
+        <div class="alert alert-info">OTRAS ACTIVIDADES</div>        
+        {% for a in consulta['actividad'] if a.responsable.miembroespacio.id==me.id %}
+            <div>
+                <p><b>Estatus:</b> {% if a.ubicacion==1 %}Nuevo{% elseif a.ubicacion==2 %}Proceso{% elseif a.ubicacion==3 %}Revisión{% elseif a.ubicacion==4%}Culminado{% elseif a.ubicacion==5 %}Dependencia{% endif %}</p></p>
+                <p><b>Proyecto:</b> {{ a.objetivo.proyecto.nombre|capitalize }}</p>
+                <p><b>Objetivo:</b> {{ a.objetivo.nombre|capitalize }}</p>
+                <p><b>Actividad:</b> {{ a.descripcion|capitalize }}</p>
+            </div>
+            <div style="border-bottom: 1px solid #F9F9F9; margin-bottom: 10px;"></div>
+        {% else %}
+            <div class="label label-danger">SIN RESULTADOS</div><br><br>
+        {% endfor %}
+    {% endfor %}
+    
+
+    {% for dt in data.tipo if dt=='t' %}
+        <div class="alert alert-info">TICKETS ASIGNADOS</div>        
+        {% for t in consulta['ticket'] if t.responsable.id==me.id %}
+            <div>
+                <p><b>Solicitante:</b> {{ t.ticket.solicitante.primerNombre|capitalize }} {{ t.ticket.solicitante.primerApellido|capitalize }}</p>
+                <p><b>Solicitud:</b> {{ t.ticket.solicitud|capitalize }}</p>
+                <p><b>Fecha solicitud:</b> {{ t.ticket.fechasolicitud|date("d-m-Y") }}</p>
+            </div>
+            <div style="border-bottom: 1px solid #F9F9F9; margin-bottom: 10px;"></div>
+        {% else %}
+            <div class="label label-danger">SIN RESULTADOS</div><br><br>
+        {% endfor %}
+    {% endfor %}
+{% endfor %}
+</table>

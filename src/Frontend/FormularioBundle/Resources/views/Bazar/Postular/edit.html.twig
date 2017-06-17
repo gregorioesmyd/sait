@@ -1,0 +1,138 @@
+{% extends '::creatv.html.twig' %}
+
+{% block title %}Feria{% endblock %}
+
+{% block titulo %}
+    EDITAR POSTULACIÓN PARA FERIA NAVIDEÑA
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">EDITAR POSTULACIÓN</li>
+</ol>
+{% endblock %}
+
+
+{% block body %}
+    {{ parent() }}
+
+    <style>
+        #frontend_formulariobundle_bazar_postular_productoGastronomia label{
+                display: block;
+        }
+
+        #frontend_formulariobundle_bazar_postular_productoGastronomia input{
+                float: left;
+                text-align: left;
+                padding: 0px;
+                margin: 0px;
+        }
+        
+        #frontend_formulariobundle_bazar_postular_productoOtros label{
+                display: block;
+        }
+
+        #frontend_formulariobundle_bazar_postular_productoOtros input{
+                float: left;
+                text-align: left;
+                padding: 0px;
+                margin: 0px;
+        }
+
+    </style>
+    
+    <div class="panel panel-default" style="width: 80%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">DATOS DEL SOLICITANTE</div>
+        <div class="panel-body">
+            <table class="table table-bordered">
+                <tr>
+                    <th>Nombre y Apellido</th>
+                    <td>{{ perfil.primerNombre|capitalize }} {{ perfil.primerApellido|capitalize }}</td>
+                    <th>Cedula</th>
+                    <td>{{ perfil.cedula }}</td>
+                </tr>
+                <tr>
+                    <th>Cargo</th>
+                    <td>{{ perfil.cargo.descripcion|capitalize }}</td>
+                    <th>Nivel</th>
+                    <td>{{ perfil.nivelorganizacional.descripcion|capitalize }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+
+    
+    {% form_theme edit_form 'ProyectoBundle:Form:fields.html.twig' %}
+    
+    {{ form_start(edit_form, { 'attr': {'novalidate':null} }) }}
+        <div class="panel panel-default" style="width: 80%">
+            <!-- Default panel contents -->
+            <div class="panel-heading">SELECCIONE LOS PARÁMETROS</div>
+            <div class="panel-body">
+                    <div id="formulario">
+                        
+                        {{ form_widget(edit_form) }}
+                    
+                    </div>
+            </div>
+        </div>
+
+        <div align="center"><input type="submit" class="btn btn-primary" value="EDITAR POSTULACIÓN"></div>
+    {{ form_end(edit_form) }}  
+
+        
+
+        
+    <script>
+            $(document).ready(function(){
+                $('[data-toggle="popover"]').popover(); 
+                
+                {% for p in  entity.producto %}
+                        
+                    {% if entity.tipoProducto=='g' %}
+                        //alert("ss")
+                        //$("#frontend_formulariobundle_bazar_postular_productoGastronomia input:[value=7]").val()
+                        //$("#frontend_formulariobundle_bazar_postular_productoGastronomia input:[value='7']").prop("checked", true);
+                    {% endif %}
+                     
+                {% endfor %}
+     
+                //$('#Productootros').hide()
+                var tipoProducto=function() {
+                    var tipo = $( "#frontend_formulariobundle_bazar_postular_tipoProducto" ).val()
+                        if(tipo=='g'){
+                            $('#Productootros').hide()
+                            //$("#frontend_formulariobundle_bazar_postular_productoOtros input").each(function(){ $(this).attr("disabled","disabled") });
+                            $('#Productogastronomia').show()
+                        }
+                        else if(tipo=='o'){
+                            $('#Productogastronomia').hide()
+                            //$("#frontend_formulariobundle_bazar_postular_productoGastronomia input").each(function(){ $(this).attr("disabled","disabled") });
+                            $('#Productootros').show()
+                        }
+                  };
+                  
+                tipoProducto();
+                $( "#frontend_formulariobundle_bazar_postular_tipoProducto" ).change(tipoProducto);
+                
+                //al cargar la pagina
+                /*$('#OtroProducto').hide()
+                if( $('#frontend_formulariobundle_bazar_postular_producto_9').is(':checked') ) {
+                    $('#OtroProducto').show()
+                }
+                
+                //con la página ya cargada
+                $( "#frontend_formulariobundle_bazar_postular_producto_9" ).click(function() {
+                    if( $('#frontend_formulariobundle_bazar_postular_producto_9').is(':checked') ) {
+                        $('#OtroProducto').show()
+                    }else{
+                        $('#frontend_formulariobundle_bazar_postular_descripcionOtro').val("")
+                        $('#OtroProducto').hide()
+                    }
+                });*/
+            });
+    </script>
+{% endblock %}

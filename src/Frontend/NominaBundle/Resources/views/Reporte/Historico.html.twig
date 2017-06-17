@@ -1,0 +1,76 @@
+<table>
+    <tr>
+        <td>NOMINA</td>
+        <td>CEDULA</td>
+        <td>ANIO</td>
+        <td>MES</td>
+        <td>PRIMER NOMBRE</td>
+        <td>PRIMER APELLIDO</td>
+        <td>SEGUNDO APELLIDO</td>
+        <td>FECHA INGRESO</td>
+        <td>CARGO</td>
+        <td>UNIDAD</td>
+        <td>CODCON</td>
+        <td>DESCON</td>
+        <td>TOTAL</td>
+        <td>TIPO</td>
+    </tr>
+    
+    {% for x in consultadata %}
+    <tr>
+        <td>{{ x['tipopersonal'] }}</td>
+        <td>{{ x['cedula'] }}</td>
+        <td>{{ x['anio'] }}</td>
+        <td>{{ x['mes'] }}</td>
+        <td>{{ x['primer_nombre'] }}</td>
+        <td>{{ x['primer_apellido'] }}</td>
+        <td>{{ x['segundo_apellido'] }}</td>
+        <td>{{ x['ingresoorganismo'] }}</td>
+        <td>{{ x['cargo'] }}</td>
+        <td>{{ x['nombreunidad'] }}</td>
+        <td>{{ x['codcon'] }}</td>
+        <td>{% if x['codcon']=='20'%}SUELDO BASICO{% else %}{{x['descon']}}{% endif %}</td>
+        <td>{{ x['total'] }}</td>
+        <td>{{ x['tipo'] }}</td>
+    </tr>
+    {% endfor %}
+    
+    {% for x in consultainfo %}
+    <tr>
+        <td>{{ x['tipopersonal'] }}</td>
+        <td>{{ x['cedula'] }}</td>
+        <td>{{ x['anio'] }}</td>
+        <td>{{ x['mes'] }}</td>
+        <td>{{ x['primer_nombre'] }}</td>
+        <td>{{ x['primer_apellido'] }}</td>
+        <td>{{ x['segundo_apellido'] }}</td>
+        <td>{{ x['ingresoorganismo'] }}</td>
+        <td>{{ x['cargo'] }}</td>
+        <td>{{ x['nombreunidad'] }}</td>
+        <td>{{ x['codcon'] }}</td>
+        <td>{% if x['codcon']=='20'%}SUELDO BASICO{% else %}{{x['descon']}}{% endif %}</td>
+        <td>{{ x['total'] }}</td>
+        <td>{{ x['tipo'] }}</td>
+    </tr>
+    {% endfor %}
+    
+    {% for x in consultasige %}
+    <tr>
+        <td>{{ x['tipopersonal'] }}</td>
+        <td>{{ x['cedula'] }}</td>
+        <td>{{ x['anio'] }}</td>
+        <td>{{ x['mes'] }}</td>
+        <td>{{ x['primer_nombre'] }}</td>
+        <td>{{ x['primer_apellido'] }}</td>
+        <td>{{ x['segundo_apellido'] }}</td>
+        <td>{{ x['ingresoorganismo'] }}</td>
+        <td>{{ x['cargo'] }}</td>
+        <td>{{ x['nombreunidad'] }}</td>
+        <td>{{ x['codcon'] }}</td>
+        <td>{{ x['descon'] }}</td>
+        <td>{{ x['total'] }}</td>
+        <td>{{ x['tipo'] }}</td>
+    </tr>
+    {% endfor %}
+    
+</table>

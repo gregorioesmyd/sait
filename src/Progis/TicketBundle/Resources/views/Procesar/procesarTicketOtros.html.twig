@@ -1,0 +1,196 @@
+{% extends '::progis_panel.html.twig' %}
+
+{% block titulo %}
+    <h2>CONSULTAR TICKETS - OTROS TICKETS</h2>
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("progis_ticket_lista") }}">LISTA DE TICKETS</a></li>
+  <li class="active">CONSULTAR TICKETS - OTROS TICKETS</li>
+</ol>
+{% endblock %}
+    
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('libs/jquery-ui/jquery-ui.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/principal/css/actividad.css') }}">
+{% endblock %}
+    
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('libs/jquery-ui/jquery-ui.js') }}"></script>
+    <script src="{{ asset('bundles/principal/js/funcionesProceso.js') }}"></script>
+    <script src="{{ asset('bundles/principal/js/procesar.js') }}"></script>
+    <script src="{{ asset('libs/jquery-countdown/js/jquery.countdown.js') }}" type="text/javascript" charset="utf-8"></script>
+    
+    <script>
+        $(document).ready(function() {
+            
+
+            $(function () {
+              $('[data-toggle="tooltip"]').tooltip()
+            })
+
+        });
+            function muestraSol(id){
+                $("#collapseSolicitud"+id).show()
+                $("#btnVerMAs"+id).hide()
+                $("#btnOcultar"+id).show()
+            }
+
+            function ocultaSol(id){
+                $("#collapseSolicitud"+id).hide()
+                $("#btnVerMAs"+id).show()
+                $("#btnOcultar"+id).hide()
+            }
+    </script>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+    <META HTTP-EQUIV="refresh" CONTENT="60">
+    
+    <input type="hidden" value="ticket" id="bundleActual">
+    {% include 'TicketBundle:Procesar:__modal.html.twig' %}
+
+    {# ALERTAS #}
+    <div id="success" class="alert alert-success alert-dismissible" role="alert" style="display: none;width:99%;">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <div class="smssuccess"></div>
+    </div>
+
+    <div id="danger" class="alert alert-danger alert-dismissible" role="alert" style="display: none;width:99%;">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <div class="smsdanger"></div>
+    </div>
+    {# FIN ALERTAS #}
+    
+<div class="row" style="width:100%;">
+        <div class="col-sm-3 col-xs-3 nuevo bg-primary">NUEVO</div>
+        <div class="col-sm-3 col-xs-3 proceso bg-warning">EN PROCESO</div>
+        <div class="col-sm-3 col-xs-3 culminado bg-success">CULMINADO</div>
+        <div class="col-sm-3 col-xs-3 dependencia bg-danger">DEPENDENCIA</div>
+
+
+{% for i in 1..5 if i!=3 %}
+<ul id="{% if i==1 %}nuevo{% elseif i==2 %}proceso{% elseif i==4 %}culminado{% elseif i==5 %}dependencia{% endif %}" class="droptrue col-sm-3">
+    {% set cont=0 %}{% set break=false %}
+    {% for p in procesar if p.ubicacion==i and break==false %}
+
+        {# VERIFICO PARA EJECUTAR MODAL EN CASO DE DEPENDENCIA O CULMINADO #}
+        {% if i==5 and p.justificacion==true %}
+            <script>
+                muestramodal("dependencia","{{ p.ticket.id }}")
+            </script>
+        {% endif %}
+        {% if i==4 and p.ticket.solucion is null %}
+            <script>
+                muestramodal("culminado","{{ p.ticket.id }}")
+            </script>
+        {% endif %}
+        {# FIN #}
+        
+        {# LIMITO EL NUMERO QUE MUESTRA DE CULMINADOS #}
+        {% if i==4 %}
+            {% set cont=cont+1 %}
+            {% if cont==20 %}
+                {% set break=true %}
+            {% endif %}
+        {% endif %}
+        {# fin #}
+        
+        <div class="panel panel-{% if i==1 %}primary{% elseif i==2%}warning{% elseif i==3%}info{% elseif i==4%}success{% elseif i==5%}danger{% endif %}" id="{{p.ticket.id}}-{{p.responsable.usuario.id}}">
+            <div class="panel-heading">
+
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion"  href="#collapse{{ p.ticket.id }}" aria-expanded="true" aria-controls="collapsep{{ p.ticket.id }}" style="color:black;"><i class="fa fa-arrows"></i></a>&nbsp;&nbsp;
+                {{ p.responsable.usuario.primerNombre|upper }} {{ p.responsable.usuario.primerApellido|upper }}
+
+                
+            </div>
+            <div id="collapse{{ p.ticket.id }}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{{ p.ticket.id }}">
+                <div class="panel-body">
+                    <div id="iconos" style="text-align:left;">
+                        <div class="row">
+                            <div class="col-sm-5 col-xs-12">
+                                <a href="{{ path('progis_comentarioarchivo_lista', { 'id': p.ticket.id,'entidad':'Ticket','desde':'Ticket' }) }}"><i data-toggle="tooltip" data-placement="top" title="Comentarios y archivos" class="fa fa-comments-o fa-2x"> <span class="muestraCantidad muestraCantidadActividad">{% if cantidadComentarioTicket[p.ticket.id] is defined %}{{ cantidadComentarioTicket[p.ticket.id] }}{% else %}0{% endif %}</span></i></a> | 
+                                <a href="{{ path('progis_ticket_asignar', { 'idticket': p.ticket.id }) }}"><i data-toggle="tooltip" data-placement="top" title="Consultar | Asignar" class="fa fa-users"></i></a>
+                            </div>
+
+                            <div class="col-sm-7 col-xs-12" style="margin-top:10px;" align="right">
+                                <div id="contenido_dinamico{{ p.ticket.id }}"></div>
+
+                                {% if (p.ubicacion==1 and p.tiemporeal is not null) or (p.ubicacion==5 and p.tiemporeal is not null) %}
+                                    <div id="tiemporeal{{ p.ticket.id }}" {% if p.retardo==true %}class="label label-danger"{% else %} class="label label-success"{% endif %}>
+                                        {% set t=p.tiemporeal|split('-') %}
+                                        {#D:{{ t[0]}} - #}H:{{ t[1]}} - M:{{ t[2]}} - S:{{ t[3]}}
+                                    </div>
+                                {% elseif p.ubicacion==2 %}
+                                    <script>
+                                        contador('{{ cuentaregresiva[p.ticket.id] }}',{{ p.ticket.id }})
+                                    </script>
+                                {% elseif p.ubicacion==4 and p.tiemporeal is not null%}
+                                    <div id="tiempofinal{{ p.ticket.id }}" {% if p.retardo==true %}class="label label-danger"{% else %} class="label label-success"{% endif %}>
+                                        {% set t=p.tiemporeal|split('-') %}
+                                        {#D:{{ t[0]}} - #}H:{{ t[1]}} - M:{{ t[2]}} - S:{{ t[3]}}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+                        
+                    <table class="datos-solicitud table table-bordered table-condensed">
+                        <tr>
+                            <th><span data-toggle="tooltip" data-placement="top" title="Fecha de solicitud">F. S.:</span></th>
+                            <td>&nbsp;{{ p.ticket.fechasolicitud|date('d-m-Y')}} | {{ p.ticket.horasolicitud|date('G:i:s')}}</td>
+                        </tr>
+                        <tr>
+                            <th><span data-toggle="tooltip" data-placement="top" title="Categoria">CAT:</span></th>
+                            <td>
+                                {% if p.subcategoria.categoria.categoria|length>30 %}<span data-toggle="tooltip" data-placement="top" title="{{ p.subcategoria.categoria.categoria|capitalize}}">{% endif %}
+                                {{ p.subcategoria.categoria.categoria|capitalize|slice(0,40) }}
+                                {% if p.subcategoria.categoria.categoria|length>30 %}...</span>{% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span data-toggle="tooltip" data-placement="top" title="Subcategoria">S. C.:</span></th>
+                            <td>&nbsp;{{ p.subcategoria.subcategoria|capitalize}}</td>
+                        </tr>
+                        <tr>
+                            <th><span data-toggle="tooltip" data-placement="top" title="Tiempo estimado">T. E.:</span></th>
+                            <td>&nbsp;{{ p.tiempoestimado}} {% if p.tipotiempo==2 %} Hora(s){% else %} Minuto(s) {% endif %}</td>
+                        </tr>
+                    </table>
+                    <div class="solicitud">
+
+                        {% if p.ticket.solicitud|length > 200 %}
+                            {{ p.ticket.solicitud|capitalize|slice(0,180)}}<a style="text-decoration:none;color:#333333;display: none;" id="collapseSolicitud{{ p.ticket.id }}">{{ p.ticket.solicitud|capitalize|slice(180)}}</a>
+
+                            <a id="btnVerMAs{{ p.ticket.id }}" style="cursor:pointer;" onclick="muestraSol({{ p.ticket.id }})"><b>...Ver mas</b></a>
+                            <a id="btnOcultar{{ p.ticket.id }}" style="cursor:pointer;display: none;" onclick="ocultaSol({{ p.ticket.id }})"><b>Ocultar</b></a>
+
+
+                        {% else %}
+                            {{ p.ticket.solicitud|capitalize}}
+                        {% endif %}
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</ul>
+{% endfor %} 
+</div>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends ':videoteca:base/base-no-segmento.html.twig' %}
+
+{% block title %}Inventario{% endblock %}
+
+{% block contenido %}
+    {% set statusInventario = "active" %}
+    {{ parent() }}
+{% endblock %}

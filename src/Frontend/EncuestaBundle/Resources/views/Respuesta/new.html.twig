@@ -1,0 +1,46 @@
+{% extends '::encuesta.html.twig' %}
+
+{% block title %}Respuesta-crear{% endblock %}
+
+{% block titulo %}
+    Pregunta "{{entity.idpregunta}}" nueva respuesta
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("encuesta_index") }}">Lista de encuestas</a></li>
+  <li><a href="{{ path("pregunta_index", {'idencuesta':pregunta.idencuesta.id }) }}">Lista de preguntas</a></li>
+  <li><a href="{{ path("respuesta_index", {'idpregunta':pregunta.id}) }}">Lista de respuestas</a></li>
+  <li class="active">Editar respuesta</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+  {{ parent() }}
+
+  <form novalidate="novalidate" action="{{ path('respuesta_create', {'idpregunta':pregunta.id }) }}" method="post" {{ form_enctype(form) }}>{{ form_widget(form._token) }}
+    <div class="formShow">
+      <br>
+      <div class="contenedorform">
+        <div class="text-error">{{ form_errors(form.respuesta) }}</div>
+        <div class="labelform">Respuesta:</div>
+        <div class="widgetform">{{ form_widget(form.respuesta) }}</div>
+      </div>
+      <div class="contenedorform">
+        <div class="text-error">{{ form_errors(form.correcta) }}</div>
+        <div class="labelform">¿Es correcta o incorrecta?:</div>
+        <div class="widgetform">{{ form_widget(form.correcta) }}</div>
+      </div>
+    </div>
+    <br>
+    <button class="btn btn-primary" type="submit">CREAR</button> |
+    <a class="btn btn-default" href="{{ path("respuesta_index", {'idpregunta':idpregunta }) }}">IR AL LISTADO</a>
+  </form>
+
+
+
+
+
+
+{% endblock %}

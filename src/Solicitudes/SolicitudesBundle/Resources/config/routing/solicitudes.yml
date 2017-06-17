@@ -1,0 +1,38 @@
+solicitudesapp:
+    path:     /admin
+    defaults: { _controller: "SolicitudesBundle:Solicitudes:index" }
+
+mis_aplicaciones:
+    path:     /mis_aplicaciones
+    defaults: { _controller: "SolicitudesBundle:Solicitudes:miindex" }
+
+solicitudesapp_show:
+    path:     /{id}/show
+    defaults: { _controller: "SolicitudesBundle:Solicitudes:show" }
+
+solicitudesapp_new:
+    path:     /new
+    defaults: { _controller: "SolicitudesBundle:Solicitudes:new" }
+
+solicitudesapp_create:
+    path:     /create
+    defaults: { _controller: "SolicitudesBundle:Solicitudes:create" }
+    requirements: { _method: post }
+
+solicitudesapp_estatus:
+    path:     /admin/{id}/{estatus}/actualiza_estatus
+    defaults: { _controller: "SolicitudesBundle:Solicitudes:actualiza_estatus"}
+
+solicitudesapp_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "SolicitudesBundle:Solicitudes:edit" }
+
+solicitudesapp_update:
+    path:     /{id}/update
+    defaults: { _controller: "SolicitudesBundle:Solicitudes:update" }
+    requirements: { _method: post|put }
+
+#solicitudesapp_delete:
+#    path:     /{id}/delete
+#    defaults: { _controller: "SolicitudesBundle:Solicitudes:delete" }
+#    requirements: { _method: post|delete }

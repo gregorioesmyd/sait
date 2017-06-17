@@ -1,0 +1,156 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("marca") }}">MARCAS Y MODELOS</a></li>
+  <li class="active">VER MARCA</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    <h1>MARCA {{ entity.descripcionMarca | upper}}</h1>
+
+    <table class="bordered" style="width:80%;">
+        <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Descripción de la Marca</th>
+                </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ entity.id }}</td>
+                <td>{{ entity.descripcionMarca }}</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <center>
+                        <p><b>Añadir Modelo a la Lista</b></p>
+                        <form id="add_modelo_marca">
+                            <input type="text" id="txtNombre" size="40" class="form-control" autofocus placeholder="Modelo" />
+                            <input type="hidden" id="marca" name="marca" value="{{ entity.id }}">
+                        </form>
+                        <p><b>LISTA DE MODELOS REGISTRADOS</b></p>
+                    </center>
+            
+                    {% if modelos is not empty %}
+                    <div id="divLista">
+                        <ul>
+                        {% for modelo in modelos %}
+                            <li><a class="clsEliminarElemento" id="{{ modelo.id }}">&nbsp;</a>
+                                {{ modelo.descripcionModelo | upper }} </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    {% else %}
+                        <div id="divLista"></div>
+                        <div class="alert alert-info" id="list_equipovacia"><center>Ningun modelo Registrado</center></div>
+                    {% endif %}
+                </td>
+            </tr>   
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li><br>
+            <a href="{{ path('marca') }}" class="btn btn-default">
+                    Volver a la Lista de Marcas
+                </a>
+    </li>
+    <!--<li>{{ form(delete_form) }}</li>-->
+</ul>
+    <script>
+        $(function(){
+	$('#txtNombre').focus();
+	//evento al hacer clic en el boton agregar
+	$('#add_modelo_marca').on('submit',function(e){
+            // Aqui hago la peticion ajax, captura los datos y verifico en base de datos
+            e.preventDefault();
+		//obtenemos el nombre digitado por el usuario
+		//con la funcion parseInt() convertimos de texto a numero
+		var $txtNombre=$('#txtNombre'),$marca=$('#marca');
+		if($.trim($txtNombre.val())!==''){
+                        $.ajax({
+                            type: 'post',
+                            url: '{{ path("controlequipo_insertar_modelo") }}',
+                            data: { modelo: $txtNombre.val(),marca : $marca.val() },
+                            dataType: 'json',
+                            success: function(data) {
+                                if(data.vacio === 'no') {
+                                    var $ulLista;
+                                    //si la lista html no existe entonces la agregamos al dom
+                                    if(!$('#divLista').find('ul').length) $('#divLista').append('<ul/>');
+                                    $('#list_equipovacia').hide();
+                                    //if($('#divLista').find('div')) $('#divLista').find('div').hide();
+                                    // obtenemos una instancia de la lista
+                                    $ulLista=$('#divLista').find('ul');
+  
+                                    //creamos el item que va a contener el nombre y el boton eliminar
+                                    var $liNuevoNombre =
+                                        $('<li/>').html('<a class="clsEliminarElemento" id="' + data.id + '">&nbsp;</a> ' + data.modelo);
+                                    //agregamos el equipo al inicio
+                                    $ulLista.prepend($liNuevoNombre);
+                                    $txtNombre.val('').focus();
+                                } else {
+                                    alert(data.mensaje);
+                                    $txtNombre.val('').focus();
+                                }
+                            }
+                        });
+                } else {
+			alert('Por favor, escriba el modelo.');
+		}
+                return false;
+                
+	});
+	
+	//evento al hacer clic en el boton eliminar de cada item de la lista
+	$(document).on('click','.clsEliminarElemento',function(){
+		//buscamos la lista
+		var $ulLista=$('#divLista').find('ul');
+		//buscamos el padre del boton (el tag li en el que se encuentra)
+		var $liPadre=$($(this).parents().get(0)),$modelo=$(this).attr("id");
+                        // Hacemos la peticion Ajax
+                        $.ajax({
+                            type: 'post',
+                            url: '{{ path("controlequipo_eliminar_modelo") }}',
+                            data: { modelo:$modelo },
+                            dataType: 'json',
+                            success: function(data) {
+                                if(data.resultado === 'ok') {
+                                    //eliminamos el elemento
+                                    $liPadre.remove();
+                                } else {
+                                    alert(data.mensaje);
+                                }
+                            }
+                        });
+		
+		//si la lista esta vacia, la eliminamos del dom
+		if($ulLista.find('li').length===0) 
+                    $ulLista.remove();
+                    //$('#list_equipovacia').show();
+                
+	});
+	
+	//al presionar <ENTER> sobre el campo txtNombre llamamos al boton (usabilidad otra vez)
+	$('#txtNombre').on('keypress',function(eEvento){
+		if(eEvento.which===13) $('#add_pauta_equipo').trigger('submit');
+	});
+        
+        $('#submit_confirmar').on('click',function(e){
+            e.preventDefault();
+            if(confirm("¿Está seguro que desea confirmar la Pauta con los equipos actuales? No podrá modificarla")) {
+                $( "#confirmar_pauta" ).submit();
+            }
+            return false;
+        });
+});
+    </script>
+{% endblock %}
+
+{% block menu %}
+        {% include 'ControlEquipoBundle:Default:menu.html.twig' %}
+    {% endblock %}

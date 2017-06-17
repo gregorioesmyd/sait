@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css">
+        	th{
+        		text-align: right;
+        		margin-right: 20px;
+        	}
+
+        	table{
+        		width: 600px;
+
+        	}
+
+        	table td{
+        		padding: 10px;
+        		border:1px solid gray;
+        	}
+
+        	table th{
+        		border:1px solid gray;
+        		background-color: #F8F8F8;
+        		padding-right: 10px;
+        		width: 25%;
+        	}
+        </style>
+    </head>
+
+    <body>
+    	<div align="center">
+			<div><h3>EL PROYECTO '{{ entity.proyecto.nombre|upper }}' TIENE UN NUEVO COMENTARIO Y/O ARCHIVO</h3></div>
+
+			<table cellspacing=0>
+				<tr>
+                                    <th>COMENTARIO:</th>
+                                    <td>{{ entity.comentarioarchivo.comentario|raw }}</td>
+				</tr>
+				<tr>
+                                    <th>¿ARCHIVO?:</th>
+                                    <td>{% if entity.comentarioarchivo.archivo is not null %}Sí posee{% else %}No posee{% endif %}</td>
+				</tr>
+   
+
+			</table>
+                                <div align="center" style="font-size: 10;">Este correo se envia porque eres miembro del proyecto</div>
+			<br>
+		</div>
+	</body>
+	
+</html>

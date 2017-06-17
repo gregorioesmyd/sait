@@ -1,0 +1,168 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block title %}{{ pauta | upper }}{% endblock %}
+
+{% block titulo %}
+    Registro de {{ pauta }}
+{% endblock %}
+
+{% block ubicacion %}
+    
+<ol class="breadcrumb">
+  <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+    {% if is_granted('ROLE_EQUIPOS_SEGURIDAD') %}
+        <li><a href="{{ path("pautas_listar") }}">PAUTAS</a></li>
+    {% endif %}
+    {% if is_granted('ROLE_EQUIPOS_PAUTASPROGRAMADAS') %}
+          <li><a href="{{ path("pautas") }}">PAUTAS</a></li>
+    {% endif %}
+  
+    <li class="active">REGISTRO DE {{ pauta | upper }}</li>
+</ol>
+{% endblock %}
+    
+{% block body -%}
+    {{ parent()}}
+
+    {% if not form.vars.valid %}
+        <div class="alert alert-danger errores" style="width:70%;">
+            <div><b>Alerta! Ha ocurrido un error en el formulario:</b><br><br></div>
+            <div>{{ form_errors(form.fechaDesde) }}</div>
+            <div>{{ form_errors(form.fechaHasta) }}</div>
+            <div>{{ form_errors(form.responsable) }}</div>
+            <div>{{ form_errors(form.justificacion) }}</div>
+            <div>{{ form_errors(form.tipoPauta) }}</div>
+        </div>
+    {% endif %}
+
+    <center>
+    
+     <form novalidate action="{{ path('pauta_create') }}" method="post" {{ form_enctype(form) }} class="form-horizontal" role="form">
+        {{ form_widget(form._token) }}
+        {{ form_widget(form.tipoPauta) }}
+        <div class="formShow">
+            {% if pauta == 'Pauta Programada' %}
+                <div class="form-group">
+                    <label for="fechaDesde" class="col-sm-4 control-label">Fecha Desde *</label>
+                    <div class="col-sm-3">
+                        {{ form_widget(form.fechaDesde,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fechaHasta" class="col-sm-4 control-label">Fecha Hasta *</label>
+                    <div class="col-sm-3">
+                        {{ form_widget(form.fechaHasta,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                    </div>
+                </div>
+                {% else %}
+                    <div class="form-group">
+                        <label for="fechaHasta" class="col-sm-4 control-label">Fecha Desde *</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" >{{ "now"|date("d/m/Y") }}</p>
+                            {{ form_widget(form.fechaDesde,{ 'attr': {'class': 'form-control input-sm','style':'display:none;'} }) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fechaHasta" class="col-sm-4 control-label">Fecha Hasta *</label>
+                        <div class="col-sm-3">
+                            {{ form_widget(form.fechaHasta,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                        </div>
+                    </div>
+                    
+            {% endif %}
+            <div class="form-group">
+                <label for="responsable" class="col-sm-4 control-label">Responsable de la Pauta:</label>
+                <div class="col-sm-3">
+                    {{ form_widget(form.responsable,{ 'attr': {'class': 'form-control input-sm chosen-select','style': 'width:220px;'} }) }}
+
+                
+                </div>
+            </div>
+                
+            <div class="form-group">
+                <label for="justificacion" class="col-sm-4 control-label">Evento / Destino *</label>
+                <div class="col-sm-3">
+                    {{ form_widget(form.justificacion,{ 'attr': {'class': 'form-control input-sm','rows':'4','style':'width:220px;'} }) }}
+                </div>
+            </div>
+            {% if pauta == 'Pauta Programada' %}
+            <!--<div class="form-group">
+                <label for="aprobado" class="col-sm-4 control-label">Aprobado</label>
+                <div class="col-sm-3">
+                    {{ form_widget(form.aprobado,{ 'attr': {'class': 'input-sm','style':'display:none;'} }) }}
+                </div>
+            </div>-->
+                {% else %}
+                    {{ form_widget(form.aprobado,{ 'attr': {'class': 'input-sm','style':'display:none;'} }) }}
+            {% endif %}
+            <br>
+            
+            <input type="submit" class="btn btn-primary" value="CREAR {{ pauta | upper }}">
+        <br><br>
+        </div>  
+            {% if is_granted('ROLE_EQUIPOS_PAUTASPROGRAMADAS') %}
+                <a href="{{ path('pautas') }}" class="btn btn-default">
+                    Mis Pautas
+                </a>
+            {% elseif is_granted('ROLE_EQUIPOS_SEGURIDAD') %}  
+                <a href="{{ path('pautas_listar') }}" class="btn btn-default">
+                    Volver a la Lista de Pautas
+                </a> | 
+                <a href="{{ path('pautas') }}" class="btn btn-default">
+                    Mis Pautas
+                </a>
+            {% endif %}
+     </form>
+    </center>
+    <script>
+        $(function() {
+            $(".chosen-select").chosen({no_results_text: "No encontrado!"});
+            $(":file").filestyle({iconName: "glyphicon-picture",buttonBefore: true,buttonText: "Cargar Fotografía",input: false});
+            
+            $("#controlequipobundle_pautas_fechaDesde" ).datepicker({
+                dateFormat: "dd-mm-yy",
+            });
+            $("#controlequipobundle_pautas_fechaHasta" ).datepicker({
+                dateFormat: "dd-mm-yy",
+            });
+                $( "#nombre_apellido_propietario" ).click(function() {
+                    $( "#cedula_usuario" ).focus();
+                });
+                $("#form_user_search").submit(function(event){
+                    event.preventDefault();
+                    var cedula_usuario = $('#cedula_usuario'), 
+                    nombre_apellido_propietario = $('#nombre_apellido_propietario'),
+                    propietario = $('#controlequipobundle_equiposexternos_propietarioId'),
+                    tipo_propietario = $('#controlequipobundle_equiposexternos_tipoPropietario');
+                    propietario.val(0);
+                    tipo_propietario.val(0);
+                    nombre_apellido_propietario.html('');
+
+                    $.ajax({
+                        type: 'post',
+                        url: '{{ path("controlequipo_search_responsable") }}',
+                        data: { cedula: cedula_usuario.val() },
+                        dataType: 'json',
+                        success: function(data) {
+                            if(data.vacio == 'no') {
+                                // Setteamos el nombre y apellido
+                                nombre_apellido_propietario.html(data.primer_nombre + ' ' + data.primer_apellido);
+                                // Setteamos el tipo de propietario
+                                propietario.val(data.propietario);
+                                tipo_propietario.val(data.tipo_propietario);
+                            } else {
+                                nombre_apellido_propietario.html('No registrado');
+                                propietario.val(0);
+                                tipo_propietario.val(0);
+                            }
+                        }
+                    });
+                    return false;
+                });
+                /*if($('#controlequipobundle_equiposexternos_propietarioId').val() == '' && $('#controlequipobundle_equiposexternos_tipoPropietario').val() == '') {
+                    $('#mensaje_alert').html('Debe indicar el Propietario del Equipo')
+                    $('#mensaje_div').show();
+                }*/
+        });
+    </script>
+{% endblock %}

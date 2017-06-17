@@ -1,0 +1,40 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h3>TICKETS CREADOS POR USUARIOS</h3>
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("reporte_ticketsCreados") }}">REPORTE TICKETS CREADOS</a></li>
+  
+  <li class="active">LISTA DE PARÁMETROS</li>
+  
+  
+</ol>
+{% endblock %}
+
+
+{% block contenido -%}
+    {{ parent() }}
+   
+    <div><h4>{{ perfil.primerNombre}} {{ perfil.primerApellido}}</h4></div>
+    <div>DESDE {{ datos['desde']}} HASTA {{ datos['hasta']}}</div>
+   
+    <br>
+    <table class="table table-bordered" style="width: 30%;">
+        <tr>
+            <th style="vertical-align: middle;">CANTIDAD DE TICKETS CREADOS</th>
+            <td><h1>{{ cantidad }}</h1></td>
+        </tr>
+
+    </table>
+    
+    {% if tickets is defined %}
+        
+    {% endif %}
+    
+{% endblock %}

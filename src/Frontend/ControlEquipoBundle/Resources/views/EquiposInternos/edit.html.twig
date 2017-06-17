@@ -1,0 +1,216 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block title %}Editar Equipo Interno{% endblock %}
+
+{% block titulo %}
+    EDITAR EQUIPO INTERNO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("equipointerno") }}">EQUIPOS INTERNOS</a></li>
+  <li class="active">EDITAR EQUIPO INTERNO</li>
+</ol>
+{% endblock %}
+    
+{% block body -%}
+    {{ parent()}}
+
+    {% if not edit_form.vars.valid %}
+        <div class="alert alert-danger errores" style="width:70%;">
+            <div><b>Alerta! Ha ocurrido un error en el formulario:</b><br><br></div>
+            <div>{{ form_errors(edit_form.codigoCatalogo) }}</div>
+            <div>{{ form_errors(edit_form.codigoBien) }}</div>            
+            <div>{{ form_errors(edit_form.codigoBarra) }}</div>
+            <div>{{ form_errors(edit_form.descripcionEquipo) }}</div>
+            <div>{{ form_errors(edit_form.serial) }}</div>
+            <div>{{ form_errors(edit_form.responsablePatrimonial) }}</div>
+            <div>{{ form_errors(edit_form.controlPerceptivo) }}</div>
+            <div>{{ form_errors(edit_form.ordenCompra) }}</div>
+            <div>{{ form_errors(edit_form.fechaOrdenCompra) }}</div>
+            <div>{{ form_errors(edit_form.solicitudContratacion) }}</div>
+            <div>{{ form_errors(edit_form.partidaPresupuestaria) }}</div>
+            <div>{{ form_errors(edit_form.nroFactura) }}</div>
+            <div>{{ form_errors(edit_form.moneda) }}{{ form_errors(edit_form.precio) }}</div>
+            <div>{{ form_errors(edit_form.actaEntrega) }}</div>
+            <div>{{ form_errors(edit_form.marca) }}</div>
+            <div>{{ form_errors(edit_form.modelo) }}</div>
+            <div>{{ form_errors(edit_form.file) }}</div>
+            <div>{{ form_errors(edit_form.fotoReferencia) }}</div>
+            <div>{{ form_errors(edit_form.proveedor) }}</div>
+        </div>
+    {% endif %}    
+    
+     <form novalidate action="{{ path('equipointerno_update',{'id':entity.id}) }}" method="post" {{ form_enctype(edit_form) }} class="form-horizontal" role="form">
+        {{ form_widget(edit_form._token) }}
+        <input type="hidden" name="_method" value="PUT"> 
+   
+        <div class="formShow">
+            <div class="form-group">
+                <label for="nroControl" class="col-sm-4 control-label">Código Catálogo * </label>
+                <div class="col-sm-3">
+                    {{ form_widget(edit_form.codigoCatalogo,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="nroControl" class="col-sm-4 control-label">Código Bien * </label>
+                <div class="col-sm-3">
+                    {{ form_widget(edit_form.codigoBien,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                </div>
+            </div>
+                
+            
+            <div class="form-group">
+                <label for="nroControl" class="col-sm-4 control-label">Código Barra/ Nro Control * </label>
+                <div class="col-sm-3">
+                    {{ form_widget(edit_form.codigoBarra,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="descripcionEquipo" class="col-sm-4 control-label">Descripcion del Equipo *</label>
+                <div class="col-sm-3">
+                    {{ form_widget(edit_form.descripcionEquipo,{ 'attr': {'class': 'form-control input-sm','rows':'4','style':'width:220px;'} }) }}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="codigoBarra" class="col-sm-4 control-label">Serial *</label>
+                <div class="col-sm-3">
+                    {{ form_widget(edit_form.serial,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                </div>
+            </div>
+                
+            <div class="form-group">
+                <label for="responsable" class="col-sm-4 control-label">Responsable *</label>
+                <div class="col-sm-3">
+                    {{ form_widget(edit_form.responsablePatrimonial,{ 'attr': {'class': 'form-control input-sm chosen-select','style': 'width:220px;'} }) }}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="controlPerceptivo" class="col-sm-4 control-label">Control Perceptivo</label>
+                <div class="col-sm-3">
+                    {{ form_widget(edit_form.controlPerceptivo,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="ordenCompra" class="col-sm-4 control-label">Orden de Compra</label>
+                <div class="col-sm-3">
+                    {{ form_widget(edit_form.ordenCompra,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="solicitudContratacion" class="col-sm-4 control-label">Solicitud de Contratación</label>
+                <div class="col-sm-3">
+                    {{ form_widget(edit_form.solicitudContratacion,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="partidaPresupuestaria" class="col-sm-4 control-label">Partida Presupuestaria</label>
+                <div class="col-sm-3">
+                    {{ form_widget(edit_form.partidaPresupuestaria,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="nroFactura" class="col-sm-4 control-label">N° Factura</label>
+                <div class="col-sm-3">
+                    {{ form_widget(edit_form.nroFactura,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="precio" class="col-sm-4 control-label">Precio</label>
+                <div class="col-sm-8 input-group" style="margin-left: 15px;">
+                    <span>
+                        {{ form_widget(edit_form.moneda,{ 'attr': {'class':'form-control input-sm','style': 'width:62px;' } }) }}
+                    </span>
+                        {{ form_widget(edit_form.precio ,{ 'attr': {'class':'form-control input-sm','style': 'width:158px;' } }) }}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="actaEntrega" class="col-sm-4 control-label">Acta Entrega</label>
+                <div class="col-sm-3">
+                    {{ form_widget(edit_form.actaEntrega,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                </div>
+            </div>
+            
+            <!--<div class="form-group">
+                <label for="file" class="col-sm-4 control-label">Foto de Referencia</label>
+                <div class="col-sm-3">
+                    {{ form_widget(edit_form.file,{ 'attr': {'class': 'btn-primary input-sm'} }) }}
+                </div>
+            </div>-->
+            
+            <div class="form-group">
+                <label for="marcas_selector" class="col-sm-4 control-label">Marca *</label>
+                <div class="col-sm-3">
+                        {{ form_widget(edit_form.marca,{ 'attr': {'class': 'form-control input-sm chosen-select','style': 'width:220px;','value': entity.marca} }) }}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="modelo" class="col-sm-4 control-label">Modelo *</label>
+                <div class="col-sm-3">
+                    {{ form_widget(edit_form.modelo,{ 'attr': {'class': 'form-control input-sm','style': 'width:220px;'} }) }}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="proveedor" class="col-sm-4 control-label">Proveedor *</label>
+                <div class="col-sm-3">
+                    {{ form_widget(edit_form.proveedor,{ 'attr': {'class': 'form-control input-sm','style': 'width:220px;'} }) }}
+                </div>
+            </div>
+                <br>
+            <input type="submit" class="btn btn-primary" value="MODIFICAR EQUIPO INTERNO">
+        <br><br>
+        </div>
+        <a class="btn btn-default" href="{{ path('equipointerno') }}">
+            VOLVER A LA LISTA DE EQUIPOS
+        </a> 
+        
+     </form>
+
+    <script>
+        $(function() {
+            $(".chosen-select").chosen({no_results_text: "No encontrado!"});
+            //$("#controlequipobundle_equipointerno_modelo").trigger("chosen:updated");
+            $(":file").filestyle({iconName: "glyphicon-picture",buttonBefore: true,buttonText: "Cargar Fotografía",input: false});
+            
+            $("#controlequipobundle_equipointerno_controlPerceptivo" ).datepicker({
+                dateFormat: "dd-mm-yy",
+            });
+            $('#controlequipobundle_equipointerno_precio').number( true, 2,'.', '');
+
+            $("#controlequipobundle_equipointerno_marca option[value="+{{ entity.marca }}+"]").attr('selected', 'selected');
+            $("#controlequipobundle_equipointerno_marca").trigger("chosen:updated");
+            $(function(){
+                var $modelo_selector = $('#controlequipobundle_equipointerno_modelo');
+                $("#controlequipobundle_equipointerno_marca").change(function(){
+                    var data = {
+                        marca_id: $(this).val()
+                    };
+
+                    $.ajax({
+                        type: 'post',
+                        url: '{{ path("controlequipo_select_modelos") }}',
+                        data: data,
+                        success: function(data) {
+                            $modelo_selector.html('<option value>Seleccione...</option>');
+                            for (var i=0, total = data.length; i < total; i++) {
+                                $modelo_selector.append('<option value="' + data[i].id + '">' + data[i].descripcionModelo + '</option>');
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}

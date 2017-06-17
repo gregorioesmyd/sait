@@ -1,0 +1,28 @@
+parameters:
+#    proyecto.example.class: Progis\ProyectoBundle\Example
+
+services:
+#    proyecto.example:
+#        class: %proyecto.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+services:
+    proyectoServicio:
+        class: Progis\ProyectoBundle\Servicio\proyectoServicio
+            
+    objetivoServicio:
+        class: Progis\ProyectoBundle\Servicio\objetivoServicio
+
+    proyectoModelo:
+        class: Progis\ProyectoBundle\Modelo\proyectoModelo
+        arguments: 
+            em: "@doctrine.orm.entity_manager"
+            
+    objetivoModelo:
+        class: Progis\ProyectoBundle\Modelo\objetivoModelo
+        arguments: 
+            em: "@doctrine.orm.entity_manager"
+            
+    funcionModelo:
+        class: Progis\PrincipalBundle\Modelo\funcionModelo
+        arguments: 
+            em: "@doctrine.orm.entity_manager"

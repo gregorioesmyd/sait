@@ -1,0 +1,109 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block title %}Registro de Equipo Externo{% endblock %}
+
+{% block titulo %}
+    REGISTRO DE EQUIPO EXTERNO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("equipoexterno") }}">EQUIPOS EXTERNOS</a></li>
+  <li class="active">REGISTRO DE EQUIPO EXTERNO</li>
+</ol>
+{% endblock %}
+    
+{% block body -%}
+    {{ parent()}}
+
+    {% if not form.vars.valid %}
+        <div class="alert alert-danger errores" style="width:70%;">
+            <div><b>Alerta! Ha ocurrido un error en el formulario:</b><br><br></div>
+            <div>{{ form_errors(form.serial) }}</div>
+            <div>{{ form_errors(form.descripcionEquipo) }}</div>
+            <div>{{ form_errors(form.codigoBarra) }}</div>
+            <div>{{ form_errors(form.propietarioId) }}</div>
+            <div>{{ form_errors(form.tipoPropietario) }}</div>
+            <div>{{ form_errors(form.equipoMarca) }}</div>
+        </div>
+    {% endif %}
+    <!--<div class="alert alert-danger errores" style="width:70%;" style="display:none;" id="mensaje_div">
+            <div><b>Alerta! Ha ocurrido un error en el formulario:</b><br><br></div>
+            <div id="mensaje_alert"></div>
+    </div>-->
+    <center>
+    
+     <form novalidate action="{{ path('equipoexterno_create') }}" method="post" {{ form_enctype(form) }} class="form-horizontal" role="form">
+        {{ form_widget(form._token) }}
+   
+        <div class="formShow">
+            <div class="form-group">
+                <label for="propietarioId" class="col-sm-4 control-label">Propietario *</label>
+                <div class="col-sm-3">
+                    <p class="form-control-static" id="nombre_apellido_propietario" style="width:220px;">{{ usuario['nombres'] }}</p>
+                        
+                        <div style="display: none">
+                            {{ form_widget(form.propietarioId,{'attr':{'value': usuario['id']} }) }}
+                            {{ form_widget(form.tipoPropietario,{'attr':{'value': usuario['tipo']} }) }}
+                        </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="cedula_propietario" class="col-sm-4 control-label">Cedula *</label>
+                <div class="col-sm-3">
+                    <p class="form-control-static" id="cedula_propietario" style="width:220px;">{{ usuario['cedula'] }}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="codigoBarra" class="col-sm-4 control-label">Codigo Barra / Nro Control *</label>
+                <div class="col-sm-3">
+                    {{ form_widget(form.codigoBarra,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                </div>
+            </div>            
+                        
+            <div class="form-group">
+                <label for="codigoBarra" class="col-sm-4 control-label">Serial *</label>
+                <div class="col-sm-3">
+                    {{ form_widget(form.serial,{ 'attr': {'class': 'form-control input-sm'} }) }}
+                </div>
+            </div>
+                
+            <div class="form-group">
+                <label for="codigoBarra" class="col-sm-4 control-label">Descripcion del Equipo *</label>
+                <div class="col-sm-3">
+                    {{ form_widget(form.descripcionEquipo,{ 'attr': {'class': 'form-control input-sm','rows':'4','style':'width:220px;'} }) }}
+                </div>
+            </div>
+                
+            
+            
+            <div class="form-group">
+                <label for="codigoBarra" class="col-sm-4 control-label">Marca *</label>
+                <div class="col-sm-3">
+                    {{ form_widget(form.equipoMarca,{ 'attr': {'class': 'form-control input-sm chosen-select','style': 'width:220px;'} }) }}
+                </div>
+            </div>
+
+            <br>
+            
+            <input type="submit" class="btn btn-primary" value="REGISTRAR EQUIPO">
+            |
+            <a class="btn btn-default" href="{{ path('visita_busca') }}">VOLVER A LA BUSQUEDA</a><BR><BR>
+        <br><br>
+        </div>
+        <a class="btn btn-default" href="{{ path('equipoexterno') }}">
+            VOLVER A LA LISTA DE EQUIPOS
+        </a> 
+        
+     </form>
+    </center>
+    <script>
+        $(function() {
+            $(".chosen-select").chosen({no_results_text: "No encontrado!"});
+            $(":file").filestyle({iconName: "glyphicon-picture",buttonBefore: true,buttonText: "Cargar Fotografía",input: false});
+            
+
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,171 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+	<title>{% block title %}Telesur{% endblock %}</title>
+
+	{% block stylesheets %}
+		<link rel="stylesheet" href="{{ asset('bundles/trueques/libs/Bootstrap-3.3.5/css/bootstrap.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('libs/bootstrap3/css/bootstrap-theme.min.css') }}">
+		<link href="{{ asset('bundles/trueques/libs/DataTables-1.10.10/css/dataTables.bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+		<link href="{{ asset('libs/menu/css/menu.css') }}" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="{{ asset('bundles/trueques/libs/sweetalert/dist/sweetalert.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ asset('bundles/trueques/libs/bootstrap-select/css/bootstrap-select.min.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ asset('bundles/trueques/libs/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}">
+		<link href="{{ asset('bundles/trueques/css/trueques.css') }}" rel="stylesheet" type="text/css" />
+	{% endblock %}
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<header>
+					<div class="logotelesur"><img src="{{ asset('images/logo.svg') }}"></div>
+				</header>
+
+				<div class="container-body">
+					<div class="breadcrumbtrivias">
+						<table class="table-breadcrumb">
+							<thead>
+								<tr>
+									<th><img src="{{ asset('images/trivias/logo_breadcrumb.jpg') }}"></th>
+									<th>Trueques</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					
+					<img src="{{ asset('bundles/trueques/images/Trueque2.jpg') }}">
+
+					{% for flashMessage in app.session.flashbag.get('notice') %}
+						<div class="alert alert-info">
+							{{ flashMessage | raw }}
+						</div>
+					{% endfor %}
+
+					{% for flashMessage in app.session.flashbag.get('danger') %}
+						<div class="alert alert-danger">
+							{{ flashMessage | raw }}
+						</div>
+					{% endfor %}
+
+					{% for flashMessage in app.session.flashbag.get('success') %}
+						<div class="alert alert-success">
+							{{ flashMessage | raw }}
+						</div>
+					{% endfor %}
+
+					{% for flashMessage in app.session.flashbag.get('warning') %}
+						<div class="alert alert-warning">
+							{{ flashMessage | raw }}
+						</div>
+					{% endfor %}
+
+                                
+                    <script>
+                        setTimeout(function() {
+                            $(".alert").slideUp( "slow" );
+                        },10000);
+                    </script>
+
+
+					<div class="body-content">
+						
+						<nav class="menu-secundary">
+							<ul class="nav nav-pills">
+								<li role="presentation">
+									<a href="{{ path('trueques_homepage') }}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>  Inicio</a>
+								</li>
+								<li role="presentation">
+									<a href="{{ path('misproductos') }}"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>  Mis Productos</a>
+								</li>
+								{% if is_granted('ROLE_TRUEQUES_ADMIN') %}
+									<li role="presentation" class="dropdown">
+										<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+										<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>  Admin <span class="caret"></span>
+										</a>
+										<ul class="dropdown-menu">
+											
+											{#}	<li><a href="{{ path('admin_categoria') }}">Categorias</a></li>#}
+											        <li><a href="{{ path('admin_producto') }}">Productos</a></li>
+                                                                                                <li><a href="{{ path('trueques_aprobar_producto') }}">Productos Usuarios</a></li>
+                                                                                                {#<li><a href="{{ path('admin_status') }}">Estatus</a></li>#}
+                                                                                        
+										</ul>
+									</li>
+                                                                        {% endif %}
+								<li role="presentation">
+									<a href="{{ path('usuario_homepage') }}">Aplicaciones</a>
+								</li>
+							</ul>
+						</nav>	
+
+						{% block body %}{% endblock %}
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
+				<footer  class="pieintranet">
+					La Nueva Televisión del Sur C.A. (TVSUR) <br> Copyright © 2015, Intranet teleSUR. Todo el contenido es exclusivo para el uso interno del canal. RIF. G-20004500-0
+				</footer>
+			</div>
+		</div>
+	</div>
+
+
+	{% block javascripts %}
+		<script src="{{ asset('bundles/trueques/libs/jQuery-1.11.3/jquery-1.11.3.min.js') }}"></script>
+		<script src="{{ asset('bundles/trueques/libs/Bootstrap-3.3.5/js/bootstrap.min.js') }}"></script>
+		<script src="{{ asset('bundles/trueques/libs/DataTables-1.10.10/js/jquery.dataTables.min.js') }}"></script>
+		<script src="{{ asset('bundles/trueques/libs/DataTables-1.10.10/js/dataTables.bootstrap.js') }}"></script>
+		<script src="{{ asset('bundles/trueques/libs/sweetalert/dist/sweetalert.min.js') }}"></script> 
+		<script src="{{ asset('bundles/trueques/libs/bootstrap-select/js/bootstrap-select.min.js') }}"></script> 
+		<script src="{{ asset('bundles/trueques/libs/bootstrap-select/js/i18n/defaults-es_CL.min.js') }}"></script> 
+		<script src="{{ asset('bundles/trueques/libs/moment-with-locales.js') }}"></script> 
+		<script src="{{ asset('bundles/trueques/libs/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script> 
+		
+		<script type="text/javascript">
+			$(function() {
+				$('.dataTable').dataTable({
+					"order": [[ 0, "desc" ]]
+				});
+				$('.my-select-multiple').selectpicker();
+
+				var tags = function() {
+					var $options = $('.my-select-multiple').find('option:selected');
+					var $container = $('.content-tags');
+					if ($options.length > 4) {
+						var content = '';
+						$.each($options, function() {
+							content += "<span class='tags'>" + $(this).text() + "</span>";
+						});
+						$container.html(content);
+					} else {
+						$container.html('');
+					};
+				};
+
+				$('.my-select-multiple select').change(tags);
+
+				$('.my-select-multiple').on('refreshed.bs.select', function (e) {
+					tags();
+				});
+
+				$('.datepicker').datetimepicker({
+					format: 'DD-MM-YYYY',
+					locale: 'es',
+					minDate: moment().add(5, 'days')
+				});
+			});
+		</script>
+	{% endblock %}
+
+</body>
+</html>

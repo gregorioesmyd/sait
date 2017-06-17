@@ -1,0 +1,24 @@
+{% extends ':videoteca:base/base-no-segmento.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/videoteca/css/jquery-ui-timepicker-addon.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/videoteca/jquery-ui.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/videoteca/jquery-ui.theme.min.css') }}">
+{% endblock %}
+
+{% block title %}Segmento{% endblock %}
+
+{% block contenido %}
+    {% set statusSegmento = "active" %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//code.jquery.com/ui/1.10.2/jquery-ui.min.js"></script>
+	<script src="{{ asset('bundles/videoteca/js/jquery-ui-timepicker-addon.min.js') }}"></script>
+	<script src="{{ asset('bundles/videoteca/js/jquery-ui-sliderAccess.js') }}"></script>
+	<script src="{{ asset('bundles/videoteca/js/scripts/picker.js') }}"></script>
+
+{% endblock %}

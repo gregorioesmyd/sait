@@ -1,0 +1,61 @@
+{% extends '::visita.html.twig' %}
+
+{% block title %}CONSULTAR USUARIO{% endblock %}
+
+{% block titulo %}
+    DATOS DEL USUARIO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("control_visitas_usuario") }}">VISITAS INICIO</a></li>
+  <li class="active">CONSULTAR USUARIO</li>
+
+</ol>
+{% endblock %}
+
+
+{% block body -%}
+    {{parent()}}
+    
+    <table class="record_properties" border="1" cellspacing="9" cellpadding="5">
+        <thead >
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Cedula</th>
+                <th>Telefono</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ entity.usuario.id }}</td>
+                <td>{{ entity.usuario.nombres }}</td>
+                <td>{{ entity.usuario.apellidos }}</td>
+                <td>{{ entity.usuario.cedula }}</td>
+                <td>{{ entity.usuario.telefono }}</td>
+            </tr>
+            <tr>
+                  <td colspan="5">
+                    <img  src="{{ filename  }}" data-placement="bottom" title="DATOS DE USUARIO" data-trigger="hover">
+                  </td>
+            </tr>
+
+        </tbody>
+    </table>           
+
+
+
+
+        <ul class="record_actions">
+    <li>
+        {#<a class="btn btn-success"   href="{{ path('usu', { 'id':entity.id }) }}">Nueva Visita</a>#}
+        <br>
+        <br>
+        <a class="btn btn-default" href="{{ path('control_visitas_usuario') }}">IR AL LISTADO</a> | 
+        <a class="btn btn-default" href="{{ path('usuario_edit_control', { 'id': entity.id }) }}">IR A EDITAR</a>
+</ul>
+{% endblock %}

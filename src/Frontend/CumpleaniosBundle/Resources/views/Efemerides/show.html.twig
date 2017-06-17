@@ -1,0 +1,63 @@
+{% extends '::cumpleanios.html.twig' %}
+
+{% block title %}Consultar{% endblock %}
+
+{% block titulo %}
+    CONSULTA EFEMERIDES
+{% endblock %}
+
+{% block ubicacion %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+        <li><a href="{{ path("efemerides") }}">LISTADO DE EFEMERIDES</a></li>
+        <li class="active">CONSULTA EFEMERIDES</li>
+    </ol>
+{% endblock %}
+
+
+{% block body -%}
+    {{ parent() }}
+
+    <div class="formShow">
+        <div class="contenedorform">
+            <div class="labelform">Nombre:</div>
+            <div class="widgetform">{{ entity.nombre }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Día:</div>
+            <div class="widgetform">{{ entity.dia }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Mes:</div>
+            <div class="widgetform">{{ entity.mes }}</div>
+        </div>
+        {% if entity.anio is not empty %}
+            <div class="contenedorform">
+                <div class="labelform">Año:</div>
+                <div class="widgetform">{{ entity.anio }}</div>
+            </div>
+        {% endif  %}
+        <div class="contenedorform">
+            <div class="labelform">Tipo:</div>
+            <div class="widgetform">{{ entity.tipoId }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Pais:</div>
+            <div class="widgetform">{{ entity.paisId }}</div>
+        </div>
+    </div>
+    <a class="btn btn-default" href="{{ path('efemerides') }}">
+        VOLVER A LA LISTA
+    </a> | 
+
+    <a class="btn btn-default" href="{{ path('efemerides_edit', { 'id': entity.id }) }}">
+        IR A EDITAR
+    </a>
+    <br><br>
+    {{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+    {{ form_errors(delete_form) }}
+    {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+    {{ form_end(delete_form) }}
+    <br>
+
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends '::organigrama.html.twig' %}
+
+{% block title %}Personal{% endblock %}
+
+{% block titulo %}
+    PERSONAL TELESUR
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">PERSONAL TELESUR</li>
+</ol>
+{% endblock %}
+
+
+{% block body %}
+    {% include 'UsuarioBundle:Default:__cargando.html.twig' %}
+    <div align="center"><h2>ORGANIGRAMA TELESUR</h2></div><br><br>
+    
+    {#
+<div align="justify">
+{% for n in nivel %}
+    <div style="color:red;">
+        {{n.codigo}} - {{n.descripcion}}
+    </div>
+
+    {% for p in perfil if p.nivelorganizacional.id==n.id %}
+        <div style="margin-left:20px;"><img width="100px" src="{{ p.foto }}">{{ p.primerNombre|capitalize }} {{ p.primerApellido|capitalize }} | {% if p.cargo is not null %}{{ p.cargo.descripcion}}{% endif %}</div>
+    {% endfor %}   
+{% endfor %}
+</div>
+
+#}
+
+
+
+
+    
+    <div class="alert alert-info">Si te encuentras en el Nivel Organizacional incorrecto, por favor actualízalo <a style="cursor: pointer;" onclick="document.form.submit()">aqui</a>.</div>
+        <br>
+        <div>
+    
+            <div style="text-align: center;"><h4>NIVELES ORGANIZACIONALES</h4></div><br><br>
+            
+            <div id="html" class="demo" style="padding-left: 30px;">
+                <ul>
+                    <li data-jstree='{ "opened" : true }'><span onclick="info('{{nivel[0].id}}')"  style="color: black;font-weight: bold;">PRESIDENCIA</span>
+                            <ul id="01"></ul>
+                    </li>
+                </ul>
+            </div>
+            
+        </div>
+        <BR><BR>
+        <div style="text-align: center;">
+            <div style="text-align: center;"><h4>INFORMACIÓN DEL NIVEL SELECCIONADO</h4></div><br><br>
+            <div id="info" class="text-danger" style="padding: 5px;">DEBE SELECCIONAR UN NIVEL</div>
+        </div>
+        <BR><BR>
+
+    <script>
+        function info(id){
+            
+            $("#info").html("<div><img width='100px;' src='{{asset('images/logo.png')}}'></div><div><img src='{{asset('images/ajax-loader.gif')}}'></div>")
+            
+            var url='{{path('organigrama_ajax',{'id':'dato'})}}';
+            url=url.replace("dato",id)
+
+            $.ajax({
+                url: url,
+                dataType: 'html',
+                success: function(respuesta){
+                 
+                 $("#info").html(respuesta)
+                 
+                }
+            });
+        }
+        
+        {% for key,v in arrayNiveles if key!=4 and key!=2 %}
+
+            {% for n in nivel if n.codigo|length==key %}
+                $("#{{n.codigo|slice(0,key-3)}}" ).append($( "<li><span onclick='info(\"{{ n.id }}\")'>{{ n.descripcion }}</span><ul id='{{ n.codigo }}'></ul></li>" ));
+            {% endfor %}
+ 
+        {% endfor %}
+    
+        $('#html').jstree();
+    </script>
+
+    <form name="form" action="{{ path('user_actualizarDatos') }}" method="post">
+        <input type="hidden" name="idUsuario" value="{{ app.user.id }}">
+    </form>
+                    
+{% endblock %}

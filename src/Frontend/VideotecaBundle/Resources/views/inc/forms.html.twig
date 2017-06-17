@@ -1,0 +1,11 @@
+<div class="form-group">
+	<div>
+        {{ form_row(form.codigo) }}
+    </div>
+</div>
+
+{% for item in inputs.Cinta %}
+    <div class="form-group">
+		{{ form_row(form[item]) }}
+	</div>
+{% endfor %}

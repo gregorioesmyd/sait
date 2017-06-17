@@ -1,0 +1,17 @@
+{% extends '::base_trueques.html.twig' %}
+
+
+{% block body %}
+    <div class="row">
+    	<div class="col-xs-12">
+    		
+			<div class="wp-ppal" style="margin-left:-15px;">
+				<div class="wp-btn">
+					<a class="btn btn-gray-home" href="{{ path('trueques_buscar') }}" role="button">BUSCAR</a>
+					<a class="btn btn-gray-home" href="{{ path('misproductos_new') }}" role="button">CARGAR PRODUCTO</a>
+				</div>
+			</div>
+
+    	</div>
+    </div>
+{% endblock %}

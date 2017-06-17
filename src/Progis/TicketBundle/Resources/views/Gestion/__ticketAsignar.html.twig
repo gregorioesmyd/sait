@@ -1,0 +1,103 @@
+<form novalidate action="{{ path('progis_ticket_procesaAsignar',{'idticket':ticket.id}) }}" method="post">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="width: 70%;">
+          <div class="modal-content">
+          <div class="modal-body">
+              
+                {% if sms!=null %}
+                    <div class="alert alert-danger"><b>Alerta! Ha ocurrido un error en el formulario.</b><br>{{ sms|raw }}</div>
+                {% endif %}
+                
+                <div class="row">
+                    <div class="col-md-6" style="text-align:justify;padding-right:10px;">
+                            <h3>ASOCIAR CATEGORIA</h3>
+                            <div class="contenedorcatsub">
+                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                  {% set count=0 %}
+                                  {% for nivel, sc in arraycatsub %}
+                                  <div class="panel panel-info">
+                                    <div class="panel-heading" role="tab" id="heading{{ loop.index }}">
+                                      <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                                          {{ nivel }}
+                                        </a>
+                                      </h4>
+                                    </div>
+                                    <div id="collapse{{ loop.index }}" class="panel-collapse collapse {% if datos['nivel'] is defined and datos['nivel']==nivel %}in{% elseif loop.index==1 and datos['nivel'] is not defined   %}in{% endif %} " role="tabpanel" aria-labelledby="heading{{ loop.index }}">
+                                      <div class="panel-body">
+
+
+                                            <div class="panel-group" id="accordion2" role="tablist" aria-multiselectable="true">
+                                              {% for categoria, subcategoria in sc %}
+                                              <div class="panel panel-default">
+                                                <div class="panel-heading" role="tab" id="heading{{ loop.index }}{{count}}x">
+                                                  <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion2" href="#collapse{{ loop.index }}{{count}}x" aria-expanded="{% if loop.index==1 %}true{% else %}false{% endif %}" aria-controls="collapse{{ loop.index }}{{count}}x">
+                                                      {{ categoria}}
+                                                    </a>
+                                                  </h4>
+                                                </div>
+                                                <div id="collapse{{ loop.index }}{{count}}x" class="panel-collapse collapse {% if datos['categoria'] is defined and datos['categoria']==categoria %}in{% endif %}" role="tabpanel" aria-labelledby="heading{{ loop.index }}{{count}}x">
+                                                  <div class="panel-body">
+                                                        {% for sub in subcategoria %}
+                                                            <div class="SITsubcategoria"><input {% if datos['subcat'] is defined and datos['subcat']==sub.id %}checked="checked"{% endif %} type="radio" name="subcat" value="{{ sub.id }}"> {{ sub.subcategoria }} - Complejidad: {{ sub.complejidad }} {{sub.tiempoatencion }}{% if sub.tipotiempo==2%} Hora(s){% else %} Minuto(s){% endif %}</div>
+                                                        {% endfor %}
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              {% endfor %} 
+                                            </div>
+
+                                      </div>
+                                    </div>
+                                  </div>
+                                  {% set count=count+1 %}
+                                  {% endfor %} 
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6" style="text-align:justify;padding-right:10px;">
+                        <h3>ASIGNAR TÉCNICO</h3>
+                        <div class="panel-group" id="accordion">
+                            <div class="accordion-heading">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                      <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                          SELECCIONAR
+                                        </a>
+                                      </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse in" style="padding-left: 10px;">
+                                        
+                                        {% if rolGeneralNivel[ticket.nivelorganizacional.id]["ROLE_PROGIS_TICKET_TECNICO"]==true %}
+                                            {% for u in miembroTicket if u.usuario.id==app.user.id %}
+                                                <div class="situnidad"><input type="radio" name="tecnico" checked="checked" value="{{u.usuario.id}}"> 
+                                                {{ u.usuario.primerNombre|title }} {{ u.usuario.primerApellido|title }}</div>
+                                            {% endfor %}
+                                        {% else %}
+                                            {% for u in miembroTicket if u.nivelorganizacional.id==ticket.nivelorganizacional.id %}
+                                                <div class="situnidad"><input type="radio" name="tecnico" {% if datos['tecnico'] is defined and datos['tecnico']==u.usuario.id %}checked="checked"{% endif %} value="{{u.usuario.id}}"> 
+                                                {{ u.usuario.primerNombre|title }} {{ u.usuario.primerApellido|title }}</div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">CERRAR</button>
+            <button type="submit" class="btn btn-primary">GUARDAR</button>
+          </div>
+        </div>
+      </div>
+    </div>  
+</form>  

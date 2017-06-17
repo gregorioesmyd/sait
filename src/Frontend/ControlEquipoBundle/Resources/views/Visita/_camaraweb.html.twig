@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <link rel="stylesheet" href="{{ asset('libs/webKaam/css/estilo.css') }}">
+     
+	<script>
+	//****************************************************************
+	// Guardar canvas en un archivo de imagen vía AJAX.
+	//****************************************************************
+	function saveViaAJAX()
+	{
+		var testCanvas = document.getElementById("foto");
+		var canvasData = testCanvas.toDataURL("image/jpeg");
+		var postData = "canvasData="+canvasData+"cedula={{ entity.usuario.cedula}}";
+		var debugConsole= document.getElementById("debugConsole");
+		debugConsole.value=canvasData;
+
+		
+		var ajax = new XMLHttpRequest();
+                
+		ajax.open("POST","{{ asset('libs/webKaam/php/guardar_imagen.php') }}",true);
+		ajax.setRequestHeader('Content-Type', 'canvas/upload');
+
+		ajax.onreadystatechange=function()
+		{
+			if (ajax.readyState == 4)
+			{
+                            
+				document.getElementById("debugFilenameConsole").innerHTML=ajax.responseText
+                                setTimeout(function(){
+                                    $(location).attr('href','{{ path('visita_show',{'id':entity.id}) }}');
+                                }, 2000);
+			}
+		}
+
+		ajax.send(postData);
+                
+	}
+
+	</script>
+</head>
+<body>
+	<div id="marco">
+		<div id='botonera'>
+                    <input id='botonIniciar' class="btn btn-info" type='button' value = 'Iniciar camara'></input>
+                    <input id='botonDetener' class="btn btn-warning" type='button' value = 'Detener camara'></input>
+                    <input id='botonFoto' style="display: none;" type='button' class="btn btn-primary" value = 'Tomar foto'></input>
+                    <input type='button' class="btn btn-danger" value = 'Recargar' onClick="document.location.reload()"></input>
+		</div>
+		<div class="contenedor1">
+			<div class="titulo">Cámara</div>
+			<video id="camara" autoplay controls></video>
+		</div>
+		<div class="contenedor2">
+			<div class="titulo">Foto</div>
+			<canvas id="foto" ></canvas>
+		</div>
+		 <div style="clear: both"></div>
+		<div class="contenedor3">
+			<textarea id="debugConsole" rows="10" cols="82" style="display:none;"></textarea> <!-- ocultamos el textarea -->
+                        <p><button onclick="saveViaAJAX();" class="btn btn-primary" id="guardafoto" style="display:none;">GUARDAR IMAGEN</button><p>
+                        <div id="debugFilenameConsole" class="alert alert-info">Espere un momento después de hacer clic en el botón Guardar...  </div>
+        </div>
+    </div>
+	<script src="{{ asset('libs/webKaam/js/videofoto.js') }}"></script>
+        
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#botonFoto').click(function(){
+                $('#guardafoto').show();
+            });
+            
+            $('#botonIniciar').click(function(){
+                $('#botonFoto').show();
+            });
+
+        });
+    </script>
+    
+</body>
+</html>

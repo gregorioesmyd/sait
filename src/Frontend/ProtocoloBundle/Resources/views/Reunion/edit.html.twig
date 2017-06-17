@@ -1,0 +1,49 @@
+{% extends '::protocolo.html.twig' %}
+
+{% block title %}Protocolo{% endblock %}
+
+{% block titulo %}
+   EDITAR SOLICITUD DE REUNION EN OFICINA
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">Protocolo</li>
+</ol>
+{% endblock %}
+{% block body -%}
+ {{parent()}}
+
+<form novalidate action="{{ path('reunion_update',{'id':entity.id}) }}" method="post" {{ form_enctype(edit_form) }}>
+        <input type="hidden" name="_method" value="PUT"> {{ form_widget(edit_form._token) }}
+
+        <div class="formShow">
+            <div class="contenedorform">
+                <div class="labelform">Fecha:</div>
+                <div class="widgetform">{{ form_widget(edit_form.fecha,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Hora:</div>
+                <div class="widgetform">{{ form_widget(edit_form.hora,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Lugar:</div>
+                <div class="widgetform">{{ form_widget(edit_form.lugar,{ 'attr': {'style': 'margin: 0px; width: 444px; height: 126px;'} }) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Nro Personas:</div>
+                <div class="widgetform">{{ form_widget(edit_form.numeroPersonas,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Refrigerio:</div>
+                <div class="widgetform">{{ form_widget(edit_form.refrigerio,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+           </div>
+        <a class="btn btn-default" href="{{ path('reunion') }}">
+            VOLVER A LA LISTA
+        </a> | 
+        <input type="submit" class="btn btn-primary" value="EDITAR TAREA">
+        <br><br>
+    </form>
+{% endblock %}

@@ -1,0 +1,33 @@
+<?php
+
+namespace Frontend\ControlEquipoBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TiposOperaciones
+ *
+ * @ORM\Table(name="controlequipo.tipos_operaciones")
+ * @ORM\Entity
+ */
+class TiposOperaciones
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="controlequipo.tipos_operaciones_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion_operacion", type="string", length=150, nullable=false)
+     */
+    private $descripcionOperacion;
+
+
+}

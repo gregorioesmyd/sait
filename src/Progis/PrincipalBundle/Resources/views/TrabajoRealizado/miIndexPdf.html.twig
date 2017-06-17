@@ -1,0 +1,109 @@
+<h4>MI TRABAJO REALIZADO DESDE: {{ data['fd']|date("d-m-Y")}} - HASTA: {{ data['fh']|date("d-m-Y")}}</h4>
+
+
+{% for u in usuarios %}
+    {% set totalHoras=0 %}
+    <table width="150px;">
+        <tr>
+            <td align="center">
+                {% if u['usuario'].foto is null %}
+                    <img src="/uploads/personalTelesur/no.png" height="150px;" class="img-thumbnail">
+                {% else %}
+                    <img src="../../{{u['usuario'].foto}}" style="height:100px;" class="img-thumbnail">
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td align="center">{{u['usuario'].primerNombre}} {{u['usuario'].primerApellido}}</td>
+        </tr>
+    </table>
+    <br>
+    <table style="font-size: 12px;border: 1px;width: 100%;" border="1">
+        <tr>
+            <th width="10%">Fecha</th>
+            <th width="10%">Tiempo en horas</th>
+            <th width="10%">Tiempo en minutos</th>
+            <th width="10%">Tiempo en segundos</th>
+            <th width="10%">Tiempo estimado</th>
+            <th width="10%">Solicitante</th>
+            <th width="25%">Descripcion</th>
+            <th width="10%">Estado</th>
+            <th style="width: 5%;">Tipo</th>
+        </tr>
+            
+    {% for tr in trabajoRealizado if tr.responsable.usuario==u['usuario'] %}
+        <tr>
+            <td>{{ tr.fecha|date("d-m-Y") }}</td>
+            <td>{{ tr.horas|number_format(2) }}</td>
+            <td>{{ (tr.horas*60)|number_format(2) }}</td>
+            <td>{{ (tr.horas*3600)|number_format(0) }}</td>
+            
+        {% if tr.tipo=='t' %}
+            <td>{{ tr.ticket.tiempoestimado }} {% if tr.ticket.tipotiempo==2%}Hora(s){% else %}Minuto(s){% endif %}</td>
+            <td>{{ tr.ticket.ticket.solicitante.primerNombre|title }} {{ tr.ticket.ticket.solicitante.primerApellido|title }}</td>
+            <td>{{ tr.ticket.ticket.solicitud }}</td>
+            <td>
+                {% if tr.ticket.ticket.estatus==1 %}
+                    <span class="label label-danger"><span style="display:none;">1-</span>Nuevo</span>
+                {% elseif tr.ticket.ticket.estatus==2 %}
+                    <span class="label label-info"><span style="display:none;">2-</span>Asignado</span>
+                {% elseif tr.ticket.ticket.estatus==3 %}
+                    <span class="label label-warning"><span style="display:none;">3-</span>Re-Asignado</span>
+                {% elseif tr.ticket.ticket.estatus==4 %}
+                    <span class="label label-success"><span style="display:none;">4-</span>Culminado</span>
+                {% endif %}
+            </td>
+            <td>Ticket</td>
+        {% elseif tr.tipo=='a'  %}
+            <td>{{ tr.actividad.tiempoestimado }} {% if tr.actividad.tipotiempo==2%}Hora(s){% else %}Minuto(s){% endif %}</td>
+            <td>N/A</td>
+            <td>{{ tr.actividad.descripcion }}</td>
+            <td>
+                {% if tr.actividad.ubicacion==1 %}
+                    <span class="label label-primary"><span style="display:none;">1-</span>Nuevo</span>
+                {% elseif tr.actividad.ubicacion==2 %}
+                    <span class="label label-warning"><span style="display:none;">3-</span>Proceso</span>
+                {% elseif tr.actividad.ubicacion==3 %}
+                    <span class="label label-info"><span style="display:none;">4-</span>Revision</span>
+                {% elseif tr.actividad.ubicacion==4 %}
+                    <span class="label label-success"><span style="display:none;">5-</span>Culminado</span>
+                {% elseif tr.actividad.ubicacion==5 %}
+                    <span class="label label-danger"><span style="display:none;">5-</span>Dependencia</span>
+                {% endif %}
+            </td>
+            <td>Actividad</td>
+        {% endif %}
+        
+        {% set totalHoras=totalHoras+tr.horas %}
+    {% endfor %}    
+    
+    
+    
+    
+    </tr></table>
+    
+    {% set h=totalHoras|round(0, 'floor') %}
+    {% set m=((totalHoras*60)-(h*60))|round(0, 'floor') %}
+        
+        
+    <div>
+        <p style="font-size: 14px;">TOTAL HORAS LABORALES SEGÚN EL RANGO DE FECHAS: {{ u['horasLaborales']|number_format(0) }} Hora(s)</p>
+        
+
+        <p style="font-size: 14px;">TOTAL HORAS TRABAJADAS: {{ h }} Hora(s) {{ m }} Minuto(s)</p>
+
+        {% set x= (u['horasLaborales']|number_format(0))- totalHoras  %}
+        {% set h=x|round(0, 'floor') %}
+        {% set m=((x*60)-(h*60))|round(0, 'floor') %}
+
+        <p style="font-size: 14px;color:red;">TOTAL HORAS NO JUSTIFICADAS: {{ h }} Hora(s) {{ m }} Minuto(s) </p>
+        
+        
+        {% set x= (totalHoras*100)/(u['horasLaborales']|number_format(0))  %}
+        <p style="font-size: 14px;">REPORTO EL {{ x|number_format(2) }}% DE SUS HORAS LABORALES</p>
+    </div><br><br>
+{% else %}
+    
+    <div class="alert alert-info">NO HAY INFORMACIÓN PARA MOSTRAR</div>
+{% endfor %}
+    

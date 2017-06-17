@@ -1,0 +1,30 @@
+efemerides:
+    path:     /list
+    defaults: { _controller: "CumpleaniosBundle:Efemerides\Efemerides:index" }
+
+efemerides_show:
+    path:     /{id}/show
+    defaults: { _controller: "CumpleaniosBundle:Efemerides\Efemerides:show" }
+
+efemerides_new:
+    path:     /new
+    defaults: { _controller: "CumpleaniosBundle:Efemerides\Efemerides:new" }
+
+efemerides_create:
+    path:     /create
+    defaults: { _controller: "CumpleaniosBundle:Efemerides\Efemerides:create" }
+    requirements: { _method: post }
+
+efemerides_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "CumpleaniosBundle:Efemerides\Efemerides:edit" }
+
+efemerides_update:
+    path:     /{id}/update
+    defaults: { _controller: "CumpleaniosBundle:Efemerides\Efemerides:update" }
+    requirements: { _method: post|put }
+
+efemerides_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "CumpleaniosBundle:Efemerides\Efemerides:delete" }
+    requirements: { _method: post|delete }

@@ -1,0 +1,11 @@
+{% block form_row %}
+    {% set label=form_label(form)|split(">") %}
+    {% set label=label[1]|split("<") %}    
+    <div class="contenedorform" id="{{ label[0]|replace({' ': ""}) }}">
+        <div class="labelform">{{ form_label(form) }}:</div>
+        <div class="widgetform">
+            {{ form_widget(form) }}
+            {{ form_errors(form) }}
+        </div>
+    </div>
+{% endblock form_row %}

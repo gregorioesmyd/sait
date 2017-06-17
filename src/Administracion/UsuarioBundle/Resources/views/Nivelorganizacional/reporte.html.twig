@@ -1,0 +1,30 @@
+<div style="text-align:center"><h3>NIVELES ORGANIZACIONALES TELESUR</h3></div>
+
+{% for n in entities %}
+    
+    {% set color='black' %}
+    {% set Backgroundcolor='white' %}
+        
+    {% if n.codigo|length==2 %} 
+        {% set Backgroundcolor='DarkBlue' %}
+        {% set color='white' %}
+    {% elseif n.codigo|length==5 %} 
+        {% set Backgroundcolor='Maroon ' %}
+        {% set color='white' %}
+    {% elseif n.codigo|length==8 %} 
+        {% set Backgroundcolor='ForestGreen   ' %}
+        {% set color='white' %}
+    {% elseif n.codigo|length==11 %} 
+        {% set Backgroundcolor='DodgerBlue    ' %}
+        {% set color='white' %}
+    {% elseif n.codigo|length==14 %} 
+        {% set Backgroundcolor='Gray   ' %}
+        {% set color='black' %}
+    {% elseif n.codigo|length==17 %} 
+        {% set Backgroundcolor='LightSteelBlue     ' %}
+        {% set color='black' %}
+    {% endif %}
+        
+        <div style="padding-left: {{n.codigo|length}}0; margin-top: 10px;color:{{ Backgroundcolor }};" ><b>{{ n.codigo }}</b> - {{ n.descripcion|upper }}</div>
+    
+{% endfor %}

@@ -1,0 +1,34 @@
+registroexterno:
+    path:     /
+    defaults: { _controller: "ControlEquipoBundle:RegistrosExternos:index" }
+
+registroexterno_salida:
+    path:     /salida/{id}/{propietario}/{visita}
+    defaults: { _controller: "ControlEquipoBundle:RegistrosExternos:salida" }
+
+registroexterno_show:
+    path:     /{id}/show
+    defaults: { _controller: "ControlEquipoBundle:RegistrosExternos:show" }
+
+registroexterno_new:
+    path:     /new
+    defaults: { _controller: "ControlEquipoBundle:RegistrosExternos:new" }
+
+registroexterno_create:
+    path:     /create
+    defaults: { _controller: "ControlEquipoBundle:RegistrosExternos:create" }
+    requirements: { _method: post }
+
+registroexterno_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ControlEquipoBundle:RegistrosExternos:edit" }
+
+registroexterno_update:
+    path:     /{id}/update
+    defaults: { _controller: "ControlEquipoBundle:RegistrosExternos:update" }
+    requirements: { _method: post|put }
+
+registroexterno_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ControlEquipoBundle:RegistrosExternos:delete" }
+    requirements: { _method: post|delete }

@@ -1,0 +1,109 @@
+<?php
+
+namespace Progis\ProyectoBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Objetivo
+ *
+ * @ORM\Table(name="progis.objetivo")
+ * @ORM\Entity
+ */
+class Objetivo
+{
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="progis.objetivo_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+    
+    /**
+     * @var integer
+     * @ORM\Column(name="estatus", type="integer", nullable=false)
+     */
+
+    private $estatus;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", nullable=false)
+     * @Assert\NotBlank(message="El nombre no puede estar en blanco.")
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="text", nullable=true)
+     * @Assert\NotBlank(message="La descripción no puede estar en blanco.")
+     */
+    private $descripcion;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fechainicioestimada", type="date", nullable=true)
+     */
+    private $fechainicioestimada;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fechainicioreal", type="date", nullable=true)
+     */
+    private $fechainicioreal;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fechafinestimada", type="date", nullable=true)
+     * @Assert\NotBlank(message="La fecha de fin estimada no puede estar en blanco.")
+     */
+    private $fechafinestimada;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fechafinreal", type="date", nullable=true)
+     */
+    private $fechafinreal;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="porcentaje", type="integer", nullable=false)
+     */
+    private $porcentaje;
+
+
+    /**
+     * @var \Progis\ProyectoBundle\Entity\Proyecto
+     *
+     * @ORM\ManyToOne(targetEntity="Progis\ProyectoBundle\Entity\Proyecto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="proyecto_id", referencedColumnName="id")
+     * })
+     */
+    private $proyecto;
+
+    /**
+     * @var \Etapa
+     *
+     * @ORM\ManyToOne(targetEntity="Etapa")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="etapa_id", referencedColumnName="id", nullable=true)
+     * })
+     * @Assert\NotBlank(message="Debe seleccionar una etapa.")
+     */
+    private $etapa;
+
+
+}

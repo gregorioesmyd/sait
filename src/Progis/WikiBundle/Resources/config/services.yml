@@ -1,0 +1,7 @@
+parameters:
+#    wiki.example.class: Progis\WikiBundle\Example
+
+services:
+#    wiki.example:
+#        class: %wiki.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

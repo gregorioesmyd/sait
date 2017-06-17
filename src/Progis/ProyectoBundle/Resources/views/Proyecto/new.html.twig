@@ -1,0 +1,46 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>NUEVO PROYECTO</h2>
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("proyecto") }}">LISTA DE PROYECTOS</a></li>
+  <li class="active">NUEVO PROYECTO</li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent()}}
+    {# % form_theme form 'ProyectoBundle:Form:fields.html.twig' % #}
+    
+    {{ form_start(form, { 'attr': {'novalidate':null} }) }}
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">INGRESE LOS PARÁMETROS</div>
+            <div class="panel-body">
+                    <div id="formulario">{{ form_widget(form) }}</div>
+            </div>
+        </div>
+
+        <div align="center"><input type="submit" class="btn btn-primary" value="CREAR PROYECTO"> | <a class="btn btn-default" href="{{ path('proyecto') }}">VOLVER A LA LISTA</a></div>
+    {{ form_end(form) }}   
+
+    <script>
+    $(function() {
+            
+        $('#frontend_proyectobundle_proyecto_descripcion').popover({
+            placement: 'right',
+            content: 'Indica cual es el propósito general del  proyecto, debe ser concreto y redactado en infinitivo basado en el titulo.',
+            template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 style="font-size:12px;font-weight:bold;" class="popover-title"></h3><div style="text-align:justify" class="popover-content"></div></div>'
+        });
+        
+        $('#frontend_proyectobundle_proyecto_descripcion').popover('show');
+            
+    });
+    </script>
+    
+{% endblock %}

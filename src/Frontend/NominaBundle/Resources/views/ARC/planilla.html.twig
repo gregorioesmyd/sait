@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title></title>
+	<link rel="stylesheet" href="{{ asset('css/reportes/planilla_arc/planilla.css') }}">
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-2 izquierda"><img width='50px' src='images/logosit.jpg'></div>
+			<div class="col-md-8 izquierda">
+				<h4>REPUBLICA BOLIVARIANA DE VENEZUELA<br> LA NUEVA TELEVISION DEL SUR, C.A.</h4>
+			</div>
+			<div class="col-md-2 izquierda"><h6>{{ "now"|date('d/m/Y h:i:s A') }}</h6></div>
+		</div>
+		<div class="clear"></div><br>
+		<div class="row">
+			<div class="col-md-12 centrar"><h4>PLANILLA ARC</h4></div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 centrar">
+				<h5>PERIODO 01/01/{{ detalle.anio }} AL 31/12/{{ detalle.anio }}</h5>
+			</div>
+		</div>
+		<br>
+		<div class="row separador">
+			<div class="col-md-4 izquierda">
+				<span class="resaltar">CEDULA</span>
+				<span>{{ detalle.cedula }}</span>
+			</div>
+			<div class="col-md-6 izquierda">
+				<span>{{ detalle.primer_apellido }} {{ detalle.segundo_apellido }}, {{ detalle.primer_nombre }} {{ detalle.segundo_nombre }}</span>
+			</div>
+			<div class="col-md-2 derecha">
+				<span class="resaltar">RIF</span>
+				<span>{{ detalle.numero_rif }}</span>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="row">
+			<div class="col-md-10 izquierda">
+				<span class="resaltar">ORGANISMO</span>
+				<span>LA NUEVA TELEVISION DEL SUR, C.A</span>
+			</div>
+			<div class="col-md-2 derecha">
+				<span class="resaltar">RIF</span>
+				<span></span>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="row">
+			<div class="col-md-8 izquierda">
+				<span class="resaltar">AGENTE DE RETENCION</span>
+				<span>KEILA MENDOZA</span>
+			</div>
+			<div class="col-md-2 derecha">
+				<span class="resaltar">CEDULA</span>
+				<span>7926355</span>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="row separador">
+			<div class="col-md-12">
+				<span class="resaltar">DIRECCION</span>
+				<span>CALLE VARGAS CON CALLE SANTA CLARA, EDIFICO TELESUR. BOLEITA NORTE.</span>
+			</div>
+		</div>
+		<div class="row separador">
+			<div class="col-md-12">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">MES</th>
+							<th scope="col">DEVENGADO MENSUAL</th>
+							<th scope="col">% ISLR</th>
+							<th scope="col">RETENCION MENSUAL</th>
+							<th scope="col">ACUMULADO DEVENGADO</th>
+							<th scope="col">ACUMULADO RETENCION</th>
+						</tr>
+					</thead>
+						<tbody>
+							{% for mes in meses %}
+							    <tr>
+									<th scope="row"><span>{{ mes|upper }}</span></th>
+									<td>{{ attribute(detalle, 'devengado_' ~mes)|number_format(2, ',', '.') }}</td>
+									<td>{{ attribute(detalle, 'porcentaje_' ~mes)|number_format(2, ',', '.') }}</td>
+									<td>{{ attribute(detalle, 'retencion_' ~mes)|number_format(2, ',', '.') }}</td>
+									{% if mes == 'enero' %}
+										{% set acumDev = detalle.devengado_enero %}
+									{% else %}
+										{% set acumDev = attribute(detalle, 'devengado_' ~mes)  + acumDev %}
+									{% endif %}
+									<td>{{ acumDev|number_format(2, ',', '.') }}</td>
+
+									{% if mes == 'enero' %}
+										{% set acumRet = detalle.retencion_enero %}
+									{% else %}
+										{% set acumRet = attribute(detalle, 'retencion_' ~mes)  + acumRet %}
+									{% endif %}
+									<td>{{ acumRet|number_format(2, ',', '.') }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row separador">
+			<div class="col-md-12">
+				<ul>
+					<li>
+						<span class="resaltar">ACUMULADO SSO</span>
+						{#<span>{{ acum.SSO }}</span>#}
+						<span>{% if acum.SSO is not defined %}0{% else %} {{acum.SSO}} {% endif %}</span>
+					</li>
+					<li>
+						<span class="resaltar">ACUMULADO SPF</span>
+						{#<span>{{ acum.SPF }}</span>#}
+						<span>{% if acum.SPF is not defined %}0{% else %} {{acum.SPF}} {% endif %}</span>
+					</li>
+					<li>
+						<span class="resaltar">ACUMULADO LPH</span>
+                        <span>{% if acum.LPH is not defined %}0{% else %} {{acum.LPH}} {% endif %}</span>
+					</li>
+					<li>
+						<span class="resaltar">ACUMULADO FJU</span>
+						{#<span>{{ acum.FJU }}</span>#}
+						<span>{% if acum.FJU is not defined %}0{% else %} {{acum.FJU}} {% endif %}</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12" id="firma">
+				<img id="firma-image" width='170px' src='images/FIRMA_KEYLA_MENDOZA.jpg'><br>
+				<span class="alinear-firma">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					KEILA MENDOZA
+					</span><br>
+				<span class="alinear-firma">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					7926355
+				</span>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

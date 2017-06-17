@@ -1,0 +1,60 @@
+<?php
+
+namespace Frontend\ControlEquipoBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Responsables
+ *
+ * @ORM\Table(name="Responsables")
+ * @ORM\Entity
+ */
+class Responsables
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="controlequipo.responsables_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="reponsable_usuario_id", type="integer", nullable=false)
+     */
+    private $reponsableUsuarioId;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_operacion", type="date", nullable=false)
+     */
+    private $fechaOperacion;
+
+    /**
+     * @var \TiposOperaciones
+     *
+     * @ORM\ManyToOne(targetEntity="TiposOperaciones")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_operacion_id", referencedColumnName="id")
+     * })
+     */
+    private $tipoOperacion;
+
+    /**
+     * @var \Pautas
+     *
+     * @ORM\ManyToOne(targetEntity="Pautas")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="responsable_solicitud_id", referencedColumnName="id")
+     * })
+     */
+    private $responsableSolicitud;
+
+
+}

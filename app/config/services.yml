@@ -1,0 +1,14 @@
+imports:
+    - { resource: "@VideotecaBundle/Resources/config/services.yml" }
+
+services:
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
+         
+    login_listener:
+        class: 'Administracion\UsuarioBundle\Listener\LoginListener'
+        arguments: ['@security.context', '@doctrine','@kernel']
+        tags:
+            - { name: 'kernel.event_listener', event: 'security.interactive_login' }

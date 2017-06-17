@@ -1,0 +1,30 @@
+miembroproyecto:
+    path:     /{idproyecto}/miembroProyecto
+    defaults: { _controller: "ProyectoBundle:Miembroproyecto:index" }
+
+miembroproyecto_show:
+    path:     /{id}/show
+    defaults: { _controller: "ProyectoBundle:Miembroproyecto:show" }
+
+miembroproyecto_new:
+    path:     /{idproyecto}/new/miembroProyecto
+    defaults: { _controller: "ProyectoBundle:Miembroproyecto:new" }
+
+miembroproyecto_create:
+    path:     /{idproyecto}/create/miembroProyecto
+    defaults: { _controller: "ProyectoBundle:Miembroproyecto:create" }
+    requirements: { _method: post }
+
+miembroproyecto_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ProyectoBundle:Miembroproyecto:edit" }
+
+miembroproyecto_update:
+    path:     /{id}/update
+    defaults: { _controller: "ProyectoBundle:Miembroproyecto:update" }
+    requirements: { _method: post|put }
+
+miembroproyecto_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ProyectoBundle:Miembroproyecto:delete" }
+    requirements: { _method: post|delete }

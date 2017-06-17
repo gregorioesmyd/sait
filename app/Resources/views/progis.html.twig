@@ -1,0 +1,84 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+        <title>Progis</title>
+
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('libs/bootstrap3/css/bootstrap.min.css') }}">
+            <link href="{{ asset('css/general_progis.css') }}" rel="stylesheet" type="text/css" />
+            <link href="{{ asset('bundles/principal/css/sb-admin-2/css/plugins/metisMenu/metisMenu.min.css') }}" rel="stylesheet">
+            <link href="{{ asset('bundles/principal/css/sb-admin-2/css/sb-admin-2.css') }}" rel="stylesheet">
+            <link href="{{ asset('bundles/principal/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+            <link href="{{ asset('bundles/principal/css/sb-admin-2/css/plugins/dataTables.bootstrap.css') }}" rel="stylesheet">
+            <link href="{{ asset('bundles/proyecto/css/proyecto.css') }}" rel="stylesheet" type="text/css" />
+            <link rel="stylesheet" href="{{ asset('libs/datepiker/css/redmond/jquery-ui-1.10.4.custom.css') }}">
+            <link rel="stylesheet" href="{{ asset('libs/datepiker/css/redmond/jquery-ui-1.10.4.custom.min.css') }}">
+        {% endblock %}
+            
+        {% block javascripts %}
+            <script src="{{ asset('js/jquery.js') }}"></script>
+            <script src="{{ asset('libs/datepiker/js/jquery-ui-1.10.4.custom.min.js') }}"></script>
+            <script src="{{ asset('libs/bootstrap3/js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('bundles/principal/js/sb-admin-2/js/plugins/metisMenu/metisMenu.min.js') }}"></script>
+            <script src="{{ asset('bundles/principal/js/sb-admin-2/js/sb-admin-2.js') }}"></script>
+            <script src="{{ asset('bundles/principal/js/sb-admin-2/js/plugins/dataTables/jquery.dataTables.js') }}"></script>
+            <script src="{{ asset('bundles/principal/js/sb-admin-2/js/plugins/dataTables/dataTables.bootstrap.js') }}"></script>
+            
+        {% endblock %}
+    </head>
+
+    <body>
+        {% block body %}
+            {% set rolGeneral= app.session.get('rolGeneral') %}
+            {% set rolGeneralNivel= app.session.get('rolGeneralNivel') %}
+            {% set rolProyecto= app.session.get('rolProyecto') %}
+            {% set rolProyectoGeneral= app.session.get('rolProyectoGeneral') %}
+                
+            {% block menu %}{% include 'PrincipalBundle:Default:menu.html.twig' %}{% endblock %}
+            <!-- Page Content -->
+            <div id="page-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            {% block ubicacion %}{% endblock %}  
+                                
+                            <div class="titulo">{% block titulo %}{% endblock %}</div>
+                            
+                            {% for flashMessage in app.session.flashbag.get('notice') %}
+                                <div id="notice" class="alert alert-success alert-dismissible" role="alert">
+                                  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                  <div>{{ flashMessage | raw }}</div>
+                                </div>
+                                
+                                <script>
+                                    setTimeout(function() {
+                                        $("#notice").slideUp( "slow" );
+                                    },10000);
+                                </script>
+                            {% endfor %}
+
+                            {% for flashMessage in app.session.flashbag.get('alert') %}
+                                <div id="alert" class="alert alert-danger alert-dismissible" role="alert">
+                                  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                  <div>{{ flashMessage | raw }}</div>
+                                </div>
+                                <script>
+                                    setTimeout(function() {
+                                        $("#alert").slideUp( "slow" );
+                                    },10000);
+                                </script>
+                            {% endfor %}
+                        </div>
+                        <!-- /.col-sm-12 -->
+                    </div>
+                    <div data-step="5" data-intro="Contenido de cada módulo." data-position='top'>{% block contenido %}{% endblock %}</div>
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- /#page-wrapper -->
+        </div>
+        <!-- /#wrapper -->
+        {% endblock %}
+    </body>
+</html>

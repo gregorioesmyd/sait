@@ -1,0 +1,70 @@
+{% extends '::encuesta.html.twig' %}
+
+{% block title %}Trivias{% endblock %}
+
+{% block titulo %}
+    LISTA DE Trivias
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">LISTA DE TRIVIAS</li>
+</ol>
+{% endblock %}
+
+
+{% block body -%}
+    {{ parent() }}
+    <h1>Lista de Trivias</h1>
+
+<table id="tabladatatable">
+    <thead>
+        <tr >
+            <th style="width:30%; text-align: center;">Nombre</th>
+            <th style="width:10%; text-align: center;">Tipo</th>
+            <th style="width:15%; text-align: center;">Fecha y hora de inicio</th>
+            <th style="width:15%; text-align: center;">Fecha y hora de fin</th>
+            <th style="width:20%;text-align: center;"> Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td style="text-align: center;" ><a href="{{ path('encuesta_show', { 'id': entity.id }) }}">{{ entity.nombre }}</a></td>
+                <td style="text-align: center;">{{ entity.tipoencuesta}}</td>
+                <td style="text-align: center;">{{ entity.fechainicioencuesta|date('Y-m-d') }} {{ entity.Horainicio|date('H:i:s') }}</td>
+                <td style="text-align: center;">{{ entity.fechafinencuesta|date('Y-m-d') }} {{ entity.Horafin|date('H:i:s') }}</td>
+                <td style="text-align: center;">
+                  <a href="{{ path('encuesta_show', { 'id': entity.id }) }}" data-toggle="tooltip" data-placement="top" title="Detalle"><span class="glyphicon glyphicon-search"></a>
+                  {% if comenzo[entity.id] != 1 %}
+                    <a href="{{ path('encuesta_edit', { 'id': entity.id }) }}" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-pencil"></a>
+                  {% endif %}
+                  {% if comenzo[entity.id] == 1 %}
+                    <a href="{{ path('votos_index', { 'idencuesta': entity.id }) }}" data-toggle="tooltip" data-placement="top" title="Votos"><span class="glyphicon glyphicon-stats"></a>
+                  {% endif %}
+
+                  {% if termino[entity.id] == 1 %}
+                    <a href="{{ path('resultados_index', { 'idencuesta': entity.id }) }}" data-toggle="tooltip" data-placement="top" title="Resultados"><span class="glyphicon glyphicon-check"></a>
+                  {% endif %}
+
+                  <a class="label label-success" href="{{ path('pregunta_index', { 'idencuesta': entity.id }) }}">Ver preguntas</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table><br><br><br>
+
+<a class="btn btn-default" href="{{ path( 'encuesta_new' ) }}">Registrar Encuesta</a><br><br>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      $('span').tooltip()
+
+      $('#tabladatatable').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+            "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+            "aaSorting": [[0,'asc']],
+        } );
+    })
+</script>
+{% endblock %}

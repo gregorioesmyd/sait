@@ -1,0 +1,115 @@
+{% extends '::estudioCabina.html.twig' %}
+
+{% block menu %}
+    {% include 'EstudioCabinaBundle:Default:includes/menu.html.twig' %}
+{% endblock %}
+
+{% block title %}Editar SOLICITUD{% endblock %}
+
+{% block titulo %}
+    EDITAR SOLICITUD
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path('estudio_cabina_homepage',{'tipo':tipo}) }}">CALENDARIO</a></li>
+ <li class="active">EDITAR SOLICITUD DE {% if tipo == 1 %}ESTUDIOS{% elseif tipo == 2 %}CABINAS{% else %}SALAS{% endif %}</li>
+</ol>
+{% endblock %}
+    
+{% block body -%}
+    {{ parent() }}
+    
+    {% if tipo==3 and (form_errors(edit_form2.nroPersonas) or form_errors(edit_form2.refrigerio)) or form_errors(edit_form.estudioCabina) or form_errors(edit_form.pauta) or form_errors(edit_form.fecha) or form_errors(edit_form.horainicio) or form_errors(edit_form.horafin) or form_errors(edit_form.observacion) or form_errors(edit_form.estudioCabina) %}
+    <div class="alert alert-danger errores" style="width:70%;">
+        <div><b>Alerta! Ha ocurrido un error en el formulario:</b><br><br></div>
+        <div>{{ form_errors(edit_form.estudioCabina) }}</div> 
+        <div>{{ form_errors(edit_form.pauta) }}</div>        
+        <div>{{ form_errors(edit_form.fecha) }}</div>
+        <div>{{ form_errors(edit_form.horainicio) }}</div>
+        <div>{{ form_errors(edit_form.horafin) }}</div>
+        <div>{{ form_errors(edit_form.observacion) }}</div>
+        {% if tipo==3 %}
+        <div>{{ form_errors(edit_form2.nroPersonas) }}</div>
+        <div>{{ form_errors(edit_form2.refrigerio) }}</div>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+    <form novalidate action="{{ path('reservaciones_update',{'id':entity.id,'ubicacion':ubicacion}) }}" method="post" {{ form_enctype(edit_form) }}>
+        <input type="hidden" name="_method" value="PUT"> {{ form_widget(edit_form._token) }}
+
+        <div class="formShow">
+            <div class="contenedorform">
+                <div class="labelform">{% if tipo == 1 %}Estudios
+                                    {% elseif tipo == 2 %}Cabinas{% else %}Salas{% endif %}:</div>
+                <div class="widgetform">{{ form_widget(edit_form.estudioCabina) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Pauta:</div>
+                <div class="widgetform">{{ form_widget(edit_form.pauta) }}</div>
+            </div>
+            
+            <div class="contenedorform">
+                <div class="labelform">Fecha:</div>
+                <div class="widgetform">{{ form_widget(edit_form.fecha) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Hora Inicio:</div>
+                <div class="widgetform">{{ form_widget(edit_form.horainicio) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Hora de fin:</div>
+                <div class="widgetform">{{ form_widget(edit_form.horafin) }}</div>
+            </div>
+            {% if tipo == 3 %}
+                <div class="contenedorform">
+                    <div class="labelform">Nro Personas que Asistir&aacute;n:</div>
+                    <div class="widgetform">{{ form_widget(edit_form2.nroPersonas) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="labelform">Refrigerio:</div>
+                    <div class="widgetform">{{ form_widget(edit_form2.refrigerio) }}</div>
+                </div>
+            {% endif %}
+            <div class="contenedorform">
+                <div class="labelform">Observacion:</div>
+                <div class="widgetform">{{ form_widget(edit_form.observacion) }}</div>
+            </div>
+           </div>
+        <a class="btn btn-default" href="{{ path('reservaciones_lista',{'tipo':tipo,'ubicacion':ubicacion}) }}">
+            VOLVER A LA LISTA
+        </a> | 
+        <input type="submit" class="btn btn-primary" value="EDITAR TAREA">
+        <br>
+    </form>
+        
+    <script>
+    $(function() {
+      $( "#frontend_estudiocabinabundle_reservaciones_fecha" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "dd-mm-yy",
+      });
+  });
+  
+        //si tengo admin no puedo tener consulta ni tecnico en ticket
+        $("#frontend_estudiocabinabundle_protocolo_refrigerio_2").click(function(){
+            $("#frontend_estudiocabinabundle_protocolo_refrigerio_0").prop("checked", false);
+            $("#frontend_estudiocabinabundle_protocolo_refrigerio_1").prop("checked", false);
+        });
+        
+        //si tengo admin no puedo tener consulta ni tecnico en ticket
+        $("#frontend_estudiocabinabundle_protocolo_refrigerio_0").click(function(){
+            $("#frontend_estudiocabinabundle_protocolo_refrigerio_2").prop("checked", false);
+        });
+        
+        //si tengo admin no puedo tener consulta ni tecnico en ticket
+        $("#frontend_estudiocabinabundle_protocolo_refrigerio_1").click(function(){
+            $("#frontend_estudiocabinabundle_protocolo_refrigerio_2").prop("checked", false);
+        });
+    </script>    
+
+    <br>
+{% endblock %}
+

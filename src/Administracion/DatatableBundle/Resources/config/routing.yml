@@ -1,0 +1,11 @@
+datatable_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: DatatableBundle:Default:index }
+
+datatable_json:
+    path:     /json/{bundle}/{entidad}/{joins}/{where}/{order}
+    defaults: { _controller: DatatableBundle:Default:funcionPrincipal }
+
+datatable_json_prueba:
+    path:     /json_prueba/{bundle}/{entidad}/{joins}/{where}
+    defaults: { _controller: DatatableBundle:Datatable:principal }

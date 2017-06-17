@@ -1,0 +1,18 @@
+{% extends '::controlequipo.html.twig' %}
+
+    {% block ubicacion %}
+        <ol class="breadcrumb">
+          <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+          <li class="active">CONTROL DE ENTRADA / SALIDA DE EQUIPOS</li>
+        </ol>
+    {% endblock %}
+
+    {% block body %}
+    {{ parent() }}
+    <h2>
+        <span style="font-size: 22px;" class="glyphicon glyphicon-transfer"></span> 
+        REGISTRO Y CONTROL DE EQUIPOS
+    </h2>
+        <center><img src="{{ asset('images/controlequipo/codigo.jpg') }}" /></center>
+        <br><br>
+    {% endblock %}

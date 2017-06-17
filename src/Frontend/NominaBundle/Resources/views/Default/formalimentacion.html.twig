@@ -1,0 +1,39 @@
+{% extends '::nomina.html.twig' %}
+
+{% block title %}TXT{% endblock %}
+
+{% block titulo %}
+    <h3>GENERAR TXTX ALIMENTACIÓN</h3>
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("nomina_homepage") }}">PRINCIPAL RRHH</a></li>
+  <li class="active">TXT ALIMENTACIÓN</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    
+    <form novalidate action="{{ path('nomina_txtalimentacion')}}" method="post" {{ form_enctype(form) }}>
+    <div class="formShow">
+        {{ form_widget(form) }}
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="GENERAR TXT"> | 
+    <a class="btn btn-default" href="{{ path('nomina_homepage') }}">VOLVER AL INICIO</a>
+    {{ form_end(form) }}
+
+    <br><br>
+    
+
+
+
+
+    
+{% endblock %}
+
+
+    

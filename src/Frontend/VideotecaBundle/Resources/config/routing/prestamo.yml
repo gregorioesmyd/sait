@@ -1,0 +1,29 @@
+videoteca_prestamo:
+    path:     /
+    defaults: { _controller: "VideotecaBundle:Prestamo:index" }
+
+prestamo_show:
+    path:     /{id}/show
+    defaults: { _controller: "VideotecaBundle:Prestamo:show" }
+
+prestamo_new:
+    path:     /new
+    defaults: { _controller: "VideotecaBundle:Prestamo:new" }
+
+prestamo_create:
+    path:     /create
+    defaults: { _controller: "VideotecaBundle:Prestamo:create" }
+    requirements: { _method: post }
+
+prestamo_devolucion:
+    path:     /{codigo}/devolucion
+    defaults: { _controller: "VideotecaBundle:Prestamo:devolucion" }
+
+prestamo_cancelar:
+    path:  /cancelar
+    defaults: { _controller: "VideotecaBundle:Prestamo:cancelar", page : 1 }
+
+prestamo_tmprestamo:
+    path:   /tmp_prestamo
+    defaults: { _controller: "VideotecaBundle:Prestamo:tmpPrestamo" }
+    requirements: { _method: post }

@@ -1,0 +1,29 @@
+{% extends '::videoteca.html.twig' %}
+
+{% block body -%}
+    <h1>Cinta</h1>
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        Tipo de Cinta <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="{{ path('cinta_new', { 'slug': 'prensa' }) }}">Prensa</a></li>
+        <li><a href="{{ path('cinta_new', { 'slug': 'satelite' }) }}">Satelite</a></li>
+        <li><a href="{{ path('cinta_new', { 'slug': 'videoteca' }) }}">Videoteca</a></li>
+        <li><a href="{{ path('cinta_new', { 'slug': 'deporte' }) }}">Deporte</a></li>
+      </ul>
+    </div>
+
+    <ul class="record_actions">
+        <li>
+            <a class="btn btn-default" role="button" aria-label="Previous" href="{{ path('cntsegmento_home') }}">
+                <span aria-hidden="true">&laquo;</span>
+                Volver
+            </a>
+        </li>
+    </ul>
+
+
+
+{% endblock %}

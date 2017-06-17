@@ -1,0 +1,124 @@
+<div class="menubootstrap">
+  <div align="left">
+    <nav class="navbar navbar-inverse" role="navigation">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+          <a class="navbar-brand" href="{{ path('usuario_homepage') }}">
+          <span style="color:white;" class="glyphicon glyphicon-home"></span></a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            
+            {% if is_granted('ROLE_VISITAS_EXTERNOS') %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">VISITAS <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('visita_busca') }}"><span class="glyphicon glyphicon-plus-sign"></span> REGISTRAR VISITA</a></li>
+                            <li><a href="{{ path('visita') }}"><span class="glyphicon glyphicon-search"></span> LISTADO DE VISITANTES</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ path('usuario') }}"><span class="glyphicon glyphicon-search"></span> LISTA DE USUARIOS</a></li>
+                        </ul>
+                </li>
+                
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">EMPLEADOS <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li role="presentation" class="dropdown-header">EQUIPOS EXTERNOS</li>
+                            {#<li><a href="{{ path('equipoexterno_new') }}"><span class="glyphicon glyphicon-plus-sign"></span> REGISTRAR EQUIPO EXTERNO</a></li>#}
+                            <li><a href="{{ path('equipoexterno_search_empleado') }}"><span class="glyphicon glyphicon-plus-sign"></span> REGISTRO DE ENTRADA/SALIDA</a></li>
+                            <li><a href="{{ path('equipoexterno') }}"><span class="glyphicon glyphicon-search"></span> VER LISTADO DE EQUIPOS EXT.</a></li>
+                        </ul>
+                </li>
+            {% endif %}
+            
+            {% if is_granted('ROLE_EQUIPOS_SEGURIDAD') %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">VISITAS <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('visita_busca') }}"><span class="glyphicon glyphicon-plus-sign"></span> REGISTRAR VISITA</a></li>
+                            <li><a href="{{ path('visita') }}"><span class="glyphicon glyphicon-search"></span> LISTADO DE VISITANTES</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ path('usuario') }}"><span class="glyphicon glyphicon-search"></span> LISTA DE USUARIOS</a></li>
+                        </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">EMPLEADOS <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li role="presentation" class="dropdown-header">EQUIPOS EXTERNOS</li>
+                            {#<li><a href="{{ path('equipoexterno_new') }}"><span class="glyphicon glyphicon-plus-sign"></span> REGISTRAR EQUIPO EXTERNO</a></li>#}
+                            <li><a href="{{ path('equipoexterno_search_empleado') }}"><span class="glyphicon glyphicon-plus-sign"></span> REGISTRO DE ENTRADA/SALIDA</a></li>
+                            <li><a href="{{ path('equipoexterno') }}"><span class="glyphicon glyphicon-search"></span> VER LISTADO DE EQUIPOS EXT.</a></li>
+                        </ul>
+                </li>
+            {% endif %}
+            {% if is_granted('ROLE_EQUIPOS_SEGURIDAD') or is_granted('ROLE_EQUIPOS_ALMACEN') %}
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">EQUIPOS <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        
+                        {% if is_granted('ROLE_EQUIPOS_ALMACEN') %}
+                            <li role="presentation" class="dropdown-header">EQUIPOS INTERNOS</li>
+                            <li><a href="{{ path('equipointerno_new') }}"><span class="glyphicon glyphicon-plus-sign"></span> REGISTRAR EQUIPO INTERNO</a></li>
+                            <li><a href="{{ path('equipointerno') }}"><span class="glyphicon glyphicon-search"></span> VER EQUIPOS INTERNOS</a></li>
+                        {% endif %}
+                        {% if is_granted('ROLE_EQUIPOS_SEGURIDAD') %}
+                            {% if is_granted('ROLE_EQUIPOS_ALMACEN') %}<li class="divider"></li>{% endif %}
+                            <li role="presentation" class="dropdown-header">EQUIPOS EXTERNOS</li>
+                            {#<li><a href="{{ path('equipoexterno_new') }}"><span class="glyphicon glyphicon-plus-sign"></span> REGISTRAR EQUIPO EXTERNO</a></li>#}
+                            <li><a href="{{ path('equipoexterno') }}"><span class="glyphicon glyphicon-search"></span> VER EQUIPOS EXTERNOS</a></li>
+                        {% endif %}
+                    </ul>
+            </li>
+            {% endif %}
+            {% if is_granted('ROLE_EQUIPOS_SEGURIDAD') or is_granted('ROLE_EQUIPOS_PAUTASPROGRAMADAS') %}
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">PAUTAS <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        {% if is_granted('ROLE_EQUIPOS_PAUTASPROGRAMADAS') %}
+                            <li role="presentation" class="dropdown-header">PAUTAS PROGRAMADAS</li>
+                            <li><a href="{{ path('pauta_newpprogramada') }}"><span class="glyphicon glyphicon-plus-sign"></span> NUEVA PAUTA PROGRAMADA</a></li>
+                            <li><a href="{{ path('pautas') }}"><span class="glyphicon glyphicon-search"></span> VER MIS PAUTAS</a></li>
+                        {% endif %}
+                        {% if is_granted('ROLE_EQUIPOS_SEGURIDAD') %}
+                            {% if is_granted('ROLE_EQUIPOS_PAUTASPROGRAMADAS') %}<li class="divider"></li>{% endif %}
+                            <li role="presentation" class="dropdown-header">PAUTAS NO PROGRAMADAS</li>
+                            <li><a href="{{ path('pauta_newpnprogramada') }}"><span class="glyphicon glyphicon-plus-sign"></span> NUEVA PAUTA NO PROGRAMADA</a></li>
+                            {#<li><a href="{{ path('pauta_programada') }}"><span class="glyphicon glyphicon-search"></span> VER PAUTAS PROGRAMADAS</a></li>#}
+                            {#<li><a href="{{ path('pauta_nprogramada') }}"><span class="glyphicon glyphicon-search"></span> VER PAUTAS NO PROGRAMADAS</a></li>#}
+                            <li><a href="{{ path('pautas_listar') }}"><span class="glyphicon glyphicon-search"></span> VER PAUTAS (TODAS)</a></li>
+                            <li><a href="{{ path('pautas') }}"><span class="glyphicon glyphicon-search"></span> VER MIS PAUTAS</a></li>
+                        {% endif %}
+                    </ul>
+            </li>
+            {% endif %}
+            {% if is_granted('ROLE_EQUIPOS_ALMACEN') %}
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">REPORTES <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <!--<li><a href="#"><span class="glyphicon glyphicon-list-alt"></span> REPORTE 1</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-list-alt"></span> REPORTE 2</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-list-alt"></span> REPORTE 3</a></li>-->
+                        <li><a href="#"><span class="glyphicon glyphicon-warning-sign"></span> En construccion</a></li>
+                    </ul>
+            </li>
+            
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">CONFIGURACIÓN <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('proveedor') }}"><span class="glyphicon glyphicon-plane"></span> PROVEEDORES</a></li>
+                        <li><a href="{{ path('marca') }}"><span class="glyphicon glyphicon-cog"></span> MARCAS Y MODELOS</a></li>
+                        <!--<li><a href="#"><span class="glyphicon glyphicon-wrench"></span> MANTENIMIENTO</a></li>-->
+                    </ul>
+            </li>
+            {% endif %}
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="{{ path('contacto') }}"><span class="glyphicon glyphicon-globe"></span> CONTACTO</a></li>
+          <li><a href="{{ path('usuario_logout') }}"><span class="glyphicon glyphicon-log-out"></span> SALIR</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </nav>
+  </div>
+</div>
+

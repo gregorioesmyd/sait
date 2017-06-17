@@ -1,0 +1,60 @@
+<?php
+
+namespace Progis\ReporteBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Documento
+ *
+ * @ORM\Table(name="progis.miembroespacio")
+ * @ORM\Entity
+ *
+ * 
+ */
+class EstadoProceso
+{
+    /**
+     * @var \Etapa
+     *
+     * @ORM\ManyToOne(targetEntity="Progis\PrincipalBundle\Entity\Miembroespacio")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="miembroespacio_id", referencedColumnName="id")
+     * })
+     * @Assert\NotBlank(message="Debe seleccionar un usuario.")
+     */
+    private $miembroespacio;
+    
+    /**
+     * @Assert\Count(min="1",minMessage="Debe seleccionar al menos 1 estatus.")
+     */
+    /**
+    * @ORM\Column(name="activo", type="boolean", nullable=true)
+    */
+    private $estatusProceso;
+    
+
+    /**
+     * Set miembroespacio
+     *
+     * @param \Progis\PrincipalBundle\Entity\Miembroespacio $miembroespacio
+     * @return EstadoProceso
+     */
+    public function setMiembroespacio(\Progis\PrincipalBundle\Entity\Miembroespacio $miembroespacio = null)
+    {
+        $this->miembroespacio = $miembroespacio;
+    
+        return $this;
+    }
+
+    /**
+     * Get miembroespacio
+     *
+     * @return \Progis\PrincipalBundle\Entity\Miembroespacio 
+     */
+    public function getMiembroespacio()
+    {
+        return $this->miembroespacio;
+    }
+}

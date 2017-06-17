@@ -1,0 +1,99 @@
+<?php
+
+namespace Frontend\ControlEquipoBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * EquiposExternos
+ *
+ * @ORM\Table(name="controlequipo.equipos_externos")
+ * @ORM\Entity
+ */
+class EquiposExternos
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="controlequipo.equipos_externos_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion_equipo", type="string", length=500, nullable=false)
+     */
+    private $descripcionEquipo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="codigo_barra", type="string", length=20, nullable=false)
+     */
+    private $codigoBarra;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="serial", type="string", length=50, nullable=false)
+     */
+    private $serial;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="creado", type="datetime", nullable=false)
+     */
+    private $creado;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="foto_referencia", type="string", length=150, nullable=false)
+     */
+    private $fotoReferencia;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="estatus", type="integer", nullable=false)
+     */
+    private $estatus;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="propietario_id", type="integer", nullable=false)
+     */
+    private $propietarioId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="dependencia_id", type="integer", nullable=false)
+     */
+    private $dependenciaId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo_propietario", type="string", nullable=false)
+     */
+    private $tipoPropietario;
+
+    /**
+     * @var \Controlequipo.marcas
+     *
+     * @ORM\ManyToOne(targetEntity="Marcas")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="equipo_marca_id", referencedColumnName="id")
+     * })
+     */
+    private $equipoMarca;
+
+
+}

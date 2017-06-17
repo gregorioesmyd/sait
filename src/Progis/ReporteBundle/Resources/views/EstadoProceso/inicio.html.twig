@@ -1,0 +1,36 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h3>SELECCIONE EL NIVEL A SUPERVISAR</h3>
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li class="active">LISTA DE NIVELES</li>
+</ol>
+{% endblock %}
+
+
+
+{% block contenido -%}
+    {{ parent() }}
+    <div class="row">
+    {% for n in niveles %}
+        <div class="col-sm-6">
+            <a href="{{ path('reporte_estadoProceso',{'idnivel':n.id})}}">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                  <div align="center"><b>{{ n.descripcion|upper }}</b></div>
+                  {% for p in perfil if p.nivelorganizacional.id==n.id %}
+                      <div align="center"><img height="100px;" src="{{ p.foto }}"></div>
+                  {% endfor %}
+              </div>
+            </div>
+            </a>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

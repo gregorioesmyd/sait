@@ -1,0 +1,238 @@
+{% extends '::progis_panel.html.twig' %}
+
+{% block titulo %}
+    <h2>PROCESAR ACTIVIDADES</h2>
+    <h4>PROYECTO: "{{ objetivo.proyecto.nombre|upper }}"</h4>
+    <h4>OBJETIVO: "{{ objetivo.nombre|upper }}"</h4>
+    {% if 
+        (is_granted('ROLE_PROGIS_ADMIN') and app.session.get('idnivel')==objetivo.proyecto.nivelorganizacional.id) or  
+        rolGeneralNivel[objetivo.proyecto.nivelorganizacional.id]['ROLE_PROGIS_PROYECTO_ADMIN']==true
+        or rolGeneralNivel[objetivo.proyecto.nivelorganizacional.id]['ROLE_PROGIS_PROYECTO_TECNICO']==true
+        or(rolProyecto[objetivo.proyecto.id] is defined and(
+        rolProyecto[objetivo.proyecto.id]['ROLE_PROGIS_PROYECTO_ESP_ADMIN']==true
+        or rolProyecto[objetivo.proyecto.id]['ROLE_PROGIS_PROYECTO_ESP_TECNICO']==true))
+    %}
+    <a href="{{ path('actividad_new',{'idobjetivo':objetivo.id}) }}"><i class="fa fa-plus"> Nueva Actividad</i></a>&nbsp;&nbsp;
+
+        {% set contn=0 %}
+        {% for p in procesar %}   
+            
+                {% if p.responsable.miembroespacio.usuario.id!=app.user.id and contn==0 %} 
+                    <a id="btn1" class="label label-danger"  onclick="oculta('otros','otras actividades','btn1')"><u>Ocultar</u> otras actividades</a> <br><br>
+                    {% set contn=1 %}
+                {% endif %}
+                    
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("proyecto")}}">LISTA DE PROYECTOS</a></li>
+  <li><a href="{{ path("objetivo",{'idproyecto':objetivo.proyecto.id}) }}">LISTA DE OBJETIVOS</a></li>
+  <li class="active">LISTA DE ACTIVIDADES</li>
+</ol>
+{% endblock %}
+    
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('libs/jquery-ui/jquery-ui.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/principal/css/actividadProyecto.css') }}">
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script src="{{ asset('libs/jquery-ui/jquery-ui.js') }}"></script>
+    <script src="{{ asset('bundles/principal/js/funcionesProceso.js') }}"></script>
+    <script src="{{ asset('bundles/principal/js/procesar.js') }}"></script>
+    <script src="{{ asset('libs/jquery-countdown/js/jquery.countdown.js') }}" type="text/javascript" charset="utf-8"></script>
+    
+    <script>
+        $(document).ready(function() {
+            $("#success").hide()
+            $("#danger").hide()
+        
+            $(function () {
+              $('[data-toggle="tooltip"]').tooltip()
+            })
+
+        });
+        function muestraSol(id){
+            $("#collapseSolicitud"+id).show()
+            $("#btnVerMAs"+id).hide()
+            $("#btnOcultar"+id).show()
+        }
+
+        function ocultaSol(id){
+            $("#collapseSolicitud"+id).hide()
+            $("#btnVerMAs"+id).show()
+            $("#btnOcultar"+id).hide()
+        }
+        
+        
+
+    </script>
+{% endblock %}
+
+{% block contenido -%}
+    {{ parent() }}
+    
+    <input type="hidden" value="proyecto" id="bundleActual">
+    <input type="hidden" value="{{ app.user.id }}" id="idUsuarioActual">
+    {% include 'TicketBundle:Procesar:__modal.html.twig' %}
+
+    
+    {# ALERTAS #}
+    <div id="success" class="alert alert-success alert-dismissible" role="alert" style="display: none;width:99%;">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <div class="smssuccess"></div>
+    </div>
+
+    <div id="danger" class="alert alert-danger alert-dismissible" role="alert" style="display: none;width:99%;">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <div class="smsdanger"></div>
+    </div>
+    {# FIN ALERTAS #}
+    
+{# CODIGO PARA BOTONES DE OCULTAR MOSTRAR #}
+
+    
+<div class="row" style="width:100%;">
+    {# COLUMNAS #}
+    <div class="col-sm-3 nuevo bg-primary">NUEVO</div>
+    <div class="col-sm-3 proceso bg-warning">EN PROCESO</div>
+    <div class="col-sm-2 proceso bg-info">REVISION</div>
+    <div class="col-sm-2 culminado bg-success">CULMINADO</div>
+    <div class="col-sm-2 dependencia bg-danger">DEPENDENCIA</div>
+    <br style="clear:both">
+    {# FIN COLUMNAS #}
+
+{% for i in 1..5%}
+<ul id="{% if i==1 %}nuevo{% elseif i==2 %}proceso{% elseif i==3 %}revision{% elseif i==4 %}culminado{% elseif i==5 %}dependencia{% endif %}" class="droptrue {% if i==1 %}col-sm-3{% elseif i==2 %}col-sm-3{% elseif i==3 %}col-sm-2{% elseif i==4 %}col-sm-2{% elseif i==5 %}col-sm-2{% endif %}">
+    {% for p in procesar if p.ubicacion==i %}
+        
+        {# VERIFICO PARA EJECUTAR MODAL EN CASO DE DEPENDENCIA O CULMINADO #}
+        {% if i==5 and p.justificacion==true %}
+            <script>
+                muestramodal("dependencia","{{ p.id }}")
+            </script>
+        {% endif %}
+        
+        <div class="panel panel-{% if i==1 %}primary{% elseif i==2%}warning{% elseif i==3%}info{% elseif i==4%}success{% elseif i==5%}danger{% endif %} {% if p.responsable.miembroespacio.usuario.id!=app.user.id %}otros{% endif %}" id="{{p.id}}-{{p.responsable.miembroespacio.usuario.id}}">
+            <div class="panel-heading">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion"  href="#collapse{{ p.id }}" aria-expanded="true" aria-controls="collapsep{{ p.id }}" style="color:black;"><i class="fa fa-arrows"></i></a>&nbsp;&nbsp;
+                {{ p.responsable.miembroespacio.usuario.primerNombre }} {{ p.responsable.miembroespacio.usuario.primerApellido }}
+            </div>
+            <div id="collapse{{ p.id }}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{{ p.id }}">
+            <div class="panel-body">
+                <div id="iconos" style="text-align:left">
+                    <div class="row">
+                        <div class="col-sm-5 col-xs-12">
+                            <a href="{{ path('progis_comentarioarchivo_lista', { 'id': p.id,'entidad':'ProcesarActividad','desde':'Actividad' }) }}"><i data-toggle="tooltip" data-placement="top" title="Comentarios y archivos" class="fa fa-comments-o fa-2x"></i> <span class="muestraCantidad muestraCantidadActividad">{% if cantidadComentarioActividad[p.id] is defined %}{{ cantidadComentarioActividad[p.id] }}{% else %}0{% endif %}</span></a> | 
+                            <a  href="{{ path('actividad_show', { 'id': p.id }) }}" data-toggle="tooltip" data-placement="top" title="Consultar, editar o eliminar actividad"><i class="fa fa-search fa-1x"></i></a>
+                            {% if 
+                                p.responsable.miembroespacio.usuario.id==app.user.id and (
+                               
+                                rolGeneralNivel[objetivo.proyecto.nivelorganizacional.id]['ROLE_PROGIS_PROYECTO_ADMIN']==true or
+                                rolGeneralNivel[objetivo.proyecto.nivelorganizacional.id]['ROLE_PROGIS_PROYECTO_TECNICO']==true
+                                or(rolProyecto[objetivo.proyecto.id] is defined and(
+                                rolProyecto[objetivo.proyecto.id]['ROLE_PROGIS_PROYECTO_ESP_ADMIN']==true or
+                                rolProyecto[objetivo.proyecto.id]['ROLE_PROGIS_PROYECTO_ESP_TECNICO']==true )))
+                                or (is_granted('ROLE_PROGIS_ADMIN') and app.session.get('idnivel')==objetivo.proyecto.nivelorganizacional.id)
+                            %}
+                            
+                            <a href="{{ path('actividad_edit', { 'id': p.id }) }}" data-toggle="tooltip" data-placement="top" title="Editar actividad"><i class="fa fa-edit fa-1x"></i></a>
+                            
+                            {% endif %}
+                        </div>
+                            <div class="col-sm-7 col-xs-12" style="margin-top:10px;" align="right">
+                                <div id="contenido_dinamico{{ p.id }}"></div>
+                                
+                                {% if (p.ubicacion==1 and p.tiemporeal is not null) or (p.ubicacion==5 and p.tiemporeal is not null) %}
+                                    <div id="tiemporeal{{ p.id }}" {% if p.retardo==true %}class="label label-danger"{% else %} class="label label-success"{% endif %}>
+                                        
+                                        {% set t=p.tiemporeal|split('-') %}
+                                        {#D:{{ t[0]}} - #}H:{{ t[1]}} - M:{{ t[2]}} - S:{{ t[3]}}
+                                        
+                                    </div>
+                                {% elseif (p.ubicacion==5 and p.tiemporeal is null) %}
+                                    <div id="tiemporeal{{ p.id }}" class="label label-info">NUEVA</div> 
+                                {% elseif (p.ubicacion==1 and p.tiemporeal is null) %}
+                                    <div id="tiemporeal{{ p.id }}" class="label label-info">NUEVA</div> 
+                                {% elseif p.ubicacion==2 %}
+                                    <script>
+                                        contador('{{ cuentaregresiva[p.id] }}',{{ p.id }})
+                                    </script>
+                                {% elseif (p.ubicacion==3 or p.ubicacion==4) and p.tiemporeal is not null%}
+                                    <div id="tiempofinal{{ p.id }}" {% if p.retardo==true %}class="label label-danger"{% else %} class="label label-success"{% endif %}>
+                                        {% set t=p.tiemporeal|split('-') %}
+                                        {#D:{{ t[0]}} - #}H:{{ t[1]}} - M:{{ t[2]}} - S:{{ t[3]}}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                </div>
+                
+                {% if p.ubicacionPriometa==2 %}
+                    <div>
+                        <span class="label label-danger">Prioridad {{ p.ordenPriometa }}</span>
+                    </div><br>
+                {% endif %}
+                
+                <table class="datos-solicitud">
+                    <tr>
+                        <th style="cursor: pointer;" data-toggle="tooltip" data-placement="top" title="Tiempo estimado">T.E:</th>
+                        <td>&nbsp;{{ p.tiempoestimado}} {% if p.tipotiempo==2 %} Hora(s){% else %} Minuto(s) {% endif %}</td>
+                    </tr>
+                </table>
+                <div class="solicitud">
+                    {% if p.descripcion|length > 100 %}
+                        {{ p.descripcion|capitalize|slice(0,100)|raw}}<a style="text-decoration:none;color:#333333;display: none;" id="collapseSolicitud{{ p.id }}">{{ p.descripcion|capitalize|slice(100)}}</a>
+
+                        <a id="btnVerMAs{{ p.id }}" style="cursor:pointer;" onclick="muestraSol({{ p.id }})"><b>...Ver mas</b></a>
+                        <a id="btnOcultar{{ p.id }}" style="cursor:pointer;display: none;" onclick="ocultaSol({{ p.id }})"><b>Ocultar</b></a>
+
+                        
+                    {% else %}
+                        {{ p.descripcion|capitalize}}
+                    {% endif %}
+                
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</ul>
+{% endfor %} 
+<br style="clear:both">
+    
+
+
+<script type="text/javascript">
+    function oculta(oculta,descripcion,btn) {
+        $('.'+oculta).hide()
+        
+        $('#'+btn).html("<u>Mostrar</u> "+descripcion)
+        $('#'+btn).attr("onclick", "muestra('"+oculta+"','"+descripcion+"','"+btn+"')");
+
+    }
+
+    function muestra(oculta,descripcion,btn) {
+
+        $('.'+oculta).show()
+        $('#'+btn).html("<u>Ocultar</u> "+descripcion)
+        $('#'+btn).attr("onclick", "oculta('"+oculta+"','"+descripcion+"','"+btn+"')");
+
+    }
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+    
+</script>
+{% endblock %}

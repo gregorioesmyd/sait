@@ -1,0 +1,523 @@
+<?php
+
+namespace Frontend\VideotecaBundle\Entity\WrapperSegmento;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Segmento
+ *
+ * @ORM\MappedSuperclass
+ * @ORM\Table(name="videoteca.segmento")
+ * @ORM\Entity(repositoryClass="Frontend\VideotecaBundle\Entity\Repository\SegmentoRepository")
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="class_name", type="string")
+ * @ORM\DiscriminatorMap({
+ *               "sgt_deporte" = "SgtDeporte"
+ *              ,"sgt_prensa" = "SgtPrensa"
+ *              ,"sgt_satelite" = "SgtSatelite"
+ *              ,"sgt_videoteca" = "SgtVideoteca"
+ *         })
+ */
+abstract class Segmento
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     */
+    private $id;
+
+    /**
+     * @var \Time
+     *
+     * @Assert\Time()
+     * @Assert\NotBlank(message="El campo inicio no puede estar vacio")
+     *
+     * @ORM\Column(name="inicio", type="time")
+     */
+    private $inicio;
+
+    /**
+     * @var \Time
+     *
+     * @Assert\Time()
+     * @Assert\NotBlank(message="El campo fin no puede estar vacio")
+     *
+     * @ORM\Column(name="fin", type="time")
+     */
+    private $fin;
+
+    /**
+     * @var \Time
+     *
+     * @Assert\Time()
+     * @Assert\NotBlank(message="El campo duracion no puede estar vacio")
+     *
+     * @ORM\Column(name="duracion", type="time")
+     */
+    private $duracion;
+
+    /**
+     * @var \Date
+     *
+     * @Assert\Date()
+     * @Assert\NotBlank(message="El campo fecha evento no puede estar vacio")
+     *
+     * @ORM\Column(name="fechaEvento", type="date")
+     */
+    private $fechaEvento;
+
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank(message="El campo titulo no puede estar vacio")
+     * @Assert\Length(
+     *      min = 10,
+     *      minMessage = "El titulo debe ser al menos {{ limit }} caracteres"
+     * )
+     *
+     * @ORM\Column(name="titulo", type="text")
+     */
+    private $titulo;
+
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank(message="El campo titulo Serie no puede estar vacio")
+     * @Assert\Length(
+     *      min = 10,
+     *      minMessage = "El titulo serie debe ser al menos {{ limit }} caracteres"
+     * )
+     *
+     * @ORM\Column(name="tituloSerie", type="text")
+     */
+    private $tituloSerie; 
+
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank(message="El campo sinopsis no puede estar vacio")
+     * @Assert\Length(
+     *      min = 10,
+     *      minMessage = "La sinopsis debe ser al menos {{ limit }} caracteres"
+     * )
+     *
+     * @ORM\Column(name="sinopsis", type="text")
+     */
+    private $sinopsis;
+
+    /**
+     * @var string
+     *
+     * @Assert\Length(
+     *      min = 10,
+     *      minMessage = "La observacion debe ser al menos {{ limit }} caracteres"
+     * )
+     *
+     * @ORM\Column(name="observaciones", type="text", nullable=true)
+     */
+    private $observaciones;
+
+    /**
+     * @var string
+     *
+     * @Assert\Length(
+     *      min = 10,
+     *      minMessage = "El titulo alterno debe ser al menos {{ limit }} caracteres"
+     * )
+     *
+     * @ORM\Column(name="tituloAlterno", type="text")
+     */
+    private $tituloAlterno;
+
+    /**
+     * @var \Cinta
+     *
+     * @ORM\ManyToOne(targetEntity="Frontend\VideotecaBundle\Entity\WrapperCinta\Cinta", inversedBy="segmentos")
+     * @ORM\JoinColumn(name="cinta_id", referencedColumnName="id")
+     */
+    private $cinta;
+
+    /**
+     * @var \Pais
+     *
+     * @Assert\NotBlank(message="El campo pais no puede estar vacio")
+     *
+     * @ORM\ManyToOne(targetEntity="Frontend\VideotecaBundle\Entity\Paises")
+     * @ORM\JoinColumn(name="pais_id", referencedColumnName="id")
+     */
+    private $pais;
+
+    /**
+     * @var \Idioma
+     *
+     * @Assert\NotBlank(message="El campo idioma no puede estar vacio")
+     *
+     * @ORM\ManyToOne(targetEntity="Frontend\VideotecaBundle\Entity\Idioma")
+     * @ORM\JoinColumn(name="idioma_id", referencedColumnName="id")
+     */
+    private $idioma;
+
+    /**
+     * @var \Perfil
+     *
+     *
+     * @ORM\ManyToOne(targetEntity="Administracion\UsuarioBundle\Entity\Perfil")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $documentalista;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="creado", type="datetime")
+     */
+    private $creado;
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set inicio
+     *
+     * @param \Time $inicio
+     * @return Segmento
+     */
+    public function setInicio($inicio)
+    {
+        $this->inicio = $inicio;
+
+        return $this;
+    }
+
+    /**
+     * Get inicio
+     *
+     * @return \Time
+     */
+    public function getInicio()
+    {
+        return $this->inicio;
+    }
+
+    /**
+     * Set fin
+     *
+     * @param \Time $fin
+     * @return Segmento
+     */
+    public function setFin($fin)
+    {
+        $this->fin = $fin;
+
+        return $this;
+    }
+
+    /**
+     * Get fin
+     *
+     * @return \Time
+     */
+    public function getFin()
+    {
+        return $this->fin;
+    }
+
+    /**
+     * Set duracion
+     *
+     * @param \Time $duracion
+     * @return Segmento
+     */
+    public function setDuracion($duracion)
+    {
+        $this->duracion = $duracion;
+
+        return $this;
+    }
+
+    /**
+     * Get duracion
+     *
+     * @return \Time
+     */
+    public function getDuracion()
+    {
+        return $this->duracion;
+    }
+
+    /**
+     * Set fechaEvento
+     *
+     * @param \DateTime $fechaEvento
+     * @return Segmento
+     */
+    public function setFechaEvento($fechaEvento)
+    {
+        $this->fechaEvento = $fechaEvento;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaEvento
+     *
+     * @return \DateTime
+     */
+    public function getFechaEvento()
+    {
+        return $this->fechaEvento;
+    }
+
+    /**
+     * Set titulo
+     *
+     * @param string $titulo
+     * @return Segmento
+     */
+    public function setTitulo($titulo)
+    {
+        $this->titulo = $titulo;
+
+        return $this;
+    }
+
+    /**
+     * Get titulo
+     *
+     * @return string
+     */
+    public function getTitulo()
+    {
+        return $this->titulo;
+    }
+
+    /**
+     * Set tituloSerie
+     *
+     * @param string $tituloSerie
+     * @return Segmento
+     */
+    public function setTituloSerie($tituloSerie)
+    {
+        $this->tituloSerie = $tituloSerie;
+
+        return $this;
+    }
+
+    /**
+     * Get tituloSerie
+     *
+     * @return string
+     */
+    public function getTituloSerie()
+    {
+        return $this->tituloSerie;
+    }
+
+    /**
+     * Set sinopsis
+     *
+     * @param string $sinopsis
+     * @return Segmento
+     */
+    public function setSinopsis($sinopsis)
+    {
+        $this->sinopsis = $sinopsis;
+
+        return $this;
+    }
+
+    /**
+     * Get sinopsis
+     *
+     * @return string
+     */
+    public function getSinopsis()
+    {
+        return $this->sinopsis;
+    }
+
+    /**
+     * Set observaciones
+     *
+     * @param string $observaciones
+     * @return Segmento
+     */
+    public function setObservaciones($observaciones)
+    {
+        $this->observaciones = $observaciones;
+
+        return $this;
+    }
+
+    /**
+     * Get observaciones
+     *
+     * @return string
+     */
+    public function getObservaciones()
+    {
+        return $this->observaciones;
+    }
+
+    /**
+     * Set tituloAlterno
+     *
+     * @param string $tituloAlterno
+     * @return Segmento
+     */
+    public function setTituloAlterno($tituloAlterno)
+    {
+        $this->tituloAlterno = $tituloAlterno;
+
+        return $this;
+    }
+
+    /**
+     * Get tituloAlterno
+     *
+     * @return string
+     */
+    public function getTituloAlterno()
+    {
+        return $this->tituloAlterno;
+    }
+
+    /**
+     * Set cinta
+     *
+     * @param \Frontend\VideotecaBundle\Entity\WrapperCinta\Cinta $cinta
+     * @return Segmento
+     */
+    public function setCinta(\Frontend\VideotecaBundle\Entity\WrapperCinta\Cinta $cinta = null)
+    {
+        $this->cinta = $cinta;
+
+        return $this;
+    }
+
+    /**
+     * Get cinta
+     *
+     * @return \Frontend\VideotecaBundle\Entity\WrapperCinta\Cinta
+     */
+    public function getCinta()
+    {
+        return $this->cinta;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreadoValue()
+    {
+        $this->creado = new \DateTime();
+    }
+
+    /**
+     * Set creado
+     *
+     * @param \DateTime $creado
+     * @return Segmento
+     */
+    public function setCreado($creado)
+    {
+        $this->creado = $creado;
+
+        return $this;
+    }
+
+    /**
+     * Get creado
+     *
+     * @return \DateTime
+     */
+    public function getCreado()
+    {
+        return $this->creado;
+    }
+
+    /**
+     * Set pais
+     *
+     * @param \Frontend\VideotecaBundle\Entity\Paises $pais
+     * @return Segmento
+     */
+    public function setPais(\Frontend\VideotecaBundle\Entity\Paises $pais = null)
+    {
+        $this->pais = $pais;
+
+        return $this;
+    }
+
+    /**
+     * Get pais
+     *
+     * @return \Frontend\VideotecaBundle\Entity\Paises
+     */
+    public function getPais()
+    {
+        return $this->pais;
+    }
+
+    /**
+     * Set idioma
+     *
+     * @param \Frontend\VideotecaBundle\Entity\Idioma $idioma
+     * @return Segmento
+     */
+    public function setIdioma(\Frontend\VideotecaBundle\Entity\Idioma $idioma = null)
+    {
+        $this->idioma = $idioma;
+
+        return $this;
+    }
+
+    /**
+     * Get idioma
+     *
+     * @return \Frontend\VideotecaBundle\Entity\Idioma
+     */
+    public function getIdioma()
+    {
+        return $this->idioma;
+    }
+
+    /**
+     * Set documentalista
+     *
+     * @param \Administracion\UsuarioBundle\Entity\Perfil $documentalista
+     * @return Segmento
+     */
+    public function setDocumentalista(\Administracion\UsuarioBundle\Entity\Perfil $documentalista)
+    {
+        $this->documentalista = $documentalista;
+
+        return $this;
+    }
+
+    /**
+     * Get documentalista
+     *
+     * @return \Administracion\UsuarioBundle\Entity\Perfil
+     */
+    public function getDocumentalista()
+    {
+        return $this->documentalista;
+    }
+}

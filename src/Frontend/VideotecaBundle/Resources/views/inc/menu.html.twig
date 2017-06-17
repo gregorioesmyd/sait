@@ -1,0 +1,21 @@
+<!-- Menu -->
+<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+    <ul id="main-menu" class="nav nav-pills">
+        <li role="presentation" id="prestamo" class="{% if statusPrestamo is defined %} {{statusPrestamo}} {% endif %}">
+        	<a href="{{ path('videoteca_prestamo') }}">Prestamos</a>
+        </li>
+        <li role="presentation" id="cinta" class="{% if statusCinta is defined %} {{statusCinta}} {% endif %}">
+        	<a href="{{ path('cinta') }}">Cintas</a>
+        </li>
+        <li role="presentation" id="segmento" class="{% if statusSegmento is defined %} {{statusSegmento}} {% endif %}">
+        	<a href="{{ path('segmento') }}">Segmento</a>
+        </li>
+        <li role="presentation" id="inventario" class="{% if statusInventario is defined %} {{statusInventario}} {% endif %}">
+        	<a href="{{ path('cintasvirgenes') }}">Inventario</a>
+        </li>
+        <li role="presentation">
+            <a href="{{ path('usuario_homepage') }}">Aplicaciones</a>
+        </li>
+    </ul>
+</div>
+<!-- End Menu -->

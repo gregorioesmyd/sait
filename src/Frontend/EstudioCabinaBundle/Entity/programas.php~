@@ -1,0 +1,64 @@
+<?php
+
+namespace Frontend\EstudioCabinaBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Estudiocabina.programas
+ *
+ * @ORM\Table(name="estudiocabina.programas")
+ * @ORM\Entity
+ */
+class programas
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id", type="string", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="estudiocabina.programas_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha", type="date", nullable=false)
+     */
+    private $fecha;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="hora_inicio", type="string", nullable=false)
+     */
+    private $horaInicio;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="hora_fin", type="string", nullable=false)
+     */
+    private $horaFin;
+
+    /**
+     * @var \Estudiocabina.estudiosCabinas
+     *
+     * @ORM\ManyToOne(targetEntity="Estudiocabina.estudiosCabinas")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="estudio_cabina_id", referencedColumnName="id")
+     * })
+     */
+    private $estudioCabina;
+
+
+}

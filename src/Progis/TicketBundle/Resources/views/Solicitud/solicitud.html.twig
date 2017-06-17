@@ -1,0 +1,91 @@
+{% extends '::ticket.html.twig' %}
+
+{% block titulo %}
+    <h2>SOLICITUD DE SOPORTE TÉCNICO</h2>
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li class="active">NUEVA SOLICITUD</li>
+</ol>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent()}}
+    <link href="{{ asset('bundles/principal/css/solicitud.css') }}" rel="stylesheet">
+{% endblock %}
+    
+{% block body -%}
+    {{ parent()}}
+    
+    <div class="row">
+        <div id="formSolicitud" class="col-sm-6">
+            {% form_theme form 'PrincipalBundle:Form:progis.html.twig' %}
+            {{ form_start(form, { 'attr': {'novalidate':null} }) }}
+                    <!-- Default panel contents -->
+                    <div class="panel-body">
+                            <div id="formulario">{{ form_widget(form) }}</div>
+                    </div>
+
+                    <input type="submit" class="btn btn-primary" value="SOLICITAR">
+            {{ form_end(form) }}   
+        </div>
+        <div id="info" class="col-sm-6" style="text-align: justify;padding-top: 20px;border-left: 1px solid #f2f2f2;">
+            
+            {% include 'TicketBundle:Solicitud:__infoNivel.html.twig' %}
+        </div>
+    
+    </div>
+<script>
+    
+$(document).ready(function(){
+    
+    
+    if ($('#progis_ticketbundle_ticket_nivelorganizacional_50').is(':checked')){$("#serviciosWeb").show();$("#intro").hide();}
+    else if ($('#progis_ticketbundle_ticket_nivelorganizacional_51').is(':checked')){$("#plataforma").show();$("#intro").hide();}
+    else if ($('#progis_ticketbundle_ticket_nivelorganizacional_52').is(':checked')){$("#soporte").show();$("#intro").hide();}
+    else if ($('#progis_ticketbundle_ticket_nivelorganizacional_53').is(':checked')){$("#aplicaciones").show();$("#intro").hide();}
+        
+    
+        
+    $("#progis_ticketbundle_ticket_nivelorganizacional_50").click(function(){
+        $("#serviciosWeb").show();
+        
+        $("#soporte").hide();
+        $("#intro").hide();
+        $("#aplicaciones").hide();
+        $("#plataforma").hide();
+    });
+
+    $("#progis_ticketbundle_ticket_nivelorganizacional_52").click(function(){
+        $("#soporte").show();
+        
+        $("#serviciosWeb").hide();
+        $("#intro").hide();
+        $("#aplicaciones").hide();
+        $("#plataforma").hide();
+    });
+    
+    $("#progis_ticketbundle_ticket_nivelorganizacional_53").click(function(){
+        $("#aplicaciones").show();
+        $("#soporte").hide();
+        $("#serviciosWeb").hide();
+        $("#intro").hide();
+        $("#plataforma").hide();
+    });
+    $("#progis_ticketbundle_ticket_nivelorganizacional_51").click(function(){
+        $("#plataforma").show();
+        
+        $("#soporte").hide();
+        $("#serviciosWeb").hide();
+        $("#intro").hide();
+        $("#aplicaciones").hide();
+    });
+});
+
+
+</script>
+
+{% endblock %}
+

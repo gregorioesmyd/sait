@@ -1,0 +1,51 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>EDITAR JORNADA</h2>
+{% endblock %}
+
+
+{% block ubicacion %}
+    <br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("jornadalaboral") }}">LISTA DE JORNADAS</a></li>
+  <li class="active">EDITAR JORNADA</li>
+</ol>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent()}}
+    <link href="{{ asset('bundles/principal/css/jornadalaboral.css') }}" rel="stylesheet">
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+
+    
+    {{ form_start(edit_form, { 'attr': {'novalidate':null} }) }}
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">MODIFIQUE LOS PARÁMETROS QUE DESEE</div>
+            <div class="panel-body">
+                    <div id="formulario">{{ form_widget(edit_form) }}</div>
+            </div>
+        </div>
+
+        <div align="center"><input type="submit" class="btn btn-primary" value="EDITAR CATEGORIA">
+    {{ form_end(edit_form) }}   
+        
+        
+    <BR><BR><div align="center">{{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+        {{ form_errors(delete_form) }}
+        {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+    {{ form_end(delete_form) }}</div>
+    <br>
+    
+ 
+
+{% endblock %}
+
+
+

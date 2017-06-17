@@ -1,0 +1,421 @@
+/*
+ ######    ########   ##    ##   ########   ########      ###     ##         ########    ######
+##    ##   ##         ###   ##   ##         ##     ##    ## ##    ##         ##         ##    ##
+##         ##         ####  ##   ##         ##     ##   ##   ##   ##         ##         ##
+##   ####  ######     ## ## ##   ######     ########   ##     ##  ##         ######      ######
+##    ##   ##         ##  ####   ##         ##   ##    #########  ##         ##               ##
+##    ##   ##         ##   ###   ##         ##    ##   ##     ##  ##         ##         ##    ##
+ ######    ########   ##    ##   ########   ##     ##  ##     ##  ########   ########    ######
+ */
+html {
+  font-size: 62.5%;
+}
+body {
+  font-family: 'Arimo', sans-serif !important;
+}
+/*==============================
+=            Header            =
+==============================*/
+#main-header {
+  width: 100%;
+  background-color: #eeeeee;
+  /* For IE 8*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#11000000, endColorstr=#11000000)";
+  -webkit-box-shadow: 0 1px 5px #999999;
+  -moz-box-shadow: 0 1px 5px #999999;
+  -ms-box-shadow: 0 1px 5px #999999;
+  -o-box-shadow: 0 1px 5px #999999;
+  box-shadow: 0 1px 5px #999999;
+}
+#titulo h3 {
+  float: right;
+  font-size: 24px;
+  font-size: 2.4rem;
+}
+#main-logo {
+  width: 60%;
+  height: 80px;
+  padding: 16px 10px 9px 0;
+  margin: 0;
+}
+#img-container {
+  padding: 10px;
+}
+/*======================================
+=            Menu Principal            =
+======================================*/
+#title-menu {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 40px;
+  margin-top: 20px;
+}
+#subtitulo h2 {
+  font-size: 30px;
+  font-size: 3rem;
+  color: #666;
+  margin-right: 80px;
+  text-align: center;
+  font-weight: bold;
+}
+#main-menu {
+  float: right;
+  margin-top: 20px;
+  margin-bottom: 6px;
+}
+#main-menu a {
+  font-size: 14px;
+  font-size: 1.4rem;
+  color: #888;
+  font-weight: bold;
+}
+#main-menu.nav-pills #prestamo.active,
+#main-menu.nav-pills #prestamo:hover,
+#main-menu.nav-pills #prestamo:focus {
+  border-bottom: 3px solid rgba(3, 161, 92, 0.77);
+}
+#main-menu.nav-pills #prestamo.active a,
+#main-menu.nav-pills #prestamo:hover a,
+#main-menu.nav-pills #prestamo:focus a {
+  height: 32px;
+}
+#main-menu.nav-pills #cinta.active,
+#main-menu.nav-pills #cinta:hover,
+#main-menu.nav-pills #cinta:focus {
+  border-bottom: 3px solid rgba(255, 184, 11, 0.77);
+}
+#main-menu.nav-pills #cinta.active a,
+#main-menu.nav-pills #cinta:hover a,
+#main-menu.nav-pills #cinta:focus a {
+  height: 32px;
+}
+#main-menu.nav-pills #segmento.active,
+#main-menu.nav-pills #segmento:hover,
+#main-menu.nav-pills #segmento:focus {
+  border-bottom: 3px solid #0690cf;
+}
+#main-menu.nav-pills #segmento.active a,
+#main-menu.nav-pills #segmento:hover a,
+#main-menu.nav-pills #segmento:focus a {
+  height: 32px;
+}
+#main-menu.nav-pills #inventario.active,
+#main-menu.nav-pills #inventario:hover,
+#main-menu.nav-pills #inventario:focus {
+  border-bottom: 3px solid #585282;
+}
+#main-menu.nav-pills #inventario.active a,
+#main-menu.nav-pills #inventario:hover a,
+#main-menu.nav-pills #inventario:focus a {
+  height: 32px;
+}
+#main-menu.nav-pills > li.active > a,
+#main-menu.nav-pills > li.active > a:hover,
+#main-menu.nav-pills > li.active > a:focus,
+#main-menu.nav-pills > li > a:hover {
+  background: none;
+}
+.title-section {
+  color: #666666;
+}
+/*=================================
+=            Datatable            =
+=================================*/
+#example_filter {
+  float: right;
+}
+.pagination {
+  margin: 0;
+  margin-bottom: 20px;
+  float: right;
+}
+div.dataTables_filter {
+  float: right !important;
+}
+.tableCinta thead th {
+  text-align: center;
+}
+.tableCinta .actions {
+  width: 16% !important;
+}
+.tableInventario .actions {
+  width: 33% !important;
+}
+/*
+ ######    ########   ##    ##   ########   ########   ####   ######       ###      ######
+##    ##   ##         ###   ##   ##         ##     ##   ##   ##    ##     ## ##    ##    ##
+##         ##         ####  ##   ##         ##     ##   ##   ##          ##   ##   ##
+##   ####  ######     ## ## ##   ######     ########    ##   ##         ##     ##   ######
+##    ##   ##         ##  ####   ##         ##   ##     ##   ##         #########        ##
+##    ##   ##         ##   ###   ##         ##    ##    ##   ##    ##   ##     ##  ##    ##
+ ######    ########   ##    ##   ########   ##     ##  ####   ######    ##     ##   ######
+ */
+.oculto {
+  display: none;
+}
+/* centered columns styles */
+.row-centered {
+  text-align: center;
+}
+.col-centered {
+  display: inline-block;
+  float: none;
+  /* reset the text-align */
+  text-align: left;
+  /* inline-block space fix */
+  margin-right: -4px;
+}
+.inline-block{
+  display: inline-block;
+}
+p {
+ word-wrap: break-word;
+}
+/*
+ ######    ########   ##    ##   ##         ########              ########   ########      ###     ##
+##    ##      ##       ##  ##    ##         ##                    ##     ##  ##     ##    ## ##    ##
+##            ##        ####     ##         ##                    ##     ##  ##     ##   ##   ##   ##
+ ######       ##         ##      ##         ######     #######    ########   ########   ##     ##  ##
+      ##      ##         ##      ##         ##                    ##         ##         #########  ##
+##    ##      ##         ##      ##         ##                    ##         ##         ##     ##  ##
+ ######       ##         ##      ########   ########              ##         ##         ##     ##  ########
+*/
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+#container {
+  position: relative;
+  margin: 0 auto;
+  height: auto !important;
+  height: 100%;
+  min-height: 100%;
+}
+#content {
+  padding: 1em 1em 5em;
+}
+/* *************************************
+* *************** Footer ***************
+* ************************************ */
+footer {
+  width: 100%;
+  background-color: #eeeeee;
+  background-color: rbg(238, 238, 238);
+  background-color: rbga(238, 238, 238, 0.75);
+  position: absolute;
+  bottom: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#11000000, endColorstr=#11000000)";
+  -moz-box-shadow: 0 1px 5px #999999;
+  -webkit-box-shadow: 0 1px 5px #999999;
+  box-shadow: 0 1px 5px #999999;
+}
+footer h6 {
+  font-size: 10px;
+  font-size: 1rem;
+}
+/*
+ ######    ####  ##    ##   ########      ###
+##    ##    ##   ###   ##      ##        ## ##
+##          ##   ####  ##      ##       ##   ##
+##          ##   ## ## ##      ##      ##     ##
+##          ##   ##  ####      ##      #########
+##    ##    ##   ##   ###      ##      ##     ##
+ ######    ####  ##    ##      ##      ##     ##
+*/
+.tab-content {
+  margin-top: 20px;
+}
+.tab-content .btn-individual {
+  width: 70%;
+  margin-top: 40px;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover {
+  outline: none;
+}
+#wrapper-show .wrapper-campos {
+  padding-bottom: 6px;
+  text-align: justify;
+  color: #474646;
+}
+#wrapper-show .wrapper-campos p {
+  padding-right: 10px;
+}
+#wrapper-show .theader {
+  text-align: right;
+  color: #333;
+}
+#wrapper-show .wrapper-campos:first-child {
+  padding-top: 10px;
+}
+#wrapper-show .wrapper-campos:last-child {
+  padding-bottom: 10px;
+}
+#wrapper-show.well {
+  background-color: #F9F9F9;
+  border: 1px solid #EEE;
+}
+.tableCinta th{
+  background-color: #FFC843;
+  color: #666666;
+}
+.tablePrestamo th{
+  background-color: #3DB781;
+  color: #FFF;
+}
+.dataTables_wrapper .classCinta > .active > a,
+.dataTables_wrapper .classCinta > .active > a:focus,
+.dataTables_wrapper .classCinta > .active > a:hover,
+.dataTables_wrapper .classCinta > .active > span,
+.dataTables_wrapper .classCinta > .active > span:focus,
+.dataTables_wrapper .classCinta > .active > span:hover {
+    color: #636363 !important;
+    background-color: #FFC843 !important;
+    border-color: #FFC843 !important;
+}
+#panel-cinta .panel-success > .panel-heading {
+  color: #666666;
+  background-color: #FFC843;
+  border-color: #FFC843;
+}
+#panel-cinta .panel-success {
+    border-color: #FFC843;
+}
+.glyphicon {
+    font-family: "Glyphicons Halflings" !important;
+    font-weight: 300;
+    font-size: 10px;
+    font-size: 1rem;
+    vertical-align: 1px;
+    margin-right: 2px;
+}
+#block-choice{
+  margin-bottom: 20px;
+}
+#block-title-section{
+  margin-bottom: 30px;
+}
+#tabcintas .nav-tabs {
+    border-bottom: 1px solid #FFC843;
+}
+#tabcintas .nav-tabs li a {
+  color: #555;
+}
+#tabcintas .nav-tabs > li.active > a, 
+#tabcintas .nav-tabs > li.active > a:focus, 
+#tabcintas .nav-tabs > li.active > a:hover {
+    border-color: #FFC843 #FFC843 transparent;
+    -moz-border-top-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    border-image: none;
+}
+/*
+########   ########   ########    ######    ########      ###     ##     ##   #######   
+##     ##  ##     ##  ##         ##    ##      ##        ## ##    ###   ###  ##     ##  
+##     ##  ##     ##  ##         ##            ##       ##   ##   #### ####  ##     ##  
+########   ########   ######      ######       ##      ##     ##  ## ### ##  ##     ##  
+##         ##   ##    ##               ##      ##      #########  ##     ##  ##     ##  
+##         ##    ##   ##         ##    ##      ##      ##     ##  ##     ##  ##     ##  
+##         ##     ##  ########    ######       ##      ##     ##  ##     ##   #######   
+*/
+.tablePrestamo th{
+  background-color: #3DB781;
+  color: #FFF;
+}
+.dataTables_wrapper .classPrestamo > .active > a,
+.dataTables_wrapper .classPrestamo > .active > a:focus,
+.dataTables_wrapper .classPrestamo > .active > a:hover,
+.dataTables_wrapper .classPrestamo > .active > span,
+.dataTables_wrapper .classPrestamo > .active > span:focus,
+.dataTables_wrapper .classPrestamo > .active > span:hover {
+    color: #FFF !important;
+    background-color: #3DB781 !important;
+    border-color: #3DB781 !important;
+}
+/*
+ ######    ########    ######    ##     ##  ########   ##    ##   ########    #######   
+##    ##   ##         ##    ##   ###   ###  ##         ###   ##      ##      ##     ##  
+##         ##         ##         #### ####  ##         ####  ##      ##      ##     ##  
+ ######    ######     ##   ####  ## ### ##  ######     ## ## ##      ##      ##     ##  
+      ##   ##         ##    ##   ##     ##  ##         ##  ####      ##      ##     ##  
+##    ##   ##         ##    ##   ##     ##  ##         ##   ###      ##      ##     ##  
+ ######    ########    ######    ##     ##  ########   ##    ##      ##       #######   
+*/
+.dataTables_wrapper .classSegmento > .active > a,
+.dataTables_wrapper .classSegmento > .active > a:focus,
+.dataTables_wrapper .classSegmento > .active > a:hover,
+.dataTables_wrapper .classSegmento > .active > span,
+.dataTables_wrapper .classSegmento > .active > span:focus,
+.dataTables_wrapper .classSegmento > .active > span:hover {
+    color: #FFF !important;
+    background-color: #0690cf !important;
+    border-color: #0690cf !important;
+}
+#panel-segmento {
+  margin-top: 10px;
+}
+#panel-segmento .panel-success {
+    border-color: #0690CF;
+}
+#panel-segmento .panel-success > .panel-heading {
+  color: #FFF;
+  background-color: #0690CF;
+  border-color: #0690CF;
+}
+#tabsegmento .nav-tabs {
+    border-bottom: 1px solid #0690CF;
+}
+#tabsegmento .nav-tabs li a {
+  color: #555;
+}
+#tabsegmento .nav-tabs > li.active > a, 
+#tabsegmento .nav-tabs > li.active > a:focus, 
+#tabsegmento .nav-tabs > li.active > a:hover {
+    border-color: #0690CF #0690CF transparent;
+    -moz-border-top-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    border-image: none;
+}
+#tabsegmento hr {
+  border-color: #0690CF;
+}
+/*
+####  ##    ##   ##     ##  ########   ##    ##   ########      ###     ########   ####   #######   
+ ##   ###   ##   ##     ##  ##         ###   ##      ##        ## ##    ##     ##   ##   ##     ##  
+ ##   ####  ##   ##     ##  ##         ####  ##      ##       ##   ##   ##     ##   ##   ##     ##  
+ ##   ## ## ##   ##     ##  ######     ## ## ##      ##      ##     ##  ########    ##   ##     ##  
+ ##   ##  ####    ##   ##   ##         ##  ####      ##      #########  ##   ##     ##   ##     ##  
+ ##   ##   ###     ## ##    ##         ##   ###      ##      ##     ##  ##    ##    ##   ##     ##  
+####  ##    ##      ###     ########   ##    ##      ##      ##     ##  ##     ##  ####   #######   
+*/
+.tableInventario th{
+  background-color: #585282;
+  color: #FFF;
+}
+.dataTables_wrapper .classInventario > .active > a,
+.dataTables_wrapper .classInventario > .active > a:focus,
+.dataTables_wrapper .classInventario > .active > a:hover,
+.dataTables_wrapper .classInventario > .active > span,
+.dataTables_wrapper .classInventario > .active > span:focus,
+.dataTables_wrapper .classInventario > .active > span:hover {
+    color: #FFF !important;
+    background-color: #585282 !important;
+    border-color: #585282 !important;
+}
+#panel-inventario {
+  margin-top: 10px;
+}
+#panel-inventario .panel-success {
+    border-color: #585282;
+}
+#panel-inventario .panel-success > .panel-heading {
+  color: #FFF;
+  background-color: #585282;
+  border-color: #585282;
+}

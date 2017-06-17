@@ -1,0 +1,30 @@
+roles:
+    path:     /
+    defaults: { _controller: "SolicitudesBundle:Roles:index" }
+
+roles_show:
+    path:     /{id}/show
+    defaults: { _controller: "SolicitudesBundle:Roles:show" }
+
+roles_new:
+    path:     /new
+    defaults: { _controller: "SolicitudesBundle:Roles:new" }
+
+roles_create:
+    path:     /create
+    defaults: { _controller: "SolicitudesBundle:Roles:create" }
+    requirements: { _method: post }
+
+roles_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "SolicitudesBundle:Roles:edit" }
+
+roles_update:
+    path:     /{id}/update
+    defaults: { _controller: "SolicitudesBundle:Roles:update" }
+    requirements: { _method: post|put }
+
+roles_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "SolicitudesBundle:Roles:delete" }
+    requirements: { _method: post|delete }

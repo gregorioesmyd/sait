@@ -1,0 +1,23 @@
+votos_index:
+    path:     /admin/{idencuesta}/grafico
+    defaults: { _controller: "EncuestaBundle:Votos:grafico" }
+
+votar_encuesta:
+    path:     /{idencuesta}/votar_encuesta
+    defaults: { _controller: "EncuestaBundle:Votos:votarencuesta"}
+
+votar_trivia:
+    path:     /{idencuesta}/votar_trivia
+    defaults: { _controller: "EncuestaBundle:Votos:votartrivia"}
+#ruta para guardar voto y cargar la siguiente pregunta
+ajax_votartrivia:
+    path:     /{idrespuesta}/{idpregunta}/{preguntas}/{contador}/{segundosusados}/ajax/trivias/votos
+    defaults: { _controller: "EncuestaBundle:Default:ajax_votartrivia"}
+#ruta para guardar el utlimo voto y mostrar el resultado obtenido
+ajax_guardarvotos:
+    path:     /{idrespuesta}/{idpregunta}/{segundosusados}/ajax/trivias/guardar/votos
+    defaults: { _controller: "EncuestaBundle:Default:ajax_guardarvotos"}
+#ruta para recargar la misma pregunta(cuando se recargar la pagina)
+ajax_recargapregunta:
+    path:     /{idpregunta}/{preguntas}/{contador}/ajax/recargapregunta
+    defaults: { _controller: "EncuestaBundle:Default:ajax_recargapregunta"}

@@ -1,0 +1,30 @@
+reunion:
+    path:     /
+    defaults: { _controller: "ProtocoloBundle:Reunion:index" }
+
+reunion_show:
+    path:     /{id}/show
+    defaults: { _controller: "ProtocoloBundle:Reunion:show" }
+
+reunion_new:
+    path:     /new
+    defaults: { _controller: "ProtocoloBundle:Reunion:new" }
+
+reunion_create:
+    path:     /create
+    defaults: { _controller: "ProtocoloBundle:Reunion:create" }
+    requirements: { _method: post }
+
+reunion_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ProtocoloBundle:Reunion:edit" }
+
+reunion_update:
+    path:     /{id}/update
+    defaults: { _controller: "ProtocoloBundle:Reunion:update" }
+    requirements: { _method: post|put }
+
+reunion_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ProtocoloBundle:Reunion:delete" }
+    requirements: { _method: post|delete }

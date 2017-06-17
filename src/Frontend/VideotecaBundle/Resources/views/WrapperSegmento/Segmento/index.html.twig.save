@@ -1,0 +1,358 @@
+    {% extends ':videoteca:base/base-segmento.html.twig' %}
+
+    {% block title %}Segmento{% endblock %}
+
+    {% block filtro %}
+    <div class="sidebar oculto">
+        {% include 'VideotecaBundle:inc:filter.html.twig' %}
+    </div>
+    {% endblock %}
+
+    {% block menu %}
+    <div id="wrapper-title-menu" class="row">
+        <div id="title-menu" class="col-xs-12" data-spy="affix" data-offset-top="30">
+            <div class="row">
+                <!-- SubTitulo -->
+                <div id="subtitulo" class="col-xs-4">
+                    <h2>Segmentos</h2>
+                </div>
+                <!-- End SubTitulo -->
+                {% include 'VideotecaBundle:inc:menu.html.twig' %}
+            </div>
+        </div>
+    </div>
+
+    {% if inputs is not empty %}
+    <div class="row">
+        <div id="filterActive" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <button type="button" id="btnfilterActive" class="btn btn-default">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                Filtros Activos
+            </button>
+        </div>
+
+        <div id="etiquetaActive" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            {% for key,group in inputs %}
+            {% for index,item in group %}
+            <span class="etiqueta">{{ index|capitalize ~ ": " ~ item|capitalize }}</span>
+            {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div id="wrapper-submenu" class="row">
+        <div id="sub-menu" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" data-spy="affix" data-offset-top="100">
+            <div class="row">
+                <div id="wrapper-btnFilter" class="col-xs-1 col-sm-2 col-md-2 col-lg-2">
+                    <button id="slideFilter" data-event="mostrar" class="btn btn-primary btn-sm">
+                        <span id="icon" class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span id="label">Filtros</span>
+                    </button>
+                </div>
+                <div id="wrapper-register" class="col-xs-9 col-sm-7 col-md-8 col-lg-8">
+                    <h6>Mostrando 255 registros de un total de {{ pagination.getTotalItemCount }}</h6>
+                </div>
+                <div id="wrapper-btnShop" class="col-xs-1 col-sm-3 col-md-2 col-lg-2">
+                    <!-- Single button -->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="glyphicon glyphicon-shopping-cart" ari-hidden="true"></span>
+                            <span id="nroPrestamo" class="badge" data-nroprestamo="{{tmcinta}}">{{tmcinta}}</span>
+                            Prestamos
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#" data-toggle="modal" data-target="#myModallistar">
+                                    <span class="glyphicon glyphicon-list" aria-hidden="True"></span>
+                                    Listado
+                                </a>
+                            </li>
+                     <!--    <li>
+                            <li>>>>>>> origin/dev-videoteca
+                                <a href="{{ path('prestamo_new') }}">
+                                    <span class="glyphicon glyphicon-ok" aria-hidden="True"></span>
+                                    Procesar
+                                </a>
+                            </li>-->
+                            <li>
+                                <a href="#" data-toggle="modal" data-target="#myModalcancelar">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="True"></span>
+                                    Cancelar
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModalcancelar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<<<<<<< HEAD
+      <div class="modal-dialog" style="width: 1000px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+            <h4 class="modal-title" id="myModalLabel">Cancelar Prestamos</h4>
+          </div>
+          <div class="modal-body">
+    <table class="table table-striped table-bordered addDataTable tableprestamo" id="tablecancelar">
+                <thead>
+                <tr>
+                 <th colspan="6" style="text-align: center;">Prestamos Seleccionados</th>
+                </tr>
+                    <tr>
+                        <th>Id</th>
+                        <th>Codigo</th>
+                        <th class="actions"><input type="checkbox" name="checktodos" id="num_id" > Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if tmp is not empty %}
+                        {% for entity in tmp %}
+                        <tr>
+                            <td>{{ entity.id }}</td>
+                            <td>{{ entity.codigo }}</td>
+                            <td><input type="checkbox" name="id[]" value="{{entity.id}}"/> Cancelar
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="3" id="msjcancelar" style="text-align: center;">No tiene cinta para Cancelar</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+      </div>
+      <div class="modal-footer">
+        {% if tmcinta != 0%}
+           <a id="cancelarPrestamo" class="btn btn-default" href="#">CANCELAR PRESTAMO</a>
+        {% endif %}
+        <a id="cancelarPrestamo" class="btn btn-default" id="botoncancelar" style="display: none"  href="#">CANCELAR PRESTAMO</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal">CERRAR</button>
+      </div>
+=======
+        <div class="modal-dialog" style="width: 1000px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Cancelar Prestamos</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-bordered addDataTable tableprestamo" id="tablecancelar">
+                        <thead>
+                            <tr>
+                                <th colspan="6" style="text-align: center;">Prestamos Seleccionados</th>
+                            </tr>
+                            <tr>
+                                <th>Id</th>
+                                <th>Codigo</th>
+                                <th class="actions"><input type="checkbox" name="checktodos" id="num_id"> Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entity in tmp %}
+                            <tr>
+                                <td>{{ entity.id }}</td>
+                                <td>{{ entity.codigo }}</td>
+                                <td>
+                                    <input type="checkbox" name="id[]" value="{{entity.id}}"/><span class="lbl"> Cancelar</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <div style="text-align: center"> 
+                        <a id="cancelarPrestamo" class="btn btn-default" href="#">CANCELAR PRESTAMO</a>
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">CERRAR</button>
+                </div>
+            </div>
+        </div>
+>>>>>>> origin/dev-videoteca
+    </div>
+  </div>
+</div>
+
+    <div class="modal fade" id="myModallistar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<<<<<<< HEAD
+      <div class="modal-dialog" style="width: 1000px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+            <h4 class="modal-title" id="myModalLabel">Lista de Prestamos</h4>
+          </div>
+          <div class="modal-body">
+          <table class="table table-striped table-bordered addDataTable tablelista" id="tablelista">
+                <thead>
+                <tr>
+                 <th colspan="6" style="text-align: center;">Prestamos Seleccionados</th>
+                </tr>
+                    <tr>
+                        <th>Id</th>
+                        <th>Codigo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if tmp is not empty %}
+                    {% for entity in tmp %}
+                        <tr>
+                            <td>{{ entity.id }}</td>
+                            <td>{{ entity.codigo }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3" id="msjvacio" style="text-align: center;">No tiene cinta para Procesar</td>
+                    </tr>
+                {% endif %}
+                 </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+          {% if tmcinta != 0%}
+           <a class="btn btn-default" href="{{ path('prestamo_new') }}">Procesar Prestamos</a>
+          {% endif %}
+          <a class="btn btn-default" id="boton" style="display: none" href="{{ path('prestamo_new') }}">Procesar Prestamos</a>
+          <button type="button" class="btn btn-default" data-dismiss="modal">CERRAR</button>
+          </div>
+=======
+        <div class="modal-dialog" style="width: 1000px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Lista de Prestamos</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-bordered addDataTable tablelista" id="tablelista">
+                        <thead>
+                            <tr>
+                                <th colspan="6" style="text-align: center;">Prestamos Seleccionados</th>
+                            </tr>
+                            <tr>
+                                <th>Id</th>
+                                <th>Codigo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entity in tmp %}
+                            <tr>
+                                <td>{{ entity.id }}</td>
+                                <td>{{ entity.codigo }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div id="resultado"></div>
+                </div>
+                <div class="modal-footer">
+                    <div style="text-align: center">
+                        <a class="btn btn-default" href="{{ path('prestamo_new') }}">
+                            Procesar Prestamos
+                        </a>
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">CERRAR</button>
+                </div>
+            </div>
+>>>>>>> origin/dev-videoteca
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block data %}
+    {% for segmento in pagination %}
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <article class="marco">
+            {% if segmento.cinta.status.id == 1 %}
+            <div class="circulo btn-prestamo {{segmento.cinta.codigo}}" data-id="{{ segmento.cinta.id }}" data-codigo="{{segmento.cinta.codigo}}">
+                <span class="glyphicon glyphicon-shopping-cart" ari-hidden="true"></span>
+            </div>
+            {% endif %}
+            <div class="scrollbar">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span><b>CODIGO: </b>{{ segmento.cinta.codigo }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <span><b>TIPO Cinta: </b>{{ segmento.cinta.tipoCinta }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <span><b>TITULO: </b>{{ segmento.titulo }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <span><b>Observacion: </b>{{ segmento.cinta.observaciones }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <span><b>FECHA EVENTO:</b>
+                            <span class="label label-primary">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                                {% if segmento.fechaEvento %}{{ segmento.fechaEvento|date('Y-m-d') }}{% endif %}
+                            </span>
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <span><b>INICIO:</b>
+                            <span class="label label-primary">
+                                <span class="glyphicon glyphicon-time"></span>
+                                {{ segmento.inicio|date('H:i:s') }}
+                            </span>
+                        </span>
+                        <span><b>FIN:</b>
+                            <span class="label label-primary">
+                                <span class="glyphicon glyphicon-time"></span>
+                                {{ segmento.fin|date('H:i:s') }}
+                            </span>
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <span><b>EVENTO: </b>{{ segmento.cinta.evento.nombre }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <span><b>TITULO ALTERNO: </b>{{ segmento.tituloAlterno }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <span><b>SINOPSIS: </b>{{ segmento.sinopsis|truncate(150) }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <span><b>Fecha Ingreso: </b>{{ segmento.creado|date('d/m/Y') }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <span><b>Documentalista: </b>{{ segmento.cinta.documentalista.primerNombre }} {{ segmento.cinta.documentalista.primerApellido }}</span>
+                    </li>
+                </ul>
+            </div>
+            <nav id="options-crud">
+                <ul class="nav nav-pills nav-justified">
+                    <li role="presentation"><a href="{{ path('segmento_new', { 'idCinta': segmento.cinta.id, 'slug': segmento.cinta.tipocinta.slug }) }}">REGISTRAR</a></li>
+                    <li role="presentation"><a href="{{ path('segmento_edit', { 'id': segmento.id , 'slug': segmento.cinta.tipocinta.slug }) }}">EDITAR</a></li>
+                    <li role="presentation"><a href="{{ path('segmento_show', { 'id': segmento.id, 'slug': segmento.cinta.tipocinta.slug }) }}">DETALLE</a></li>
+                    <li role="presentation"><a href="{{ path('cinta_show', { 'id': segmento.cinta.id, 'slug': segmento.cinta.tipocinta.slug }) }}">CINTA</a></li>
+                </ul>
+            </nav>
+        </article>
+    </div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+
+    {% endblock %}
+
+
+    {% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/videoteca/js/scripts/segmento.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/videoteca/js/scripts/filter.js') }}"></script>
+<<<<<<< HEAD
+{% endblock %}
+=======
+    <script type="text/javascript" src="{{ asset('bundles/videoteca/js/scripts/modal.js') }}"></script>
+    {% endblock %}
+>>>>>>> origin/dev-videoteca

@@ -1,0 +1,32 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<table>
+	<tr>
+		<th>Codigo</th>
+		<th>Evento</th>
+		<th>Fecha Evento</th>
+		<th>Inicio</th>
+		<th>Fin</th>
+		<th>Titulo</th>
+		<th>Titulo Alterno</th>
+		<th>Sinopsis</th>
+		<th>Fecha Creado</th>
+		<th>Pa&iacute;s Productor</th>
+	</tr>						
+
+	{% for s in segmento %}
+		<tr>
+			<td>{{ s.cinta.codigo }}</td>
+			<td>{{ s.cinta.evento.nombre }}</td>
+			<td>{% if s.fechaEvento %}
+				{{ s.fechaEvento|date('d-m-Y') }}
+			{% endif %}</td>
+			<td>{{ s.inicio|date('H:i:s') }}</td>
+			<td>{{ s.fin|date('H:i:s') }}</td>
+			<td>{{ s.titulo | raw }}</td>
+			<td>{{ s.tituloAlterno | raw }}</td>
+			<td>{{ s.sinopsis | raw }}</td>
+			<td>{{ s.creado|date('d/m/Y') }}</td>
+			<td>{{ s.pais.pais }}</td>
+		</tr>
+	{% endfor %}
+</table>

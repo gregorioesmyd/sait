@@ -1,0 +1,66 @@
+{#<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="container">
+      <div class="modal-dialog" style="width: 100%;padding-top: 100px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">DATOS PERSONALES Y LABORALES</h4>
+          </div>
+          <div class="modal-body" style="text-align: justify;">
+              <p><b>Hola {{app.session.get('nomape')|title}}</b>, ayudanos a mantener tus datos actualizados. Por favor presiona siguiente y verifica la información mostrada, es de suma importancia que introduzcas los datos correctos.</p>
+          </div>
+          <div class="modal-footer">
+                <form action="{{ path('user_actualizarDatos')}}" method="post">
+                    <input type="hidden" name="idUsuario" value="{{ usuario.id }}">
+                    <button type="submit" class="btn btn-primary">SIGUIENTE</button>
+                </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+{% if usuario.activarProceso==true and usuario.user.fueradenomina==false %}
+    {% block javascript %}
+        <script>
+            $('#myModal').modal({ 
+                backdrop: 'static', 
+                keyboard: true 
+            })
+        </script>
+    {% endblock %}
+{% endif %}
+#}
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="container">
+      <div class="modal-dialog" style="width: 100%;padding-top: 100px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel"><p style="color:red;font-size: 40px">¡ATENCION!</p></h4>
+          </div>
+		 <div class="modal-body" style="text-align: justify;font-size: 14px;">
+              		<p><b>Hola {{app.session.get('nomape')|title}}</b>,¿Autoriza usted a la Dirección General de Recursos Humanos a descontar la cantidad de 12.338,76, Bs por concepto de compra bolsa de alimentos de Abasto Bicentenario?</p>
+          	</div>
+          	<div class="modal-footer">
+                	   <CENTER> <a href="{{ path('user_respuesta_encuesta',{'respuesta':'true'}) }}" class="btn btn-primary btn-lg">ESTOY DE ACUERDO</a></CENTER>
+                    		<a href="{{ path('user_respuesta_encuesta',{'respuesta':'false'}) }}" onclick="return confirm('¿Usted presionó NO ESTOY DE ACUERDO, ¿Desea continuar?')" class="btn btn-danger btn-sm">NO ESTOY DE ACUERDO</a>
+                    {#<a href="{{ path('user_respuesta_encuesta',{'respuesta':'false'}) }}" onclick="return confirm('¿Usted presionó NO ESTOY DE ACUERDO, ¿Desea continuar?')" class="btn btn-danger">NO ACEPTO</a>#}
+                    {#<li><a href="http://localhost/sait-prueba/web/app.php/usuario/login"><span class="glyphicon glyphicon-cog"></span>SALIR</a></li>#}
+
+ </div>
+        </div>
+      </div>
+    </div>
+</div>
+{% if usuario.activarProceso==true %}
+    {% block javascript %}
+        <script>
+            $('#myModal').modal({ 
+                backdrop: 'static', 
+                keyboard: true 
+            })
+        </script>
+    {% endblock %}
+
+{% endif %}

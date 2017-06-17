@@ -1,0 +1,50 @@
+#pendiente{ 
+    list-style-type: none; 
+    margin: 0; 
+    padding: 0; 
+    float: left; 
+    margin-right: 10px; 
+    background: #F8F8F8; 
+    padding: 5px; 
+    width: 60%;
+    overflow-y: scroll;
+    height: 1000px;
+}
+
+#priometa{ 
+    list-style-type: none; 
+    margin: 0; 
+    padding: 0; 
+    float: left; 
+    margin-right: 10px; 
+    background: #F8F8F8; 
+    padding: 5px; 
+    width: 35%;
+    overflow-y: scroll;
+    height: 1000px;
+}
+.pendiente{ 
+    margin: 0; 
+    padding: 0; 
+    float: left; 
+    margin-right: 10px; 
+    padding: 5px; 
+    width: 60%;
+}
+
+.priometa{ 
+    margin: 0; 
+    padding: 0; 
+    float: left; 
+    margin-right: 10px; 
+    padding: 5px; 
+    width: 35%;
+}
+
+#pendiente li, #priometa li{
+    margin: 5px; 
+    padding: 5px; 
+    font-size: 1.2em; 
+    width: 97%; 
+}
+

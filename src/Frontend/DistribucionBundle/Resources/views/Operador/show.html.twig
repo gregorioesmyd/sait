@@ -1,0 +1,310 @@
+{% extends '::distribucion.html.twig' %}
+
+{% block title %}CONSULTAR OPERADOR{% endblock %}
+
+{% block titulo %}
+    EL OPERADOR {{ entity.nombre | upper }} ESTÁ {% if entity.estatus==1 %}(ACTIVO){% else %}<br><br><div class='Redflash-notice'>INACTIVO</div>{% endif %}
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("distribucion_homepage") }}">DISTRIBUCIÓN INICIO</a></li>
+  <li><a href="{{ path("operador") }}">LISTA DE OPERADORES</a></li>
+  <li class="active">CONSULTAR OPERADOR</li>
+
+</ol>
+{% endblock %}
+
+{% block body %}
+
+{{ parent() }}
+
+    <div class="alert alert-info">DATOS DE OPERADOR</div>
+    <div id="operador">
+    <div class="formShow">
+        <div class="contenedorform">
+            <div class="labelform">Nombre:</div>
+            <div class="widgetform">{{ entity.nombre }}</div>
+        </div>
+
+        <div class="contenedorform">
+                <div class="labelform">Tipo Operador:</div>
+                <div class="widgetform">{{ entity.tipooperador }}</div>
+        </div>
+
+        <div class="contenedorform">
+                <div class="labelform">Pais:</div>
+                <div class="widgetform">{{ entity.pais.pais }}</div>
+        </div>
+
+        <div class="contenedorform">
+                <div class="labelform">Estado:</div>
+                <div class="widgetform">
+                    {% set cont = 0 %}
+                    {% set largo = entity.estado | length %}
+                    {% for es in entity.estado %} 
+                        {% set cont=cont+1 %}
+                        {{ es.estado }}{% if cont == largo-1 %} y{% elseif largo > 1 and cont < largo-1  %},{% else %}.{% endif %}
+                    {% endfor %}
+                </div>
+        </div>
+
+        <div class="contenedorform">
+                <div class="labelform">Cobertura:</div>
+                <div class="widgetform">{{ entity.cobertura }}</div>
+        </div>
+
+        <div class="contenedorform">
+                <div class="labelform">Zona:</div>
+                <div class="widgetform">{{ entity.zona }}</div>
+        </div>
+
+        <div class="contenedorform">
+                <div class="labelform">
+                    {% if entity.tipooperador.id == 4 %}
+                        Potenciales televidentes:
+                    {% elseif entity.tipooperador.id == 5 %}
+                        Suscriptores:
+                    {% else %}
+                        Abonados:
+                    {% endif %}
+                </div>
+                <div class="widgetform">{{ entity.numeroabonados }}</div>
+        </div>
+
+        <div class="contenedorform">
+                <div class="labelform">
+                    {% if entity.tipooperador.id == 4 %}
+                        Canal1:
+                    {% else %}
+                        Dial1:
+                    {% endif %}
+                </div>
+                <div class="widgetform">{{ entity.dialurl }}</div>
+        </div>
+
+        {% if entity.dialurl2!='' %}
+            <div class="contenedorform">
+                <div class="labelform">
+                    {% if entity.tipooperador.id == 4 %}
+                        Canal2:
+                    {% else %}
+                        Dial2:
+                    {% endif %}
+                </div>
+                    <div class="widgetform">{{ entity.dialurl2 }}</div>
+            </div>
+        {% endif %}
+
+        <div class="contenedorform">
+                <div class="labelform">Direccion:</div>
+                <div class="widgetform">{{ entity.direccion }}</div>
+        </div>
+
+        {% if entity.observacion!='' %}
+            <div class="contenedorform">
+                    <div class="labelform">Observacion:</div>
+                    <div class="widgetform">{{ entity.observacion }}</div>
+            </div>
+        {% endif %}
+
+        <div class="contenedorform">
+                <div class="labelform">Paquete:</div>
+                <div class="widgetform">{{ entity.paquete.paquete }}</div>
+        </div>
+
+        {% if entity.urlweb!='' %}
+            <div class="contenedorform">
+                    <div class="labelform">Url Web:</div>
+                    <div class="widgetform">{{ entity.urlweb }}</div>
+            </div>
+        {% endif %}
+
+        {% if entity.urlfacebook!='' %}
+            <div class="contenedorform">
+                    <div class="labelform">Url Facebook:</div>
+                    <div class="widgetform">{{ entity.urlfacebook }}</div>
+            </div>
+        {% endif %}
+
+        {% if entity.urltwitter!='' %}
+            <div class="contenedorform">
+                    <div class="labelform">Url Twitter:</div>
+                    <div class="widgetform">{{ entity.urltwitter }}</div>
+            </div>
+        {% endif %}
+
+            <div class="contenedorform">
+                <div class="labelform">Última Modificación:</div>
+                <div class="widgetform">{{ entity.user.primernombre | title }} {{ entity.user.primerapellido | title }}</div>
+            </div>
+
+    </div>
+    </div>
+
+    <div class="alert alert-info">DATOS DE COMODATO</div>
+    <div id="comodato">
+    <div class="formShow">
+        <div class="contenedorform">
+            <div class="labelform">Código:</div>
+            <div class="widgetform">{{ entity.comodato.codigo }}</div>
+        </div>
+
+        <div class="contenedorform">
+            <div class="labelform">Fecha Inicio:</div>
+            <div class="widgetform">{{ entity.comodato.fechainicioacuerdo|date("m/d/Y") }}</div>
+        </div>
+
+        <div class="contenedorform">
+            <div class="labelform">Fecha Fin:</div>
+            <div class="widgetform">{{ entity.comodato.fechafinacuerdo|date("m/d/Y") }}</div>
+        </div>
+
+        {% if entity.comodato.observacion!='' %}
+            <div class="contenedorform">
+                    <div class="labelform">Observacion:</div>
+                    <div class="widgetform">{{ entity.comodato.observacion }}</div>
+            </div>
+        {% endif %}
+
+        <div class="contenedorform">
+                <div class="labelform">Recibe receptor:</div>
+                <div class="widgetform">{% if entity.comodato.recibereceptor=="1" %}Sí{% else %}No{% endif %}</div>
+        </div>
+
+        {% if entity.comodato.fecharecepcion!='' %}
+            <div class="contenedorform">
+                <div class="labelform">Fecha recepción:</div>
+                <div class="widgetform">{{ entity.comodato.fecharecepcion|date("m/d/Y") }}</div>
+            </div>
+        {% endif %}
+
+        <div class="contenedorform">
+            <div class="labelform">Objetos de Comodato:</div>
+                <div class="widgetform">
+
+                    {% set cont = 0 %}
+                    {% set largo = entity.comodato.objetocomodato | length %}
+                    {% if largo==0 %}
+                    Ninguno
+                    {% else %}
+                    {% for co in entity.comodato.objetocomodato %} 
+                        {% set cont=cont+1 %}
+                        {{ co.objeto }}{% if cont == largo-1 %} y{% elseif largo > 1 and cont < largo-1  %},{% else %}.{% endif %}
+                    {% endfor %}
+                    {% endif %}
+              </div>
+        </div>
+    </div>
+    </div>
+
+
+    <div class="alert alert-info">DATOS DE REPRESENTANTE</div>
+    {% if is_granted('ROLE_DISTRIBUCION_ADMINISTRADOR') %}
+    <div><a href="{{ path('representante_new_add', {'id':entity.id}) }}">(Agregar Nuevo Representante)</a></div>
+    <br>
+    {% endif %}
+    <div id="representante">
+    <div class="formShow">
+
+    {% set cont = 0 %}
+    {% set largo = representante | length %}
+    {% for re in representante %}
+
+        <div style="background-color:
+#e9f5fe; padding-bottom:5px;font-weight:bold;">REPRESENTANTE {{ cont+1 }}</div>
+
+        <div class="contenedorform">
+            <div class="labelform">Nombres:</div>
+            <div class="widgetform">{{ re.nombres }}</div>
+        </div>
+
+        <div class="contenedorform">
+            <div class="labelform">Apellidos:</div>
+            <div class="widgetform">{{ re.apellidos }}</div>
+        </div>
+
+        <div class="contenedorform">
+            <div class="labelform">Cargo:</div>
+            <div class="widgetform">{{ re.cargo }}</div>
+        </div>
+
+        <div class="contenedorform">
+            <div class="labelform">correo:</div>
+            <div class="widgetform">{{ re.correo }}</div>
+        </div>
+
+        <div class="contenedorform">
+            <div class="labelform">Telefono 1:</div>
+            <div class="widgetform">{{ re.telefono1 }}</div>
+        </div>
+
+        {% if re.telefono2!='' %}
+            <div class="contenedorform">
+                <div class="labelform">Telefono 2:</div>
+                <div class="widgetform">{{ re.telefono2 }}</div>
+            </div>
+        {% endif %}
+
+        {% if re.fax!='' %}
+            <div class="contenedorform">
+                <div class="labelform">Fax:</div>
+                <div class="widgetform">{{ re.fax }}</div>
+            </div>
+        {% endif %}
+
+        {% if re.observacion!='' %}
+            <div class="contenedorform">
+                <div class="labelform">Observacion:</div>
+                <div class="widgetform">{{ re.observacion }}</div>
+            </div>
+        {% endif %}
+
+        {% set cont=cont+1 %}
+      
+    {% endfor %}
+    </div>
+</div>
+
+<br>
+
+
+<a class="btn btn-default" href="{{ path('operador') }}">LISTA DE OPERADORES</a> | 
+<a class="btn btn-default" href="{{ path('operador_list', { 'idpais': entity.pais.id,'idtipooperador': entity.tipooperador.id }) }}">LISTA DE TIPO OPERADOR POR PAÍS</a>{% if is_granted('ROLE_DISTRIBUCION_ADMINISTRADOR') %} |
+<a class="btn btn-default" href="{{ path('operador_edit', { 'id': entity.id }) }}">IR A EDITAR</a> |
+<a class="btn btn-default" href="{{ path('operador_new', { 'id': entity.id }) }}">IR A NUEVO</a>
+{% endif %}
+
+<br><br>
+
+{% if is_granted('ROLE_DISTRIBUCION_ADMINISTRADOR') %}
+<form action="{{ path('operador_delete', { 'id': entity.id }) }}" method="post" onsubmit="return confirm('¿Seguro que desea borrar el operador y sus representantes?')">
+    <input type="hidden" name="_method" value="DELETE" />
+    {{ form_widget(delete_form) }}
+    <button class="btn btn-danger" type="submit">DESACTIVAR</button>
+</form>
+{% endif %}
+
+
+
+
+
+
+<script>
+
+    jQuery("#a").click(function  (){
+            jQuery("#operador").delay(200).slideToggle();
+    });
+
+    jQuery("#b").click(function  (){
+            jQuery("#comodato").delay(200).slideToggle();
+    });
+
+    jQuery("#c").click(function  (){
+            jQuery("#representante").delay(200).slideToggle();
+    });
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+modelo:
+    path:     /
+    defaults: { _controller: "ControlEquipoBundle:Modelos:index" }
+
+modelo_show:
+    path:     /{id}/show
+    defaults: { _controller: "ControlEquipoBundle:Modelos:show" }
+
+modelo_new:
+    path:     /new
+    defaults: { _controller: "ControlEquipoBundle:Modelos:new" }
+
+modelo_create:
+    path:     /create
+    defaults: { _controller: "ControlEquipoBundle:Modelos:create" }
+    requirements: { _method: post }
+
+modelo_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ControlEquipoBundle:Modelos:edit" }
+
+modelo_update:
+    path:     /{id}/update
+    defaults: { _controller: "ControlEquipoBundle:Modelos:update" }
+    requirements: { _method: post|put }
+
+modelo_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ControlEquipoBundle:Modelos:delete" }
+    requirements: { _method: post|delete }

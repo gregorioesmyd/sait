@@ -1,0 +1,41 @@
+<div class="menubootstrap">
+  <div align="left">
+    <nav id="custom-bootstrap-menu" class="navbar navbar-default" role="navigation">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+          <a class="navbar-brand" href="{{ path('usuario_homepage') }}"><span style="color: white;" class="glyphicon glyphicon-home"></span></a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a id="organigrama" href="{{ path('organigrama_2') }}">ORGANIGRAMA</a></li>
+          {% if is_granted('ROLE_ADMINISTRADOR') %}
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">ADMINISTRACION <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="{{ path('user') }}">LISTA DE USUARIOS</a></li>
+              <li><a href="{{ path('user_new') }}">NUEVO USUARIO</a></li>
+              <li class="divider"></li>
+              <li><a href="{{ path('rol') }}">LISTA DE ROLES</a></li>
+              <li><a href="{{ path('rol_new') }}">NUEVO ROL</a></li>
+            </ul>
+          </li>
+          {% endif %}
+          {% if is_granted('ROLE_NIVELORGANIZACIONAL') %}
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">NIVEL ORGANIZACIONAL <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="{{ path('nivelorganizacional') }}">LISTA</a></li>
+            </ul>
+          </li>
+          {% endif %}
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          {% if app.user.password!=null %}<li><a href="{{ path('cambioclave') }}">CAMBIAR CLAVE</a></li>{% endif %}
+          <li><a href="{{ path('contacto') }}">CONTACTO</a></li>
+          <li><a href="{{ path('usuario_logout') }}">SALIR</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </nav>
+  </div>
+</div>

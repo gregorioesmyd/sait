@@ -1,0 +1,40 @@
+visita:
+    path:     /lista
+    defaults: { _controller: "ControlEquipoBundle:Visita:index" }
+
+visita_show:
+    path:     /{id}/show
+    defaults: { _controller: "ControlEquipoBundle:Visita:show" }
+
+
+visita_busca:
+    path:     /busca
+    defaults: { _controller: "ControlEquipoBundle:Visita:busca" }
+
+
+visita_new:
+    path:     /new
+    defaults: { _controller: "ControlEquipoBundle:Visita:new" }
+
+visita_salida:
+    path:     /salida/{id}
+    defaults: { _controller: "ControlEquipoBundle:Visita:salida" }
+
+visita_create:
+    path:     /create
+    defaults: { _controller: "ControlEquipoBundle:Visita:create" }
+    requirements: { _method: post }
+
+visita_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ControlEquipoBundle:Visita:edit" }
+
+visita_update:
+    path:     /{id}/update
+    defaults: { _controller: "ControlEquipoBundle:Visita:update" }
+    requirements: { _method: post|put }
+
+visita_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ControlEquipoBundle:Visita:delete" }
+    requirements: { _method: post|delete }

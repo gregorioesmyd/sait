@@ -1,0 +1,68 @@
+trueques_homepage:
+    path:     /
+    defaults: { _controller: TruequesBundle:Default:index }
+
+trueques_buscar:
+    path:     /search
+    defaults: { _controller: TruequesBundle:Default:searchProduct }
+
+trueques_cargar_producto:
+    path:     /load_product
+    defaults: { _controller: TruequesBundle:Default:index }
+
+TruequesBundle_categoria:
+        resource: "@TruequesBundle/Resources/config/routing/categoria.yml"
+        prefix:   /admin/categoria
+
+trueques_aprobar_producto:
+    path:     /admin/aprobar_producto
+    defaults: { _controller: TruequesBundle:MisProductos:aprobar }
+
+# trueques_aprobarAsync_producto:
+#     path:     /admin/aprobar_producto/
+#     defaults: { _controller: TruequesBundle:MisProductos:aprobarAsync }
+
+TruequesBundle_misproductos:
+        resource: "@TruequesBundle/Resources/config/routing/misproductos.yml"
+        prefix:   /misproductos
+
+
+TruequesBundle_admin_producto:
+        resource: "@TruequesBundle/Resources/config/routing/producto.yml"
+        prefix:   /admin/producto
+
+
+
+select_categoria_producto:
+    pattern: /select_categoria_producto
+    defaults: { _controller: "TruequesBundle:MisProductos:producto"}
+
+TruequesBundle_get_producto:
+    pattern: /get_miproducto
+    defaults: { _controller: "TruequesBundle:MisProductos:getMiProductoId"}
+
+TruequesBundle_get_producto_categoria:
+    pattern: /get_miproducto_categoria
+    defaults: { _controller: "TruequesBundle:Default:getMisProductosCategoria"}
+
+TruequesBundle_contactar:
+    pattern: /contactar
+    defaults: { _controller: "TruequesBundle:Default:contactar"}
+
+TruequesBundle_reservar:
+    pattern: /reservar
+    defaults: { _controller: "TruequesBundle:Default:reservar" }
+
+
+TruequesBundle_finalizar:
+    pattern: /finalizar
+    defaults: { _controller: "TruequesBundle:Default:finalizar" }
+
+TruequesBundle_cancelar:
+    pattern: /cancelar
+    defaults: { _controller: "TruequesBundle:Default:cancelar" }
+
+
+TruequesBundle_admin_status:
+    resource: "@TruequesBundle/Resources/config/routing/status.yml"
+    prefix:   /admin/status

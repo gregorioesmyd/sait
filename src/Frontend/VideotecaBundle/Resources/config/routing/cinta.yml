@@ -1,0 +1,34 @@
+cinta:
+    path:     /
+    defaults: { _controller: "VideotecaBundle:Cinta:index" }
+
+cinta_show:
+    path:     /show/{id}/{slug}
+    defaults: { _controller: "VideotecaBundle:Cinta:show" }
+
+cinta_choice:
+    path:     /choice
+    defaults: { _controller: "VideotecaBundle:Cinta:choice" }
+
+cinta_new:
+    path:     /new/{slug}
+    defaults: { _controller: "VideotecaBundle:Cinta:new" }
+
+cinta_create:
+    path:     /create/{slug}
+    defaults: { _controller: "VideotecaBundle:Cinta:create" }
+    requirements: { _method: post }
+
+cinta_edit:
+    path:     /edit/{id}/{slug}
+    defaults: { _controller: "VideotecaBundle:Cinta:edit" }
+
+cinta_update:
+    path:     /update/{id}/{slug}
+    defaults: { _controller: "VideotecaBundle:Cinta:update" }
+    requirements: { _method: post|put }
+
+cinta_delete:
+    path:     /delete/{id}/{slug}
+    defaults: { _controller: "VideotecaBundle:Cinta:delete" }
+    requirements: { _method: post|delete }

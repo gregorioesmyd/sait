@@ -1,0 +1,54 @@
+{% extends 'VideotecaBundle:WrapperSegmento:Segmento/new.html.twig' %}
+
+{% block panelTitulo %}Registrar Segmento - Videoteca{% endblock %}
+
+{% block formulario %}
+	<div id="tabsegmento" role="tabpanel">
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Datos Generales</a></li>
+			<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Origen Material</a></li>
+			<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Evaluacion Material</a></li>
+		</ul>
+		<!-- Tab panes -->
+    	{% form_theme form 'VideotecaBundle:Form:bootstrap.html.twig' %}
+    	{{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'form-horizontal'}}) }}
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="home">
+				{{ form_row(form.titulo) }}
+				{{ form_row(form.tituloSerie) }}
+				{{ form_row(form.tituloOriginal) }}
+				{{ form_row(form.tituloAlterno) }}
+				{{ form_row(form.sinopsis) }}
+				{{ form_row(form.observaciones) }}
+				{{ form_row(form.inicio) }}
+				{{ form_row(form.fin) }}
+				{{ form_row(form.duracion) }}
+				{{ form_row(form.pais) }}
+				{{ form_row(form.idioma) }}
+				{{ form_row(form.fechaEvento) }}
+			</div>
+			<div role="tabpanel" class="tab-pane" id="profile">
+				{{ form_row(form.paisProductor) }}
+				{{ form_row(form.anioRealizado) }}
+				{{ form_row(form.productor) }}
+				{{ form_row(form.director) }}
+				{{ form_row(form.proveedor) }}
+				{{ form_row(form.autoridad) }}
+			</div>
+			<div role="tabpanel" class="tab-pane" id="messages">
+				{{ form_row(form.fechaIngreso) }}
+				{{ form_row(form.genero) }}
+				{{ form_row(form.franja) }}
+				{{ form_row(form.norma) }}
+				{{ form_row(form.clasificacion) }}
+				{{ form_row(form.elemento) }}
+				{{ form_row(form.tqc) }}
+				{{ form_row(form.evaluador) }}
+			</div>
+		</div>
+		<hr>
+		{{ form_widget(form.submit) }}
+	</div>
+	{{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends '::encuesta1.html.twig' %}
+
+{% block title %}Encuestas-Trivias Activas{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">ENCUESTAS-TRIVIAS ACTIVAS</li>
+</ol>
+{% endblock %}
+
+
+{% block body -%}
+  {{ parent() }}
+
+  {% if contador != 0 %}
+    <div class="resultado">
+      <div class = "contenedor">
+
+        <div id='imagentrivia' class="table-responsive"><img src="{{ asset('images/trivias/trivia logo-430x300.png') }}"></div>
+        <h3 style="text-align:center">TRIVIAS ACTIVAS</h3>
+
+        <table class="tabla" style="width:90%">
+            <tbody>
+                {% for entity in entities %}
+                  {% if activa[entity.id] == 1 %}
+                    <tr>
+                      <td style="text-align: center; width:50%;" >{{ entity.nombre }}</td>
+
+                      {% if voto[entity.id] != 0 %}
+
+                        <td style="text-align: center; width:50%;" > Usted ya Participó, Obtuvo {{ puntos[entity.id] }}
+                          {% if puntos[entity.id] == 1 %} punto {% else %} puntos {% endif %}</td>
+
+                      {% else %}
+                          <td style="text-align: center; width:50%;">
+                            {% if entity.tipoencuesta.id == 1 %}
+                              <a  onclick="limpiarlocalstorage()" class="label label-success" href="{{ path('votar_trivia', { 'idencuesta': entity.id }) }}">Participar</a>
+                            {% else %}
+                              <a  onclick="limpiarlocalstorage()" class="label label-success" href="{{ path('votar_encuesta', { 'idencuesta': entity.id }) }}">Participar</a>
+                            {% endif %}
+                          </td>
+                      {% endif %}
+                    </tr>
+                  {% endif %}
+                {% endfor %}
+            </tbody>
+        </table><br><br><br>
+      </div>
+    </div>
+  {% else %}
+      <div class="resultado">
+        <div class = "contenedor">
+
+          <div id='imagentrivia' class="table-responsive"><img src="{{ asset('images/trivias/trivia logo-430x300.png') }}"></div>
+          <br><br><br>
+          <div class="label label-success" style="font-size:20px;">No existen actualmente Trivias activas</div>
+          <br><br><br><br>
+        </div>
+      </div>
+  {% endif %}
+
+<script language="javascript">
+
+  function limpiarlocalstorage()
+  {
+    localStorage.removeItem("transcurrido");
+    localStorage.removeItem("segundo");
+    localStorage.removeItem("contador");
+    localStorage.removeItem("total");
+    localStorage.removeItem("preguntaactual");
+    localStorage.removeItem("usuariosegundos");
+  }
+
+</script>
+{% endblock %}

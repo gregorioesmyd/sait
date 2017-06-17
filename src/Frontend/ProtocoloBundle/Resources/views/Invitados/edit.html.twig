@@ -1,0 +1,60 @@
+{% extends '::protocolo.html.twig' %}
+
+{% block title %}Protocolo{% endblock %}
+
+{% block titulo %}
+   EDITAR SOLICITUD DE INVITADOS
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">Protocolo</li>
+</ol>
+{% endblock %}
+{% block body -%}
+ {{parent()}}
+<form novalidate action="{{ path('invitados_update',{'id':entity.id}) }}" method="post" {{ form_enctype(edit_form) }}>
+        <input type="hidden" name="_method" value="PUT"> {{ form_widget(edit_form._token) }}
+
+        <div class="formShow">
+            <div class="contenedorform">
+                <div class="labelform">Fecha:</div>
+                <div class="widgetform">{{ form_widget(edit_form.fecha,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Hora:</div>
+                <div class="widgetform">{{ form_widget(edit_form.hora,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Hora de Entrada al Estudio:</div>
+                <div class="widgetform">{{ form_widget(edit_form.horaEstudio,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Invitados:</div>
+                <div class="widgetform">{{ form_widget(edit_form.invitados,{ 'attr': {'style': 'margin: 0px; width: 444px; height: 126px;'} }) }}</div>
+            </div>
+             <div class="contenedorform">
+                <div class="labelform">Responsable de la Entrevista:</div>
+                <div class="widgetform">{{ form_widget(edit_form.responsableEntrevista,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Transporte Personal:</div>
+                <div class="widgetform">{{ form_widget(edit_form.transportePersonal,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Servicio de Wifi:</div>
+                <div class="widgetform">{{ form_widget(edit_form.wifi,{ 'attr': {'style': 'margin: 0px;'} }) }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Motivo de la Visita:</div>
+                <div class="widgetform">{{ form_widget(edit_form.motivo,{ 'attr': {'style': 'margin: 0px; width: 444px; height: 126px;'} }) }}</div>
+            </div>
+           </div>
+        <a class="btn btn-default" href="{{ path('invitados') }}">
+            VOLVER A LA LISTA
+        </a> | 
+        <input type="submit" class="btn btn-primary" value="EDITAR TAREA">
+        <br><br>
+    </form>
+{% endblock %}

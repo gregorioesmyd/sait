@@ -1,0 +1,140 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+  {% if is_granted('ROLE_EQUIPOS_SEGURIDAD') %}
+    <li><a href="{{ path("pautas_listar") }}">PAUTAS</a></li>
+  {% endif %}
+  {% if is_granted('ROLE_EQUIPOS_PAUTASPROGRAMADAS') %}
+      <li><a href="{{ path("pautas") }}">PAUTAS</a></li>
+  {% endif %}
+    
+  
+  <li class="active">DETALLES DE LA PAUTA</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    <h1>Detalle de la Pauta</h1>
+
+    <table class="bordered" style="width:80%;">
+            <thead>
+                <tr>
+                    <th>Pauta</th>
+                    <th>Tipo de Pauta</th>
+                    <th>Desde</th>
+                    <th>Hasta</th>
+                    <th>Responsable</th>
+                    <th>Dependencia</th>
+                    <th>Evento / Destino</th>
+                    <th>Estatus</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ "%06d" | format(entity.id) }}</td>
+                <td>
+                    {% if entity.tipoPauta == 1 %}
+                        Pauta Programada
+                    {% elseif entity.tipoPauta == 2 %}
+                        Pauta No Programada
+                    {% endif %}
+                </td>
+                <td>{{ entity.fechaDesde|date('d/m/Y') }}</td>
+                <td>{{ entity.fechaHasta|date('d/m/Y') }}</td>
+                <td>{{ entity.responsable }}</td>
+                <td>
+                    {% if unidadDependencia == '' %}
+                        Sin Unidad Responsable
+                    {% else %}
+                        {{ unidadDependencia }}
+                    {% endif %}
+                </td>
+                <td>{{ entity.justificacion }}</td>
+                <td>
+                    {% if entity.estatus == 1 %}
+                        <span class="label label-info glyphicon glyphicon-certificate"> Creada</span>
+                    {% elseif entity.estatus == 2 %}
+                        <span class="label label-success glyphicon glyphicon-ok"> Confirmada</span>
+                    {% elseif entity.estatus == 3 %}
+                        <span class="label label-info glyphicon glyphicon-log-out"> Salida Confirmada</span>
+                    {% elseif entity.estatus == 4 %}
+                        <span class="label label-default glyphicon glyphicon-ok-sign"> Finalizada</span>
+                    {% else %}
+                        <span class="label label-default glyphicon glyphicon-remove"> Sin Estatus</span>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="8">
+                    <center>
+                        <p><b>LISTA DE EQUIPOS</b></p>
+                    </center>
+                    {% if equipos is not empty %}
+                        <div id="list-equipo">
+                            <ul>
+                                {% for equipo in equipos %}
+                                    <li>
+                                        {% if fotoReferencia[equipo.equipoId]=='' %}
+                                            <img class="img-thumbnail glyphicon glyphicon-picture" src="{{ asset('images/no-image.gif') }}" width="100px" />
+                                        {% else %}
+                                            <img class="img-thumbnail glyphicon glyphicon-picture" src="{{ asset('uploads/controlequipo/') }}{{ fotoReferencia[equipo.equipoId] }}" width="100px" />
+                                        {% endif%}
+                                        <p><b>Descripción:</b> {{ equipo.equipoInterno }}</p>
+                                        <p><b>Chequeo Salida:</b> 
+                                            {% if equipo.chequeoSalida == null or equipo.chequeoSalida == FALSE %}
+                                               <span class="label label-danger glyphicon glyphicon-remove"> No Confirmada</span>
+                                            {% else %}
+                                                <span class="label label-success glyphicon glyphicon-ok-sign"> Confirmada</span>
+                                            {% endif %}</p>
+                                        <p><b>Chequeo Entrada:</b> 
+                                            {% if equipo.chequeoEntrada == null or equipo.chequeoEntrada == FALSE %}
+                                               <span class="label label-danger glyphicon glyphicon-remove"> No Confirmada</span>
+                                            {% else %}
+                                                <span class="label label-success glyphicon glyphicon-ok-sign"> Confirmada</span>
+                                            {% endif %}</p>
+                                         
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% else %} 
+                        <center>
+                            <div class="alert alert-info">Ningun equipo Registrado en la Pauta</div>
+                        </center>
+                    {% endif %}
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul class="record_actions">
+        <li><br>
+            {# form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) #}
+                {# form_errors(delete_form) #}
+                {# form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) #}
+            {# form_end(delete_form) #}
+            
+            {% if is_granted('ROLE_EQUIPOS_PAUTASPROGRAMADAS') %}
+                <a href="{{ path('pautas') }}" class="btn btn-default">
+                    Volver a Lista de Pautas
+                </a>
+            {% endif %}
+            
+            {% if is_granted('ROLE_EQUIPOS_SEGURIDAD') %}
+                <a href="{{ path('pautas_listar') }}" class="btn btn-default">
+                    Volver a Lista de Pautas
+                </a>
+            {% endif %}
+            <!--<a href="{{ path('pauta_edit', { 'id': entity.id }) }}" class="btn btn-info">
+                <span class="glyphicon glyphicon-flag"></span> Procesar
+            </a> 
+            <a href="{{ path('pauta_edit', { 'id': entity.id }) }}" class="btn btn-info">
+                <span class="glyphicon glyphicon-edit"></span> Editar
+            </a>-->
+        </li>
+    </ul>
+{% endblock %}

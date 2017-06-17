@@ -1,0 +1,152 @@
+/*
+ ######    ########   ##    ##   ########   ########      ###     ##         ########    ######    
+##    ##   ##         ###   ##   ##         ##     ##    ## ##    ##         ##         ##    ##   
+##         ##         ####  ##   ##         ##     ##   ##   ##   ##         ##         ##         
+##   ####  ######     ## ## ##   ######     ########   ##     ##  ##         ######      ######    
+##    ##   ##         ##  ####   ##         ##   ##    #########  ##         ##               ##   
+##    ##   ##         ##   ###   ##         ##    ##   ##     ##  ##         ##         ##    ##   
+ ######    ########   ##    ##   ########   ##     ##  ##     ##  ########   ########    ######    
+ */
+html {
+  font-size: 62.5%;
+}
+body {
+  font-family: 'Arimo', sans-serif !important;
+}
+/*==============================
+=            Header            =
+==============================*/
+#main-header {
+  width: 100%;
+  background-color: #eeeeee;
+  /* For IE 8*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#11000000, endColorstr=#11000000)";
+  -webkit-box-shadow: 0 1px 5px #999999;
+  -moz-box-shadow: 0 1px 5px #999999;
+  -ms-box-shadow: 0 1px 5px #999999;
+  -o-box-shadow: 0 1px 5px #999999;
+  box-shadow: 0 1px 5px #999999;
+}
+#titulo h1 {
+  float: right;
+  font-size: 2.8px;
+  font-size: 2.8rem;
+}
+#main-logo {
+  width: 60%;
+  height: 80px;
+  padding: 16px 10px 9px 0;
+  margin: 0;
+}
+#img-container {
+  padding: 10px;
+}
+/*======================================
+=            Menu Principal            =
+======================================*/
+#title-menu {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 40px;
+  margin-top: 20px;
+}
+#subtitulo h2 {
+  font-size: 30px;
+  font-size: 3rem;
+  color: #666;
+  margin-right: 80px;
+  text-align: center;
+  font-weight: bold;
+}
+#main-menu {
+  float: right;
+  margin-top: 20px;
+  margin-bottom: 6px;
+}
+#main-menu a {
+  font-size: 14px;
+  font-size: 1.4rem;
+  color: #888;
+  font-weight: bold;
+}
+#main-menu.nav-pills #prestamo.active,
+#main-menu.nav-pills #prestamo:hover,
+#main-menu.nav-pills #prestamo:focus {
+  border-bottom: 3px solid rgba(3, 161, 92, 0.77);
+}
+#main-menu.nav-pills #prestamo.active a,
+#main-menu.nav-pills #prestamo:hover a,
+#main-menu.nav-pills #prestamo:focus a {
+  height: 32px;
+}
+#main-menu.nav-pills #cinta.active,
+#main-menu.nav-pills #cinta:hover,
+#main-menu.nav-pills #cinta:focus {
+  border-bottom: 3px solid rgba(255, 184, 11, 0.77);
+}
+#main-menu.nav-pills #cinta.active a,
+#main-menu.nav-pills #cinta:hover a,
+#main-menu.nav-pills #cinta:focus a {
+  height: 32px;
+}
+#main-menu.nav-pills #segmento.active,
+#main-menu.nav-pills #segmento:hover,
+#main-menu.nav-pills #segmento:focus {
+  border-bottom: 3px solid #0690cf;
+}
+#main-menu.nav-pills #segmento.active a,
+#main-menu.nav-pills #segmento:hover a,
+#main-menu.nav-pills #segmento:focus a {
+  height: 32px;
+}
+#main-menu.nav-pills #inventario.active,
+#main-menu.nav-pills #inventario:hover,
+#main-menu.nav-pills #inventario:focus {
+  border-bottom: 3px solid rgba(38, 31, 93, 0.77);
+}
+#main-menu.nav-pills #inventario.active a,
+#main-menu.nav-pills #inventario:hover a,
+#main-menu.nav-pills #inventario:focus a {
+  height: 32px;
+}
+#main-menu.nav-pills > li.active > a,
+#main-menu.nav-pills > li.active > a:hover,
+#main-menu.nav-pills > li.active > a:focus,
+#main-menu.nav-pills > li > a:hover {
+  background: none;
+}
+/*=================================
+=            Datatable            =
+=================================*/
+#example_filter {
+  float: right;
+}
+.pagination {
+  margin: 0;
+  margin-bottom: 20px;
+  float: right;
+}
+/*
+ ######    ########   ##    ##   ########   ########   ####   ######       ###      ######    
+##    ##   ##         ###   ##   ##         ##     ##   ##   ##    ##     ## ##    ##    ##   
+##         ##         ####  ##   ##         ##     ##   ##   ##          ##   ##   ##         
+##   ####  ######     ## ## ##   ######     ########    ##   ##         ##     ##   ######    
+##    ##   ##         ##  ####   ##         ##   ##     ##   ##         #########        ##   
+##    ##   ##         ##   ###   ##         ##    ##    ##   ##    ##   ##     ##  ##    ##   
+ ######    ########   ##    ##   ########   ##     ##  ####   ######    ##     ##   ######    
+ */
+.oculto {
+  display: none;
+}
+/* centered columns styles */
+.row-centered {
+  text-align: center;
+}
+.col-centered {
+  display: inline-block;
+  float: none;
+  /* reset the text-align */
+  text-align: left;
+  /* inline-block space fix */
+  margin-right: -4px;
+}
+

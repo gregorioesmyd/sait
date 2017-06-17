@@ -1,0 +1,118 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>FILTRO PARA CONSULTAR TRABAJO REALIZADO</h2>
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+    
+    <style>
+        .formSlide{
+            position: absolute;
+        }
+    </style>
+    
+    <form action="{{ path('progis_principal_trabajo_realizado') }}" method="post">
+        <div> <input type="button" id="boton" value="SIGUIENTE" class="btn btn-primary"></div>
+        <div style="display: none;" id="botonesForm">
+            <input type="button" id="volver" value="VOLVER" class="btn btn-default">
+            <input type="submit" value="GENERAR" class="btn btn-primary">
+        </div><br>
+        <div style="position: relative;">
+            <div class="formSlide" id="fecha" style="width:100%;">
+                <h3>Seleccione un intervalo de fechas</h3>
+                <table class="table table-bordered" style=" width:500px;">
+                    <tr>
+                        <th>FECHA DESDE:</th>
+                        <td><input type="text" name="fd" id="fd"></td>
+                    </tr>
+                    <tr>
+                        <th>FECHA HASTA:</th>
+                        <td><input type="text" name="fh" id="fh"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="formSlide" id="usuarios" style="display:none; width:100%;">
+                <h3>Seleccione un nivel</h3>
+                
+                <div class="row">
+                {% for n in niveles %}
+                    <div class="col-sm-6">
+                        <div class="panel panel-default">
+                          <div class="panel-body">
+                              <div align="center"><b>{{ n.descripcion|upper }}</b></div>
+                              
+                              {% for p in perfil if p.nivelorganizacional.id==n.id %}
+                                  <div align="center"><img height="100px;" src="{{ p.foto }}"></div>
+                              {% endfor %}
+                              <div align="center">SELECCIONE: <input type="radio" value="{{n.id}}" name="nivel"></div>
+                          </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+    
+    {#
+                <div class="row">
+                    {% for u in usuarios %}
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <div class="panel panel-default">
+                              <div class="panel-heading" style="text-align: center;">{{ u.primerNombre }} {{ u.primerApellido }}</div>
+                              <div class="panel-body" style="text-align: center;">
+                                    {% if u.foto is null %}
+                                        <img src="/uploads/personalTelesur/no.png" height="150px;" class="img-thumbnail">
+                                    {% else %}
+                                        <img src="{{u.foto}}" style="height:100px;" class="img-thumbnail">
+                                    {% endif %}
+                                    <div>SELECCIONE: <input type="radio" value="{{u.id}}" name="trabajador"></div>
+                              </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>#}
+            </div>   
+        </div>  
+    </form>        
+
+    <script>
+        $(document).ready(function() {
+            $('#boton').click(function() {
+                $("#fecha").hide('slide', {direction: 'left'}, 1000);
+                $("#usuarios").show('slide', {direction: 'right'}, 1000);
+                $("#boton").hide()
+                $("#botonesForm").show()
+            });
+
+            $('#volver').click(function() {
+                $("#usuarios").hide('slide', {direction: 'right'}, 1000);
+                $("#fecha").show('slide', {direction: 'left'}, 1000);
+                $("#boton").show()
+                $("#botonesForm").hide()
+            });
+
+            $( "#fd" ).datepicker({
+              changeMonth: true,
+              changeYear: true,
+              dateFormat: "dd-mm-yy",
+            });
+            
+            $( "#fh" ).datepicker({
+              changeMonth: true,
+              changeYear: true,
+              dateFormat: "dd-mm-yy",
+            });
+        });
+    </script>
+    
+{% endblock %}

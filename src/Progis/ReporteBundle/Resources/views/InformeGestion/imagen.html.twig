@@ -1,0 +1,81 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h3>REPORTE ESTATUS DE PROCESOS</h3>
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("reporte_informeGestion") }}">FORMULARIO INFORME DE GESTIÓN</a></li>
+  <li class="active">IMÁGENES DE INFORME</li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+    
+<link rel="stylesheet" href="{{ asset('libs/bootstrap3/css/bootstrap.min.css') }}">
+
+
+<script type="text/javascript">
+$(function () {
+    $('#container').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: 'CANTIDAD DE TICKETS MES: {{ meses[data.mes]|upper }}  AÑO: {{ data.anio }}'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Tickets',
+            data: [ {{ grafico|upper|raw }} ]
+        }]
+    });
+});
+    
+
+</script>
+
+
+<script src='/sait/web/libs/highcharts/js/highcharts.js'></script>
+<script src='/sait/web/libs/highcharts/js/modules/exporting.js'></script>
+
+<div class="alert alert-info">DESCARGA GRÁFICO</div>
+
+<div id='container' style='width: 100%; margin: 0 auto'></div>
+
+
+<div class="alert alert-info">DESCARGA LOGO TELESUR</div>
+<a download="logo.jpg" href="{{ asset('images/logosit.jpg') }}">
+    <div align="center"><img src="{{ asset('images/logosit.jpg') }}"></div>
+</a>
+    
+<div align="center">
+    <form id="form" novalidate action="{{ path('reporte_procesarInformeGestion') }}" method="post">
+        <input type="hidden" name="form[anio]" value="{{data.anio}}">
+        <input type="hidden" name="form[mes]" value="{{data.mes}}">
+        <input class='btn btn-primary' type='submit' value='Generar informe'>
+    </form>
+</div>
+{% endblock %}

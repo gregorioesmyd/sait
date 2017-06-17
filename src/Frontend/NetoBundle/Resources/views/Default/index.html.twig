@@ -1,0 +1,69 @@
+{% extends '::neto.html.twig' %}
+ 
+{% block title %}Recibo de pago{% endblock %}
+
+{% block titulo %}
+    SELECCIONE LOS PARÁMETROS
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">RECIBO DE PAGO</li>
+</ol>
+{% endblock %}
+
+
+{% block body -%}
+    {{ parent() }}
+    
+
+    <form novalidate action="{{ path('generarrecibo') }}" method="post" {{ form_enctype(form) }}>
+
+        {{ form_widget(form._token) }}
+
+        <div class="formShow">
+            <div class="contenedorform">
+                <div>{{ form_errors(form.tipnom) }}</div>
+                <div class="labelform">Tipo:</div>
+                <div class="widgetform">{{ form_widget(form.tipnom) }}</div>
+            </div>
+            
+            <div id="periodo"></div>
+        </div>
+
+        <input id="botonx" type="submit" value="GENERAR RECIBO" class="btn btn-primary" style="display:none;">
+        {#
+        <div class="form-contenedor">
+            <div>{{ form_errors(form.periodo) }}</div>
+            <div class="labels">Periodo:</div>
+            <div class="widgets">{{ form_widget(form.periodo) }}</div>
+        </div>
+        <div class="form-contenedor">
+            <div>{{ form_errors(form.anios) }}</div>
+            <div class="labels">Año:</div>
+            <div class="widgets">{{ form_widget(form.anios) }}</div>
+        </div>
+        <div class="form-contenedor">
+            <div>{{ form_errors(form.meses) }}</div>
+            <div class="labels">Mes:</div>
+            <div class="widgets">{{ form_widget(form.meses) }}</div>
+        </div>
+        #}
+
+    </form>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#form_tipnom').change(function(){
+                $('#botonx').hide();
+                var dato = $("#form_tipnom").val();
+                var ruta = "{{ path('ajax_neto', {'datos': 'variable','mostrar': 'periodo'}) }}";
+                ruta = ruta.replace("variable", dato);
+                $('#periodo').load(ruta);
+            });
+        });
+    </script>
+
+
+{% endblock -%}

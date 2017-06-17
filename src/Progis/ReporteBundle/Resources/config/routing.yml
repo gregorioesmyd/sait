@@ -1,0 +1,35 @@
+reporte_estadoProcesoInicio:
+    path:     /estadoProcesoInicio
+    defaults: { _controller: ReporteBundle:EstadoProceso:estadoProcesoInicio }
+    
+reporte_estadoProceso:
+    path:     /estadoProceso/{idnivel}
+    defaults: { _controller: ReporteBundle:EstadoProceso:estadoProceso }
+    
+reporte_procesarEstadoProceso:
+    path:     /procesarEstadoProceso/{idnivel}
+    defaults: { _controller: ReporteBundle:EstadoProceso:procesarEstadoProceso }
+
+reporte_informeGestion:
+    path:     /informeGestion
+    defaults: { _controller: ReporteBundle:InformeGestion:informeGestion }
+    
+reporte_imagenInformeGestion:
+    path:     /imagenInformeGestion
+    defaults: { _controller: ReporteBundle:InformeGestion:imagenInformeGestion }
+    
+reporte_procesarInformeGestion:
+    path:     /procesarInformeGestion
+    defaults: { _controller: ReporteBundle:InformeGestion:procesarInformeGestion}
+    
+reporte_enProceso:
+    path:     /enProceso
+    defaults: { _controller: ReporteBundle:Default:index}
+    
+reporte_ticketsCreados:
+    path:     /ticketsCreados
+    defaults: { _controller: ReporteBundle:Default:ticketsCreados}
+    
+reporte_procesarTicketsCreados:
+    path:     /procesarTicketsCreados
+    defaults: { _controller: ReporteBundle:Default:procesarTicketsCreados }

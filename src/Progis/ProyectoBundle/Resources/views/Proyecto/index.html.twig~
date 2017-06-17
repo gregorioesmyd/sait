@@ -1,0 +1,169 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h1>LISTA DE PROYECTOS</h1>
+    {% if is_granted('ROLE_PROGIS_PROYECTO_ADMIN') or is_granted('ROLE_PROGIS_SUPERADMIN') %}
+    <a href="{{ path('proyecto_new') }}"><i class="fa fa-plus"> Nuevo Proyecto</i></a>&nbsp;&nbsp;
+    {% endif %}
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li class="active">LISTA DE PROYECTOS</li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+    
+
+{# CODIGO PARA BOTONES DE OCULTAR MOSTRAR #}
+{% set contn=0 %}{% set contp=0 %}{% set contc=0 %}
+{% for entity in entities %}   
+    
+        {% if entity.estatus==1 and contn==0 %} 
+            <a id="btn1" class="label label-danger"  onclick="oculta('proyectodanger','nuevos','btn1')"><u>Ocultar</u> nuevos</a> 
+            {% set contn=1 %}
+        {% endif %}
+        {% if entity.estatus==2 and contp==0 %}
+            <a id="btn2" class="label label-warning" onclick="oculta('proyectowarning','en progreso','btn2')"><u>Ocultar</u> en progreso</a>
+            {% set contp=1 %}
+        {% endif %}
+        {% if entity.estatus==3 and contc==0 %}
+            <a id="btn3" class="label label-success" onclick="oculta('proyectosuccess','culminados','btn3')"><u>Ocultar</u> culminados</a>
+            {% set contc=1 %}
+        {% endif %}
+            
+{% endfor %}{% if is_granted('ROLE_PROGIS_PROYECTO_SUPERVISOR')==false %}<br><br>{% endif %}
+{#FIN CODIGO PARA BOTONES DE OCULTAR MOSTRAR #}
+
+{% if is_granted('ROLE_PROGIS_PROYECTO_SUPERVISOR') %}
+    | 
+    {# CODIGO PARA BOTONES DE OCULTAR MOSTRAR #}
+    {% set contn=0 %}{% set contp=0 %}{% set contc=0 %}
+    {% for me in miembroespacio %}   
+        <a id="btnivel{{ me.nivelorganizacional.id }}" class="label label-default"  onclick="oculta('nivel{{ me.nivelorganizacional.id }}','{{ me.nivelorganizacional.descripcion }}','btnivel{{ me.nivelorganizacional.id }}')"><u>Ocultar</u> {{ me.nivelorganizacional.descripcion }}</a> 
+    {% endfor %}<br><br>
+    {#FIN CODIGO PARA BOTONES DE OCULTAR MOSTRAR #}
+{% endif %}
+
+
+<div class="row panelProyecto">
+{% for entity in entities %} 
+        {% if entity.estatus==1 %} {% set clase='danger' %} {% elseif entity.estatus==2 %} {% set clase='warning' %} {% elseif entity.estatus==3 %} {% set clase='success' %} {% endif %}
+    
+        <div id="panelProyecto" class="col-lg-4 col-sm-6 proyecto{{ clase }} nivel{{ entity.nivelorganizacional[0].id }}">
+            <div  class="panel panel-{{ clase }}">
+                <div class="panel-heading tituloProyecto">
+                    <x data-toggle="tooltip" data-placement="top" title="{{ entity.nombre|capitalize }}" style="cursor: pointer;">{{ entity.nombre|upper }}</x>
+                </div>
+                <div class="panel-body">
+                    <div>
+                        <b>INICIO ES: </b>
+                        {% if entity.fechainicioestimada %}
+                            {{ entity.fechainicioestimada|date('d-m-Y') }}
+                        {% else %}
+                            <span>Por definir</span>
+                        {% endif %}
+                        &nbsp;&nbsp;
+                        <b>FIN ES:</b>
+                        {% if entity.fechafinestimada %}
+                            {{ entity.fechafinestimada|date('d-m-Y') }}
+                        {% else %}
+                            <span>Por definir</span>
+                        {% endif %}
+                    </div>
+                    <hr class="separator" />
+                    <div>
+                        <b>INICIO RE: </b>
+                        {% if entity.fechainicioreal %}
+                            {{ entity.fechainicioreal|date('d-m-Y') }}
+                        {% else %}
+                            <span>Por definir</span>
+                        {% endif %}
+                        &nbsp;&nbsp;
+                        <b>FIN RE:</b>
+                        {% if entity.fechafinreal %}
+                            {{ entity.fechafinreal|date('d-m-Y') }}
+                        {% else %}
+                            <span>Por definir</span>
+                        {% endif %}
+                    </div>
+                    <hr class="separator" />
+                        
+                    <div  class="descripcion" style="text-align: justify">{{ entity.descripcion|capitalize}}</div>
+                    
+                    <hr class="separator" />
+                    
+                    <div class="miembros">
+                        <b>MIEMBROS:</b>
+                        {% if entity.responsable is not empty %}
+                            {% set cont = 0 %}
+                            {% set largo = entity.responsable | length %}
+                            {% for es in entity.responsable %} 
+                                {% set cont=cont+1 %}
+                                    {{ es.primerNombre|title }} {{ es.primerApellido|title }}{% if cont == largo-1 %} y{% elseif largo > 1 and cont < largo-1  %},{% else %}.{% endif %}
+                            {% endfor %}
+
+                        {% else %}
+                            Debe agregar un responsable
+                    {% endif %}
+                    </div>
+                    
+                </div>
+                <div class="panel-footer">
+                    <a href="{{ path('progis_comentarioarchivo_lista', { 'id': entity.id,'modulo':'2' }) }}"><i data-toggle="tooltip" data-placement="top" title="Comentarios y archivos" class="fa fa-comments-o fa-2x"></i></a>&nbsp;&nbsp;
+                    <a href="{{ path('proyecto_show', { 'id': entity.id }) }}" data-toggle="tooltip" data-placement="top" title="Consultar o eliminar Proyecto"><i class="fa fa-search fa-1x"></i></a>&nbsp;&nbsp;
+                    {% if is_granted('ROLE_PROGIS_PROYECTO_ADMIN') or is_granted('ROLE_PROGIS_SUPERADMIN') %}
+                    <a href="{{ path('proyecto_edit', { 'id': entity.id }) }}" data-toggle="tooltip" data-placement="top" title="Editar o eliminar Proyecto"><i class="fa fa-pencil-square-o fa-1x"></i></a>&nbsp;
+                    {% endif %}
+                    
+                    <a style="color:black;" href="{{ path('objetivo', { 'idproyecto': entity.id }) }}" data-toggle="tooltip" data-placement="top" title="Lista de objetivos"><b>OBJETIVOS: {% if totalobjetivo[entity.id] is defined %}{{ totalobjetivo[entity.id] }}{% else %}0{% endif %}</b></a>                   
+                </div>
+                <div class="panel-footer">
+                    {% if entity.estatus==1 %}
+                        <div class="label label-danger">PROYECTO SIN COMENZAR</div>
+                    {% elseif entity.estatus==2 %}
+                        <div class="progress">
+                          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{ entity.porcentaje }}%;color:black;font-weight:bold;">
+                               {{ entity.porcentaje }}%
+                          </div>
+                        </div>
+                    {% elseif entity.estatus==3 %}
+                        <div class="label label-success">PROYECTO CULMINADO</div>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    
+{% endfor %}
+</div>
+    
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+    
+    function oculta(oculta,descripcion,btn) {
+        $('.'+oculta).hide()
+        $('#'+btn).html("<u>Mostrar</u> "+descripcion)
+        $('#'+btn).attr("onclick", "muestra('"+oculta+"','"+descripcion+"','"+btn+"')");
+
+    }
+
+    function muestra(oculta,descripcion,btn) {
+
+        $('.'+oculta).show()
+        $('#'+btn).html("<u>Ocultar</u> "+descripcion)
+        $('#'+btn).attr("onclick", "oculta('"+oculta+"','"+descripcion+"','"+btn+"')");
+
+    }
+</script>
+
+
+{% endblock %}

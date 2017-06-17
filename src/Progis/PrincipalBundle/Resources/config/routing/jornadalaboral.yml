@@ -1,0 +1,30 @@
+jornadalaboral:
+    path:     /
+    defaults: { _controller: "PrincipalBundle:Jornadalaboral:index" }
+
+jornadalaboral_show:
+    path:     /{id}/show
+    defaults: { _controller: "PrincipalBundle:Jornadalaboral:show" }
+
+jornadalaboral_new:
+    path:     /new
+    defaults: { _controller: "PrincipalBundle:Jornadalaboral:new" }
+
+jornadalaboral_create:
+    path:     /create
+    defaults: { _controller: "PrincipalBundle:Jornadalaboral:create" }
+    requirements: { _method: post }
+
+jornadalaboral_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "PrincipalBundle:Jornadalaboral:edit" }
+
+jornadalaboral_update:
+    path:     /{id}/update
+    defaults: { _controller: "PrincipalBundle:Jornadalaboral:update" }
+    requirements: { _method: post|put }
+
+jornadalaboral_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "PrincipalBundle:Jornadalaboral:delete" }
+    requirements: { _method: post|delete }

@@ -1,0 +1,7 @@
+parameters:
+#    solicitudes.example.class: Solicitudes\SolicitudesBundle\Example
+
+services:
+#    solicitudes.example:
+#        class: %solicitudes.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

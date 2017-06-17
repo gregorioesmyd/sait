@@ -1,0 +1,30 @@
+formato:
+    path:     /
+    defaults: { _controller: "VideotecaBundle:Formato:index" }
+
+formato_show:
+    path:     /{id}/show
+    defaults: { _controller: "VideotecaBundle:Formato:show" }
+
+formato_new:
+    path:     /new
+    defaults: { _controller: "VideotecaBundle:Formato:new" }
+
+formato_create:
+    path:     /create
+    defaults: { _controller: "VideotecaBundle:Formato:create" }
+    requirements: { _method: post }
+
+formato_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "VideotecaBundle:Formato:edit" }
+
+formato_update:
+    path:     /{id}/update
+    defaults: { _controller: "VideotecaBundle:Formato:update" }
+    requirements: { _method: post|put }
+
+formato_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "VideotecaBundle:Formato:delete" }
+    requirements: { _method: post|delete }

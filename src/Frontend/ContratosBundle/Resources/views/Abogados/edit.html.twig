@@ -1,0 +1,37 @@
+{% extends '::contratos.html.twig' %}
+
+{% block title %}Editar Abogado{% endblock %}
+
+{% block titulo %}
+    EDITAR EL ABOGADO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("abogados") }}">LISTADO DE ABOGADOS</a></li>
+  <li class="active">EDITAR EL ABOGADO</li>
+</ol>
+{% endblock %}
+    
+{% block body -%}
+    {{ parent() }}
+
+    <form action="{{ path('abogados_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>{{ form_widget(edit_form._token) }}
+        <input type="hidden" name="_method" value="PUT" />
+        <div class="formShow">  
+            <div class="contenedorform">
+                <div class="text-error">{{ form_errors(edit_form.nombre) }}</div>                    
+                <div class="labelform">Nombre del Abogado:</div>
+                <div class="widgetform">{{ form_widget(edit_form.nombre) }}</div>
+                {% if is_granted('ROLE_ADMINISTRADOR') %}
+                <div class="labelform">Estatus del Abogado (Marca para desactivar):</div>
+                <div class="widgetform">{{ form_widget(edit_form.estatus) }}</div>
+                {% endif %}
+            </div> 
+        </div><br>
+    <BR><button class="btn btn-primary" type="submit">EDITAR</button> | 
+            <a class="btn btn-default" href="{{ path('abogados') }}">IR A LA LISTA</a> | 
+            <a class="btn btn-default" href="{{ path('abogados_show', { 'id': entity.id }) }}">IR A CONSULTAR</a>
+    </form>
+{% endblock %}

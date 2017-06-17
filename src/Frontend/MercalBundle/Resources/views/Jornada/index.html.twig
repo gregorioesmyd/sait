@@ -1,0 +1,61 @@
+{% extends '::mercal.html.twig' %}
+ 
+{% block title %}Lista de Jornadas{% endblock %}
+
+{% block titulo %}
+    LISTA DE JORNADAS
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">LISTA DE JORNADAS</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    
+    <table id="tabladatatable">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre de la Jornada</th>
+                <th>Fecha de Jornada</th>
+                <th>Estatus</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('jornada_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.nombrejornada }}</td>
+                <td>{% if entity.fechajornada %}{{ entity.fechajornada|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    {% if entity.culminada==true %}
+                        Culminada
+                    {% else %}
+                        Activa
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('jornada_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></a>
+                    <a href="{{ path('jornada_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-pencil"></a>            
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br><br><br>
+    <a class="btn btn-default" href="{{ path( 'jornada_new' ) }}">Nueva jornada</a><br><br>
+        
+<script type="text/javascript">
+    $(document).ready(function(){
+       $('#tabladatatable').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+            "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+            "aaSorting": [[0,'asc'],[1,'asc']],
+        } );
+    })
+</script>
+{% endblock %}

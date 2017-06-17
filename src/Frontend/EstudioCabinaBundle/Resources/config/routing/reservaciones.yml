@@ -1,0 +1,52 @@
+reservaciones:
+    path:     /listar/{tipo}/{ubicacion}
+    defaults: { _controller: "EstudioCabinaBundle:Reservaciones:index" }
+
+reservaciones_show:
+    path:     /show/{id}/{ubicacion}
+    defaults: { _controller: "EstudioCabinaBundle:Reservaciones:show" }
+
+reservaciones_new:
+    path:     /new/{tipo}/{ubicacion}
+    defaults: { _controller: "EstudioCabinaBundle:Reservaciones:new" }
+
+reservaciones_create:
+    path:     /create/{tipo}/{ubicacion}
+    defaults: { _controller: "EstudioCabinaBundle:Reservaciones:create" }
+    requirements: { _method: post }
+
+reservaciones_edit:
+    path:     /edit/{id}/{ubicacion}
+    defaults: { _controller: "EstudioCabinaBundle:Reservaciones:edit" }
+
+reservaciones_update:
+    path:     /{id}/{ubicacion}/update
+    defaults: { _controller: "EstudioCabinaBundle:Reservaciones:update" }
+    requirements: { _method: post|put }
+
+reservaciones_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "EstudioCabinaBundle:Reservaciones:delete" }
+    requirements: { _method: post|delete }
+
+reservaciones_reservacion:
+    path:     /reservacion/{id_selct}/{tipo}
+    defaults: { _controller: "EstudioCabinaBundle:Reservaciones:reservacion" }
+
+reservaciones_verificarFecha:
+    path:     /verificarFecha/
+    defaults: { _controller: "EstudioCabinaBundle:Reservaciones:verificarFecha" }
+    requirements: { _method: post }
+    
+reservaciones_verificarHora:
+    path:     /verificarHora/
+    defaults: { _controller: "EstudioCabinaBundle:Reservaciones:verificarHora" }
+    requirements: { _method: post }
+    
+reservaciones_actualizarestatus:
+    path:     /actualizarestatus/{tipoestatus}/{id}
+    defaults: { _controller: "EstudioCabinaBundle:Reservaciones:actualizarestatus" }
+    
+reservaciones_lista:
+    path:     /lista/{tipo}/{ubicacion}
+    defaults: { _controller: "EstudioCabinaBundle:Reservaciones:lista" }

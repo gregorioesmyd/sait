@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset={{ _charset }}" />
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+        <title>{% block title %}{% endblock %}</title>
+
+            <link href="{{ asset('css/general.css') }}" rel="stylesheet" type="text/css" />
+            <link rel="stylesheet" href="{{ asset('libs/bootstrap3/css/bootstrap-theme.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('libs/bootstrap3/css/bootstrap.min.css') }}">
+            
+            <link rel="stylesheet" href="{{ asset('libs/datepiker/css/redmond/jquery-ui-1.10.4.custom.css') }}">
+            <link rel="stylesheet" href="{{ asset('libs/datepiker/css/redmond/jquery-ui-1.10.4.custom.min.css') }}">
+
+            
+ 
+            <script src="{{ asset('js/jquery.js') }}"></script>
+
+            
+            <script src="{{ asset('libs/bootstrap3/js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('libs/datepiker/js/jquery-ui-1.10.4.custom.min.js') }}"></script>
+            <script src="{{ asset('libs/datepiker/js/jquery-ui-datepicker-es.js') }}"></script>
+            {% block head %}{% endblock %}
+
+
+    </head>
+
+    <body>
+        <div align='center'>
+            <div class="contenedorprincipal">
+            <div id='banner'><img width="100%" src="{{ asset('images/banner_original.jpg') }}"></div>
+
+                 {% block body %}{% endblock %}
+
+                <footer  class="pie">
+                    <div>
+                        La Nueva Televisión del Sur C.A. (TVSUR) TeleSUR © | Todo el contenido de esta página es exclusivo para el uso interno del canal. RIF. G-20004500-0 
+                    </div>
+                </footer>
+            </div>
+
+        </div>
+                  
+    </body>
+</html>

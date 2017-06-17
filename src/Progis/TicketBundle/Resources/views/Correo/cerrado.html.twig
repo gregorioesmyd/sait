@@ -1,0 +1,97 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css">
+        	th{
+        		text-align: right;
+        		margin-right: 20px;
+        	}
+
+        	.solicitud{
+        		text-align: justify;
+        	}
+
+        	table{
+        		width: 600px;
+
+        	}
+
+        	table td{
+        		padding: 10px;
+        		border:1px solid gray;
+        	}
+
+        	table th{
+        		border:1px solid gray;
+        		background-color: #F8F8F8;
+        		padding-right: 10px;
+        		width: 25%;
+        	}
+                
+                #img1:hover{
+                    width: 100px;
+                    
+                }
+                #valoracion td{
+                    text-align: center;
+                    font-size: 10px;
+                    font-weight: bold;
+                }
+                #valoracion td a{
+                    color: black;
+                }
+        </style>
+    </head>
+
+    <body>
+    	<div align="center">
+			<div><h3>CALIFIQUE LA ANTENCIÓN DEL TICKET CERRADO</h3></div>
+                        
+                        <br>
+                        <div>Para nosotros es importante que evalues la calidad del servicio prestado durante la resolución del ticket enviado.</div>
+                        <div><h3>¡VALORAR!</h3></div>
+                        <table id="valoracion">
+                            <tr>
+                                <td style="background-color: #ffa8a8;"><a target="_blank" href="http://aplicaciones.telesurtv.net/sait/web/app.php/progis/ticket/valorar/{{ticket.id}}/1">PÉSIMA</a></td>
+                                <td style="background-color: #f6ffb2;"><a target="_blank" href="http://aplicaciones.telesurtv.net/sait/web/app.php/progis/ticket/valorar/{{ticket.id}}/2">REGULAR</a></td>
+                                <td style="background-color: #baf5ff;"><a target="_blank" href="http://aplicaciones.telesurtv.net/sait/web/app.php/progis/ticket/valorar/{{ticket.id}}/3">BUENA</a></td>
+                                <td style="background-color: #5680ff;"><a target="_blank" href="http://aplicaciones.telesurtv.net/sait/web/app.php/progis/ticket/valorar/{{ticket.id}}/4">MUY BUENA</a></td>
+                                <td style="background-color: #91ffaa;"><a target="_blank" href="http://aplicaciones.telesurtv.net/sait/web/app.php/progis/ticket/valorar/{{ticket.id}}/5">EXCELENTE</a></td>
+                            </tr>
+                        </table>
+                        <br> 
+
+			<table cellspacing=0>
+				<tr>
+                                    <th>Solicitud:</th>
+                                    <td class="solicitud">{{ ticket.solicitud }}</td>
+				</tr>
+                                <tr>
+                                    <th>Fecha solicitud:</th>
+                                    <td>{{ ticket.fechasolicitud|date("d-m-Y") }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Hora solicitud:</th>
+                                    <td>{{ ticket.horasolicitud|date("G:i:s") }}</td>
+                                </tr>
+				<tr>
+                                    <th>Solución:</th>
+                                    <td class="solicitud">{{ ticket.solucion }}</td>
+				</tr>
+                                <tr>
+                                    <th>Fecha solución:</th>
+                                    <td>{{ ticket.fechasolucion|date("d-m-Y") }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Hora solucion:</th>
+                                    <td>{{ ticket.horasolucion|date("G:i:s") }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Unidad R.:</th>
+                                    <td>{{ ticket.nivelorganizacional.descripcion }}</td>
+                                </tr>
+			</table>
+		</div>
+	</body>
+	
+</html>

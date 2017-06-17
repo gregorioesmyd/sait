@@ -1,0 +1,60 @@
+<?php
+
+namespace Frontend\ControlEquipoBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * EquiposPautas
+ *
+ * @ORM\Table(name="controlequipo.equipos_pautas")
+ * @ORM\Entity
+ */
+class EquiposPautas
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="controlequipo.equipos_pautas_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="chequeo_entrada", type="boolean", nullable=false)
+     */
+    private $chequeoEntrada;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="chequeo_salida", type="boolean", nullable=false)
+     */
+    private $chequeoSalida;
+
+    /**
+     * @var \Pautas
+     *
+     * @ORM\ManyToOne(targetEntity="Pautas")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="pauta_id", referencedColumnName="id")
+     * })
+     */
+    private $pauta;
+
+    /**
+     * @var \EquiposInternos
+     *
+     * @ORM\ManyToOne(targetEntity="EquiposInternos")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="equipo_interno_id", referencedColumnName="id")
+     * })
+     */
+    private $equipoInterno;
+
+
+}

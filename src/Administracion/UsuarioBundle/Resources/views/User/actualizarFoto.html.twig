@@ -1,0 +1,77 @@
+{% extends '::administracion.html.twig' %}
+
+{% block title %}Sait-Datos{% endblock %}
+
+{% block titulo %}
+    ACTUALIZACIÓN DE FOTOGRAFÍA
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("telesur_personal") }}">PERSONAL</a></li>
+  <li class="active">Actualizar Foto</li>
+</ol>
+{% endblock %}
+
+
+{% block body %}
+    {{ parent() }}
+    
+    
+<div class="panel panel-default" style="width: 80%;">
+  <div class="panel-heading">INFORMACIÓN DEL USUARIO</div>
+  <div class="panel-body">
+        <table class="table table-bordered">
+            <tr>
+                <th style="width: 20%;">Nombres:</th>
+                <td style="width: 30%;">{{ p.primerNombre | capitalize }} {{ p.segundoNombre | capitalize }}</td>
+                <th style="width: 20%;">Apellidos:</th>
+                <td style="width: 30%;">{{ p.primerApellido | capitalize }} {{ p.segundoApellido | capitalize }}</td>
+            </tr>
+            <tr>
+                <th>Cedula:</th>
+                <td>{{ p.cedula | capitalize }}</td>
+                <th>Nivel:</th>
+                <td>
+                        {% if p.nivelorganizacional is not null %}
+                                {{ p.nivelorganizacional.descripcion }}
+                        {% else %}
+                                N/A
+                        {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Extension:</th>
+                <td>{{ p.extension | capitalize }}</td>
+                <th>Abreviado:</th>
+                <td>{{ p.abreviado | capitalize }}</td>
+            </tr>
+        </table>
+        <div class="row">
+            <div class="col-md-5">
+                {% if p.foto is null %}<img src="/uploads/personalTelesur/no.png" height="150px">{% else %}<img src="{{p.foto}}" height="150px">{% endif %}
+            </div>
+            <div class="col-md-7">
+                <form action="{{ path('user_procesarActualizarFoto',{'id':p.id}) }}" method="post" enctype="multipart/form-data" onsubmit="return confirm('¿Desea cambiar la imágen actual?')">
+                        <br>
+                        <div align="left">
+                            <td><input type="file" name="archivo" id="archivo"></td>
+                        </div>
+                        <br>
+                        <div align="left">
+                            <td><input class="btn btn-default" type="submit" value="Cambiar Imagen"></td>
+                        </div>
+                    
+
+                </form>
+            </div>
+              
+        </div>
+        
+        
+      
+  </div>
+</div>
+    
+{% endblock %}

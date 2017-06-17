@@ -1,0 +1,30 @@
+aeropuerto:
+    path:     /
+    defaults: { _controller: "ProtocoloBundle:AeroPuerto:index" }
+
+aeropuerto_show:
+    path:     /{id}/show
+    defaults: { _controller: "ProtocoloBundle:AeroPuerto:show" }
+
+aeropuerto_new:
+    path:     /new
+    defaults: { _controller: "ProtocoloBundle:AeroPuerto:new" }
+
+aeropuerto_create:
+    path:     /create
+    defaults: { _controller: "ProtocoloBundle:AeroPuerto:create" }
+    requirements: { _method: post }
+
+aeropuerto_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ProtocoloBundle:AeroPuerto:edit" }
+
+aeropuerto_update:
+    path:     /{id}/update
+    defaults: { _controller: "ProtocoloBundle:AeroPuerto:update" }
+    requirements: { _method: post|put }
+
+aeropuerto_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ProtocoloBundle:AeroPuerto:delete" }
+    requirements: { _method: post|delete }

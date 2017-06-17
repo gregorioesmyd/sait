@@ -1,0 +1,52 @@
+{% extends '::protocolo.html.twig' %}
+
+{% block title %}Protocolo{% endblock %}
+
+{% block titulo %}
+    INVITADOS
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">Protocolo</li>
+</ol>
+{% endblock %}
+
+{% block body %}
+{{parent()}}
+<div class="formShow">
+        <div class="contenedorform">
+            <div class="labelform">Fecha:</div>
+            <div class="widgetform">{{ entity.fecha |date('d-m-Y')}}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Hora:</div>
+            <div class="widgetform">{{ entity.hora |date('H:i:s')}}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Hora de Entrada al Estudio:</div>
+            <div class="widgetform">{{ entity.horaEstudio |date('H:i:s')}}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Invitados:</div>
+             <div class="widgetform">{{ entity.invitados}}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Transporte Personal:</div>
+            <div class="widgetform">{{ entity.transportePersonal }}</div>
+       </div>
+       <div class="contenedorform">
+            <div class="labelform">Servicio de Wifi:</div>
+            <div class="widgetform">{{ entity.wifi }}</div>
+       </div>
+       <div class="contenedorform">
+            <div class="labelform">Motivo de la visita:</div>
+            <div class="widgetform">{{ entity.motivo }}</div>
+       </div>
+    </div>
+        <a class="btn btn-default" href="{{ path('invitados') }}">VOLVER A LA LISTA</a> 
+           |
+           <a class="btn btn-primary" href="{{ path('invitados_edit', { 'id': entity.id }) }}">EDITAR</a>
+            <br><br>
+{% endblock %}

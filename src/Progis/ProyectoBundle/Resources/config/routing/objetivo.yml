@@ -1,0 +1,42 @@
+objetivo:
+    path:     /lista/{idproyecto}
+    defaults: { _controller: "ProyectoBundle:Objetivo:index" }
+    
+objetivo_general:
+    path:     /general/lista/{idproyecto}
+    defaults: { _controller: "ProyectoBundle:Objetivo:general" }
+
+objetivo_show:
+    path:     /{id}/show
+    defaults: { _controller: "ProyectoBundle:Objetivo:show" }
+    
+objetivo_show_general:
+    path:     /general/{id}/show
+    defaults: { _controller: "ProyectoBundle:Objetivo:showgeneral" }
+
+objetivo_new:
+    path:     /new/{idproyecto}
+    defaults: { _controller: "ProyectoBundle:Objetivo:new" }
+
+objetivo_create:
+    path:     /create/{idproyecto}
+    defaults: { _controller: "ProyectoBundle:Objetivo:create" }
+    requirements: { _method: post }
+
+objetivo_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ProyectoBundle:Objetivo:edit" }
+
+objetivo_update:
+    path:     /{id}/update
+    defaults: { _controller: "ProyectoBundle:Objetivo:update" }
+    requirements: { _method: post|put }
+
+objetivo_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ProyectoBundle:Objetivo:delete" }
+    requirements: { _method: post|delete }
+
+objetivo_comentarioProcesaractividad:
+    path:     /comentarioProcesaractividad/{idproyecto}
+    defaults: { _controller: "ProyectoBundle:Objetivo:comentarioProcesaractividad" }

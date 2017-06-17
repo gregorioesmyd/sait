@@ -1,0 +1,50 @@
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+	{% form_theme form 'VideotecaBundle:Form:filter.html.twig' %}
+	{{ form_start(form,{'attr':{'id':'form'}}) }}
+	<input type="hidden" value="0" name="reporte" id="reporte">
+		<div class="row">
+			<div class="col-xs-8 wrapper-btnFilter">
+				{{ form_widget(form.submit) }}
+			</div>
+			<div class="col-xs-4 wrapper-btnFilter">
+				{{ form_widget(form.reset) }}
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+				<h5 class="panel-title">
+					<a href="#">Cinta</a>
+				</h5>
+			</div>
+			<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+				<div class="panel-body">
+
+					{% if form.cinta is defined %}
+
+						{{ form_row(form.cinta) }}
+
+					{% endif %}
+
+				</div>
+			</div>
+		</div>
+		{% if form.segmento is defined %}
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+					<h5 class="panel-title">
+						<a href="#">Segmento</a>
+					</h5>
+				</div>
+				<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+					<div class="panel-body">
+					
+						{{ form_row(form.segmento) }}	
+
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
+	{{ form_end(form) }}
+</div>

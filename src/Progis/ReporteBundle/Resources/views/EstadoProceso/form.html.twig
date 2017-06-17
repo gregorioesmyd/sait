@@ -1,0 +1,77 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h3>REPORTE ESTATUS DE PROCESOS</h3>
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("reporte_estadoProcesoInicio") }}">LISTA DE NIVELES</a></li>
+  
+  <li class="active">LISTA DE PARÁMETROS</li>
+  
+  
+</ol>
+{% endblock %}
+    
+{% block stylesheets %}
+    {{ parent()}}
+    <style>
+        select[multiple]{
+            height:150px;
+        }
+        #progis_reportebundle_estadoproceso_miembroespacio label{
+                display: block;
+        }
+
+        #progis_reportebundle_estadoproceso_miembroespacio input{
+                float: left;
+                text-align: left;
+                padding: 0px;
+                margin: 0px;
+        }
+        
+        #progis_reportebundle_estadoproceso_estatusProceso label{
+                display: block;
+        }
+
+        #progis_reportebundle_estadoproceso_estatusProceso input{
+                float: left;
+                text-align: left;
+                padding: 0px;
+                margin: 0px;
+        }
+        #progis_reportebundle_estadoproceso_tipo label{
+                display: block;
+        }
+
+        #progis_reportebundle_estadoproceso_tipo input{
+                float: left;
+                text-align: left;
+                padding: 0px;
+                margin: 0px;
+        }
+
+    </style>
+{% endblock %}
+
+{% block contenido -%}
+    {{ parent() }}
+ 
+    {{ form_start(form, { 'attr': {'novalidate':null} }) }}
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">INGRESE LOS PARÁMETROS</div>
+            <div class="panel-body">
+                    <div id="formulario">{{ form_widget(form) }}</div>
+            </div>
+        </div>
+        <input type="hidden" value="0" name="muestra">
+        <div align="center"><input type="submit" class="btn btn-primary" value="GENERAR">
+            
+    {{ form_end(form) }}  
+    
+{% endblock %}

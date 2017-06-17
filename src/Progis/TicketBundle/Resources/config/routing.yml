@@ -1,0 +1,135 @@
+ticket_homepage:
+    path:     /solicitud
+    defaults: { _controller: TicketBundle:Solicitud:solicitud }
+    
+ticket_solicitudInterna:
+    path:     /solicitudInterna
+    defaults: { _controller: TicketBundle:Solicitud:solicitudInterna }
+    
+progis_ticket_procesarSolicitud:
+    pattern:  /procesarSolicitud
+    defaults: { _controller: "TicketBundle:Solicitud:procesarSolicitud" }
+    requirements: { _method: post }
+    
+progis_ticket_procesarSolicitudInterna:
+    pattern:  /procesarSolicitudInterna
+    defaults: { _controller: "TicketBundle:Solicitud:procesarSolicitudInterna" }
+    requirements: { _method: post }
+
+ticket_mistickets:
+    path:     /mistickets
+    defaults: { _controller: TicketBundle:Solicitud:mistickets }
+    
+progis_ticket_lista:
+    path:     /lista
+    defaults: { _controller: TicketBundle:Gestion:lista }
+    
+progis_ticket_asignar:
+    path:     /asignar/{idticket}
+    defaults: { _controller: TicketBundle:Gestion:asignar }
+    
+progis_ticket_procesaReasignar:
+    path:     /procesaReasignar/{idticket}
+    defaults: { _controller: TicketBundle:Gestion:procesaReasignar }
+    
+progis_ticket_procesaAsignar:
+    path:     /procesaAsignar/{idticket}
+    defaults: { _controller: TicketBundle:Gestion:procesaAsignar }
+    
+progis_ticket_procesarTicket:
+    path:     /procesarTicket
+    defaults: { _controller: TicketBundle:ProcesarTicket:procesarTicket }
+    
+progis_ticket_procesarTicketOtros:
+    path:     /procesarTicketOtros
+    defaults: { _controller: TicketBundle:ProcesarTicket:procesarTicketOtros }
+
+progis_ticket_cerrarticket:
+    path:     /cerrarTicket/{idticket}
+    defaults: { _controller: TicketBundle:ProcesarTicket:CerrarTicket }
+    
+progis_ticket_justificarticket:
+    path:     /justificarTicket/{idticket}
+    defaults: { _controller: TicketBundle:ProcesarTicket:JustificarTicket }
+    
+# CATEGORIA #
+progis_categoria:
+    pattern:  /progis/categoria
+    defaults: { _controller: "TicketBundle:Categoria:index" }
+
+progis_categoria_show:
+    pattern:  /progis/categoria/{id}/show
+    defaults: { _controller: "TicketBundle:Categoria:show" }
+
+progis_categoria_new:
+    pattern:  /progis/categoria/new
+    defaults: { _controller: "TicketBundle:Categoria:new" }
+
+progis_categoria_create:
+    pattern:  /progis/categoria/create
+    defaults: { _controller: "TicketBundle:Categoria:create" }
+    requirements: { _method: post }
+
+progis_categoria_edit:
+    pattern:  /progis/categoria/{id}/edit
+    defaults: { _controller: "TicketBundle:Categoria:edit" }
+
+progis_categoria_update:
+    pattern:  /progis/categoria/{id}/update
+    defaults: { _controller: "TicketBundle:Categoria:update" }
+    requirements: { _method: post|put }
+
+progis_ticket_delete:
+    pattern:  /progis/ticket/{id}/delete
+    defaults: { _controller: "TicketBundle:Gestion:delete" }
+    requirements: { _method: post|delete }
+
+# FIN CATEGORIA #
+
+progis_categoria_delete:
+    pattern:  /progis/categoria/{id}/delete
+    defaults: { _controller: "TicketBundle:Categoria:delete" }
+    requirements: { _method: post|delete }
+
+# SUBCATEGORIA #
+progis_subcategoria:
+    pattern:  /progis/subcategoria/{id}
+    defaults: { _controller: "TicketBundle:Subcategoria:index" }
+
+progis_subcategoria_show:
+    pattern:  /progis/subcategoria/{id}/show
+    defaults: { _controller: "TicketBundle:Subcategoria:show" }
+
+progis_subcategoria_new:
+    pattern:  /progis/subcategoria/new/{id}
+    defaults: { _controller: "TicketBundle:Subcategoria:new" }
+
+progis_subcategoria_create:
+    pattern:  /progis/subcategoria/create/{id}
+    defaults: { _controller: "TicketBundle:Subcategoria:create" }
+    requirements: { _method: post }
+
+progis_subcategoria_edit:
+    pattern:  /progis/subcategoria/edit/{idsub}/{idcat}
+    defaults: { _controller: "TicketBundle:Subcategoria:edit" }
+
+progis_subcategoria_update:
+    pattern:  /progis/subcategoria/update/{idsub}/{idcat}
+    defaults: { _controller: "TicketBundle:Subcategoria:update" }
+    requirements: { _method: post|put }
+
+progis_subcategoria_delete:
+    pattern:  /progis/subcategoria/{id}/delete
+    defaults: { _controller: "TicketBundle:Subcategoria:delete" }
+    requirements: { _method: post|delete }
+
+progis_ticket_valorar:
+    pattern:  /valorar/{id}/{valor}
+    defaults: { _controller: "TicketBundle:Gestion:valorar" }
+    
+progis_ticket_comentario_valoracion:
+    pattern:  /valorar/comentario/{id}/{valor}
+    defaults: { _controller: "TicketBundle:Gestion:comentarioValoracion" }
+    requirements: { _method: post }
+    
+# FIN SUBCATEGORIA #

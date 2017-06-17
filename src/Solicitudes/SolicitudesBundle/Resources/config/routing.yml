@@ -1,0 +1,11 @@
+solicitudes:
+    resource: "@SolicitudesBundle/Resources/config/routing/solicitudes.yml"
+    prefix: /solicitudes
+
+requerimientos:
+    resource: "@SolicitudesBundle/Resources/config/routing/requerimientos.yml"
+    prefix: /solicitudes_requerimientos
+
+solicitudes_roles:
+    resource: "@SolicitudesBundle/Resources/config/routing/roles.yml"
+    prefix: /solicitudes_roles

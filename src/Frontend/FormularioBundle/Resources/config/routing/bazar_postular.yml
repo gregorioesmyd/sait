@@ -1,0 +1,30 @@
+bazar_postular:
+    path:     /
+    defaults: { _controller: "FormularioBundle:Bazar/Postular:index" }
+
+bazar_postular_show:
+    path:     /{id}/show
+    defaults: { _controller: "FormularioBundle:Bazar/Postular:show" }
+
+bazar_postular_new:
+    path:     /new
+    defaults: { _controller: "FormularioBundle:Bazar/Postular:new" }
+
+bazar_postular_create:
+    path:     /create
+    defaults: { _controller: "FormularioBundle:Bazar/Postular:create" }
+    requirements: { _method: post }
+
+bazar_postular_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "FormularioBundle:Bazar/Postular:edit" }
+
+bazar_postular_update:
+    path:     /{id}/update
+    defaults: { _controller: "FormularioBundle:Bazar/Postular:update" }
+    requirements: { _method: post|put }
+
+bazar_postular_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "FormularioBundle:Bazar/Postular:delete" }
+    requirements: { _method: post|delete }

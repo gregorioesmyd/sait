@@ -1,0 +1,118 @@
+{% extends '::base_trueques.html.twig' %}
+
+{% block body -%}
+{{ parent()}}
+
+<br>
+<h1>Productos cargados por Usuarios</h1>
+
+<a href="{{ path('misproductos_new') }}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>  Nuevo</a><br><br>
+<table class="dataTable table table-striped table-bordered" cellspacing="0" width="100%">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th style="width:120px;">Producto</th>
+			<th>Intereses.</th>
+                        <th>Usuario.</th>
+			<th>Status</th>
+			<!-- <th>Acciones</th> -->
+		</tr>
+	</thead>
+	<tbody>
+		{% for entity in entities %}
+		<tr>
+			<td>{{ entity.id }}</td>
+			<td>{{ entity.productoCambiar.nombre }}</td>
+			<td>
+
+				{% for item in entity.MisProductoInteres %}
+				<span>{{ item }}, </span>
+				{% endfor %}
+
+			</td>
+                        <td>{{ entity.user.primerNombre|title }} {{ entity.user.primerApellido|title }}</td>
+			<td id="label{{entity.id}}">
+
+				{% if entity.status == 'Aprobado' %}
+					<span class="label label-success">{{ entity.status }}</span>
+				{% elseif entity.status == 'Cancelado' or entity.status == 'Inactivo' or entity.status == 'Expirado' %}
+					<span class="label label-danger">{{ entity.status }}</span>
+				{% else %}
+					<span class="label label-info">{{ entity.status }}</span>
+				{% endif %}
+
+			</td>
+                        
+			<!--<td>
+				{#% if entity.status == 'Aprobado' or entity.status == 'Rechazado' or entity.status == 'Revision' %}
+					<div class="dropdown">
+						<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							Status
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+							<li><a href="#" class="status_modify" data-status="aprobar" data-id="{#{ entity.id }#}">Aprobar</a></li>
+							<li><a href="#" class="status_modify" data-status="rechazar" data-id="{#{ entity.id }#}">Rechazar</a></li>
+						</ul>
+					</div>
+				{#% endif %#}
+			</td>-->
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+
+<script type="text/javascript">
+
+// $(function() {
+
+// 	$(".dropdown-menu").on('click', '.status_modify', function(event) {
+// 		event.preventDefault();
+
+// 		var status = $(this).data('status');
+// 		var id = $(this).data('id');
+
+// 		var dataForm = {
+// 			'status': status,
+// 			'id': id
+// 		};
+
+// 		$.ajax({
+// 			url: "{#{ path('trueques_aprobarAsync_producto') }#}",
+// 			type: 'POST',
+// 			dataType: 'json',
+// 			data: dataForm,
+// 		})
+// 		.done(function(response) {
+// 			var text_status = '';
+// 			var class_label = '';
+// 			if (response['status'] == 'aprobar') {
+// 				text_status = 'Aprobado';
+// 				class_label = 'label label-success';
+// 			} else if(response['status'] == 'rechazar'){
+// 				text_status = 'Rechazado';
+// 				class_label = 'label label-danger';
+// 			};
+
+// 			$("#label" + id).find('span').text(text_status).removeAttr('class').addClass(class_label);
+// 		})
+// 		.fail(function() {
+// 			console.log("error");
+// 		})
+// 		.always(function() {
+// 			console.log("complete");
+// 		});
+
+
+// 	});
+
+// });
+
+</script>
+
+{% endblock %}

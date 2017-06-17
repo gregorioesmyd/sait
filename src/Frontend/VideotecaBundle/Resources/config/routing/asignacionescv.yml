@@ -1,0 +1,30 @@
+asignacionescv:
+    path:     /
+    defaults: { _controller: "VideotecaBundle:AsignacionesCV:index" }
+
+asignacionescv_show:
+    path:     /{id}/show
+    defaults: { _controller: "VideotecaBundle:AsignacionesCV:show" }
+
+asignacionescv_new:
+    path:    /{id}/new
+    defaults: { _controller: "VideotecaBundle:AsignacionesCV:new" }
+
+asignacionescv_create:
+    path:     /create/{id}
+    defaults: { _controller: "VideotecaBundle:AsignacionesCV:create" }
+    requirements: { _method: post }
+
+asignacionescv_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "VideotecaBundle:AsignacionesCV:edit" }
+
+asignacionescv_update:
+    path:     /{id}/update
+    defaults: { _controller: "VideotecaBundle:AsignacionesCV:update" }
+    requirements: { _method: post|put }
+
+asignacionescv_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "VideotecaBundle:AsignacionesCV:delete" }
+    requirements: { _method: post|delete }

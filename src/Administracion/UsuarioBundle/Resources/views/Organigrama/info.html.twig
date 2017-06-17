@@ -1,0 +1,21 @@
+<div class="row">
+{% for p in perfil %}
+    
+    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+        <div class="panel panel-default">
+          <div class="panel-heading" style="font-size: 12px;font-weight: bold;">{{ p.primerNombre}} {{ p.primerApellido}}</div>
+          <div class="panel-body">
+              <div>
+                {% if p.foto is null %}
+                    <img src="/uploads/personalTelesur/no.png" height="100px">
+                {% else %}
+                    <img src="{{p.foto}}" height="100px">
+                {% endif %}
+              </div>
+          </div>
+          <div class="panel-footer" style="font-size: 11px;overflow-y: scroll;height: 40px;">{% if p.cargo is not null %}{{ p.cargo.descripcion}}{% endif %}</div>
+        </div>
+    </div>
+    
+{% endfor %}
+</div>

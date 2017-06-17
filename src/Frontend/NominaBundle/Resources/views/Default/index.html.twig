@@ -1,0 +1,34 @@
+{% extends '::nomina.html.twig' %}
+
+{% block title %}RRHH{% endblock %}
+
+{% block titulo %}
+    <h3>SELECCIONE UNA OPCIÓN</h3>
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li class="active">RRHH</li>
+</ol>
+{% endblock %}
+    
+{% block body -%}
+    {{ parent() }}
+    <div style="width: 50%" class="well">
+      
+        <div><a class="btn btn-primary btn-lg btn-block" href="{{ path('nomina_planilla_arc') }}">PLANILLA ARC</a></div><br>
+  
+        {% if is_granted('ROLE_RRHH_TXT') %}
+            <div><a class="btn btn-primary btn-lg btn-block" href="{{ path('nomina_formalimentacion') }}">TXT MEDICINAS Y VITAMINAS</a></div><br>
+        {% endif %}
+
+      
+
+        {% if is_granted('ROLE_RRHH_HISTORICO') %}
+            <div><a class="btn btn-primary btn-lg btn-block" href="{{ path('nomina_formhistorico') }}">HISTORICO NOMINA ORDINARIA 2005 HASTA LA FECHA</a></div><br>
+        {% endif %}
+
+    </div>
+    
+{% endblock %}

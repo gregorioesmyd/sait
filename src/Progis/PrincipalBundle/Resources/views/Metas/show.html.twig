@@ -1,0 +1,98 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>CONSULTA META</h2>
+    <h5>MIEMBRO: {{ miembroEspacio.usuario.primerNombre}} {{ miembroEspacio.usuario.primerApellido}}</h5>
+    <h5>
+        JORNADA LABORAL: 
+        {% set dia=miembroEspacio.jornadalaboral.dias|split("-") %}
+        {% for d in dia %}
+            {% if d==1 %} | Lunes |
+            {% elseif d==2 %} | Martes |
+            {% elseif d==3 %} | Miercoles |
+            {% elseif d==4 %} | Jueves |
+            {% elseif d==5 %} | Viernes |
+            {% elseif d==6 %} | Sábado |
+            {% elseif d==7 %} | Domingo |
+            {% endif %}
+        {% endfor %}
+    
+    </h5>
+    <a href="{{ path('metas_edit', { 'id': entity.id }) }}"><i class="fa fa-edit"> Ir a editar meta</i></a>&nbsp;&nbsp;<a href="{{ path('prioridadmeta_new', { 'idmeta': entity.id }) }}"><i class="fa fa-plus"> Agregar prioridades a metas</i></a>&nbsp;&nbsp;
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("miembroespacio") }}">LISTA DE MIEMBROS</a></li>
+  <li><a href="{{ path("metas",{'id':miembroEspacio.id}) }}">LISTA DE METAS</a></li>
+  <li class="active">CONSULTAR META</li>
+</ol>
+{% endblock %}
+
+{% block contenido -%}
+    {{ parent() }}
+
+    <table class="table table-hover table-bordered tablaShow">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Horas</th>
+                <td>{{ entity.horas }}</td>
+            </tr>
+            <tr>
+                <th>Fechadesde</th>
+                <td>{{ entity.fechadesde|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Fechahasta</th>
+                <td>{{ entity.fechahasta|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Porcentaje</th>
+                <td>{{ entity.porcentaje }}%</td>
+            </tr>
+            <tr>
+                <th>Estatus</th>
+                <td>{{ entity.estatus.descripcion|raw }}</td>
+            </tr>
+        <tr>
+            <th>Jornada:</th>
+            <td>
+                    {% set dia=entity.jornadalaboral.dias|split("-") %}
+                    {% for d in dia %}
+                        {% if d==1 %} | Lunes |
+                        {% elseif d==2 %} | Martes |
+                        {% elseif d==3 %} | Miercoles |
+                        {% elseif d==4 %} |Jueves |
+                        {% elseif d==5 %} | Viernes |
+                        {% elseif d==6 %} | Sábado |
+                        {% elseif d==7 %} | Domingo |
+                        {% endif %}
+                    {% endfor %}
+                    
+                    De {{ entity.jornadalaboral.horadesde|date('G:i:s') }} a {{ entity.jornadalaboral.horahasta|date('G:i:s') }}
+            
+            </td>
+        </tr>
+        {% if  entity.observacion is not null %}
+        <tr>
+            <th>Observacion</th>
+            <td>{{ entity.observacion }}</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+    <div align="center">
+        <BR>
+        <a class="btn btn-default" href="{{ path('metas_edit',{'id':entity.id}) }}">IR A EDITAR</a><br><br>
+        {{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+            {{ form_errors(delete_form) }}
+            {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+        {{ form_end(delete_form) }}
+    </div> 
+{% endblock %}

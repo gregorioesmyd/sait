@@ -1,0 +1,63 @@
+{% extends '::contratos.html.twig' %}
+
+{% block title %}Lista Contratos AA{% endblock %}
+
+{% block titulo %}
+    LISTA DE CONTRATOS AÑOS ANTERIORES
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">LISTA DE CONTRATOS AÑOS ANTERIORES</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+ {{ parent() }}
+    
+    <table id="tabladatatable">
+        <thead>
+            <tr>
+                <th style="display:none;">ID</th>
+                <th>Codigo</th>
+                <th>Fecha de Registro</th>
+                <th>Empresa</th>
+                <th>Fechainicio</th>
+                <th>Fechafin</th>
+                <th>Estatus</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in entities %}
+            {% if entity.inactivo == true %} <tr align="center" style="color:red;"> {% else %} <tr align="center"> {% endif %}                
+                    <td style="display:none;">{{ entity.id }}</td>
+                    <td><a href="{{ path('contratos_pasados_show', { 'id': entity.id }) }}">{{ entity.codigo }}</a></td>
+                    <td>{% if entity.fechaRegistro %}{{ entity.fechaRegistro|date('Y-m-d') }}{% endif %}</td>                    
+                    <td>{{ entity.empresa }}</td>
+                    <td>{% if entity.fechaInicio %}{{ entity.fechaInicio|date('Y-m-d') }}{% endif %}</td>
+                    <td>{% if entity.fechaFin %}{{ entity.fechaFin|date('Y-m-d') }}{% endif %}</td>
+                    <td>{% if entity.inactivo == true %} ANULADO {% else %} - {% endif %}</td>
+                    <td>
+                        <a href="{{ path('contratos_pasados_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></a>
+                        {% if is_granted('ROLE_DIRECTORIO_ADMIN') %}
+                            <a href="{{ path('contratos_pasados_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-pencil"></a>
+                        {% endif %}                  
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table><br><br>
+<a class="btn btn-default" href="{{ path( 'contratos_pasados_new' ) }}">Registrar Contrato</a><br><br>
+
+
+<script type="text/javascript">
+        $(document).ready(function(){
+           $('#tabladatatable').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                "aaSorting": [[0,'desc']],
+            } );
+        })
+    </script>
+{% endblock %}

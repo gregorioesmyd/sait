@@ -1,0 +1,83 @@
+{% extends '::encuesta.html.twig' %}
+
+{% block title %}Votos{% endblock %}
+
+{% block titulo %}
+    VOTOS DE {% if encuesta.tipoencuesta.id == '1' %} TRIVIA {% else %} ENCUESTA {% endif %} "{{encuesta.nombre}}"
+{% endblock %}
+
+{% block ubicacion %}
+  <ol class="breadcrumb">
+    <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+    <li><a href="{{ path("encuesta_index") }}">Lista de encuestas</a></li>
+    <li class="active">Votos de {% if encuesta.tipoencuesta.id == '1' %} trivia {% else %} encuesta {% endif %} </li>
+  </ol>
+{% endblock %}
+
+{% block body -%}
+  {{ parent() }}
+  <div class="container">
+    <script src='/sait/web/libs/highcharts/js/highcharts.js'></script>
+  {% for pregunta in preguntas %}
+      <div class="col-md-8">
+        <h3>{{pregunta.pregunta}}</h3>
+        <table class="table table-bordered">
+          <thead>
+            <tr class="info">
+              <th style="width:50%; text-align: center;">Respuesta</th>
+              <th style="width:50%; text-align: center;">Votos</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for respuesta in respuestas[pregunta.id] %}
+              <tr>
+                <th style="width:30%; text-align: center;">{{ respuesta.respuesta }}</th>
+                <th style="width:30%; text-align: center;">{{ votos[pregunta.id][respuesta.id] }}</th>
+              </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-4" id="grafico{{ pregunta.id }}"></div>
+
+    <script type="text/javascript">
+      $(function () {
+          $('#grafico{{ pregunta.id }}').highcharts({
+              chart: {
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  height: 190,
+              },
+              title: {
+                  text: ''
+              },
+              tooltip: {
+                  pointFormat: '<b>{point.percentage:.1f}%</b>'
+              },
+              plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        format: '{point.percentage:.1f} %'
+                    }
+                }
+              },
+              series: [{
+                  type: 'pie',
+                  name: 'Pregunta',
+                  data: [ {{ datosgrafico[pregunta.id]|raw }} ]
+              }]
+          });
+      });
+    </script>
+    <hr style="background-color:#000;width:100%;"><br>
+  {% endfor %}
+</div>
+<br><br>
+{% endblock %}

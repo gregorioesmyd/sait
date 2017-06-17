@@ -1,0 +1,35 @@
+{% extends '::encuesta1.html.twig' %}
+
+{% block title %}Trivias{% endblock %}
+
+{% block titulo %}
+    Trivias
+{% endblock %}
+
+{% block body %}
+  {{ parent() }}
+
+
+    <div class='puntaje'style="margin-top:100px;">
+      <div class="obtuviste">Obtuviste</div>
+      <div class="imagen_premio"><img src="{{ asset('images/trivias/Trivia-medalla-228x313_1.png') }}"></div>
+      <div class="punto">puntos</div>
+      <div class= "puntos">
+        {% if puntaje <= 0 %}
+          0{{ puntaje }}
+        {% else %}
+          {{ puntaje }}
+        {% endif %}
+      </div>
+
+      <div style="font-size:14px;color:353535;padding:15px;">
+          Usted participó en esta trivia el dia {{ hoy|date('d-m-Y') }}
+      </div>
+    </div>
+
+    <a href="http://intranet.telesurtv.net"><img src="{{ asset('images/trivias/Trivia-responder-300x65.png') }}"></a>
+    <div style="position: absolute;margin-top: -50px;font-size: 20px;color: #DBDBDB;margin-left: 530px;"
+  class="responder">Salir</div><br><br><br><br>
+
+
+{% endblock %}

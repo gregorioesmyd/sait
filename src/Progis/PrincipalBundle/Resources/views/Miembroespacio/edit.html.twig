@@ -1,0 +1,134 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>EDITAR MIEMBRO DE ESPACIO "{{ entity.usuario.primerNombre }} {{ entity.usuario.PrimerApellido }}"</h2>
+{% endblock %}
+
+
+{% block ubicacion %}
+    <br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("miembroespacio") }}">LISTA DE MIEMBROS</a></li>
+  <li class="active">EDITAR MIEMBRO</li>
+</ol>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent()}}
+    <style>
+        #progis_principalbundle_miembroespacio_rolgeneral label{
+                display: block;
+        }
+
+        #progis_principalbundle_miembroespacio_rolgeneral input{
+                float: left;
+                text-align: left;
+                padding: 0px;
+                margin: 0px;
+        }
+
+    </style>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+
+    
+    {{ form_start(edit_form, { 'attr': {'novalidate':null} }) }}
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">MODIFIQUE LOS PARÁMETROS QUE DESEE</div>
+            <div class="panel-body">
+                    <div id="formulario">{{ form_widget(edit_form) }}</div>
+            </div>
+        </div>
+
+            <div align="center"><input type="submit" class="btn btn-primary" value="EDITAR MIEMBRO"><br>
+    {{ form_end(edit_form) }}   
+        
+        
+    <BR><div align="center">
+            
+    {{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+        {{ form_errors(delete_form) }}
+        {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+    {{ form_end(delete_form) }}</div>
+    <br>
+    
+    <script>
+        $(document).ready(function(){
+            $("#Usuarios").hide();
+            
+            if($("#progis_principalbundle_miembroespacio_poseerolgeneral").is(':checked')){
+                $("#RolesGenerales").show();
+            }else $("#RolesGenerales").hide();
+                
+            
+            //muestro roles al tildar check rol general y al destildar quito el check de todos los roles
+            
+            $("#progis_principalbundle_miembroespacio_poseerolgeneral").click(function(){
+                if($("#progis_principalbundle_miembroespacio_poseerolgeneral").is(':checked')) {  
+                    $("#RolesGenerales").show();
+                } else {  
+                    $("#RolesGenerales").hide();
+                    for(var i=1;i<=8;i++){
+                        $("#progis_principalbundle_miembroespacio_rolgeneral_"+i).prop("checked", false);
+                    }
+                }  
+            })
+            
+            //si selecciono rol supervisor no puedo tener otro rol de consulta ni administrador
+            $("#progis_principalbundle_miembroespacio_rolgeneral_1").click(function(){
+                for(i=2;i<=8;i++){$("#progis_principalbundle_miembroespacio_rolgeneral_"+i).prop("checked", false);}
+            });
+            
+            $("#progis_principalbundle_miembroespacio_rolgeneral_8").click(function(){
+                $("#progis_principalbundle_miembroespacio_rolgeneral_1").prop("checked", false);
+            });
+            
+            //si tengo admin no puedo tener consulta ni tecnico en ticket
+            $("#progis_principalbundle_miembroespacio_rolgeneral_2").click(function(){
+                $("#progis_principalbundle_miembroespacio_rolgeneral_1").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_3").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_4").prop("checked", false);
+            });
+            
+            $("#progis_principalbundle_miembroespacio_rolgeneral_3").click(function(){
+                $("#progis_principalbundle_miembroespacio_rolgeneral_1").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_2").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_4").prop("checked", false);
+            });
+            
+            $("#progis_principalbundle_miembroespacio_rolgeneral_4").click(function(){
+                $("#progis_principalbundle_miembroespacio_rolgeneral_1").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_2").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_3").prop("checked", false);
+            });
+            
+            
+            //si tengo admin no puedo tener consulta ni tecnico en proyecto
+            $("#progis_principalbundle_miembroespacio_rolgeneral_5").click(function(){
+                $("#progis_principalbundle_miembroespacio_rolgeneral_1").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_6").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_7").prop("checked", false);
+            });
+            
+            $("#progis_principalbundle_miembroespacio_rolgeneral_6").click(function(){
+                $("#progis_principalbundle_miembroespacio_rolgeneral_1").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_5").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_7").prop("checked", false);
+            });
+            
+            $("#progis_principalbundle_miembroespacio_rolgeneral_7").click(function(){
+                $("#progis_principalbundle_miembroespacio_rolgeneral_1").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_6").prop("checked", false);
+                $("#progis_principalbundle_miembroespacio_rolgeneral_5").prop("checked", false);
+            });
+
+            
+           
+        });
+    </script>    
+{% endblock %}

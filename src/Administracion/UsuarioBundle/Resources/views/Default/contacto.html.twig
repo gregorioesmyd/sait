@@ -1,0 +1,28 @@
+{% extends '::administracion.html.twig' %}
+
+{% block title %}Contacto{% endblock %}
+
+{% block titulo %}
+    <h2>DATOS DE CONTACTO</h2>
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active"> DATOS DE CONTACTO</li>
+</ol>
+{% endblock %}
+
+{% block body %}
+	{{ parent() }}
+
+	<div>UNIDAD DE APLICACIONES Y DESARROLLO</div>
+	<div>EXTENSIONES 527, 264 Y 339</div>
+
+	<br><br>
+
+	<a class="btn btn-primary" href="{{ path("usuario_homepage") }}">VOLVER</a>
+
+	<br><br>
+
+{% endblock %}

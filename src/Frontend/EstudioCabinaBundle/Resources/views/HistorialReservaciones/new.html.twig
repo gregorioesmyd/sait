@@ -1,0 +1,15 @@
+{% extends 'EstudioCabinaBundle::template.html.twig' %}
+
+{% block body -%}
+    <h1>HistorialReservaciones creation</h1>
+
+    {{ form(form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('historialreservaciones') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

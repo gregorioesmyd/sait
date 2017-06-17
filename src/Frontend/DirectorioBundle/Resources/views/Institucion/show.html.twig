@@ -1,0 +1,69 @@
+{% extends '::directorio.html.twig' %}
+
+{% block title %}Consultar Instituci&oacute;n{% endblock %}
+
+{% block titulo %}
+    CONSULTAR INSTITUCÍ&Oacute;N
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("directorio_homepage") }}">DIRECTORIO INICIO</a></li>
+  <li><a href="{{ path("institucion") }}">LISTA DE INSTITUCIONES</a></li>
+  <li class="active">CONSULTAR INSTITUCI&Oacute;N</li>
+
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+        <div class="formShow" style="width:70%;">
+        <div class="contenedorform">
+            <div class="labelform">Institucion:</div>
+            <div class="widgetform">{{ entity.institucion|capitalize }}</div>
+        </div>
+        {% if entity.director %}
+        <div class="contenedorform">
+            <div class="labelform">Director:</div>
+            <div class="widgetform">{{ entity.director|capitalize }}</div>
+        </div>
+        {% endif %}
+        <div class="contenedorform">
+            <div class="labelform">Area:</div>
+            <div class="widgetform">{{ entity.areainst|capitalize }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Teléfono:</div>
+            <div class="widgetform">{{ entity.Telfinst|capitalize }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Emai:</div>
+            <div class="widgetform">{{ entity.emailinst|capitalize }}</div>
+        </div>
+        {% if entity.direccion %}
+        <div class="contenedorform">
+            <div class="labelform">Dirección:</div>
+            <div class="widgetform">{{ entity.direccion|capitalize }}</div>
+        </div>
+        {% endif %}
+        <div class="contenedorform">
+            <div class="labelform">País:</div>
+            <div class="widgetform">{{ entity.pais|capitalize }}</div>
+        </div>
+    </div>
+    
+    <br><br>
+    <a class="btn btn-default" href="{{ path('institucion') }}">IR A LA LISTA</a>{% if is_granted('ROLE_DIRECTORIO_ADMIN') %} |
+    <a class="btn btn-default" href="{{ path('institucion_edit', { 'id': entity.id }) }}">IR A EDITAR</a><br><br>
+    <form action="{{ path('institucion_delete', { 'id': entity.id }) }}" method="post">
+        <input type="hidden" name="_method" value="DELETE" />
+        {{ form_widget(delete_form) }}
+        <button type="submit" class="btn btn-danger">ELIMINAR</button>
+    </form>
+    {% else %}
+        <br><br>
+    {% endif %}       
+
+{% endblock %}
+

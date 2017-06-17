@@ -1,0 +1,107 @@
+{% extends '::controlequipo.html.twig' %}
+    {% block title %}Detalles de Equipo Externo{% endblock %}
+
+    {% block ubicacion %}
+        <ol class="breadcrumb">
+          <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+          <li><a href="{{ path("equipoexterno") }}">EQUIPOS EXTERNOS</a></li>
+          <li class="active">DETALLES DEL EQUIPO EXTERNO</li>
+        </ol>
+    {% endblock %}
+
+    {% block body -%}
+        {{ parent()}}
+    <h3>DETALLES DEL EQUIPO</h3>
+
+    <table class="table table-hover table-striped formShow" style="width: 60%;">
+        <tbody>
+            <tr>
+                <th>Descripcion del Equipo</th>
+                <td>{{ entity.descripcionEquipo }}</td>
+            </tr>
+            <tr>
+                <th>Codigo de Barra</th>
+                <td>{{ entity.codigoBarra }}</td>
+            </tr>
+            <tr>
+                <th>Serial</th>
+                <td>{{ entity.serial }}</td>
+            </tr>
+            <tr>
+                <th>Creado</th>
+                <td><a href="#" style="text-decoration:none;" title="Creado por: {{ creador }}">{{ entity.creado|date('d/m/Y H:i:s') }}</a></td>
+            </tr>
+            {#<tr>
+                <th>Foto de Referencia</th>
+                <td>
+                    {% if entity.fotoReferencia=='' %}
+                        <span class="label label-danger">Sin fotografia</span>
+                        <a href="#">Incluir Fotografia</a>
+                        {% else %}
+                            <a data-toggle="modal" href="#fotoReferencia" data-target="#fotoReferencia">
+                                <img class="img-rounded glyphicon glyphicon-picture" src="{{ asset('uploads/controlequipo/') }}{{ entity.fotoReferencia }}" width="150px">
+                            </a>
+                    {% endif%}
+                </td>
+            </tr>#}
+            <tr>
+                <th>Nombre y Apellido del Propietario</th>
+                <td>{{ propietario['nombres'] }}</td>
+            </tr>
+            <tr>
+                <th>Cédula de identidad</th>
+                <td>{{ propietario['cedula'] }}</td>
+            </tr>
+            <tr>
+                <th>Tipo de Propietario</th>
+                <td>
+                    {% if entity.tipoPropietario==1 %}
+                        <span class="label label-info">Interno/Empleado</span>
+                    {% elseif entity.tipoPropietario==2 %}
+                        <span class="label label-info">Externo/Visitante</span>
+                    {% endif%}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul class="record_actions">
+        <li>
+            <a class="btn btn-default" href="{{ path('equipoexterno') }}">
+              <span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Ver Lista de Equipos
+            </a> |
+            <a class="btn btn-default" href="{{ path('equipoexterno_edit', { 'id': entity.id }) }}">
+              <span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;Editar Equipo
+            </a> |
+            <a class="btn btn-default" href="{{ path('equipoexterno_rastreo', { 'id': entity.id }) }}">
+                <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;Rastreo del Equipo
+            </a>
+            <br><br>
+            {% if is_granted('ROLE_ADMINISTRADOR') %}
+                {{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+                    {{ form_errors(delete_form) }}
+                    {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+                {{ form_end(delete_form) }}
+            {% endif %}
+        </li>
+    </ul>
+    <!-- My modal -->
+<div class="modal fade" id="fotoReferencia" tabindex="-1" role="dialog" aria-labelledby="FotoReferencia" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Foto de Referencia</h4>
+            </div>
+            <div class="modal-body">
+                {% if entity.fotoReferencia%}
+                    <img class="img-rounded glyphicon glyphicon-picture" src="{{ asset('uploads/controlequipo/') }}{{ entity.fotoReferencia }}" width="550px" height="350px">
+                {% endif%}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

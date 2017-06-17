@@ -1,0 +1,43 @@
+{% extends '::sit.html.twig' %}
+ 
+{% block title %}Sit{% endblock %}
+
+
+{% block titulobanner %}
+    CONSULTAR CATEGORIA
+{% endblock %}
+
+
+{% block body -%}
+    {{ parent() }}
+    
+    <div class="titulo">CONSULTAR CATEGORIA</div>
+
+
+        <div class="formShow">
+            <div class="contenedorform">
+                <div class="labelform">Categoria:</div>
+                <div class="widgetform">{{ entity.categoria }}</div>
+            </div>
+        </div>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('progis_categoria') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('progis_categoria_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('progis_categoria_delete', { 'id': entity.id }) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE" />
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

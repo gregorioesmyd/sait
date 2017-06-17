@@ -1,0 +1,107 @@
+{% extends '::solicitudes.html.twig' %}
+
+{% block title %}Solicitudes-Detalle{% endblock %}
+
+{% block titulo %}
+    SOLICITUD "{{ entity.nombre }}"
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("mis_aplicaciones") }}">LISTA DE SOLICITUDES</a></li>
+  <li class="active">DETALLE DE LA SOLICITUD</li>
+</ol>
+{% endblock %}
+
+
+
+
+{% block body -%}
+{{ parent() }}
+
+    <div class="formShow">
+
+        <h3>Datos del Solicitante</h3>
+        <div class="contenedorform">
+            <div class="labelform">Nombre:</div>
+            <div class="widgetform">  
+                {{ entity.solicitante.primerNombre }}
+                {{ entity.solicitante.segundoNombre }}
+                {{ entity.solicitante.primerApellido }}
+                {{ entity.solicitante.segundoApellido }}
+            </div>
+            <div class="labelform">Unidad / Direcci&oacute;n</div>
+            <div class="widgetform">  
+                {{ entity.solicitante.nivelorganizacional }}
+            </div>
+            <div class="labelform">Extensi&oacute;n:</div>
+            <div class="widgetform">  
+                {{ entity.solicitante.extension }}
+            </div>
+        </div>
+
+        <h3>Datos de la Aplicaci&oacute;n</h3>
+        <div class="contenedorform">
+          <div class="labelform">Nombre de la aplicaci&oacute;n:</div>
+          <div class="widgetform">{{ entity.nombre }}</div>
+        </div>
+        <div class="contenedorform">
+          <div class="labelform">Estatus de la solicitud:</div>
+          <div class="widgetform">{{ entity.estatus }}</div>
+        </div>
+        <div class="contenedorform">
+          <div class="labelform">Problema que quiere automatizar:</div>
+          <div class="widgetform">{{ entity.problema }}</div>
+        </div>
+        <div class="contenedorform">
+          <div class="labelform">¿A quienes beneficiará el sistema?</div>
+          <div class="widgetform">{{ entity.beneficiarios }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Requerimientos:</div>
+                {% set id=1 %}
+            {% for entities in entity.requerimientos%}              
+                <div class="labelform"></div>
+                <div class="widgetform">{{ id }}.- {{ entities.requerimiento }}</div>
+                {% set id = id+1 %}
+            {% endfor %}
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Responsables de uso de la aplicaci&oacute;n:</div>
+                {% set id=1 %}
+            {% for entities in entity.responsables%}
+                <div class="labelform"></div>
+                <div class="widgetform">
+                    {{ id }}.- 
+                    {{ entities.responsable.primerNombre }}
+                    {{ entities.responsable.segundoNombre }}
+                    {{ entities.responsable.primerApellido }}
+                    {{ entities.responsable.segundoApellido }}
+                    {% if entities.responsable.extension %}
+                        <b>Ext. {{ entities.responsable.extension }}</b>
+                    {% endif %}
+                </div>
+                {% set id = id+1 %}
+            {% endfor %}
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Unidades que la usarán:</div>
+            {% set id=1 %}
+            {% for entities in entity.unidades%}
+                <div class="labelform"></div>
+                <div class="widgetform">{{ id }}.- {{ entities.unidad }}</div>
+                {% set id = id+1 %}
+            {% endfor %}
+        </div
+
+    <br><br>
+    <a class="btn btn-default" href="{{ path('mis_aplicaciones') }}">IR A LA LISTA</a>
+    {% if entity.estatus.id != "3" and entity.estatus.id != "4"%}
+        <a class="btn btn-default" href="{{ path('solicitudesapp_edit', { 'id': entity.id  }) }}">
+            IR A EDITAR
+        </a>                    
+    {% endif %}
+
+    </div>
+{% endblock %}

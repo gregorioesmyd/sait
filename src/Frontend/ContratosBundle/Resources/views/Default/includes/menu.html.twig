@@ -1,0 +1,28 @@
+<div class="menubootstrap">
+  <div align="left">
+    <nav id="custom-bootstrap-menu" class="navbar navbar-default" role="navigation">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+          <a class="navbar-brand" href="{{ path('usuario_homepage') }}"><span class="glyphicon glyphicon-home"></span></a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li><a href="{{ path('contratos') }}">INICIO</a></li>
+            <li class="dropdown">
+               <a href="#" class="dropdown-toggle" data-toggle="dropdown">OTROS DATOS<b class="caret"></b></a>
+               <ul class="dropdown-menu">
+                 <li><a href="{{ path('abogados') }}">ABOGADOS</a></li>
+                 <li><a href="{{ path('Direccionsolicitante') }}">DIRECCIONES SOLICTANTES</a></li>
+               </ul>
+            </li>
+            <li><a href="{{ path('contratos_pasados') }}">AÑOS ANTERIORES</a></li>        
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="{{ path('contacto') }}">CONTACTO</a></li>
+          <li><a href="{{ path('usuario_logout') }}">SALIR</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </nav>
+  </div>
+</div>

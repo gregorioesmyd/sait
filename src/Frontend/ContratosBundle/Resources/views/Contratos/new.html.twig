@@ -1,0 +1,117 @@
+{% extends '::contratos.html.twig' %}
+
+{% block title %}Nuevo Contrato{% endblock %}
+
+{% block titulo %}
+    NUEVO CONTRATO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("contratos") }}">LISTA DE CONTRATOS</a></li>
+  <li class="active">NUEVO CONTRATO</li>
+
+</ol>
+{% endblock %}
+
+{% block titulobanner %}
+    CONTRATOS - NUEVO REGISTRO
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+        
+    <form novalidate="novalidate" action="{{ path('contratos_create') }}" method="post" {{ form_enctype(form) }}>{{ form_widget(form._token) }}    
+            <div class="formShow">
+                <br>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.empresa) }}</div>                    
+                    <div class="labelform">Persona Natural o Juridica:</div>
+                    <div class="widgetform">{{ form_widget(form.empresa) }}</div>
+                </div>  
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.inactivo) }}</div>
+                    <div class="labelform">Seleccione si esta Anulado:</div>
+                    <div class="widgetform">{{ form_widget(form.inactivo) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.personal) }}</div>
+                    <div class="labelform">¿Personal de Corresponsal&iacute;a?</div>
+                    <div class="widgetform">{{ form_widget(form.personal) }}</div>
+                </div><br>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.obra) }}</div>
+                    <div class="labelform">Obra:</div>
+                    <div class="widgetform">{{ form_widget(form.obra) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.fechaInicio) }}</div>
+                    <div class="labelform">Fecha de Inicio:</div>
+                    <div class="widgetform">{{ form_widget(form.fechaInicio) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.fechaFin) }}</div>
+                    <div class="labelform">Fecha de Fin:</div>
+                    <div class="widgetform">{{ form_widget(form.fechaFin) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.duracion) }}</div>
+                    <div class="labelform">Duraci&oacute;n:</div>
+                    <div class="widgetform">{{ form_widget(form.duracion) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.montoBs) }}</div>
+                    <div class="labelform">Monto en Bs:</div>
+                    <div class="widgetform">{{ form_widget(form.montoBs) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.montoDolares) }}</div>
+                    <div class="labelform">Monto en Dolares:</div>
+                    <div class="widgetform">{{ form_widget(form.montoDolares) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.montoEuros) }}</div>
+                    <div class="labelform">Monto en Euros:</div>
+                    <div class="widgetform">{{ form_widget(form.montoEuros) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.file) }}</div>
+                    <div class="labelform">Archivo:</div>
+                    <div class="widgetform">{{ form_widget(form.file) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.idDireccion) }}</div>
+                    <div class="labelform">Direcci&oacute;n Solicitante:</div>
+                    <div class="widgetform">{{ form_widget(form.idDireccion) }}</div>
+                </div>
+                <div class="contenedorform">
+                    <div class="text-error">{{ form_errors(form.idAbogado) }}</div>
+                    <div class="labelform">Elaborado por:</div>
+                    <div class="widgetform">{{ form_widget(form.idAbogado) }}</div>
+                </div>
+            </div>
+            <br><br>
+            <button class="btn btn-primary" type="submit">CREAR</button> |
+        <a class="btn btn-default" href="{{ path('contratos') }}">VOLVER</a>
+
+
+         <br>
+    </form>
+
+
+  <script>
+      $(function() {
+        $( "#frontend_contratosbundle_contratostype_fechaInicio" ).datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: "dd-mm-yy",
+        });
+        $( "#frontend_contratosbundle_contratostype_fechaFin" ).datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: "dd-mm-yy",
+        });
+      });
+  </script>
+{% endblock %}

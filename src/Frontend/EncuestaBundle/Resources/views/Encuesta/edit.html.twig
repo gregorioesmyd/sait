@@ -1,0 +1,89 @@
+{% extends '::encuesta.html.twig' %}
+
+{% block title %}Encuesta-edición{% endblock %}
+
+{% block titulo %}
+    EDICIÓN DE ENCUESTA "{{ entity.nombre }}"
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("encuesta_index") }}">LISTA DE ENCUESTAS</a></li>
+  <li class="active">EDICIÓN DE ENCUESTA</li>
+</ol>
+{% endblock %}
+
+
+{% block body %}
+    {{ parent() }}
+    <form novalidate="novalidate" action="{{ path('encuesta_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>{{ form_widget(edit_form._token) }}
+         <input type="hidden" name="_method" value="PUT" />
+          <div class="formShow">
+                 <div class="contenedorform">
+                     <div class="text-error">{{ form_errors(edit_form.nombre) }}</div>
+                     <div class="labelform">Nombre de la encuesta:</div>
+                     <div class="widgetform">{{ form_widget(edit_form.nombre) }}</div>
+                 </div>
+                 <div class="contenedorform">
+                     <div class="text-error">{{ form_errors(edit_form.tema) }}</div>
+                     <div class="labelform">Tema:</div>
+                     <div class="widgetform">{{ form_widget(edit_form.tema) }}</div>
+                 </div>
+                 <div class="contenedorform">
+                     <div class="text-error">{{ form_errors(edit_form.tipoencuesta) }}</div>
+                     <div class="labelform">Tipo de encuesta:</div>
+                     <div class="widgetform">{{ form_widget(edit_form.tipoencuesta) }}</div>
+                 </div>
+                 <div class="contenedorform">
+                     <div class="text-error">{{ form_errors(edit_form.fechainicioencuesta) }}</div>
+                     <div class="labelform">Fecha de inicio:</div>
+                     <div class="widgetform">{{ form_widget(edit_form.fechainicioencuesta) }}</div>
+                 </div>
+                 <div class="contenedorform">
+                     <div class="text-error">{{ form_errors(edit_form.horainicio) }}</div>
+                     <div class="labelform">Hora de inicio:</div>
+                     <div class="widgetform">{{ form_widget(edit_form.horainicio) }}</div>
+                 </div>
+                 <div class="contenedorform">
+                     <div class="text-error">{{ form_errors(edit_form.fechafinencuesta) }}</div>
+                     <div class="labelform">Fecha de Finalización:</div>
+                     <div class="widgetform">{{ form_widget(edit_form.fechafinencuesta) }}</div>
+                 </div>
+                 <div class="contenedorform">
+                     <div class="text-error">{{ form_errors(edit_form.horafin) }}</div>
+                     <div class="labelform">Hora de Finalización:</div>
+                     <div class="widgetform">{{ form_widget(edit_form.horafin) }}</div>
+                 </div>
+                 <div class="contenedorform">
+                     <div class="text-error">{{ form_errors(edit_form.numeropregunta) }}</div>
+                     <div class="labelform">Número de preguntas que respondera el usuario:</div>
+                     <div class="widgetform">{{ form_widget(edit_form.numeropregunta) }}</div>
+                 </div>
+                 <button class="btn btn-primary" type="submit">EDITAR</button>
+          </div>
+          <br>
+              <a class="btn btn-default" href="{{ path('encuesta_index') }}">IR A LA LISTA</a> |
+              <a class="btn btn-default" href="{{ path('encuesta_show', { 'id': entity.id }) }}">IR A CONSULTAR</a> |
+              <a class="btn btn-default" href="{{ path('pregunta_index', { 'idencuesta': entity.id }) }}"> VER PREGUNTAS</a>
+    </form>
+    <script>
+      $(function() {
+        $( "#frontend_encuestabundle_encuesta_fechainicioencuesta" ).datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: "dd-mm-yy",
+        });
+        $( "#frontend_encuestabundle_encuesta_fechafinencuesta" ).datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: "dd-mm-yy",
+        });
+      });
+  </script>
+
+
+
+
+
+{% endblock %}

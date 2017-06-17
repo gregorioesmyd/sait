@@ -1,0 +1,52 @@
+{% extends '::mercal.html.twig' %}
+ 
+{% block title %}Asignar n&uacute;mero{% endblock %}
+
+{% block titulo %}
+    SELECCIONAR UNA JORNADA
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">SELECCIONAR UNA JORNADA</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+    
+    <table id="tabladatatable">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre de la Jornada</th>
+                <th>Fecha de la Jornada</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in jornadas %}
+            <tr>
+                <td><a href="{{ path('jornada_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.nombrejornada }}</td>
+                <td>{% if entity.fechajornada %}{{ entity.fechajornada|date('Y-m-d') }}{% endif %}</td>
+                <td align="center">
+                    <a class="label label-success" href="{{ path('mercal_listado', { 'idjornada': entity.id }) }}">Seleccionar</a>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <br><br><br>
+<script type="text/javascript">
+    $(document).ready(function(){
+       $('#tabladatatable').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+            "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+            "aaSorting": [[0,'asc'],[1,'asc']],
+        } );
+    })
+</script>
+{% endblock %}

@@ -1,0 +1,143 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Información del ticket
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive">
+            
+            <table class="table table-striped table-bordered table-hover">
+                <tr>
+                    <th>Asignado a:</th>
+                    <td colspan="3">
+                        {% if procesarTicket is not empty %}
+                            <img width="100px" src="{{ procesarTicket.responsable.usuario.foto}}"><br>{{ procesarTicket.responsable.usuario.PrimerNombre}} {{ procesarTicket.responsable.usuario.PrimerApellido}}
+                        {% else %}
+                            <div class="alert alert-danger">TICKET SIN ASIGNAR</div>
+                            {% if reasignado is not empty %}<h5>ESTE TICKET FUE REASIGNADO DESDE {{ reasignado[0].nivelorganizacional.descripcion|upper }} POR {{ reasignado[0].responsable.primerNombre|upper}} {{ reasignado[0].responsable.primerApellido|upper}}</h5>{% endif %}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Solicitud:</th>
+                    <td colspan="3">{{ ticket.solicitud}}</td>
+                </tr>
+                {% if ticket.estatus==4 %}
+                    <tr>
+                        <th>Solución:</th>
+                        <td colspan="3">{{ ticket.solucion}}</td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <th>Solicitante:</th>
+                    <td>{{ ticket.solicitante.primernombre }} {{ ticket.solicitante.primerapellido }}</td>
+                    <th>Extensión</th>
+                    <td>{{ ticket.solicitante.extension }}</td>
+                </tr>
+                <tr>
+                    <th>Fecha solicitud:</th>
+                    <td>{{ ticket.fechasolicitud|date("d-m-Y") }}</td>
+                    <th>Hora solicitud:</th>
+                    <td>{{ ticket.horasolicitud|date("G:i:s") }}</td>
+                </tr>
+                {% if procesarTicket is not empty %}
+                <tr>
+                    <th>Categoria: </th>
+                    <td>{{ procesarTicket.subcategoria.categoria.categoria|upper }}</td>
+                    <th>Subcategoria:</th>
+                    <td>{{ procesarTicket.subcategoria.subcategoria|upper }} - (Complejidad: {{ procesarTicket.subcategoria.complejidad|title}})</td>
+                </tr>
+                {% endif %}
+
+                
+                <tr>
+                    <th>Estatus:</th>
+                    <td>
+                        {% if ticket.estatus==1 %}
+                            <div class="label label-danger">Nuevo</div>
+                        {% elseif ticket.estatus==2 %}
+                            <div class="label label-info">Asignado</div>
+                        {% elseif ticket.estatus==3 %}
+                            <div class="label label-warning">Reasignado</div>
+                        {% elseif ticket.estatus==4 %}
+                            <div class="label label-success">Cerrado</div>
+                        {% endif %}
+                    </td>
+                    
+                        <th>Tiempo estimado:</th>
+                        <td>
+                            {% if procesarTicket is not empty %}
+                                {{ procesarTicket.tiempoestimado }}{% if procesarTicket.tipotiempo==2 %} Hora(s){% else %} Minuto(s) {% endif %}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                    
+                </tr>
+                    
+                {% if ticket.estatus==4 %}
+                    <tr>
+                        <th>Fecha solución:</th>
+                        <td>{{ ticket.fechasolucion|date("d-m-Y") }}</td>
+                        <th>Hora solución:</th>
+                        <td>{{ ticket.horasolucion|date("G:i:s") }}</td>
+                    </tr>
+                {% endif %}
+                {% if procesarTicket is not empty %}
+                    <tr class="bg-warning">
+                        <th>URL Wiki:</th>
+                        <td colspan="3">
+                            {% if procesarTicket.subcategoria.urlwiki is not null %}
+                                <a href="{{ procesarTicket.subcategoria.urlwiki|raw }}">{{ procesarTicket.subcategoria.urlwiki|raw }}</a>
+                            {% else %}
+                                No posee.
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if ticket.archivo %}
+                    <tr>
+                        <th>Archivo:</th>
+                        <td colspan="3">
+                            {% set extension =  ticket.archivo|split(".") %}
+
+                            {% if extension[1]=='jpg' or extension[1]=='jpeg' or extension[1]=='png' or extension[1]=='gif'  %}
+                                <a data-toggle="modal" href="#myModalFoto">
+                                    <img id="im" class="img-rounded" src="{{ asset('/uploads/sit/') }}{{ ticket.archivo }}" width="50px">
+                                </a>
+                            {% else %}
+                                <a href="/uploads/sit/{{ ticket.archivo }}">DESCARGA ARCHIVO {{ extension[1]|upper }}</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if ticket.valoracion is not null %}
+                    <tr>
+                        <td align="center" colspan="4" style="font-weight: bold;font-size: 14px;">
+                            VALORACIÓN "{% if ticket.valoracion==1 %}PÉSIMA{% elseif ticket.valoracion==2 %}REGULAR{% elseif ticket.valoracion==3 %}BUENA{% elseif ticket.valoracion==4 %}MUY BUENA{% elseif ticket.valoracion==5 %}EXCELENTE{% endif %}"
+                            {% if ticket.comentarioValoracion is not null %}<BR><BR><div>COMENTARIO DEL USUARIO: {{ticket.comentarioValoracion}}</div>{% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+
+            </table>
+        </div>
+    </div>
+</div>
+                    
+    <div class="modal fade" id="myModalFoto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="width: 70%;">
+          <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">{{ ticket.archivo }}</h4>
+          </div>
+          <div class="modal-body" align="center">
+              <a href="{{ asset('/uploads/sit/') }}{{ ticket.archivo }}"  download="{{ ticket.archivo }}"><img class="img-rounded" src="{{ asset('/uploads/sit/') }}{{ ticket.archivo }}" style="height: 60%"></a>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">CERRAR</button>
+          </div>
+        </div>
+      </div>
+    </div>                

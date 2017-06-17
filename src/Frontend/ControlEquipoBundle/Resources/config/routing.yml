@@ -1,0 +1,98 @@
+controlequipo_homepage:
+    path:     /
+    defaults: { _controller: ControlEquipoBundle:Default:index }
+
+controlequipo_select_modelos:
+    path:     /modelos
+    defaults: { _controller: ControlEquipoBundle:Ajax:modelos }
+    methods:  [POST]
+
+controlequipo_search_responsable:
+    path:     /busquedaresponsable
+    defaults: { _controller: ControlEquipoBundle:Ajax:busquedaResponsable }
+    methods:  [POST]
+
+controlequipo_search_equipoexterno:
+    path:     /searchequipoexterno
+    defaults: { _controller: ControlEquipoBundle:Ajax:busquedaEquipoExterno }
+    methods:  [POST]
+
+controlequipo_search_equipo:
+    path:     /busquedaequipo
+    defaults: { _controller: ControlEquipoBundle:Ajax:busquedaEquipo }
+    methods:  [POST]
+
+controlequipo_salida_equipo:
+    path:     /salidaequipo
+    defaults: { _controller: ControlEquipoBundle:Ajax:verificarSalidaEquipo }
+    methods:  [POST]
+
+controlequipo_entrada_equipo:
+    path:     /entradaequipo
+    defaults: { _controller: ControlEquipoBundle:Ajax:verificarEntradaEquipo }
+    methods:  [POST]
+
+controlequipo_eliminar_equipopauta:
+    path:     /eliminarequipopauta
+    defaults: { _controller: ControlEquipoBundle:Ajax:eliminarEquipoPauta }
+    methods:  [POST]
+
+controlequipo_insertar_modelo:
+    path:     /insertarmodelo
+    defaults: { _controller: ControlEquipoBundle:Ajax:insertarModelo }
+    methods:  [POST]
+
+controlequipo_eliminar_modelo:
+    path:     /eliminarmodelo
+    defaults: { _controller: ControlEquipoBundle:Ajax:eliminarModelo }
+    methods:  [POST]
+
+controlequipo_verificar_entrada_equipo:
+    path:     /verificarentradapauta
+    defaults: { _controller: ControlEquipoBundle:Ajax:verificarPautaEntrada }
+    methods:  [POST]
+
+controlequipo_verificar_salida_equipo:
+    path:     /verificarentradapauta
+    defaults: { _controller: ControlEquipoBundle:Ajax:verificarPautaSalida }
+    methods:  [POST]
+
+controlequipo_calendario:
+    path:     /calendario
+    defaults: { _controller: ControlEquipoBundle:Default:calendario }
+
+ControlEquipoBundle_equipoexterno:
+        resource: "@ControlEquipoBundle/Resources/config/routing/equiposexternos.yml"
+        prefix:   /equipoexterno
+        
+ControlEquipoBundle_equipointerno:
+        resource: "@ControlEquipoBundle/Resources/config/routing/equiposinternos.yml"
+        prefix:   /equipointerno
+
+ControlEquipoBundle_marca:
+        resource: "@ControlEquipoBundle/Resources/config/routing/marcas.yml"
+        prefix:   /marca
+
+ControlEquipoBundle_modelo:
+        resource: "@ControlEquipoBundle/Resources/config/routing/modelos.yml"
+        prefix:   /modelo
+        
+ControlEquipoBundle_pauta:
+        resource: "@ControlEquipoBundle/Resources/config/routing/pautas.yml"
+        prefix:   /pauta
+        
+ControlEquipoBundle_proveedor:
+        resource: "@ControlEquipoBundle/Resources/config/routing/proveedores.yml"
+        prefix:   /proveedor
+
+ControlEquipoBundle_usuario:
+        resource: "@ControlEquipoBundle/Resources/config/routing/usuario.yml"
+        prefix:   /usuario
+
+ControlEquipoBundle_visita:
+        resource: "@ControlEquipoBundle/Resources/config/routing/visita.yml"
+        prefix:   /visita
+
+ControlEquipoBundle_registroexterno:
+        resource: "@ControlEquipoBundle/Resources/config/routing/registrosexternos.yml"
+        prefix:   /registroexterno   

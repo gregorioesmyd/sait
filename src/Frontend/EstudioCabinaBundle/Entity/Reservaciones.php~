@@ -1,0 +1,118 @@
+<?php
+
+namespace Frontend\EstudioCabinaBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Estudiocabina.reservaciones
+ *
+ * @ORM\Table(name="estudiocabina.reservaciones")
+ * @ORM\Entity
+ */
+class Reservaciones
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="estudiocabina.reservaciones_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="perfil_id", type="integer", nullable=false)
+     */
+    private $perfilId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pauta", type="string", nullable=false)
+     * @Assert\NotBlank(message="La pauta de la reservación no puede estar en blanco.")
+     */
+    private $pauta;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha", type="date", nullable=false)
+     * @Assert\NotBlank(message="La fecha no puede estar en blanco.")
+     */
+    private $fecha;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="horainicio", type="time", nullable=false)
+     *@Assert\NotBlank(message="La hora de inicio no puede estar en blanco.")
+     */
+    private $horainicio;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="horafin", type="time", nullable=false)
+     * @Assert\NotBlank(message="La hora final no puede estar en blanco.")
+     */
+    private $horafin;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="observacion", type="string", length=500, nullable=true)
+     */
+    private $observacion;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="observacion_estatus", type="string", length=500, nullable=true)
+     */
+    private $observacionEstatus;
+    
+     /**
+     * @var \Perfil
+     *
+     * @ORM\ManyToOne(targetEntity="Administracion\UsuarioBundle\Entity\Perfil")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="post_productor_id", referencedColumnName="id")
+     * })
+     * 
+     * @Assert\NotNull(message="Debe seleccionar un Post-Productor.")
+     * 
+     */
+    private $postProductor;
+    
+     /**
+     * @var integer
+     *
+     * @ORM\Column(name="estatus", type="integer", nullable=false)
+     */
+    private $estatus=1;
+    
+    /**
+     * @var \Estudiocabina.estudiosCabinas
+     *
+     * @ORM\ManyToOne(targetEntity="Frontend\EstudioCabinaBundle\Entity\EstudiosCabinas")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="estudio_cabina_id", referencedColumnName="id")
+     * })
+     * 
+     * @Assert\NotNull(message="Debe seleccionar un estudio o una cabina para realizar la reservación.")
+     * 
+     */
+    
+    private $estudioCabina;
+
+
+    public function __toString()
+    {
+        return $this->pauta;
+    }
+}

@@ -1,0 +1,30 @@
+admin_categoria:
+    path:     /
+    defaults: { _controller: "TruequesBundle:Categoria:index" }
+
+admin_categoria_show:
+    path:     /{id}/show
+    defaults: { _controller: "TruequesBundle:Categoria:show" }
+
+admin_categoria_new:
+    path:     /new
+    defaults: { _controller: "TruequesBundle:Categoria:new" }
+
+admin_categoria_create:
+    path:     /create
+    defaults: { _controller: "TruequesBundle:Categoria:create" }
+    requirements: { _method: post }
+
+admin_categoria_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "TruequesBundle:Categoria:edit" }
+
+admin_categoria_update:
+    path:     /{id}/update
+    defaults: { _controller: "TruequesBundle:Categoria:update" }
+    requirements: { _method: post|put }
+
+admin_categoria_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "TruequesBundle:Categoria:delete" }
+    requirements: { _method: post|delete }

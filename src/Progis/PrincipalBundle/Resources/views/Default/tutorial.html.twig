@@ -1,0 +1,65 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h1 data-step="2" data-intro="Título del módulo actual." data-position='bottom'>TUTORIAL INTERACTIVO</h1>
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb" data-step="1" data-intro="Rastro de navegación a través del sistema." data-position='bottom'>
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li class="active">TUTORIAL INTERACTIVO</li>
+</ol>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('libs/intro.js-1.0.0/intro.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('libs/intro.js-1.0.0/introjs.css') }}">
+{% endblock %}
+
+    
+{% block contenido -%}
+    {{ parent() }}
+
+    
+    <div class="jumbotron" style="display: none;">
+        <h2>USO BASICO</h2>
+      <p class="lead">Explicación básica de los elementos del sistema.</p>
+      <a id="startButton" class="btn btn-large btn-success" href="javascript:void(0);">VER AHORA</a>
+    </div>
+    
+    <div align="center" class="carga">
+        <div class="alert alert-warning">Por favor espere, el tutorial se está cargando... Una vez cargado puede cambiar el idioma al español y dar clic en "Tutorial de inicio"</div>
+        <br><br><i class="fa fa-refresh fa-spin fa-5x"></i><br><br>
+    </div>
+    
+    <div align="center"><iframe id="pp" src="https://www.iorad.com/687/4898/Progis" width="100%" scrolling="no" height="600px" style="displasy:none;border:0px;" allowfullscreen="true"></iframe></div>
+    <br><br><br><br>
+    
+    <div class="alert alert-info">DIAGRAMA DE FLUJO</div>
+    <div align="center"><img src="{{ asset('images/progis/flujo.png')}}"></div><br><br>
+    
+
+    
+    <script>
+        $('#pp').load(function() {
+            $('.carga').hide()
+        });
+        
+
+    </script>
+    <script type="text/javascript">
+      document.getElementById('startButton').onclick = function() {
+        introJs().setOption('doneLabel', 'Siguiente página').start().oncomplete(function() {
+          window.location.href = 'second.html?multipage=true';
+        });
+      };
+    </script>
+{% endblock %}

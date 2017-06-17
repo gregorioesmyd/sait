@@ -1,0 +1,74 @@
+pautas:
+    path:     /
+    defaults: { _controller: "ControlEquipoBundle:Pautas:index" }
+
+pautas_listar:
+    path:     /listar
+    defaults: { _controller: "ControlEquipoBundle:Pautas:todasLasPautas" }
+
+pauta_show:
+    path:     /show/{id}
+    defaults: { _controller: "ControlEquipoBundle:Pautas:show" }
+
+pauta_ver:
+    path:     /ver/{id}
+    defaults: { _controller: "ControlEquipoBundle:Pautas:ver" }
+    
+pauta_seguimiento:
+    path:     /seguimiento/{id}
+    defaults: { _controller: "ControlEquipoBundle:Pautas:seguimiento" }
+
+# Confirmar Pauta
+pauta_confirmar:
+    path:     /confirmar
+    defaults: { _controller: "ControlEquipoBundle:Pautas:confirmar" }
+    requirements: { _method: post }
+    
+# Verificar y Confirmar Salida de Equipos en una Pauta
+pauta_versal:
+    path:     /verificar/salida/{id}
+    defaults: { _controller: "ControlEquipoBundle:Pautas:verificarSalida" }
+
+pauta_versal_confirmar:
+    path:     /verificar/salida_confirmar
+    defaults: { _controller: "ControlEquipoBundle:Pautas:confirmarSalida" }
+    requirements: { _method: post }
+
+# Verificar y Confirmar Entrada de Equipos en una Pauta
+pauta_verent:
+    path:     /verificar/entrada/{id}
+    defaults: { _controller: "ControlEquipoBundle:Pautas:verificarEntrada" }
+
+pauta_verent_confirmar:
+    path:     /verificar/entrada_confirmar
+    defaults: { _controller: "ControlEquipoBundle:Pautas:confirmarEntrada" }
+    requirements: { _method: post }
+
+# Creacion de Pautas (Programada y No programada)
+pauta_newpprogramada:
+    path:     /nuevaprogramada
+    defaults: { _controller: "ControlEquipoBundle:Pautas:newProgramada" }
+
+pauta_newpnprogramada:
+    path:     /nuevanoprogramada
+    defaults: { _controller: "ControlEquipoBundle:Pautas:newNprogramada" }
+
+pauta_create:
+    path:     /create
+    defaults: { _controller: "ControlEquipoBundle:Pautas:create" }
+    requirements: { _method: post }
+
+# Edicion de Pautas (Programada y No programada)
+pauta_edit:
+    path:     /edit/{id}
+    defaults: { _controller: "ControlEquipoBundle:Pautas:edit" }
+
+pauta_update:
+    path:     /update/{id}
+    defaults: { _controller: "ControlEquipoBundle:Pautas:update" }
+    requirements: { _method: post|put }
+
+pauta_delete:
+    path:     /delete/{id}
+    defaults: { _controller: "ControlEquipoBundle:Pautas:delete" }
+    requirements: { _method: post|delete }

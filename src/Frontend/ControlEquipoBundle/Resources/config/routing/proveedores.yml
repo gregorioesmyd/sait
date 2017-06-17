@@ -1,0 +1,30 @@
+proveedor:
+    path:     /
+    defaults: { _controller: "ControlEquipoBundle:Proveedores:index" }
+
+proveedor_show:
+    path:     /{id}/show
+    defaults: { _controller: "ControlEquipoBundle:Proveedores:show" }
+
+proveedor_new:
+    path:     /new
+    defaults: { _controller: "ControlEquipoBundle:Proveedores:new" }
+
+proveedor_create:
+    path:     /create
+    defaults: { _controller: "ControlEquipoBundle:Proveedores:create" }
+    requirements: { _method: post }
+
+proveedor_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ControlEquipoBundle:Proveedores:edit" }
+
+proveedor_update:
+    path:     /{id}/update
+    defaults: { _controller: "ControlEquipoBundle:Proveedores:update" }
+    requirements: { _method: post|put }
+
+proveedor_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ControlEquipoBundle:Proveedores:delete" }
+    requirements: { _method: post|delete }

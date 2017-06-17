@@ -1,0 +1,93 @@
+{% extends 'VideotecaBundle:WrapperCinta:Cinta/default.html.twig' %}
+
+{% block data %}
+<div class="row">
+	<div class="text-center col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+		<h3 class="title-section">LISTADO DE CINTAS</h3>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<table id="datatable" class="table table-striped table-bordered tableCinta">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Codigo</th>
+					<th>Tipo</th>
+					<th>Formato</th>
+					<th>Duracion</th>
+					<th>Evento</th>
+					<th>Marca</th>
+					<th>Documentalista</th>
+					<th class="actions">Actions</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+{% if is_granted('ROLE_VIDEOTECA') %}
+<div id="add_cinta" class="row" data-role="permitido">
+	<div class="text-center col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+		<a class="btn btn-default" role="button" href="{{ path('cinta_new', { 'slug': 'default' }) }}">
+			Registrar Cinta
+		</a>
+	</div>
+</div>
+{% endif %}
+
+{% endblock %}
+{% block javascripts %}
+{{parent()}}
+<script type="text/javascript">
+$(function(){
+
+	$('#datatable').DataTable( {
+		serverSide: true,
+		ajax: {
+			url: "{{ path('datatable_json',{'bundle':'VideotecaBundle','entidad':'WrapperCinta\\Cinta','joins':'join x.tipoCinta t join x.formato f join x.duracion d join x.evento e join x.marca m join x.documentalista p','where':' '})}}",
+			type: 'POST',
+			dataType: 'json',
+			"dataSrc": function ( json ) {
+				for ( var i=0, ien=json.data.length ; i<ien ; i++ ) {
+					var id = json.data[i]['sxid'];
+					var slug = json.data[i]['stslug'];
+					var ruta = "{{ path('cinta_show', { 'id':'dato','slug':'data' }) }}";
+					ruta=ruta.replace("dato",id);
+					ruta=ruta.replace("data",slug);
+
+					var ruta2 = "{{ path('cinta_edit', { 'id':'dato','slug':'data' }) }}";
+					ruta2=ruta2.replace("dato",id);
+					ruta2=ruta2.replace("data",slug);
+
+					var accion_edit = "";
+					if ($('#add_cinta').data('role')) {
+						var accion_edit = "<a class='btn btn-default' role='button' href='" +ruta2+"'>Editar</a>";
+					}
+
+					json.data[i]['naccion'] = accion_edit + '\n\
+					<a class="btn btn-default" role="button" href="'+ruta+'">Segmento</a>';
+				}
+				return json.data;
+			}
+		},
+
+		columns: [
+
+		{ "data": "sxid", "name":"integer" },
+		{ "data": "sxcodigo", "name":"string" },
+		{ "data": "stslug", "name":"string" },
+		{ "data": "sfdescripcionFormato", "name":"string" },
+		{ "data": "sdnombre", "name":"stringstring" },
+		{ "data": "senombre", "name":"string" },
+		{ "data": "smdescripcionMarca", "name":"string" },
+		{ "data": "spprimerNombre", "name":"string" },
+		{ "data": "naccion", "name":"string"  }
+
+		]
+
+
+	} );
+} );
+</script>
+
+{% endblock %}

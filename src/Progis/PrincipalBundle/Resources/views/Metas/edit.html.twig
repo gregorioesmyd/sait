@@ -1,0 +1,79 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>EDITAR FECHAS META</h2>
+    <h5>MIEMBRO: {{ miembroEspacio.usuario.primerNombre}} {{ miembroEspacio.usuario.primerApellido}}</h5>
+    <h5>
+        JORNADA LABORAL: 
+        {% set dia=miembroEspacio.jornadalaboral.dias|split("-") %}
+        {% for d in dia %}
+            {% if d==1 %} | Lunes |
+            {% elseif d==2 %} | Martes |
+            {% elseif d==3 %} | Miercoles |
+            {% elseif d==4 %} | Jueves |
+            {% elseif d==5 %} | Viernes |
+            {% elseif d==6 %} | Sábado |
+            {% elseif d==7 %} | Domingo |
+            {% endif %}
+        {% endfor %}
+    
+    </h5>
+    <a href="{{ path('metas_show', { 'id': entity.id }) }}"><i class="fa fa-eye"> Consultar meta</i></a>&nbsp;&nbsp;<a href="{{ path('prioridadmeta_new', { 'idmeta': entity.id }) }}"><i class="fa fa-plus"> Agregar prioridades a metas</i></a>&nbsp;&nbsp;
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("miembroespacio") }}">LISTA DE MIEMBROS</a></li>
+  <li><a href="{{ path("metas",{'id':miembroEspacio.id}) }}">LISTA DE METAS</a></li>
+  <li><a href="{{ path("metas_show",{'id':entity.id}) }}">CONSULTAR META</a></li>
+  <li class="active">EDITAR META</li>
+</ol>
+{% endblock %}
+
+{% block contenido %}
+    {{ parent()}}
+
+    {{ form_start(edit_form, { 'attr': {'novalidate':null} }) }}
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">MODIFIQUE LOS PARÁMETROS QUE DESEE</div>
+            <div class="panel-body">
+                    <div id="formulario">{{ form_widget(edit_form) }}</div>
+            </div>
+        </div>
+
+            <div align="center"><input type="submit" class="btn btn-primary" value="EDITAR META"><br>
+    {{ form_end(edit_form) }}   
+
+    <BR><div align="center">
+            
+    {{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+        {{ form_errors(delete_form) }}
+        {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+    {{ form_end(delete_form) }}</div>
+    <br>
+    
+<script>
+    $(document).ready(function(){
+      $( "#progis_principalbundle_metas_fechadesde" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "dd-mm-yy",
+      });
+      $( "#progis_principalbundle_metas_fechahasta" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "dd-mm-yy",
+      });
+      
+      $("#Miembroespacio").hide();
+      $("#Fechadesde").hide();
+      $("#Fechahasta").hide();
+
+    });
+    
+    
+</script>
+{% endblock %}

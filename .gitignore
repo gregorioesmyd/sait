@@ -1,0 +1,14 @@
+app/config/parameters.yml
+app/cache/*
+app/logs/*
+nbproject/*
+web/libs/scripts/192.168.3.139/microframework/*
+.project
+/bootstrap-calendar-master/nbproject/private/
+/web/libs/intro.js-1.0.0/nbproject/private/
+/web/bundles/principal/libs/bootstrap-calendar/nbproject/private/
+/web/libs/jstree/nbproject/private/
+/web/libs/hopscotch/nbproject/private/
+app/spool/*
+web/*
+vendor/*

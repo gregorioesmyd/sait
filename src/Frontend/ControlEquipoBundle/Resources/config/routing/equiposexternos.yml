@@ -1,0 +1,55 @@
+equipoexterno:
+    path:     /
+    defaults: { _controller: "ControlEquipoBundle:EquiposExternos:index" }
+
+equipoexterno_show:
+    path:     /{id}/show
+    defaults: { _controller: "ControlEquipoBundle:EquiposExternos:show" }
+
+equipoexterno_rastreo:
+    path:     /rastreo/{id}
+    defaults: { _controller: "ControlEquipoBundle:EquiposExternos:rastreo" }
+
+equipoexterno_new:
+    path:     /new/{id}/{tipo}
+    defaults: { _controller: "ControlEquipoBundle:EquiposExternos:new" }
+
+equipoexterno_salida:
+    path:     /salida/{id}/{tipo}
+    defaults: { _controller: "ControlEquipoBundle:EquiposExternos:registrarSalida" }
+
+equipoexterno_search_empleado:
+    path:     /busca_empleado
+    defaults: { _controller: "ControlEquipoBundle:EquiposExternos:busca" }
+
+equipoexterno_busqueda_empleado:
+    path:     /datosempleado
+    defaults: { _controller: "ControlEquipoBundle:EquiposExternos:busquedaDatosEmpleado" }
+    requirements: { _method: post }
+
+equipoexterno_datos_empleado:
+    path:     /empleado/{id}/{tipo}
+    defaults: { _controller: "ControlEquipoBundle:EquiposExternos:datosEmpleado" }
+
+equipoexterno_busca:
+    path:     /busca/{id}/{tipo}
+    defaults: { _controller: "ControlEquipoBundle:EquiposExternos:busca" }
+
+equipoexterno_create:
+    path:     /create/{visita}
+    defaults: { _controller: "ControlEquipoBundle:EquiposExternos:create" }
+    requirements: { _method: post }
+
+equipoexterno_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ControlEquipoBundle:EquiposExternos:edit" }
+
+equipoexterno_update:
+    path:     /{id}/update
+    defaults: { _controller: "ControlEquipoBundle:EquiposExternos:update" }
+    requirements: { _method: post|put }
+
+equipoexterno_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ControlEquipoBundle:EquiposExternos:delete" }
+    requirements: { _method: post|delete }

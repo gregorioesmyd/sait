@@ -1,0 +1,184 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block title %}Visitas{% endblock %}
+
+{% block titulo %}
+    <h3>LISTADO DE VISITANTES</h3>
+{% endblock %}
+
+{% block ubicacion %}
+        <ol class="breadcrumb">
+            <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+            <li class="active">LISTADO DE VISITANTES</li>
+
+        </ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+
+    <table id="tabladatatable" class="table table-striped" style="width: 97%;">
+        <thead>
+            <tr>
+                <th>NOMBRES</th>
+                <th>APELLIDOS</th>
+                <th>CEDULA</th>
+                <th>F. E.</th>
+                <th>H. E.</th>
+                <th>F. S.</th>
+                <th>H. S.</th>
+                <th style="width: 15%">CONTACTO</th>
+                <th style="width: 15%">OBSERVACIONES</th>
+                <th>ESTATUS</th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>NOMBRES</th>
+                <th>APELLIDOS</th>
+                <th>CEDULA</th>
+                <th>F. E.</th>
+                <th>H. E.</th>
+                <th>F. S.</th>
+                <th>H. S.</th>
+                <th>CONTACTO</th>
+                <th>OBSERVACIONES</th>
+                <th style="display: none;">ESTATUS</th>
+                <th style="display: none;">ACCIONES</th>
+            </tr>
+        </tfoot>
+
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+           $('span').tooltip()
+           
+            $('#tabladatatable tfoot th').each( function () {
+                    var title = $('#tabladatatable thead th').eq( $(this).index() ).text();
+                    $(this).html( '<input style="width:100%" type="text" placeholder="'+title+'" />' );
+            } );
+
+            var table=   $('#tabladatatable').DataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                    "bServerSide": true,
+                    "bProcessing": true,
+                    "sAjaxSource": "/sait/web/libs/datatables/visitas.php",
+                    "sPaginationType": "full_numbers", 
+                    "aaSorting": [[9,'desc'],[3,'desc'],[4,'desc']],
+                } );
+            // Apply the search
+            table.columns().eq( 0 ).each( function ( colIdx ) {
+                    $( 'input', table.column( colIdx ).footer() ).on( 'keyup change', function () {
+                            table
+                                    .column( colIdx )
+                                    .search( this.value )
+                                    .draw();
+                    } );
+            } );
+        });
+        
+
+        
+    </script>
+    
+  
+    
+    {#
+    <table id="tabladatatable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>NOMBRES</th>
+                <th>APELLIDOS</th>
+                <th>CEDULA</th>
+                <th>F. E.</th>
+                <th>H. E.</th>
+                <th>F. S.</th>
+                <th>H. S.</th>
+                <th style="width: 15%">CONTACTO</th>
+                <th style="width: 15%">OBSERVACIONES</th>
+                <th>ESTATUS</th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>NOMBRES</th>
+                <th>APELLIDOS</th>
+                <th>CEDULA</th>
+                <th>F. E.</th>
+                <th>H. E.</th>
+                <th>F. S.</th>
+                <th>H. S.</th>
+                <th>CONTACTO</th>
+                <th>OBSERVACIONES</th>
+                <th style="display:none;">ESTATUS</th>
+                <th style="display:none;">ACCIONES</th>
+            </tr>
+        </tfoot>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.usuario.nombres }}</td>
+                <td>{{ entity.usuario.apellidos }}</td>
+                <td>{{ entity.usuario.cedula }}</td>
+                <td>{{ entity.fechaentrada|date('Y-m-d') }}</td>
+                <td>{{ entity.horaentrada|date('G:i:s') }}</td>
+                <td>{% if entity.fechasalida %}{{ entity.fechasalida|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if entity.horasalida %}{{ entity.horasalida|date('G:i:s') }}{% endif %}</td>
+                <td style="width: 15%">{{ entity.contacto }}</td>
+                <td>{{ entity.observaciones }}</td>
+                <td>
+                    
+                    {% if entity.fechasalida==null %}
+                        <div class="label label-danger">INGRESO</div>
+                    {% else %}
+                        <div class="label label-success">SE RETIRO</div>
+                    {% endif %}
+                </td>
+                <td>
+                    <a class="label label-info" href="{{ path('visita_show', { 'id': entity.id }) }}">CONSULTAR</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+    <script type="text/javascript">
+        $(document).ready(function(){
+           $('span').tooltip()
+           
+            $('#tabladatatable tfoot th').each( function () {
+                    var title = $('#tabladatatable thead th').eq( $(this).index() ).text();
+                    $(this).html( '<input style="width:100px" type="text" placeholder="'+title+'" />' );
+            } );
+
+            var table=   $('#tabladatatable').DataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                    "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                    "aaSorting": [[9,'asc'],[3,'desc'],[4,'desc']],
+                } );
+            // Apply the search
+            table.columns().eq( 0 ).each( function ( colIdx ) {
+                    $( 'input', table.column( colIdx ).footer() ).on( 'keyup change', function () {
+                            table
+                                    .column( colIdx )
+                                    .search( this.value )
+                                    .draw();
+                    } );
+            } );
+        });
+    </script>
+#}
+    <br><br><a class="btn btn-primary" href="{{ path('visita_busca') }}">
+        REGISTRAR NUEVA VISITA
+    </a><br><br>
+
+                
+
+
+    
+    {% endblock %}
+

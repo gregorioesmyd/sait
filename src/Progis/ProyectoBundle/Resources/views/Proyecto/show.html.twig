@@ -1,0 +1,119 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>CONSULTA PROYECTO</h2>
+    <h4>PROYECTO: "{{ entity.nombre|upper }}"<br></h4>
+    
+    {% if 
+        rolMiembroEspacioNivel[entity.nivelorganizacional.id]['ROLE_PROGIS_PROYECTO_ADMIN'] is defined or 
+        rolMiembroProyecto[entity.id]["ROLE_PROGIS_PROYECTO_ESP_ADMIN"] is defined or 
+        (is_granted('ROLE_PROGIS_ADMIN') and app.session.get('idnivel')==entity.nivelorganizacional.id) %}
+        <a href="{{ path('objetivo', { 'idproyecto': entity.id }) }}"><i class="fa fa-edit">  Ir a objetivos</i></a>&nbsp;&nbsp;                
+    <a href="{{ path('proyecto_edit',{'id':entity.id}) }}"><i class="fa fa-edit"> Ir a editar</i></a>&nbsp;&nbsp;
+    <a href="{{ path('miembroproyecto',{'idproyecto':entity.id}) }}"><i class="fa fa-plus"> Gestionar miembros de proyecto</i></a>&nbsp;&nbsp;
+    {% endif %}
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("proyecto") }}">LISTA DE PROYECTOS</a></li>
+  <li class="active">NUEVO PROYECTO</li>
+</ol>
+{% endblock %}
+
+{% block contenido -%}
+    {{ parent() }}
+
+    <table class="table table-hover tablaShow">
+        <tr>
+            <th>Nombre:</th>
+            <td>{{ entity.nombre|capitalize }}</td>
+        </tr>
+        <tr>
+            <th>Descripcion:</th>
+            <td>{{ entity.descripcion|capitalize }}</td>
+        </tr>
+        <tr>
+            <th>Fecha inicio estimada:</th>
+            <td>
+                {% if entity.fechainicioestimada %}
+                    {{ entity.fechainicioestimada|date('d-m-Y') }}
+                {% else %}
+                    POR DEFINIR
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Fecha fin estimada:</th>
+            <td>
+                {% if entity.fechafinestimada %}
+                    {{ entity.fechafinestimada|date('d-m-Y') }}
+                {% else %}
+                    POR DEFINIR
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Estatus:</th>
+            <td>
+                {% if entity.estatus==1 %}
+                    <span class="label label-danger">PROYECTO SIN COMENZAR</span>
+                {% elseif entity.estatus==2 %}
+                    <span class="label label-warning">EN PROGRESO</span>
+                {% elseif entity.estatus==3 %}
+                    <span class="label label-success">CULMINADO</span>
+                {% endif %}
+            </td>
+        </tr>
+        
+        <tr>
+            <th>Miembros(s):</th>
+            <td>
+                {% if miembroProyecto is not empty %}
+
+                    {% set cont = 0 %}
+                    {% set largo = miembroProyecto | length %}
+                    {% for mp in miembroProyecto %} 
+                        {% set cont=cont+1 %}
+                            {{ mp.miembroespacio.usuario.primerNombre|title }} {{ mp.miembroespacio.usuario.primerApellido|title }}
+                            {% if mp.liderproyecto==true %}<span data-toggle="tooltip" data-placement="top" title="Líder de proyecto"><b>(L)</b></span>{% endif %}
+                            {% if cont == largo-1 %} y{% elseif largo > 1 and cont < largo-1  %},{% else %}.{% endif %}
+                    {% endfor %}
+
+                {% else %}
+                    Debe agregar un responsable
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Completado:</th>
+            <td>
+                {% if entity.porcentaje==0 %}
+                    SIN AVANCE
+                {% else %}
+                    <div class="progress" style="width:50%;">
+                      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{ entity.porcentaje }}%;color:black;font-weight:bold;">
+                        {{ entity.porcentaje }}%
+                      </div>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+            
+    <div align="center">
+        </a>{% if is_granted('ROLE_PROGIS_PROYECTO_ADMIN') or is_granted('ROLE_PROGIS_SUPERADMIN') %} |
+        {{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+            {{ form_errors(delete_form) }}
+            {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+        {{ form_end(delete_form) }}{% endif %}
+    </div>
+            
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+{% endblock %}

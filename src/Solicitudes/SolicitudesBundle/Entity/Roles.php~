@@ -1,0 +1,50 @@
+<?php
+
+namespace Solicitudes\SolicitudesBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Solicitudes.roles
+ *
+ * @ORM\Table(name="solicitudes.roles")
+ * @ORM\Entity
+ */
+class Roles
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="solicitudes.roles_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="administradores", type="string", length=255, nullable=false)
+     */
+    private $administradores;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="consulta", type="string", length=255, nullable=false)
+     */
+    private $consulta;
+
+    /**
+     * @var \Solicitudes.solicitudes
+     *
+     * @ORM\ManyToOne(targetEntity="Solicitudes.solicitudes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="solicitudes_id", referencedColumnName="id")
+     * })
+     */
+    private $solicitudes;
+
+
+}

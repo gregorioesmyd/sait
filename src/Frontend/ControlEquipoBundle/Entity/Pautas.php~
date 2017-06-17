@@ -1,0 +1,99 @@
+<?php
+
+namespace Frontend\ControlEquipoBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Pautas
+ *
+ * @ORM\Table(name="controlequipo.pautas")
+ * @ORM\Entity
+ */
+class Pautas
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="controlequipo.pautas_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_solicitud", type="date", nullable=false)
+     */
+    private $fechaSolicitud;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="estatus", type="integer", nullable=false)
+     */
+    private $estatus;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="unidad_dependencia_id", type="integer", nullable=false)
+     */
+    private $unidadDependenciaId;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_entrada", type="date", nullable=false)
+     */
+    private $fechaEntrada;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="hora_entrada", type="date", nullable=false)
+     */
+    private $horaEntrada;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_salida", type="date", nullable=false)
+     */
+    private $fechaSalida;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="hora_salida", type="date", nullable=false)
+     */
+    private $horaSalida;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="justificacion", type="string", length=500, nullable=false)
+     */
+    private $justificacion;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="aprobado", type="boolean", nullable=false)
+     */
+    private $aprobado;
+
+    /**
+     * @var \TipoPautas
+     *
+     * @ORM\ManyToOne(targetEntity="TipoPautas")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_pauta_id", referencedColumnName="id")
+     * })
+     */
+    private $tipoPauta;
+
+
+}

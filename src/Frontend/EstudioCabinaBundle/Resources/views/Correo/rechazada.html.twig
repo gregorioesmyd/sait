@@ -1,0 +1,62 @@
+<div align="center">
+    <div style=" font-size: 20px;font-weight: bold;width: 600px;border: 1px solid gray;padding: 5px;background-color: red;color:white;">SOLICITUD DE RESERVACION RECHAZADA</div>
+    <table style="width: 612px;border: 1px solid gray;" cellpadding="5px" class="tablacorreo">
+         <tr>
+            <th align="right">Reservaci&oacute;n:</th>
+            <td>{{ reservaciones.estudioCabina }}</td>
+        </tr>
+        <tr>
+            <th align="right">Pauta: </th>
+            <td>{{ reservaciones.pauta|capitalize }}</td>
+        </tr>
+        {% if reservaciones.observacion%}
+            <tr>
+                <th align="right">Observaci&oacute;n: </th>
+                <td class="solicitud">{{ reservaciones.observacion}}</td>
+            </tr>
+        {%endif%}
+        <tr>
+            <th align="right">Fecha Estimada: </th>
+           <td>{{ reservaciones.fecha |date('d-m-Y')}}</td>
+        </tr>
+        <tr>
+            <th align="right">Hora Programada:</th>
+           <td>Inicio: {{ reservaciones.horaInicio|date('H:i:s')  }}   |   Fin: {{ reservaciones.horaFin|date('H:i:s')  }}</td>
+        </tr>
+        <tr>
+            <th align="right">Solicitante: </th>
+           <td>{% for s in solicitante %}{{ s.primerApellido | capitalize }} {{ s.primerNombre | capitalize}}{% endfor %}</td>
+        </tr>
+        <tr>
+            <th align="right">Extensi&oacute;n: </th>
+            <td>{% for s in solicitante %}{{ s.extension|capitalize }}{% endfor %}</td>
+        </tr>
+        <tr>
+          <th>Dependencia:</th>
+          <td class="solicitud">{% for s in solicitante %}{{ s.nivelorganizacional}}{% endfor %}</td>
+        </tr>
+        <tr>
+            <th align="right">Quien Rechaza: </th>
+           <td>{% for p in perfil %}{{ p.primerApellido | capitalize }} {{ p.primerNombre | capitalize}}{% endfor %}</td>
+        </tr>
+         <tr>
+            <th align="right">Estatus: </th>
+            <td>
+                {% if reservaciones.estatus==1 %}        <span class="label label-warning" style="font-size: 85%;"> En Espera</span>
+                    {% elseif reservaciones.estatus==2 %}<span class="label label-success" style="font-size: 85%;"> Aprobado</span>
+                    {% elseif reservaciones.estatus==3 %} <span class="label label-danger"  style="font-size: 85%;">Rechazado</span>
+                    {% elseif reservaciones.estatus==4 %}<span class="label label-default" style="font-size: 85%;"> Culminado</span>
+                    {% elseif reservaciones.estatus==5 %}<span class="label label-primary" style="font-size: 85%;"> Caducado</span>
+                {% endif %}
+            </td>
+        </tr>
+      {% if reservaciones.observacionEstatus%}  
+        <tr>
+            <th align="right">Motivo de Rechazo: </th>
+            <td>
+              {{ reservaciones.observacionEstatus}}
+            </td>
+        </tr>
+      {% endif %} 
+      </table>
+</div>

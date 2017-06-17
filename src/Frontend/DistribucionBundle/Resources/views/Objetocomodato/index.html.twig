@@ -1,0 +1,64 @@
+{% extends '::distribucion.html.twig' %}
+{% block title %}Distribución{% endblock %}
+
+{% block titulobanner %}
+    OBJETO COMODATO - LISTA
+{% endblock %}
+
+    
+{% block body -%}
+    {{ parent() }}
+    <div class="titulo">LISTA DE OBJETOS DE COMODATO</div>
+
+    {% if app.session.started %}
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="Greenflash-notice">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        {% for flashMessage in app.session.flashbag.get('alert') %}
+            <div class="Redflash-notice">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+    {% endif %}
+
+    <table class="records_list" cellpaddin=0 cellspacing=0>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Objeto</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr {% if loop.index is odd %}style="background-color: #e9f5fe;"{% endif %}>
+                <td><a href="{{ path('objetocomodato_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.objeto }}</td>
+                <td>
+
+                    <a href="{{ path('objetocomodato_show', { 'id': entity.id }) }}"><span class="icon-search"></a>
+         
+                    {% if is_granted('ROLE_DISTRIBUCION_ADMINISTRADOR') %}
+                    <a href="{{ path('objetocomodato_edit', { 'id': entity.id }) }}"><span class="icon-edit"></a>
+                    {% endif %}
+
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_granted('ROLE_DISTRIBUCION_ADMINISTRADOR') %}
+    <br>
+    <a class="btn" href="{{ path('objetocomodato_new') }}">
+        Ir a nuevo
+    </a>
+        <br>
+    {% endif %}
+    <br>
+    {% endblock %}

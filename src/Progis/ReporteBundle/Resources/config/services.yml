@@ -1,0 +1,8 @@
+parameters:
+#    reporte.example.class: Progis\ReporteBundle\Example
+
+services:
+    estadoProcesoModelo:
+        class: Progis\ReporteBundle\Modelo\estadoProcesoModelo
+        arguments: 
+            em: "@doctrine.orm.entity_manager"

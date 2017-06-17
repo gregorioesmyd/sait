@@ -1,0 +1,114 @@
+{% extends '::controlequipo.html.twig' %}
+
+{% block ubicacion %}
+        <ol class="breadcrumb">
+          <li><a href="{{ path("controlequipo_homepage") }}">INICIO</a></li>
+            <li class="active">PAUTAS</li>
+        </ol>
+{% endblock %}
+{% block body %}
+    {{ parent() }}
+    <h3 style="margin-top: 5px;">Listado de Pautas</h3>
+    <table id="tabladatatable" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Pauta</th>
+                <th>Tipo</th>
+                <th>Desde</th>
+                <th>Hasta</th>
+                <th>Responsable</th>
+                <th>Dependencia</th>
+                <th>Justificacion</th>
+                <th>&nbsp;</th>
+                <th>Estatus</th>
+                <th><center>Opciones</center></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ "%06d" | format(entity.id) }}</td>
+                <td><center>
+                    {% if entity.tipoPauta == 1 %}
+                        <span class="label label-primary glyphicon glyphicon-dashboard"> P</span>
+                    {% elseif entity.tipoPauta == 2 %}
+                        <span class="label label-info glyphicon glyphicon-flash"> NP</span>
+                    {% endif %}</center>
+                </td>
+                <td><center>{% if entity.fechaDesde %}{{ entity.fechaDesde|date('d/m/Y') }}{% endif %}</center></td>
+                <td><center>{% if entity.fechaHasta %}{{ entity.fechaHasta|date('d/m/Y') }}{% endif %}</center></td>
+                <td>{{ entity.responsable }}</td>
+                <td>
+                    {% if unidadResponsable[entity.id] == '' %}
+                        Sin Unidad Responsable
+                    {% else %}
+                        {{ unidadResponsable[entity.id] }}
+                    {% endif %}
+                </td>
+                <td>{{ entity.justificacion }}</td>
+                <td><span class="badge"> {{ nequipo[entity.id] }}</span></td>
+                <td>
+                    {% if entity.estatus == 1 %}
+                        <span class="label label-info glyphicon glyphicon-certificate"> Creada</span>
+                    {% elseif entity.estatus == 2 %}
+                        <span class="label label-success glyphicon glyphicon-ok"> Ok</span>
+                    {% elseif entity.estatus == 3 %}
+                        <span class="label label-info glyphicon glyphicon-log-out"> Salida Conf.</span>
+                    {% elseif entity.estatus == 4 %}
+                        <!-- Al confirmar la Entrada se finaliza la Pauta -->
+                        <span class="label label-default glyphicon glyphicon-ok-sign"> Finalizada</span>
+                    {% else %}
+                        <span class="label label-default glyphicon glyphicon-remove"> Sin Estatus</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <center>
+                        <ul>
+                            <li>
+                                {% if is_granted('ROLE_EQUIPOS_PAUTASPROGRAMADAS') %}
+                                    <a href="{{ path('pauta_ver', { 'id': entity.id }) }}" data-toggle="tooltip" data-placement="top" title="Ver Pauta"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                {% endif %}
+                                {% if entity.estatus == 1 %}
+                                    <a href="{{ path('pauta_show', { 'id': entity.id }) }}" data-toggle="tooltip" data-placement="top" title="Verificar y Confirmar Pauta"><span class="glyphicon glyphicon-ok"></a>
+                                    <a href="{{ path('pauta_edit', { 'id': entity.id }) }}" data-toggle="tooltip" data-placement="top" title="Editar Pauta"><span class="glyphicon glyphicon-edit"></a>
+                                {% endif %}
+                                {% if is_granted('ROLE_EQUIPOS_SEGURIDAD') %}
+                                    {% if entity.estatus == 2 %}
+                                        <a href="{{ path('pauta_versal', { 'id': entity.id }) }}" data-toggle="tooltip" data-placement="top" title="Verificar y Confirmar Salida"><span class="glyphicon glyphicon-log-out"></span></a>
+                                    {% endif %}
+                                    {% if entity.estatus == 3 %}
+                                        <a href="{{ path('pauta_verent', { 'id': entity.id }) }}" data-toggle="tooltip" data-placement="top" title="Verificar y Confirmar Entrada"><span class="glyphicon glyphicon-log-in"></span></a>
+                                    {% endif %}
+                                
+                                <a href="{{ path('pauta_seguimiento', { 'id': entity.id }) }}" data-toggle="tooltip" data-placement="top" title="Seguimiento de Pauta"><span class="glyphicon glyphicon-list-alt"></a>
+                                {% endif %}
+                                
+                                <!--<a href="{{ path('pauta_edit', { 'id': entity.id }) }}">edit</a>-->
+                            </li>
+                        </ul>
+                    </center>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+<br><br><br><br>
+        <!--<ul>
+        <li>
+            <br><br>
+                <a class="btn btn-primary" href="{{ path('pauta_newpprogramada') }}"><span>REGISTRAR PAUTA (P)</span></a> |
+                <a class="btn btn-primary" href="{{ path('pauta_newpnprogramada') }}"><span>REGISTRAR PAUTA (NP)</span></a>
+            <br><br>
+        </li>
+    </ul>-->
+    <script type="text/javascript">
+        $(document).ready(function(){
+           $('span').tooltip()
+            
+           $('#tabladatatable').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                "aaSorting": [[8,'desc']],
+            } );
+        })
+    </script>
+    {% endblock %}

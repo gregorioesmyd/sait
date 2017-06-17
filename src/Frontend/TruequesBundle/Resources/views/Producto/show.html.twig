@@ -1,0 +1,43 @@
+{% extends '::base_trueques.html.twig' %}
+
+{% block body -%}
+    {{ parent() }}
+    
+    <br><br><br>
+    
+
+    <div align="center">
+        
+        <h1>Consulta de producto</h1>
+        
+        
+        <table class="show table table-bordered">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ entity.id }}</td>
+                </tr>
+                <tr>
+                    <th>Nombre</th>
+                    <td>{{ entity.nombre }}</td>
+                </tr>
+            </tbody>
+        </table>
+                
+        <a class="btn btn-default" href="{{ path('admin_producto') }}">
+            Volver
+        </a>
+        <a class="btn btn-default" href="{{ path('admin_producto_edit', { 'id': entity.id }) }}">
+            Editar
+        </a>
+    </div>
+    <br>
+    <div align="center">
+        {{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+            {{ form_errors(delete_form) }}
+            {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+        {{ form_end(delete_form) }}
+    </div>
+    
+    <br><br><br>
+{% endblock %}

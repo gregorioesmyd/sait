@@ -1,0 +1,57 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>NUEVA ACTIVIDAD</h2>
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("objetivo",{'idproyecto':objetivo.proyecto.id}) }}">LISTA DE OBJETIVOS</a></li>
+  <li><a href="{{ path("proyecto_procesarActividad",{'idobjetivo':objetivo.id}) }}">LISTA DE ACTIVIDADES</a></li>
+  <li class="active">NUEVA ACTIVIDAD</li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent()}}
+    
+    {{ form_start(form, { 'attr': {'novalidate':null} }) }}
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">INGRESE LOS PARÁMETROS</div>
+            <div class="panel-body">
+                    <div id="formulario">{{ form_widget(form) }}</div>
+            </div>
+        </div>
+
+        <div align="center"><input type="submit" class="btn btn-primary" value="CREAR ACTIVIDAD"></div>
+    {{ form_end(form) }}
+        
+        
+    {% if idmp!=null%}
+        <script type="text/javascript">
+           $(document).ready(function(){
+               $('#frontend_proyectobundle_procesaractividad_responsable > option[value="{{ idmp }}"]').attr('selected', 'selected');
+
+           });
+        </script>
+
+
+        {% if 
+            rolGeneralNivel[objetivo.proyecto.nivelorganizacional.getId()]['ROLE_PROGIS_PROYECTO_TECNICO']==true
+
+            or(rolProyecto[objetivo.proyecto.id] is defined and(
+            rolProyecto[objetivo.proyecto.id]['ROLE_PROGIS_PROYECTO_ESP_TECNICO']==true))
+        %}
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $('#Responsable').hide()
+                })
+            </script>
+        {% endif %}
+    {% endif %}       
+    
+
+{% endblock %}

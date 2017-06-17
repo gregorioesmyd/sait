@@ -1,0 +1,39 @@
+metas:
+    path:     /metas/{id}/lista
+    defaults: { _controller: "PrincipalBundle:Metas:index" }
+
+metas_show:
+    path:     /{id}/show
+    defaults: { _controller: "PrincipalBundle:Metas:show" }
+
+metas_new:
+    path:     /metas/{id}/new
+    defaults: { _controller: "PrincipalBundle:Metas:new" }
+
+metas_create:
+    path:     /metas/{id}/create
+    defaults: { _controller: "PrincipalBundle:Metas:create" }
+    requirements: { _method: post }
+
+metas_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "PrincipalBundle:Metas:edit" }
+
+metas_update:
+    path:     /{id}/update
+    defaults: { _controller: "PrincipalBundle:Metas:update" }
+    requirements: { _method: post|put }
+
+metas_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "PrincipalBundle:Metas:delete" }
+    requirements: { _method: post|delete }
+
+prioridadmeta_new:
+    path:     /{idmeta}/new
+    defaults: { _controller: "PrincipalBundle:Metas:priometa" }
+
+prioridadmeta_create:
+    path:     /create
+    defaults: { _controller: "PrincipalBundle:Metas:priometaCreate" }
+    requirements: { _method: post }

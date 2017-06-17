@@ -1,0 +1,30 @@
+historialreservaciones:
+    path:     /{id}/{tipo}/{ubicacion}
+    defaults: { _controller: "EstudioCabinaBundle:HistorialReservaciones:index" }
+
+historialreservaciones_show:
+    path:     /{id}/show
+    defaults: { _controller: "EstudioCabinaBundle:HistorialReservaciones:show" }
+
+historialreservaciones_new:
+    path:     /new
+    defaults: { _controller: "EstudioCabinaBundle:HistorialReservaciones:new" }
+
+historialreservaciones_create:
+    path:     /create
+    defaults: { _controller: "EstudioCabinaBundle:HistorialReservaciones:create" }
+    requirements: { _method: post }
+
+historialreservaciones_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EstudioCabinaBundle:HistorialReservaciones:edit" }
+
+historialreservaciones_update:
+    path:     /{id}/update
+    defaults: { _controller: "EstudioCabinaBundle:HistorialReservaciones:update" }
+    requirements: { _method: post|put }
+
+historialreservaciones_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "EstudioCabinaBundle:HistorialReservaciones:delete" }
+    requirements: { _method: post|delete }

@@ -1,0 +1,106 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h3>LISTA DE MIEMBROS</h3>
+    <a href="{{ path('miembroespacio_new') }}"><i data-toggle="tooltip" data-placement="top" title="Consultar miembro del espacio" class="fa fa-plus"></i> Agregar miembro</a> &nbsp;
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li class="active">LISTA DE MIEMBROS</li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+ 
+   
+    <div class="row">
+        
+        {% for entity in entities if entity.usuario.user.isActive==true %}
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="panel panel-{% if entity.activo==true%}info{% else %}danger{% endif %}">
+                    <div class="panel-heading" align="center" style="">{{ entity.usuario.primerNombre }} {{ entity.usuario.primerApellido }}</div>
+                    <div class="panel-body" style="overflow-y: scroll;height: 200px;">
+                        <div>
+                            <a href="{{ path('metas', { 'id': entity.id }) }}"><i data-toggle="tooltip" data-placement="top" title="Consultar miembro del espacio" class="fa fa-plus"></i> Metas</a> &nbsp;
+                            <a href="{{ path('miembroespacio_show', { 'id': entity.id }) }}"><i data-toggle="tooltip" data-placement="top" title="Consultar miembro del espacio" class="fa fa-eye"></i> Consultar</a> &nbsp;
+                            <a href="{{ path('miembroespacio_edit', { 'id': entity.id }) }}"><i data-toggle="tooltip" data-placement="top" title="Editar miembro del espacio" class="fa fa-pencil-square-o"></i> Editar</a>
+                            
+                            
+                            
+                        </div>
+                        <div style="font-size: 10px;font-weight: bold;">
+                            {% set dia=entity.jornadalaboral.dias|split("-") %}
+                            {% for d in dia %}
+                                {% if d==1 %}  Lun
+                                {% elseif d==2 %}  Ma
+                                {% elseif d==3 %}  Mi
+                                {% elseif d==4 %}  Ju
+                                {% elseif d==5 %}  Vi
+                                {% elseif d==6 %}  Sá
+                                {% elseif d==7 %}  Do
+                                {% endif %}
+                            {% endfor %}
+                            de {{entity.jornadalaboral.horadesde|date("G:i:s")}} a {{entity.jornadalaboral.horahasta|date("G:i:s")}}
+                        </div>
+                        <br>
+                        <div align="center">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                {% if entity.usuario.foto is null %}
+                                    <img src="/uploads/personalTelesur/no.png" style="height: 13%" class="img-thumbnail">
+                                {% else %}
+                                    <img src="{{entity.usuario.foto}}" style="height: 40%" class="img-thumbnail">
+                                {% endif %}
+                                </div>
+                                <div class="col-sm-8" align="left">
+                                    <a href="{{ path('progis_principal_pendientes', { 'idusuario': entity.usuario.id,'desde':'ME' }) }}"><i data-toggle="tooltip" data-placement="top" title="Ver lista de pendientes" class="fa fa-list"></i> Ver Pendientes</a><br>
+                                    <a href="{{ path('progis_principal_revisar', { 'idusuario': entity.id }) }}"><i data-toggle="tooltip" data-placement="top" title="Ver lista de actividades por revisar" class="fa fa-graduation-cap"></i> Revisar</a><br>
+
+
+                                </div>
+                            </div>
+                                    <div style="text-align: left;padding-left: 6px;">
+                                {% if actividad[entity.id] is defined %}
+
+                                    <br><i data-toggle="tooltip" data-placement="top" title="Editar miembro del espacio" class="fa fa-gears"></i>En proceso: <a data-toggle="modal" href="#myModalProceso{{entity.id}}">Actividad</a>
+                                    {% set info %}
+                                        <b>PROYECTO</b>: <a target="_blank" href="{{ path('proyecto_show',{'id':actividad[entity.id].objetivo.proyecto.id}) }}">{{ actividad[entity.id].objetivo.proyecto.nombre|upper }}</a><br>
+                                        <b>OBJETIVO</b>: <a target="_blank" href="{{ path('objetivo_show',{'id':actividad[entity.id].objetivo.id}) }}">{{ actividad[entity.id].objetivo.nombre|upper }}</a><br>
+                                        <b>ACTIVIDAD</b>: <a target="_blank" href="{{ path('proyecto_procesarActividad', { 'idobjetivo': actividad[entity.id].objetivo.id  }) }}">{{ actividad[entity.id].descripcion|upper }}</a><br>
+                                    {% endset %}
+
+                                    {% include 'PrincipalBundle:Miembroespacio:__modalProceso.html.twig' %}
+                                {% elseif ticket[entity.id] is defined  %}
+                                    <br><i data-toggle="tooltip" data-placement="top" title="Editar miembro del espacio" class="fa fa-gears"></i>En proceso: <a data-toggle="modal" href="#myModalProceso{{entity.id}}">Ticket (Ver)</a>
+                                    {% set info %}
+                                        <b>SOLICITANTE</b>: {{ ticket[entity.id].responsable.usuario.PrimerNombre|capitalize }} {{ ticket[entity.id].responsable.usuario.PrimerApellido|capitalize }}<br>
+                                        <b>FECHA SOLICITUD</b>: {{ ticket[entity.id].ticket.fechasolicitud|date("d-m-Y") }}<br>
+                                        <b>SOLICITUD</b>: <a target="_blank"  href="{{ path("progis_ticket_asignar",{'idticket':ticket[entity.id].ticket.id}) }}">{{ ticket[entity.id].ticket.solicitud }}</a><br>
+                                    {% endset %}
+                                    {% include 'PrincipalBundle:Miembroespacio:__modalProceso.html.twig' %}
+                                {% else %}
+                                    <br><span class="label label-danger">Nada en proceso</span><br><br>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                        <div>
+                            
+                        </div>
+                    </div>
+                        <div class="panel-footer">{% if entity.activo==true %}<p class="label label-info">Activo</p>{% else %}<p class="label label-danger">Inactivo</p>{% endif %} <b style="font-size: 10px;">{{entity.usuario.nivelorganizacional.descripcion|upper}}</b></div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+    
+
+    
+    

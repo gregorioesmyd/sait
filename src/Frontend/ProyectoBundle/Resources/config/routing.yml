@@ -1,0 +1,48 @@
+proyecto_homepage:
+    path:     /index
+    defaults: { _controller: ProyectoBundle:Default:index }
+
+ProyectoBundle_proyecto:
+    resource: "@ProyectoBundle/Resources/config/routing/proyecto.yml"
+    prefix:   /proyecto
+
+ProyectoBundle_tarea:
+    resource: "@ProyectoBundle/Resources/config/routing/tarea.yml"
+    prefix:   /tarea
+
+ProyectoBundle_actividad:
+    resource: "@ProyectoBundle/Resources/config/routing/actividad.yml"
+    prefix:   /actividad
+
+ProyectoBundle_comentarioactividad:
+    resource: "@ProyectoBundle/Resources/config/routing/comentarioactividad.yml"
+    prefix:   /comentarioactividad
+    
+ProyectoBundle_documentoctividad:
+    resource: "@ProyectoBundle/Resources/config/routing/documentoactividad.yml"
+    prefix:   /documentoactividad
+
+Proyecto_comentarios:
+    resource: "@ProyectoBundle/Resources/config/routing/comentario.yml"
+    prefix: /comentario
+
+Proyecto_documentos:
+    resource: "@ProyectoBundle/Resources/config/routing/documento.yml"
+    prefix: /documento
+
+Proyecto_proceso:
+    path:     /lista/proceso
+    defaults: { _controller: "ProyectoBundle:Default:proceso" }
+
+Proyecto_revisar:
+    path:     /lista/revisar
+    defaults: { _controller: "ProyectoBundle:Default:revisar" }
+    
+Proyecto_pendiente:
+    path:     /lista/pentiente
+    defaults: { _controller: "ProyectoBundle:Default:pendiente" }
+    
+Proyecto_buscar:
+    path:     /buscarproyecto
+    defaults: { _controller: "ProyectoBundle:Default:buscar" }
+    requirements: { _method: post }

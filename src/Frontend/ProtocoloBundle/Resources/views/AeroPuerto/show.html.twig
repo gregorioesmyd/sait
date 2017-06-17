@@ -1,0 +1,65 @@
+{% extends '::protocolo.html.twig' %}
+
+{% block title %}Protocolo{% endblock %}
+
+{% block titulo %}
+    SOLICITUD DE AEROPUERTO
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">Protocolo</li>
+</ol>
+{% endblock %}
+
+{% block body %}
+{{parent()}}
+<div class="formShow">
+            <div class="contenedorform">
+                <div class="labelform">Fecha:</div>
+                <div class="widgetform">{{ entity.fecha |date('d-m-Y')}}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Hora:</div>
+                <div class="widgetform">{{ entity.hora |date('H:i:s')}}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Nombre del Invitado:</div>
+                <div class="widgetform">{{ entity.nombreInvitado }}</div>
+            </div>
+             <div class="contenedorform">
+                <div class="labelform">Linea &Aacute;erea:</div>
+                <div class="widgetform">{{ entity.lineaAerea }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">N&uacute;mero de Vuelo:</div>
+                <div class="widgetform">{{ entity.numeroVuelo }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Lugar de Destino:</div>
+                <div class="widgetform">{{ entity.lugarDestino }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Localizador:</div>
+                <div class="widgetform">{{ entity.localizador }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Aeropuerto:</div>
+                <div class="widgetform">{{ entity.aeropuerto }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Pa&iacute;s de Procedencia:</div>
+                <div class="widgetform">{{ entity.paisProcedencia }}</div>
+            </div>
+            <div class="contenedorform">
+                <div class="labelform">Responsable del invitado:</div>
+                <div class="widgetform">{{ entity.responsable }}</div>
+            </div>
+        </div>
+         <br><br>
+           <a class="btn btn-default" href="{{ path('aeropuerto') }}">VOLVER A LA LISTA</a> 
+           |
+           <a class="btn btn-primary" href="{{ path('aeropuerto_edit', { 'id': entity.id }) }}">EDITAR</a>
+            <br><br>
+{% endblock %}

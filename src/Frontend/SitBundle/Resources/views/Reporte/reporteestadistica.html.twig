@@ -1,0 +1,44 @@
+{% extends '::sit.html.twig' %}
+ 
+{% block title %}Sit{% endblock %}
+
+
+{% block titulobanner %}
+    INFORME DE GESTIÓN
+{% endblock %}
+
+
+
+{% block body -%}
+    {{ parent() }}
+    
+    <div class="titulo">IMAGENES INFORME DE GESTIÓN</div>
+
+    {# % form_theme form 'ProyectoBundle:Form:fields.html.twig' % #}
+    {{ form_start(form, { 'attr': {'novalidate':null} }) }}
+        <div class="formShow">
+            {{ form_widget(form) }}
+        </div>
+
+    <input type="submit" class="btn btn-primary" value="GENERAR REPORTE"> | 
+    <a class="btn btn-default" href="{{ path('proyecto') }}">VOLVER A LA LISTA</a>
+    {{ form_end(form) }}
+    
+
+
+  <script>
+  $(function() {
+    $( "#reporte_estadistica_fechadesde" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: "dd-mm-yy",
+    });
+    $( "#reporte_estadistica_fechahasta" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: "dd-mm-yy",
+    });
+  });
+  </script>
+  
+{% endblock %}

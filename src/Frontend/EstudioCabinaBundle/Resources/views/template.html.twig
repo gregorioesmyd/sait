@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+        <title>{% block title %}Telesur{% endblock %}</title>
+
+        {% block stylesheets %}
+            <link href="{{ asset('css/general.css') }}" rel="stylesheet" type="text/css" />
+            <link href="{{ asset('libs/menu/css/menu.css') }}" rel="stylesheet" type="text/css" />
+            <link href="{{ asset('css/datatable.css') }}" rel="stylesheet" type="text/css"/>
+            <link rel="stylesheet" href="{{ asset('libs/bootstrap3/css/bootstrap-theme.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('libs/bootstrap3/css/bootstrap.min.css') }}">
+
+            <link rel="stylesheet" href="{{ asset('libs/datepiker/css/redmond/jquery-ui-1.10.4.custom.css') }}">
+            <link rel="stylesheet" href="{{ asset('libs/datepiker/css/redmond/jquery-ui-1.10.4.custom.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/jquery.timepicker.css') }}">
+        {% endblock %}
+            
+        {% block javascripts %}
+            <script src="{{ asset('js/jquery.js') }}"></script>
+            <script src="{{ asset('js/datatable.js') }}"></script>
+            <script src="{{ asset('libs/bootstrap3/js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('libs/datepiker/js/jquery-ui-1.10.4.custom.min.js') }}"></script>
+            <script src="{{ asset('libs/datepiker/js/jquery-ui-datepicker-es.js') }}"></script>
+            <script src="{{ asset('js/moment.js') }}"></script>
+            <script src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script>
+            <script src="{{ asset('js/jquery.timepicker.js') }}"></script>
+            <script src="{{ asset('js/jquery.timepicker.min.js') }}"></script>
+
+        {% endblock %}
+
+
+    </head>
+
+    <body>
+        <div align='center'>
+            <div class="contenedorprincipal">
+            {% block banner %}<div id='banner'><img width="100%" src="{{ asset('images/banner_original.jpg') }}"></div>{% endblock %}
+                {% block menu %}{% endblock %}
+
+                {% block body %}
+                    <div class="ubicacion">{% block ubicacion %} {% endblock %}</div>
+                    <div class="titulo">{% block titulo %}{% endblock %}</div>
+
+                    {% for flashMessage in app.session.flashbag.get('notice') %}
+                        <div class="alert alert-success">
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+
+                    {% for flashMessage in app.session.flashbag.get('alert') %}
+                        <div class="alert alert-danger">
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+
+                    {% block mensaje %}  {% endblock %}
+                    
+                {% endblock %}
+
+                <footer  class="pie">
+                    <div>
+                        La Nueva Televisión del Sur C.A. (TVSUR) TeleSUR © | Todo el contenido de esta página es exclusivo para el uso interno del canal. RIF. G-20004500-0 
+                    </div>
+                </footer>
+            </div>
+
+        <div>
+            <script>$('#usuario').popover();</script>             
+    </body>
+</html>

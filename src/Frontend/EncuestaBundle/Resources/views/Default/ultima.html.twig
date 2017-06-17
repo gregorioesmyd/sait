@@ -1,0 +1,39 @@
+{% extends '::encuesta1.html.twig' %}
+
+{% block title %}Trivias{% endblock %}
+
+{% block titulo %}
+    Trivias
+{% endblock %}
+
+{% block body %}
+{{ parent() }}
+<br><br>
+<div class="resultado">
+  <div class = "contenedor">
+
+      <div id="pregunta" style="margin-top:-70;">
+        <div class="row1" style:"max-width:1100px; background-color:#F2F2F2;">
+          <div style="height: 330px;"class="col-md-6" id='pregunta1'>
+            <div style="text-align:justify;">tema de la encuesta </div>
+            <h4>Pregunta 1 de 5
+              <img id="imagen_left"src="{{ asset('images/trivias/Trivia-flecha-30x30.jpg') }}">
+            </h4>
+
+            <h5 style="background-color:white;text-align:left; margin-top:0px;padding:10px;">Pregunta pregunta</h5>
+            <div class="checkbox">respuestas</div>
+          </div>
+          <div style="height: 330px;padding:0;"class="col-md-4" id='imagen'style="padding-left: 0px;">
+              <img id="imagen-rigth" src="/uploads/encuestas/descarga_163910.jpg">
+          </div>
+        </div>
+
+      </div>
+      <input onclick="botonresponder()" type="image" name="imageField" src="{{ asset('images/trivias/Trivia---Responder-300x65.png') }}"/>
+  </div>
+</div>
+
+
+
+
+{% endblock %}

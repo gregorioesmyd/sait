@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css">
+        	th{
+        		text-align: right;
+        		margin-right: 20px;
+        	}
+
+        	.solicitud{
+        		text-align: justify;
+        	}
+
+        	table{
+        		width: 600px;
+
+        	}
+
+        	table td{
+        		padding: 10px;
+        		border:1px solid gray;
+        	}
+
+        	table th{
+        		border:1px solid gray;
+        		background-color: #F8F8F8;
+        		padding-right: 10px;
+        		width: 25%;
+        	}
+        </style>
+    </head>
+
+    <body>
+    	<div align="center">
+			<div><h3>AHORA FORMAS PARTE DE UN PROYECTO</h3></div>
+
+			<table cellspacing=0>
+				<tr>
+                                    <th>PROYECTO:</th>
+                                    <td>{{ miembroProyecto.proyecto.nombre|title }}</td>
+				</tr>
+                                <tr>
+                                    <th>ROL:</th>
+                                    <td>{{ miembroProyecto.rolproyecto.rol|upper }}</td>
+				</tr>
+                                <tr>
+                                    <th>DESC. ROL:</th>
+                                    <td>{{ miembroProyecto.rolproyecto.descripcion|capitalize }}</td>
+				</tr>
+   
+
+			</table>
+			<br>
+			<!--<div>PARA IR DIRECTAMENTE AL PROYECTO PRESIONA <a href="http://aplicaciones.telesurtv.net/sait/web/app.php/progis/proyecto/{{miembroProyecto.proyecto.id}}/consultaProyecto">AQUÍ</a></div>-->
+		</div>
+	</body>
+	
+</html>

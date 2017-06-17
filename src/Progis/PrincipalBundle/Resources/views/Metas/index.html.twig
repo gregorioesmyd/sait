@@ -1,0 +1,91 @@
+{% extends '::progis.html.twig' %}
+
+{% block titulo %}
+    <h2>LISTADO DE METAS</h2>
+    <h5>MIEMBRO: {{ miembroEspacio.usuario.primerNombre}} {{ miembroEspacio.usuario.primerApellido}}</h5>
+    <h5>
+        JORNADA LABORAL: 
+        {% set dia=miembroEspacio.jornadalaboral.dias|split("-") %}
+        {% for d in dia %}
+            {% if d==1 %} | Lunes |
+            {% elseif d==2 %} | Martes |
+            {% elseif d==3 %} | Miercoles |
+            {% elseif d==4 %} | Jueves |
+            {% elseif d==5 %} | Viernes |
+            {% elseif d==6 %} | Sábado |
+            {% elseif d==7 %} | Domingo |
+            {% endif %}
+        {% endfor %}
+    
+    </h5>
+    <a href="{{ path('metas_new', { 'id': miembroEspacio.id }) }}"><i class="fa fa-plus"> Nueva meta</i></a>&nbsp;&nbsp;
+{% endblock %}
+
+{% block ubicacion %}
+<br>
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">PRINCIPAL TELESUR</a></li>
+  <li><a href="{{ path("progis_principal_homepage") }}">PRINCIPAL PROGIS</a></li>
+  <li><a href="{{ path("miembroespacio") }}">LISTA DE MIEMBROS</a></li>
+  <li class="active">LISTA DE METAS</li>
+</ol>
+{% endblock %}
+    
+{% block contenido -%}
+    {{ parent() }}
+ 
+
+    <table id="tabladatatable" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Horas a cumplir</th>
+                <th>Fecha desde</th>
+                <th>Fecha hasta</th>
+                <th>Estatus</th>
+                <th>Porcentaje de cumplimiento</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('metas_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.horas }}</td>
+                <td>{% if entity.fechadesde %}{{ entity.fechadesde|date('d-m-Y') }}{% endif %}</td>
+                <td>{% if entity.fechahasta %}{{ entity.fechahasta|date('d-m-Y') }}{% endif %}</td>
+                <td> {{ entity.estatus.descripcion|raw }} </td>
+                <td>
+                    {% if entity.estatus.id!=1 %}
+                        <div class="progress">
+                          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{ entity.porcentaje }}%;color:black;font-weight:bold;">
+                               {{ entity.porcentaje }}%
+                          </div>
+                        </div>
+                    {% else %}
+                        N/A
+                    {% endif %}
+                    
+                
+                </td>
+                <td>
+                        <a class="label label-Default" href="{{ path('metas_show', { 'id': entity.id }) }}">CONSULTAR</a> | 
+                        <a class="label label-Default"href="{{ path('metas_edit', { 'id': entity.id }) }}">EDITAR</a> | 
+                        <a class="label label-Default" href="{{ path('prioridadmeta_new', { 'idmeta': entity.id, }) }}">ASIGNAR PRIORIDADES A METAS</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+                
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip()
+    
+            $('#tabladatatable').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                 "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                 "aaSorting": [[3,'desc'],[2,'desc']],
+             } );
+        })
+    </script>
+    {% endblock %}

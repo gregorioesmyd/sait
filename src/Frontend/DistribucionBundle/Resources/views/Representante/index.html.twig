@@ -1,0 +1,71 @@
+{% extends '::distribucion.html.twig' %}
+
+{% block title %}Representantes{% endblock %}
+
+{% block titulo %}
+    LISTA DE REPRESENTANTES
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li><a href="{{ path("distribucion_homepage") }}">DISTRIBUCIÓN INICIO</a></li>
+  <li class="active">LISTA DE REPRESENTANTES</li>
+</ol>
+{% endblock %}
+    
+{% block body -%}
+    {{ parent() }}
+
+    <table id="tabladatatable">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Correo</th>
+                <th>Operador</th>
+                <th>Estatus</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in datos %}
+            <tr>
+                <td>{{ entity.id }}</td>
+                <td>{{ entity.nombres }}</td>
+                <td>{{ entity.apellidos }}</td>
+                <td>{{ entity.correo }}</td>
+                <td>{{ entity.operador.nombre }}</td>
+                <td align='center'>{% if entity.operador.estatus==true %}<span class="label label-success">Activo</span>{% else %}<span class="label label-warning">Inactivo</span>{% endif %}</td>
+                <td>
+                    <a href="{{ path('representante_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></a>
+
+                    {% if is_granted('ROLE_DISTRIBUCION_ADMINISTRADOR') %}
+                    <a href="{{ path('representante_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-pencil"></a>
+                    {% endif %}
+                </td>
+            </tr>
+
+
+            {% else %}
+
+                <tr><td colspan="6" style="text-align:center">NO EXISTEN DATOS PARA MOSTRAR</td></tr>
+                
+        {% endfor %}
+        </tbody>
+    </table>
+    <br><br><br><br>
+
+
+        <script type="text/javascript">
+        $(document).ready(function(){
+           $('#tabladatatable').dataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                "aaSorting": [[0,'asc'],[1,'asc']],
+            } );
+        })
+    </script>
+
+
+    {% endblock %}

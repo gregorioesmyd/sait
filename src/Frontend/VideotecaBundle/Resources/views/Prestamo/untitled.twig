@@ -1,0 +1,122 @@
+<table id="tabladatatable" class="table table-striped table-bordered  tablePrestamo">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>Prestamista</th>
+                <th>Solicitante</th>
+                <th>Codigo Cinta</th>
+                <th>Factura</th>
+                <th>Fecha de Prestamo</th>
+                <th class="actions">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+
+    <script type="text/javascript">
+        $(function(){
+                $('#tabladatatable ').dataTable( {
+                    "bProcessing": true,
+                    "bServerSide": true,
+                    "sAjaxSource": '{{ asset('bundles/videoteca/datatables/prestamo_cinta.php') }}',
+                    "sPaginationType": "full_numbers",
+                    "language": {
+                        "sProcessing":     "Procesando...",
+                        "sLengthMenu":     "Mostrar _MENU_ registros",
+                        "sZeroRecords":    "No se encontraron resultados",
+                        "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix":    "",
+                        "sSearch":         "Buscar:",
+                        "sUrl":            "",
+                        "sInfoThousands":  ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst":    "Primero",
+                            "sLast":     "Último",
+                            "sNext":     "Siguiente",
+                            "sPrevious": "Anterior"
+                        },
+                        "oAria": {
+                            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                        }
+                    }
+                });
+        });
+    </script>
+    --------------------------------------------------------------------------
+ {{ path('datatable_json',{'bundle':'VideotecaBundle:WrapperCinta','entidad'\'Cinta','joins':'join x.detalleprestamo dp,join x.prestamo p,join x.perfil up','where':'dp.id_prestamo = p.id and pd.id_cinta = c.id and p.user_prestamista =up.id and p.user_solicitante = up.id '})}}
+
+
+---------------------------------------------------------------------------------------------
+
+<script type="text/javascript">
+        $(function(){
+                $('#tabladatatable').dataTable( {
+                    "bProcessing": true,
+                    "bServerSide": true,
+                    "sAjaxSource": '{{ asset('bundles/videoteca/datatables/videoteca_cinta.php') }}',
+                    "sPaginationType": "full_numbers",
+                    "language": {
+                        "sProcessing":     "Procesando...",
+                        "sLengthMenu":     "Mostrar _MENU_ registros",
+                        "sZeroRecords":    "No se encontraron resultados",
+                        "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix":    "",
+                        "sSearch":         "Buscar:",
+                        "sUrl":            "",
+                        "sInfoThousands":  ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst":    "Primero",
+                            "sLast":     "Último",
+                            "sNext":     "Siguiente",
+                            "sPrevious": "Anterior"
+                        },
+                        "oAria": {
+                            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                        }
+                    }
+                });
+        });
+    </script>
+    -----------------------------------------------------------------------------
+     //var ruta = "{{ path('cinta_show', { 'id':  'dato','tc':'tcinta' }) }}"
+                        //ruta=ruta.replace("dato",id)
+                       // var ruta2 = "{{ path('cinta_edit', { 'id':  'dato' }) }}"
+                       // ruta2=ruta2.replace("dato",id)
+                        
+                    //acciones
+                    console.log(tc);
+                       /* if(status != 'Disponible'){
+                            json.data[i]['naccion'] = '<a class="btn btn-default" role="button" href="'+ruta+'">Detalle</a>\n\
+                            <a class="btn btn-default" role="button" href="'+ruta2+'">Devolucion</a>';
+                        }else{
+                            json.data[i]['naccion'] = '<a class="btn btn-default" role="button" href="'+ruta+'">Detalle</a>\n\
+                            <a class="btn btn-default" role=""button" href="#" disabled >Disponible</a>';
+                        }
+
+
+
+
+
+
+                        join x.tipoCinta t join x.formato f join x.duracion d join x.evento e join x.marca m join x.documentalista p
+                        ,
+              { "data": "sxcodigo", "name":"string" },
+              { "data": "stslug", "name":"string" },
+              { "data": "sfddescripcionFormato", "name":"string" },
+              { "data": "sdnombre", "name":"stringstring" },
+              { "data": "senombre", "name":"string" },
+              { "data": "smdescrpcionMarca", "name":"string" },
+              { "data": "spprimerNombre", "name":"string" },
+              { "data": "naccion", "name":"string"  }

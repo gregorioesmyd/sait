@@ -1,0 +1,30 @@
+pregunta_index:
+    path:     /admin/{idencuesta}/index
+    defaults: { _controller: "EncuestaBundle:Pregunta:index" }
+
+pregunta_show:
+    path:     /admin/{idencuesta}/{id}/show
+    defaults: { _controller: "EncuestaBundle:Pregunta:show" }
+
+pregunta_new:
+    path:     /admin/{idencuesta}/new
+    defaults: { _controller: "EncuestaBundle:Pregunta:new" }
+
+pregunta_create:
+    path:     /admin/{idencuesta}/create
+    defaults: { _controller: "EncuestaBundle:Pregunta:create" }
+    requirements: { _method: post }
+
+pregunta_edit:
+    path:     /admin/{idencuesta}/{id}/edit
+    defaults: { _controller: "EncuestaBundle:Pregunta:edit" }
+
+pregunta_update:
+    path:     /admin/{idencuesta}/{id}/update
+    defaults: { _controller: "EncuestaBundle:Pregunta:update" }
+    requirements: { _method: post|put }
+
+pregunta_delete:
+    path:     /admin/{id}/delete
+    defaults: { _controller: "EncuestaBundle:Pregunta:delete" }
+    requirements: { _method: post|delete }

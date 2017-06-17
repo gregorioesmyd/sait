@@ -1,0 +1,30 @@
+marca:
+    path:     /
+    defaults: { _controller: "ControlEquipoBundle:Marcas:index" }
+
+marca_show:
+    path:     /{id}/show
+    defaults: { _controller: "ControlEquipoBundle:Marcas:show" }
+
+marca_new:
+    path:     /new
+    defaults: { _controller: "ControlEquipoBundle:Marcas:new" }
+
+marca_create:
+    path:     /create
+    defaults: { _controller: "ControlEquipoBundle:Marcas:create" }
+    requirements: { _method: post }
+
+marca_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ControlEquipoBundle:Marcas:edit" }
+
+marca_update:
+    path:     /{id}/update
+    defaults: { _controller: "ControlEquipoBundle:Marcas:update" }
+    requirements: { _method: post|put }
+
+marca_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ControlEquipoBundle:Marcas:delete" }
+    requirements: { _method: post|delete }

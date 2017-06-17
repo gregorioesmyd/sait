@@ -1,0 +1,78 @@
+<html>
+    <head>
+        <title>Valoración</title>
+        <link rel="stylesheet" href="{{ asset('libs/bootstrap3/css/bootstrap.css') }}">
+        <script src="{{ asset('js/jquery.js') }}"></script>
+        <script src="{{ asset('libs/bootstrap3/js/bootstrap.min.js') }}"></script>
+    </head>
+    <body>
+        <form action="{{ path('progis_ticket_comentario_valoracion',{'id':id,'valor':valoracion}) }}" method="post">
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-keyboard="false" data-backdrop="static">
+          <div class="modal-dialog" role="document" style="width: 70%;">
+              <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">VALORACIÓN DE TICKET "{% if ticket.valoracion==1 %}PÉSIMA{% elseif ticket.valoracion==2 %}REGULAR{% elseif ticket.valoracion==3 %}BUENA{% elseif ticket.valoracion==4 %}MUY BUENA{% elseif ticket.valoracion==5 %}EXCELENTE{% endif %}"</h4>
+              </div>
+              <div class="modal-body">
+                  <div align="center">
+                      <h3>GRACIAS POR VALORARNOS</h3>
+                      
+                        {% if yaValorado==1 %}
+                            <div>Puede realizar un comentario en base a su valoración, si cierra esta ventana ya no podrá comentar.<br><br></div>
+
+                            {% for flashMessage in app.session.flashbag.get('notice') %}
+                                <div class="alert alert-success">
+                                    {{ flashMessage | raw }}
+                                </div>
+                            {% endfor %}
+
+                            {% for flashMessage in app.session.flashbag.get('alert') %}
+                                <div class="alert alert-danger">
+                                    {{ flashMessage | raw }}
+                                </div>
+                            {% endfor %}
+
+                            <div>
+                                <textarea name="comentario" style="width: 90%;height: 100px;">
+
+                                </textarea>
+                            </div>
+                        {% else %}
+                            <br>
+                            <div class="alert alert-info">Este ticket fue valorado {% if ticket.comentarioValoracion is null %}sin comentarios.{% else %}con el siguiente comentario "{{ ticket.comentarioValoracion|capitalize}}"{% endif %}</div>
+                        {% endif %}
+                  </div>
+              </div>
+              <div class="modal-footer">
+                {% if yaValorado==1 %}
+                    <a class="btn btn-danger" href="{{ path("usuario_homepage") }}">NO, GRACIAS.</a>
+                    <button type="submit" onsubmit="return confirm('¿Seguro(a) que desea guardar?')" class="btn btn-primary">GUARDAR COMENTARIO</button>
+                {% else %}
+                    <a class="btn btn-primary" href="{{ path("usuario_homepage") }}">OK, SALIR.</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        </form>
+        <script>
+        $(document).ready(function() {
+            $('#myModal').modal("show")
+            
+
+            
+            $( "#noGracias" ).click(function() {
+                window.open({{valoracion}},"_self")
+                var con=confirm("¿Seguro que desea salir?")
+                if (con==true){
+                    
+                        window.open('', '_self', '');
+        window.close();
+                }
+            });
+        });
+       </script>
+    </body>
+</html>
+

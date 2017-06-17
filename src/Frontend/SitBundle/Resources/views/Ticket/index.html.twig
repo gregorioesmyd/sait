@@ -1,0 +1,122 @@
+{% extends '::sit.html.twig' %}
+ 
+{% block title %}Listado{% endblock %}
+
+{% block titulo %}
+    LISTADO DE TICKETS 2014-2015
+{% endblock %}
+
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path("usuario_homepage") }}">INICIO</a></li>
+  <li class="active">LISTADO DE TICKETS</li>
+</ol>
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+
+    <meta http-equiv="refresh" content="180"> 
+
+    {% if entities==null %}
+
+         <div class="alert alert-error">NO EXISTEN TICKETS</div>
+
+    {% else %}
+
+    <table id="tabladatatable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>FECHA S.</th>
+                <th>HORA S.</th>
+                <th>SOLICITANTE</th>
+                <th>SOLICITUD</th>
+                <th>ASIGNADO A</th>
+                <th>ESTATUS</th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>ID</th>
+                <th>Fecha S.</th>
+                <th>Hora S.</th>
+                <th>Solicitante</th>
+                <th>Solicitud</th>
+                <th>Asignado a</th>
+                <th>Estatus</th>
+                <th>Acciones</th>
+            </tr>
+        </tfoot>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('ticket_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{% if entity.fechasolicitud %}{{ entity.fechasolicitud|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ entity.horasolicitud|date("G:i:s")  }}</td>
+                <td>{{ entity.solicitante.primernombre }} {{ entity.solicitante.primerapellido }}</td>
+                <td><span style="cursor:pointer;font-weight:bold;" title="{{ entity.solicitud }}">{{ entity.solicitud|slice(0,15) }}</span></td>
+                {% if entity.user[0] is defined %}
+                    {% for asig in entity.user %}
+                    <td>{{ asig.primernombre }} {{ asig.primerapellido}}</td>
+                    {% endfor %}
+                {% else %}
+                <td>N/A</td>
+                {% endif %}
+                <td>
+                    {% if entity.estatus==1 %}<span class="label label-danger"><span style="display:none;">1-</span>Nuevo</span>
+                    {% elseif entity.estatus==2 %}<span class="label label-info"><span style="display:none;">3-</span>Asignado</span>
+                    {% elseif entity.estatus==3 %}<span class="label label-warning"><span style="display:none;">4-</span>Re-Asignado</span>
+                    {% elseif entity.estatus==4 %}<span class="label label-success"><span style="display:none;">5-</span>Culminado</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if entity.estatus==1 or entity.estatus==4 %}
+                        <a href="{{ path('ticket_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-search"></span></a>
+                    {% else %}
+                        <a href="{{ path('sit_seguimientoprincipal', { 'idticket': entity.id }) }}"><span class="glyphicon glyphicon-search"></span></a>
+                    {% endif %}
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <div><span class="label label-danger">Nuevos:</span> <b>{{ contador[entities[0].unidad.id].nuevo }}</b> | <span class="label label-info">Asignados:</span> <b>{{ contador[entities[0].unidad.id].asignado }}</b> | <span class="label label-warning">Re-asignados:</span> <b>{{ contador[entities[0].unidad.id].reasignado }}</b> | <span class="label label-success">Cerrados total:</span>  <b>{{ contador[entities[0].unidad.id].cerrado }}  </div>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#tabladatatable tfoot th').each( function () {
+                    var title = $('#tabladatatable thead th').eq( $(this).index() ).text();
+                    $(this).html( '<input style="width:100px" type="text" placeholder="'+title+'" />' );
+            } );
+            
+            var table=$('#tabladatatable').DataTable( { //CONVERTIMOS NUESTRO LISTADO DE LA FORMA DEL JQUERY.DATATABLES- PASAMOS EL ID DE LA TABLA
+                "sPaginationType": "full_numbers", //DAMOS FORMATO A LA PAGINACION(NUMEROS)
+                "aaSorting": [[6,'asc'],[1,'desc'],[2,'desc']],
+            } );
+            
+            // Apply the search
+            table.columns().eq( 0 ).each( function ( colIdx ) {
+                    $( 'input', table.column( colIdx ).footer() ).on( 'keyup change', function () {
+                            table
+                                    .column( colIdx )
+                                    .search( this.value )
+                                    .draw();
+                    } );
+            } );
+            
+
+        })
+
+    </script>
+    
+    
+
+    {% endif %}
+
+    <BR>
+    {% endblock %}

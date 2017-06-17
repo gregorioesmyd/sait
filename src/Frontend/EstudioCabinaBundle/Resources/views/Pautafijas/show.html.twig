@@ -1,0 +1,77 @@
+{% extends '::estudioCabina.html.twig' %}
+{% block ubicacion %}
+<ol class="breadcrumb">
+  <li><a href="{{ path('estudio_cabina_homepage',{'tipo':tipo}) }}">CALENDARIO</a></li>
+  <li><a href="{{path('pautafijas_new',{tipo:tipo})}}">NUEVA PAUTA FIJA</a></li>
+  <li class="active">SOLICITUDES</li>
+</ol>
+{% endblock %}
+{% block menu %}
+    {% include 'EstudioCabinaBundle:Default:includes/menu.html.twig' %}
+{% endblock %}
+
+{% block title %}Consultar Solicitud{% endblock %}
+
+{% block titulo %}
+    PAUTA FIJA
+{% endblock %}
+
+{% block body -%}
+    {{ parent() }}
+  
+ <div class="formShow">
+         <div class="contenedorform">
+            <div class="labelform">Reservaci&oacute;n:</div>
+            <div class="widgetform">{{ entity.estudioCabina }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Pauta:</div>
+            <div class="widgetform">{{ entity.pauta }}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Dias de la Semana:</div>
+            <div class="widgetform">
+                {% for dias in entity.diasPautas %}
+                    {% if dias==1%}Lunes{%endif%}
+                    {% if dias==2%}Martes{%endif%}
+                    {% if dias==3%}Miercoles{%endif%}
+                    {% if dias==4%}Jueves{%endif%}
+                    {% if dias==5%}Viernes{%endif%}
+                    {% if dias==6%}Sabado{%endif%}
+                    {% if dias==7%}Domingo{%endif%}
+                {%endfor%}
+          </div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Fecha Inicio:</div>
+            <div class="widgetform">{{ entity.HoraInicio|date('Y-m-d H:i:s')}}</div>
+        </div>
+        <div class="contenedorform">
+            <div class="labelform">Fecha Fin:</div>
+            <div class="widgetform">{{ entity.HoraFin|date('Y-m-d H:i:s')}}</div>
+        </div>
+       {%if tipo==2%}
+           <div class="contenedorform">
+                <div class="labelform">Post-Productor:</div>
+                <div class="widgetform">{% if entity.postProductor %}{{entity.postProductor}}{% else %}Sin Post-Productor Asignado{% endif %}</div>
+        </div>
+        {% endif%}
+         <div class="contenedorform">
+            <div class="labelform">Observaci&oacute;n:</div>
+            <div class="widgetform">{% if entity.observacion %}{{ entity.observacion }}{% else %}No se encontro Observación para esta pauta{% endif %}</div>
+        </div>
+       </div>  
+        <a class="btn btn-default" href="{{ path('pautafijas',{'tipo':tipo}) }}">
+            IR A LA LISTA
+        </a> |
+        <a class="btn btn-default" href="{{ path('pautafijas_edit', { 'id': entity.id }) }}">
+            IR A EDITAR
+        </a>
+
+        <BR><BR>
+        {{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+            {{ form_errors(delete_form) }}
+            {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+        {{ form_end(delete_form) }}    
+   
+{% endblock %}

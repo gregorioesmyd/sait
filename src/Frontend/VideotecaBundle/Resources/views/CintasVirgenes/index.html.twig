@@ -1,0 +1,54 @@
+{% extends 'VideotecaBundle:CintasVirgenes:default.html.twig' %}
+
+{% block data %}
+<div class="row">
+    <div class="text-center col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+        <h3 class="title-section">LISTADO DE CINTAS VIRGENES</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <table class="table table-striped table-bordered addDataTable tableInventario">
+            <thead>
+                <tr>
+                    <th>Nombrecv</th>
+                    <th>Existencia</th>
+                    <th>Formato</th>
+                    <th class="actions">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entity in entities %}
+                <tr>
+                    <td>{{ entity.nombreCv }}</td>
+                    <td>{{ entity.existencia }}</td>
+                    <td>{{ entity.nombreCv }}</td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="...">
+                            <a class="btn btn-default" role="button" href="{{ path('cintasvirgenes_show', { 'id': entity.id }) }}">Detalle</a>
+                            {% if is_granted('ROLE_VIDEOTECA') %}
+                                
+                                <a class="btn btn-default" role="button" href="{{ path('cintasvirgenes_edit', { 'id': entity.id }) }}">Editar</a>
+                                <a class="btn btn-default" role="button" href="{{ path('cintasvirgenes_asignarCV', { 'id': entity.id }) }}">Agregar</a>
+                                {% if entity.existencia != 0%}<a class="btn btn-default" role="button" href="{{ path('asignacionescv_new', { 'id': entity.id }) }}">Asignar</a> {%endif%}
+
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="text-center col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+        {% if is_granted('ROLE_VIDEOTECA') %}
+        <a class="btn btn-default" role="button" href="{{ path('cintasvirgenes_new') }}">
+            Registrar Cinta Virgen |
+        </a>
+        {% endif %}
+        <a class="btn btn-default" role="button" href="{{ path('asignacionescv') }}">Hist&oacute;rico Asignaciones</a>
+    </div>
+</div>
+{% endblock %}

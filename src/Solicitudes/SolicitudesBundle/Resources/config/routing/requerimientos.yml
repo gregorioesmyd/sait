@@ -1,0 +1,30 @@
+requerimientos:
+    path:     /
+    defaults: { _controller: "SolicitudesBundle:Requerimientos:index" }
+
+requerimientos_show:
+    path:     /{id}/show
+    defaults: { _controller: "SolicitudesBundle:Requerimientos:show" }
+
+requerimientos_new:
+    path:     /new
+    defaults: { _controller: "SolicitudesBundle:Requerimientos:new" }
+
+requerimientos_create:
+    path:     /create
+    defaults: { _controller: "SolicitudesBundle:Requerimientos:create" }
+    requirements: { _method: post }
+
+requerimientos_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "SolicitudesBundle:Requerimientos:edit" }
+
+requerimientos_update:
+    path:     /{id}/update
+    defaults: { _controller: "SolicitudesBundle:Requerimientos:update" }
+    requirements: { _method: post|put }
+
+requerimientos_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "SolicitudesBundle:Requerimientos:delete" }
+    requirements: { _method: post|delete }

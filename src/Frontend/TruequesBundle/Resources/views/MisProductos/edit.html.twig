@@ -1,0 +1,51 @@
+{% extends '::base_trueques.html.twig' %}
+
+{% block body -%}
+    
+
+    {{ parent() }}
+
+	<br><br>
+    <div align="center"><h1>Editar mi producto</h1></div>
+    
+    {% form_theme edit_form 'TruequesBundle:PlantillaForm:new.html.twig' %}
+
+    <div align="center" class="formularioNew">
+        {{ form_start(edit_form, { 'attr': {'novalidate':null} }) }}
+            <div class="panel panel-default">
+              <div class="panel-heading">Editar producto</div>
+              <div class="panel-body">
+
+                    {{ form_widget(edit_form._token) }}
+                    <div id="wrapper-form" class="formShow">
+                        <div class="contenedorform">
+                            <div class="labelform">Categoria:</div>
+                            <div class="widgetform">{{ form_widget(edit_form.categoria, {'attr': {'class': 'autocomplete_select categoria_selector'} }) }}</div>
+                        </div>
+                        <div class="contenedorform">
+                            <div class="labelform">Producto:</div>
+                            <div class="widgetform">{{ form_widget(edit_form.productoCambiar, {'attr': {'class': 'autocomplete_select producto_selector'} }) }}</div>
+                        </div>
+                        <div class="contenedorform">
+                            <div class="labelform">Productos de interes:</div>
+                            <div class="content-tags"></div>
+                            <div class="widgetform">{{ form_widget(edit_form.mis_producto_interes, { 'attr': { 'class': 'producto_intereses my-select-multiple show-menu-arrow', 'data-live-search': 'true', 'data-selected-text-format': 'count > 4', 'data-size': '6', 'data-max-options': '2' } }) }}</div>
+                        </div>
+                    </div>
+                
+                <br>
+                <input style="width:45%;font-weight: bold;" type="submit" class="btn btn-default" value="Editar Producto">
+                <a style="width:45%;font-weight: bold;" class="btn btn-default" href="{{ path('misproductos') }}">
+                    Volver
+                </a>
+              </div>
+            </div>
+        {{ form_end(edit_form) }}   
+        <div align="center">
+            {{ form_start(delete_form, { 'attr': {'onsubmit': 'return confirm("¿Seguro que deseas eliminar?")'} }) }}
+                {{ form_errors(delete_form) }}
+                {{ form_row(delete_form.submit, { 'attr': {'class': 'btn btn-danger'} }) }}
+            {{ form_end(delete_form) }}
+        </div>
+    </div> 
+{% endblock %}
